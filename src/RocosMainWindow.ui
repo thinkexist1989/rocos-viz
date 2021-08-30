@@ -11,12 +11,28 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>RocosMainWindow</string>
+   <string>ROCOS-MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="0" column="0" colspan="2">
      <widget class="QVTKOpenGLNativeWidget" name="widget" native="true"/>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QSlider" name="valSlider">
+      <property name="minimum">
+       <number>-300</number>
+      </property>
+      <property name="maximum">
+       <number>300</number>
+      </property>
+      <property name="singleStep">
+       <number>1</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -26,7 +42,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

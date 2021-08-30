@@ -5,7 +5,8 @@
     <name>RocosMainWindow</name>
     <message>
         <location filename="src/RocosMainWindow.ui" line="14"/>
-        <source>RocosMainWindow</source>
+        <source>ROCOS-MainWindow</source>
+        <oldsource>RocosMainWindow</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

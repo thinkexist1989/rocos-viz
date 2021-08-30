@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
     QSurfaceFormat::setDefaultFormat(QVTKOpenGLNativeWidget::defaultFormat());
 
     QApplication a(argc, argv);
+    a.setWindowIcon(QIcon(":/icon.png"));
+
     RocosMainWindow w;
     w.show();
     return a.exec();

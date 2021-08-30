@@ -27,7 +27,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
 
-find_package(VTK REQUIRED)
+find_package(VTK 8.2 REQUIRED )
 include( ${VTK_USE_FILE} )
 
 include_directories(include)
@@ -47,10 +47,14 @@ set(UI_FILES
         src/RocosMainWindow.ui
 )
 
+set(RC_FILES
+        res.qrc)
+
 add_executable(rocos
                     ${SRC_FILES}
                     ${HDR_FILES}
                     ${UI_FILES}
+                    ${RC_FILES}
                     ${TS_FILES}
 )
 
@@ -58,3 +62,6 @@ add_executable(rocos
 target_link_libraries(rocos PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES})
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+
+#configure_file(${MODELS} ./ COPYONLY)
+file(COPY models/ DESTINATION models/)
