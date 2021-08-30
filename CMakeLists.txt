@@ -30,16 +30,21 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
 find_package(VTK REQUIRED)
 include( ${VTK_USE_FILE} )
 
+include_directories(include)
+include_directories(src)
+
 set(TS_FILES rocos_zh_CN.ts)
 set(SRC_FILES
-        main.cpp
-        rocosmainwindow.cpp
+        src/main.cpp
+        src/RocosMainWindow.cpp
+        src/MouseInteractorChooseActor.cpp
 )
 set(HRD_FILES
-        rocosmainwindow.h
+        src/RocosMainWindow.h
+        src/MouseInteractorChooseActor.h
 )
 set(UI_FILES
-        rocosmainwindow.ui
+        src/RocosMainWindow.ui
 )
 
 add_executable(rocos

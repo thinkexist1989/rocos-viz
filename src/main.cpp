@@ -1,4 +1,4 @@
-#include "rocosmainwindow.h"
+#include "RocosMainWindow.h"
 
 #include <QApplication>
 

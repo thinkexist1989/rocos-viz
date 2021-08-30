@@ -1,5 +1,5 @@
-#include "rocosmainwindow.h"
-#include "./ui_rocosmainwindow.h"
+#include <RocosMainWindow.h>
+#include "./ui_RocosMainWindow.h"
 
 #include <vtkNew.h>
 #include <vtkVersion.h>
@@ -19,6 +19,8 @@
 
 #include <vtkInteractorStyleTrackballActor.h>  // 操作Actor
 #include <vtkInteractorStyleTrackballCamera.h> // 操作Camera
+
+#include <vtkSTLReader.h>                   //读取stl文件
 
 RocosMainWindow::RocosMainWindow(QWidget *parent)
     : QMainWindow(parent)
