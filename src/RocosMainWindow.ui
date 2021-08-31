@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1608</width>
-    <height>921</height>
+    <width>1355</width>
+    <height>981</height>
    </rect>
   </property>
   <property name="font">
@@ -23,80 +23,253 @@
    <string>ROCOS-MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>780</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>780</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>CheckBox</string>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="VisualGroupBox">
-    <property name="geometry">
-     <rect>
-      <x>19</x>
-      <y>10</y>
-      <width>861</width>
-      <height>751</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>3D Visualization</string>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="SceneWidget" name="visualWidget" native="true"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QGroupBox" name="jointPositionGroupBox">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>10</y>
-      <width>681</width>
-      <height>751</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Joint Position</string>
-    </property>
-    <widget class="JointPositionWidget" name="widget" native="true">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>641</width>
-       <height>51</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout_8" columnstretch="35,20,25">
+    <item row="0" column="0" rowspan="3">
+     <widget class="QGroupBox" name="VisualGroupBox">
+      <property name="title">
+       <string>3D Visualization</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0" colspan="4">
+        <widget class="SceneWidget" name="visualWidget" native="true"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
+          <string>Axes</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="checkBox_2">
+         <property name="text">
+          <string>Mesh</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QCheckBox" name="checkBox_3">
+         <property name="text">
+          <string>Plane</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QCheckBox" name="checkBox_4">
+         <property name="text">
+          <string>Trajectory</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>TCP Position</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="JointPositionWidget" name="Joint7PosWiget_2" native="true"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="JointPositionWidget" name="Joint7PosWiget_3" native="true"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="JointPositionWidget" name="Joint7PosWiget_4" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>TCP Orientation</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="JointPositionWidget" name="Joint7PosWiget_5" native="true"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="JointPositionWidget" name="Joint7PosWiget_6" native="true"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="JointPositionWidget" name="Joint7PosWiget_7" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Working Mode</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="0">
+        <widget class="QComboBox" name="comboBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <item>
+          <property name="text">
+           <string>Position Mode</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Velocity Mode</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Torque Mode</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Joint Impedance Mode</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Cartisian Impedance Mode</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>Reference Frame</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="QRadioButton" name="radioButton">
+         <property name="text">
+          <string>World</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QRadioButton" name="radioButton_2">
+         <property name="text">
+          <string>Base</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QRadioButton" name="radioButton_3">
+         <property name="text">
+          <string>Flange</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QRadioButton" name="radioButton_4">
+         <property name="text">
+          <string>Tool</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="3" column="1" rowspan="2">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>361</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="4" column="0">
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="title">
+       <string>Speed Scaling</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="0" column="0">
+        <widget class="QSlider" name="horizontalSlider">
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>30</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="tickPosition">
+          <enum>QSlider::TicksBothSides</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="2" rowspan="5">
+     <widget class="QGroupBox" name="jointPositionGroupBox">
+      <property name="title">
+       <string>Joint Position</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="JointPositionWidget" name="Joint1PosWiget" native="true"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="JointPositionWidget" name="Joint2PosWiget" native="true"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="JointPositionWidget" name="Joint3PosWiget" native="true"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="JointPositionWidget" name="Joint4PosWiget" native="true"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="JointPositionWidget" name="Joint5PosWiget" native="true"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="JointPositionWidget" name="Joint6PosWiget" native="true"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="JointPositionWidget" name="Joint7PosWiget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1608</width>
+     <width>1355</width>
      <height>23</height>
     </rect>
    </property>

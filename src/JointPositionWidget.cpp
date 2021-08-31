@@ -9,7 +9,7 @@ JointPositionWidget::JointPositionWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-//    updateJointPosition(jointPos);
+    updateJointPosition(jointPos);
 
 }
 
@@ -32,10 +32,15 @@ void JointPositionWidget::on_jointPosValBar_valueChanged(double value)
 void JointPositionWidget::on_jointPosPlusButton_clicked()
 {
     std::cout << "Joint Joggging Plus" << std::endl;
+    jointPos += step;
+
+    this->ui->jointPosValBar->setValue(jointPos);
 }
 
 void JointPositionWidget::on_jointPosMinusButton_clicked()
 {
     std::cout << "Joint Joggging Minus" << std::endl;
-    this->ui->jointPosValBar->setValue(--jointPos);
+    jointPos -= step;
+
+    this->ui->jointPosValBar->setValue(jointPos);
 }

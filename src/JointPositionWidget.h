@@ -31,7 +31,8 @@ signals:
 private:
     Ui::JointPositionWidget *ui;
 
-    double jointPos = 0.5; //用浮点型保存关节位置值
+    double jointPos = 0; //用浮点型保存关节位置值
+    double step     = 0.001; //每次步进的量
 
 
 };

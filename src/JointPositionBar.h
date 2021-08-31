@@ -19,6 +19,7 @@ public slots:
     void setMinimum(double val); //为了显示
     void setMaximum(double val);
     void setRange(double min, double max);
+    void setJointNum(int num);
 
     void setValue(double val);
     void updateDisp();
@@ -27,8 +28,9 @@ signals:
     void valueChanged(double value);
 
 private:
+    int    jointNum = 0;
 
-    double jointPos = 0.6; //用浮点型保存关节位置值
+    double jointPos; //用浮点型保存关节位置值
 
     double minPos = -M_PI;    //为了显示
     double maxPos =  M_PI;

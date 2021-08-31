@@ -5,23 +5,32 @@ JointPositionBar::JointPositionBar(QWidget *parent) :
 {
     this->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
+    setRange(minPos, maxPos);
     updateDisp();
 }
 
 void JointPositionBar::setMinimum(double val)
 {
-    ((QProgressBar*)this)->setMinimum(val * 1000);
+    minPos = val;
+    ((QProgressBar*)this)->setMinimum(minPos * 1000);
 }
 
 void JointPositionBar::setMaximum(double val)
 {
-    ((QProgressBar*)this)->setMaximum(val * 1000);
+    maxPos = val;
+    ((QProgressBar*)this)->setMaximum(maxPos * 1000);
 }
 
 void JointPositionBar::setRange(double min, double max)
 {
     setMinimum(min);
     setMaximum(max);
+}
+
+void JointPositionBar::setJointNum(int num)
+{
+    jointNum = num;
+    updateDisp();
 }
 
 void JointPositionBar::setValue(double val)
@@ -35,6 +44,6 @@ void JointPositionBar::setValue(double val)
 
 void JointPositionBar::updateDisp()
 {
-    this->setFormat(tr("Joint Position: %1").arg(jointPos));
-
+    this->setFormat(tr("Joint %1 Position: %2").arg(jointNum).arg(jointPos));
+//      this->setFormat(tr("Joint Position: %1").arg(jointPos));
 }
