@@ -1,5 +1,5 @@
-#ifndef JOINTPOSITIONBAR_H
-#define JOINTPOSITIONBAR_H
+#ifndef POSITIONBAR_H
+#define POSITIONBAR_H
 
 #include <QProgressBar>
 
@@ -8,18 +8,18 @@
 #define M_PI       3.14159265358979323846   // pi
 #define FACTOR     1000    //缩放1000倍到整形显示
 
-class JointPositionBar : public QProgressBar
+class PositionBar : public QProgressBar
 {
     Q_OBJECT
 
 public:
-    explicit JointPositionBar(QWidget *parent = nullptr);
+    explicit PositionBar(QWidget *parent = nullptr);
 
 public slots:
     void setMinimum(double val); //为了显示
     void setMaximum(double val);
     void setRange(double min, double max);
-    void setJointNum(int num);
+    void setName(const QString& s);
 
     void setValue(double val);
     void updateDisp();
@@ -28,9 +28,10 @@ signals:
     void valueChanged(double value);
 
 private:
-    int    jointNum = 0;
+//    int    jointNum = 0;
+    QString name;
 
-    double jointPos; //用浮点型保存关节位置值
+    double posVal; //用浮点型保存关节位置值
 
     double minPos = -M_PI;    //为了显示
     double maxPos =  M_PI;
@@ -40,4 +41,4 @@ private:
 
 };
 
-#endif // JOINTPOSITIONBAR_H
+#endif // POSITIONBAR_H

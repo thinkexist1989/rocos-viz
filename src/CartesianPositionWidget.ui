@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>JointPositionWidget</class>
- <widget class="QWidget" name="JointPositionWidget">
+ <class>CartesianPositionWidget</class>
+ <widget class="QWidget" name="CartesianPositionWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -24,13 +24,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QPushButton" name="jointPosMinusButton">
-     <property name="toolTip">
-      <string>Jogging</string>
-     </property>
-     <property name="whatsThis">
-      <string>Jogging</string>
-     </property>
+    <widget class="QPushButton" name="cartesianMinusButton">
      <property name="styleSheet">
       <string notr="true"/>
      </property>
@@ -48,31 +42,31 @@
       </size>
      </property>
      <property name="autoRepeat">
-      <bool>true</bool>
+      <bool>false</bool>
+     </property>
+     <property name="autoRepeatInterval">
+      <number>10</number>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="PositionBar" name="jointPosValBar">
+    <widget class="QProgressBar" name="cartesianValBar">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="maximum">
+      <number>65535</number>
+     </property>
      <property name="value">
-      <number>24</number>
+      <number>0</number>
      </property>
     </widget>
    </item>
    <item row="0" column="2">
-    <widget class="QPushButton" name="jointPosPlusButton">
-     <property name="toolTip">
-      <string>Jogging</string>
-     </property>
-     <property name="whatsThis">
-      <string>Jogging</string>
-     </property>
+    <widget class="QPushButton" name="cartesianPlusButton">
      <property name="styleSheet">
       <string notr="true"/>
      </property>
@@ -90,19 +84,15 @@
       </size>
      </property>
      <property name="autoRepeat">
-      <bool>true</bool>
+      <bool>false</bool>
+     </property>
+     <property name="autoRepeatInterval">
+      <number>10</number>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>PositionBar</class>
-   <extends>QProgressBar</extends>
-   <header>PositionBar.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../res.qrc"/>
  </resources>

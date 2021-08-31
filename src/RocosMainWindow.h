@@ -18,7 +18,9 @@ public:
 private slots:
     void on_pushButton_clicked();
 
-    void on_checkBox_stateChanged(int arg1);
+    void on_axesCheckBox_stateChanged(int arg1);
+
+    void on_speedSlider_valueChanged(int value);
 
 private:
     Ui::RocosMainWindow *ui;

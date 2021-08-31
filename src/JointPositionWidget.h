@@ -16,6 +16,10 @@ public:
     explicit JointPositionWidget(QWidget *parent = nullptr);
     ~JointPositionWidget();
 
+    void setName(const QString& s);
+
+    void setFactor(double f);
+
 private slots:
     void updateJointPosition(double val);
 
@@ -32,7 +36,10 @@ private:
     Ui::JointPositionWidget *ui;
 
     double jointPos = 0; //用浮点型保存关节位置值
-    double step     = 0.001; //每次步进的量
+    double step     = 0.1; //每次步进的量
+
+    double factor = 0.5; //speed缩放因子
+
 
 
 };

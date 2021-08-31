@@ -49,8 +49,9 @@ set(SRC_FILES
         src/SceneWidget.cpp
         src/Model.cpp
         src/Link.cpp
-        src/JointPositionBar.cpp
+        src/PositionBar.cpp
         src/JointPositionWidget.cpp
+        src/CartesianPositionWidget.cpp
 )
 set(HRD_FILES
         src/RocosMainWindow.h
@@ -58,12 +59,14 @@ set(HRD_FILES
         src/SceneWidget.h
         src/Model.h
         src/Link.h
-        src/JointPositionBar.h
+        src/PositionBar.h
         src/JointPositionWidget.h
+        src/CartesianPositionWidget.h
 )
 set(UI_FILES
         src/RocosMainWindow.ui
         src/JointPositionWidget.ui
+        src/CartesianPositionWidget.ui
 )
 
 set(RC_FILES

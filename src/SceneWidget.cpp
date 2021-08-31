@@ -129,8 +129,15 @@ SceneWidget::SceneWidget(QWidget *parent) :
 //    axes->SetPickingManaged(false);
 
 
-    renderer->ResetCamera();
+//    renderer->ResetCamera();
 
+
+//    renderer->GetActiveCamera()->Pitch(45);
+//    renderer->GetActiveCamera()->Azimuth(30);
+//    renderer->GetActiveCamera()->Elevation(-30);
+    renderer->GetActiveCamera()->SetPosition(3,3,3);
+    renderer->GetActiveCamera()->SetFocalPoint(0,0,0.5);
+    renderer->GetActiveCamera()->SetViewUp(0,0,1);
 
 }
 
