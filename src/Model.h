@@ -24,54 +24,46 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 
 #include "Link.h"
 #include <vector>
-#include "yaml-cpp/yaml.h"
+#include <yaml-cpp/yaml.h>
 
-namespace RHCL {
-    class Model {
-    public:
+#include <vtkRenderer.h>
+
+class Model {
+public:
 //        typedef Link Link; //typedef in Model, so can be used as RHCL::Model::Link
 
-    private:
-        /* data */
-        std::vector<Link> _linkGrp; //Save all the links of manipulator
-        std::vector<double> _jntRads; // Save the joint state (radians)
-        int _freedom = 0;
+private:
+    /* data */
+    std::vector<Link> _linkGrp; //Save all the links of manipulator
+//    std::vector<double> _jntRads; // Save the joint state (radians)
+    int _freedom = 0;
 
-    public:
-        /**
-         *
-         * @param fileName The yaml file
-         */
-        Model(const std::string& fileName);
-        
-        ~Model();
+public:
+    /**
+     * @brief The Model
+     * @param fileName The yaml file
+     */
+    Model(const std::string& fileName);
 
-        void getModelFromYamlFile(const std::string& fileName); // Load model from file
+    ~Model();
 
-        void addLink(RHCL::Link link, int order);
+    void getModelFromYamlFile(const std::string& fileName); // Load model from file
 
-        /**
-         * @brief Get the number of links
-         * 
-         * @return int 
-         */
-        inline int getFreedom() const { return _freedom; }
+//    void addLink(Link link, int order);
 
-        /**
-         * @brief Get the Point Cloud of current state
-         * 
-         * @return std::vector<Point> 
-         */
-        PointCloudPtr getPointCloud();
+    /**
+     * @brief Get the number of links
+     *
+     * @return int
+     */
+    inline int getFreedom() const { return _freedom; }
 
-        /**
-         * @brief Get the Point Cloud of the specific state
-         * @param jointRads
-         * @return
-         */
-        PointCloudPtr getPointCloud(std::vector<double> &jointRads);
-    };
+    void updateModel(std::vector<double> &jointRads);
 
-} // namespace RHCL
+    void addToRenderer(vtkRenderer* renderer);
+
+    void setAxesVisiblity(bool isVisible);
+
+};
 
 #endif //MODEL_H

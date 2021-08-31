@@ -25,84 +25,94 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 #include <string>
 #include <vector>
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
 #include <Eigen/Dense>
 
-#include <pcl/point_cloud.h> // pcl::PointCloud
-#include <pcl/point_types.h> // pcl::PointXYZRGBA
+#include <vtkVector.h>    // vtk向量
+#include <vtkTransform.h> // VTK变换
+#include <vtkActor.h>     //
+#include <vtkSTLReader.h> // 读取STL文件
+#include <vtkPolyDataMapper.h> // 数据映射
 
-namespace RHCL {
-    typedef pcl::PointCloud<pcl::PointXYZRGBA>::Ptr PointCloudPtr;
-    typedef pcl::PointCloud<pcl::PointXYZRGBA> PointCloud;
+#include <vtkAxesActor.h> //用于显示关节坐标系
 
-    class Link {
-    private:
-        /* data */
-        PointCloudPtr _pointCloud; //store the point cloud of this link
+class Link //: public QObject
+{
+private:
+    /* data */
 
-        std::string _directory; // the _directory of CAD file
+    std::string _directory; // the _directory of CAD file
 
-        int _order = 0; //the _order of the link
+    int _order = 0; //the _order of the link
 
-        std::string _name; // the name of the link
+    std::string _name; // the name of the link
 
-        Eigen::Vector3d translate; //translate relative to previous joint
-        Eigen::Vector3d rotate; // rotate relative to previous joint
-        Eigen::Vector3d angleAxis; // angle-axis format
+    Eigen::Vector3d translate; //translate relative to previous joint
+    Eigen::Vector3d rotate; // rotate relative to previous joint
+    Eigen::Vector3d angleAxis; // angle-axis format
 
-        Eigen::Vector3d translateLink; //translate the link
-        Eigen::Vector3d rotateLink;
-    public:
-        Link(/* args */);
+    Eigen::Vector3d translateLink; //translate the link
+    Eigen::Vector3d rotateLink;
 
-        Link(const std::string &fileName);
+    vtkSmartPointer<vtkSTLReader> reader; // 用于读取STL文件
 
-        ~Link();
+    double angle = 0.0;        //关节转动角度（rad）
 
-        inline void setName(const std::string& name) {_name = name;}
-        inline std::string getName() {return _name;}
+public:
+    vtkSmartPointer<vtkActor>     actor;    // 用于显示
 
-        inline void setOrder(int order) {_order = order;}
-        inline int getOrder() {return _order;}
+    vtkSmartPointer<vtkAxesActor> axesActor; //关节坐标系
+    double      axesLength = 0.2;
+    vtkTypeBool isAxesLableShow = 0;
+    vtkTypeBool isAxesVisible = 0;
 
-        inline void setTranslate(double x, double y, double z) {translate << x, y, z; }
-        inline Eigen::Vector3d getTranslate() {return translate;}
+public:
+    Link(/* args */);
 
-        inline  void setRotate(double roll, double pitch, double yaw) {rotate << roll, pitch, yaw; }
-        inline Eigen::Vector3d getRotate() {return rotate;}
+    Link(const std::string &fileName);
 
-        inline void setAngleAxis(int x, int y, int z) {angleAxis << x, y, z;}
-        inline Eigen::Vector3d getAngleAxis() {return angleAxis;}
+    ~Link();
 
-        inline void setTranslateLink(double x, double y, double z) {translateLink << x, y, z; }
-        inline Eigen::Vector3d getTranslateLink() {return translateLink;}
+    void init(); //初始化
 
-        inline  void setRotateLink(double roll, double pitch, double yaw) {rotateLink << roll, pitch, yaw; }
-        inline Eigen::Vector3d getRotateLink() {return rotateLink;}
+    inline void setName(const std::string& name) {_name = name;}
+    inline std::string getName() {return _name;}
 
-        /**
-         * @details Generate the point cloud from mesh
-         * @param fileName
-         */
-        void setPointCloud(const std::string& fileName);
-//        inline std::vector<Point> getPointCloud() const {return _pointCloud;} // get the point cloud
-        inline pcl::PointCloud<pcl::PointXYZRGBA>::Ptr getPointCloud() const {return  _pointCloud;} //get the point cloud of link
-        inline const int getPointCloudCount() const { return _pointCloud->size();} //Get the size of the point cloud
+    inline void setOrder(int order) {_order = order;}
+    inline int getOrder() {return _order;}
+
+    inline void setTranslate(double x, double y, double z) {translate << x, y, z; }
+    inline Eigen::Vector3d getTranslate() {return translate;}
+
+    inline  void setRotate(double roll, double pitch, double yaw) {rotate << roll, pitch, yaw; }
+    inline Eigen::Vector3d getRotate() {return rotate;}
+
+    inline void setAngleAxis(int x, int y, int z) {angleAxis << x, y, z;}
+    inline Eigen::Vector3d getAngleAxis() {return angleAxis;}
 
 
-        bool loadAsset(const std::string &fileName); //load 3D format CAD file
 
-        Link& operator=(Link &b); //overload assignment
-    private:
-        void processNode(aiNode *node, const aiScene *scene);
+    inline void setTranslateLink(double x, double y, double z) {translateLink << x, y, z; }
+    inline Eigen::Vector3d getTranslateLink() {return translateLink;}
 
-        void processMesh(aiMesh *mesh, const aiScene *scene);
+    inline  void setRotateLink(double roll, double pitch, double yaw) {rotateLink << roll, pitch, yaw; }
+    inline Eigen::Vector3d getRotateLink() {return rotateLink;}
 
-    };
+    /**
+     * @details Generate mesh
+     * @param fileName
+     */
+    void setMesh(const std::string& fileName);
 
-} // namespace RHCL
+    void setAngle(double rad);
+    inline double getAngle() { return angle; };
+
+    void setActorTransform(vtkTransform* t);
+
+    void setAxesVisibility(bool isVisible);
+
+//    Link& operator=(Link &b); //overload assignment
+
+};
+
 
 #endif // LINK_H

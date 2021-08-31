@@ -6,43 +6,98 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1608</width>
+    <height>921</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>11</pointsize>
+    <weight>75</weight>
+    <italic>true</italic>
+    <bold>true</bold>
+   </font>
   </property>
   <property name="windowTitle">
    <string>ROCOS-MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" colspan="2">
-     <widget class="QVTKOpenGLNativeWidget" name="widget" native="true"/>
-    </item>
-    <item row="1" column="0" colspan="2">
-     <widget class="QSlider" name="valSlider">
-      <property name="minimum">
-       <number>-300</number>
-      </property>
-      <property name="maximum">
-       <number>300</number>
-      </property>
-      <property name="singleStep">
-       <number>1</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>780</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>780</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CheckBox</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="VisualGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>19</x>
+      <y>10</y>
+      <width>861</width>
+      <height>751</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>3D Visualization</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="SceneWidget" name="visualWidget" native="true"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="jointPositionGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>10</y>
+      <width>681</width>
+      <height>751</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Joint Position</string>
+    </property>
+    <widget class="JointPositionWidget" name="widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>641</width>
+       <height>51</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>22</height>
+     <width>1608</width>
+     <height>23</height>
     </rect>
    </property>
   </widget>
@@ -50,9 +105,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QVTKOpenGLNativeWidget</class>
+   <class>SceneWidget</class>
    <extends>QWidget</extends>
-   <header>QVTKOpenGLNativeWidget.h</header>
+   <header>SceneWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>JointPositionWidget</class>
+   <extends>QWidget</extends>
+   <header>JointPositionWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
