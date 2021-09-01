@@ -8,6 +8,11 @@
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="src/CartesianPositionWidget.cpp" line="50"/>
+        <source> %1 : %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>JointPositionWidget</name>
@@ -16,12 +21,20 @@
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="src/JointPositionWidget.ui" line="29"/>
+        <location filename="src/JointPositionWidget.ui" line="32"/>
+        <location filename="src/JointPositionWidget.ui" line="71"/>
+        <location filename="src/JointPositionWidget.ui" line="74"/>
+        <source>Jogging</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PositionBar</name>
     <message>
         <location filename="src/PositionBar.cpp" line="47"/>
-        <source>Joint %1 Position: %2</source>
+        <source> %1 : %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -55,7 +68,8 @@
     </message>
     <message>
         <location filename="src/RocosMainWindow.ui" line="70"/>
-        <source>TCP Space</source>
+        <source>Cartesian Space</source>
+        <oldsource>TCP Space</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -124,23 +138,73 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="215"/>
+        <location filename="src/RocosMainWindow.ui" line="234"/>
         <source>Precise Joint Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="222"/>
+        <location filename="src/RocosMainWindow.ui" line="241"/>
         <source>Speed Scaling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="250"/>
+        <location filename="src/RocosMainWindow.ui" line="285"/>
+        <source>toolBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="306"/>
+        <source>frontView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="309"/>
+        <source>FrontView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="318"/>
+        <source>TopView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="327"/>
+        <source>RightView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="336"/>
+        <source>AxonometricView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="345"/>
+        <source>AxesView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="354"/>
+        <source>Plan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="226"/>
         <source>PushButton</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/RocosMainWindow.ui" line="30"/>
         <source>3D Visualization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.cpp" line="25"/>
+        <source>50%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.cpp" line="61"/>
+        <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

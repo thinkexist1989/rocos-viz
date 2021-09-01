@@ -44,6 +44,6 @@ void PositionBar::setValue(double val)
 
 void PositionBar::updateDisp()
 {
-    this->setFormat(tr(" %1 : %2").arg(name).arg(posVal));
+    this->setFormat(tr(" %1 : %2").arg(name).arg(posVal, 0 ,'f', 3));
 //      this->setFormat(tr("Joint Position: %1").arg(jointPos));
 }

@@ -4,5 +4,20 @@
         <file>res/play.svg</file>
         <file>res/leftarrow.png</file>
         <file>res/rightarrow.png</file>
+        <file>res/about.ico</file>
+        <file>res/coordinates.ico</file>
+        <file>res/cube_solid.svg</file>
+        <file>res/cube_wire.svg</file>
+        <file>res/fview.png</file>
+        <file>res/goalpos.ico</file>
+        <file>res/grid.svg</file>
+        <file>res/line.png</file>
+        <file>res/loc.ico</file>
+        <file>res/ortho.png</file>
+        <file>res/persp.png</file>
+        <file>res/plan.ico</file>
+        <file>res/rview.png</file>
+        <file>res/tview.png</file>
+        <file>res/path.png</file>
     </qresource>
 </RCC>

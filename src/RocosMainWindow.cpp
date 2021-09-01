@@ -18,9 +18,9 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     ui->cartesianXWidget->setName("X");
     ui->cartesianYWidget->setName("Y");
     ui->cartesianZWidget->setName("Z");
-    ui->cartesianRollWidget->setName("ROLL");
-    ui->cartesianPitchWidget->setName("PITCH");
-    ui->cartesianYawWidget->setName("YAW");
+    ui->cartesianRollWidget->setName("R");
+    ui->cartesianPitchWidget->setName("P");
+    ui->cartesianYawWidget->setName("Y");
 
     ui->speedPercent->setText(tr("50%"));
 

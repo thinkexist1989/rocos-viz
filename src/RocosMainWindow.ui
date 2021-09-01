@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1139</width>
-    <height>747</height>
+    <height>745</height>
    </rect>
   </property>
   <property name="font">
@@ -280,6 +280,103 @@
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionAxoView"/>
+   <addaction name="actionTopView"/>
+   <addaction name="actionFrontView"/>
+   <addaction name="actionRightView"/>
+   <addaction name="separator"/>
+   <addaction name="actionAxesView"/>
+   <addaction name="actionTrajectory"/>
+   <addaction name="actionGround"/>
+  </widget>
+  <action name="actionFrontView">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/fview.png</normaloff>:/res/fview.png</iconset>
+   </property>
+   <property name="text">
+    <string>frontView</string>
+   </property>
+   <property name="toolTip">
+    <string>FrontView</string>
+   </property>
+  </action>
+  <action name="actionTopView">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/tview.png</normaloff>:/res/tview.png</iconset>
+   </property>
+   <property name="text">
+    <string>TopView</string>
+   </property>
+  </action>
+  <action name="actionRightView">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/rview.png</normaloff>:/res/rview.png</iconset>
+   </property>
+   <property name="text">
+    <string>RightView</string>
+   </property>
+  </action>
+  <action name="actionAxoView">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/cube_wire.svg</normaloff>:/res/cube_wire.svg</iconset>
+   </property>
+   <property name="text">
+    <string>AxonometricView</string>
+   </property>
+  </action>
+  <action name="actionAxesView">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/coordinates.ico</normaloff>:/res/coordinates.ico</iconset>
+   </property>
+   <property name="text">
+    <string>AxesView</string>
+   </property>
+  </action>
+  <action name="actionPlan">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/plan.ico</normaloff>:/res/plan.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Plan</string>
+   </property>
+  </action>
+  <action name="actionTrajectory">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/path.png</normaloff>:/res/path.png</iconset>
+   </property>
+   <property name="text">
+    <string>Trajectory</string>
+   </property>
+   <property name="toolTip">
+    <string>Trajectory</string>
+   </property>
+  </action>
+  <action name="actionGround">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/line.png</normaloff>:/res/line.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ground</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -301,6 +398,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../res.qrc"/>
+ </resources>
  <connections/>
 </ui>

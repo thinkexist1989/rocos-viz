@@ -34,6 +34,8 @@ CartesianPositionWidget::CartesianPositionWidget(QWidget *parent) :
         this->ui->cartesianValBar->setValue(val);
     });
 
+    this->ui->cartesianValBar->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+
     updateCartesianPosition(cartesianVal);
 
 }
@@ -45,7 +47,7 @@ CartesianPositionWidget::~CartesianPositionWidget()
 
 void CartesianPositionWidget::updateDisp()
 {
-    this->ui->cartesianValBar->setFormat(tr(" %1 : %2").arg(name).arg(cartesianVal));
+    this->ui->cartesianValBar->setFormat(tr(" %1 : %2").arg(name).arg(cartesianVal, 0 ,'f', 3));
 }
 
 void CartesianPositionWidget::setName(const QString &s)
