@@ -63,6 +63,8 @@
     </message>
     <message>
         <location filename="src/RocosMainWindow.ui" line="60"/>
+        <location filename="src/RocosMainWindow.ui" line="365"/>
+        <location filename="src/RocosMainWindow.ui" line="368"/>
         <source>Trajectory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -153,38 +155,43 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="306"/>
+        <location filename="src/RocosMainWindow.ui" line="308"/>
         <source>frontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="309"/>
+        <location filename="src/RocosMainWindow.ui" line="311"/>
         <source>FrontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="318"/>
+        <location filename="src/RocosMainWindow.ui" line="320"/>
         <source>TopView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="327"/>
+        <location filename="src/RocosMainWindow.ui" line="329"/>
         <source>RightView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="336"/>
+        <location filename="src/RocosMainWindow.ui" line="338"/>
         <source>AxonometricView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="345"/>
+        <location filename="src/RocosMainWindow.ui" line="347"/>
         <source>AxesView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="354"/>
+        <location filename="src/RocosMainWindow.ui" line="356"/>
         <source>Plan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="377"/>
+        <source>Ground</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
