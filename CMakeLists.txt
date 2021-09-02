@@ -38,6 +38,9 @@ find_package(Eigen3 REQUIRED)
 # Yaml-cpp
 find_package(yaml-cpp REQUIRED)
 
+# orocos_kdl
+find_package(orocos_kdl REQUIRED)
+
 include_directories(include)
 include_directories(src)
 
@@ -82,7 +85,7 @@ add_executable(rocos
 
 
 target_link_libraries(rocos
-    PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} Eigen3::Eigen yaml-cpp)
+    PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} Eigen3::Eigen yaml-cpp orocos-kdl)
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
