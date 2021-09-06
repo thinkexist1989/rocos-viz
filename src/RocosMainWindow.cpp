@@ -81,9 +81,11 @@ void RocosMainWindow::on_speedSlider_valueChanged(int value)
 }
 void RocosMainWindow::on_actionEnabled_triggered()
 {
-    isRobotEnabled = !isRobotEnabled;
+    isRobotEnabled = connectDlg->getRobotEnabled();
 
-//    setRobotEnabled(isRobotEnabled);
+    connectDlg->setRobotEnabled(!isRobotEnabled);
+
+    isRobotEnabled = connectDlg->getRobotEnabled();
 
     if(isRobotEnabled) {
         ui->actionEnabled->setIcon(QIcon(":/res/switchon.png"));

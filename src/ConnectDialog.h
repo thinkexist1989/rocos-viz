@@ -44,6 +44,7 @@ public:
 
     void connectedToRobot(bool con);  //连接到机器人
     void setRobotEnabled(bool enabled); //机器人是否上电
+    inline bool getRobotEnabled() {return isRobotEnabled;} //获取Enable状态
 
 };
 

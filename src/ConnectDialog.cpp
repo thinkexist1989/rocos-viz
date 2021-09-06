@@ -70,5 +70,17 @@ void ConnectDialog::connectedToRobot(bool con)
 
 void ConnectDialog::setRobotEnabled(bool enabled)
 {
-//    if()
+    if(tcpSocket == Q_NULLPTR) {
+        qDebug() << "Connection to robot is not established!!";
+        return;
+    }
+
+    if(enabled){
+        tcpSocket->write(ROBOT_ENABLE);
+        isRobotEnabled = true;
+    }
+    else {
+        tcpSocket->write(ROBOT_DISABLE);
+        isRobotEnabled = false;
+    }
 }

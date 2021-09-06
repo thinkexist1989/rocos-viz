@@ -42,13 +42,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ConnectDialog.ui" line="56"/>
+        <location filename="src/ConnectDialog.ui" line="62"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ConnectDialog.ui" line="63"/>
-        <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -81,7 +76,11 @@
     <message>
         <location filename="src/RocosMainWindow.ui" line="23"/>
         <source>ROCOS-MainWindow</source>
-        <oldsource>RocosMainWindow</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="30"/>
+        <source>3D Visualization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -109,7 +108,6 @@
     <message>
         <location filename="src/RocosMainWindow.ui" line="70"/>
         <source>Cartesian Space</source>
-        <oldsource>TCP Space</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -178,6 +176,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/RocosMainWindow.ui" line="226"/>
+        <source>PushButton</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="src/RocosMainWindow.ui" line="234"/>
         <source>Precise Joint Control</source>
         <translation type="unfinished"></translation>
@@ -240,16 +243,6 @@
     <message>
         <location filename="src/RocosMainWindow.ui" line="406"/>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/RocosMainWindow.ui" line="226"/>
-        <source>PushButton</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/RocosMainWindow.ui" line="30"/>
-        <source>3D Visualization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
