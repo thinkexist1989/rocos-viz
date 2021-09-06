@@ -19,5 +19,10 @@
         <file>res/rview.png</file>
         <file>res/tview.png</file>
         <file>res/path.png</file>
+        <file>res/power.svg</file>
+        <file>res/switchoff.png</file>
+        <file>res/switchon.png</file>
+        <file>res/connected.png</file>
+        <file>res/disconnected.png</file>
     </qresource>
 </RCC>

@@ -25,8 +25,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #endif()
 
 # Qt
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network REQUIRED)
 
 # VTK
 find_package(VTK 8.2 REQUIRED )
@@ -55,6 +55,7 @@ set(SRC_FILES
         src/PositionBar.cpp
         src/JointPositionWidget.cpp
         src/CartesianPositionWidget.cpp
+        src/ConnectDialog.cpp
 )
 set(HRD_FILES
         src/RocosMainWindow.h
@@ -65,11 +66,13 @@ set(HRD_FILES
         src/PositionBar.h
         src/JointPositionWidget.h
         src/CartesianPositionWidget.h
+        src/ConnectDialog.h
 )
 set(UI_FILES
         src/RocosMainWindow.ui
         src/JointPositionWidget.ui
         src/CartesianPositionWidget.ui
+        src/ConnectDialog.ui
 )
 
 set(RC_FILES
@@ -85,7 +88,7 @@ add_executable(rocos
 
 
 target_link_libraries(rocos
-    PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} Eigen3::Eigen yaml-cpp orocos-kdl)
+    PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network ${VTK_LIBRARIES} Eigen3::Eigen yaml-cpp orocos-kdl)
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 

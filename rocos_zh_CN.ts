@@ -15,6 +15,44 @@
     </message>
 </context>
 <context>
+    <name>ConnectDialog</name>
+    <message>
+        <location filename="src/ConnectDialog.ui" line="22"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ConnectDialog.ui" line="28"/>
+        <source>IP Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ConnectDialog.ui" line="35"/>
+        <source>6666</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ConnectDialog.ui" line="42"/>
+        <source>192.168.0.99</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ConnectDialog.ui" line="49"/>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ConnectDialog.ui" line="56"/>
+        <source>Connect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ConnectDialog.ui" line="63"/>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>JointPositionWidget</name>
     <message>
         <location filename="src/JointPositionWidget.ui" line="23"/>
@@ -63,8 +101,8 @@
     </message>
     <message>
         <location filename="src/RocosMainWindow.ui" line="60"/>
-        <location filename="src/RocosMainWindow.ui" line="365"/>
         <location filename="src/RocosMainWindow.ui" line="368"/>
+        <location filename="src/RocosMainWindow.ui" line="371"/>
         <source>Trajectory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -155,43 +193,53 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="308"/>
+        <location filename="src/RocosMainWindow.ui" line="311"/>
         <source>frontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="311"/>
+        <location filename="src/RocosMainWindow.ui" line="314"/>
         <source>FrontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="320"/>
+        <location filename="src/RocosMainWindow.ui" line="323"/>
         <source>TopView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="329"/>
+        <location filename="src/RocosMainWindow.ui" line="332"/>
         <source>RightView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="338"/>
+        <location filename="src/RocosMainWindow.ui" line="341"/>
         <source>AxonometricView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="347"/>
+        <location filename="src/RocosMainWindow.ui" line="350"/>
         <source>AxesView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="356"/>
+        <location filename="src/RocosMainWindow.ui" line="359"/>
         <source>Plan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="377"/>
+        <location filename="src/RocosMainWindow.ui" line="380"/>
         <source>Ground</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="396"/>
+        <source>Enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="406"/>
+        <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -205,12 +253,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="25"/>
+        <location filename="src/RocosMainWindow.cpp" line="27"/>
         <source>50%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="61"/>
+        <location filename="src/RocosMainWindow.cpp" line="65"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>

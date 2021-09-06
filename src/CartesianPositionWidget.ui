@@ -15,7 +15,7 @@
     <family>Arial</family>
     <pointsize>11</pointsize>
     <weight>75</weight>
-    <italic>true</italic>
+    <italic>false</italic>
     <bold>true</bold>
    </font>
   </property>

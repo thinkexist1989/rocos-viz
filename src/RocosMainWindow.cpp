@@ -1,6 +1,8 @@
 #include <RocosMainWindow.h>
 #include "./ui_RocosMainWindow.h"
 
+#include <QDebug>
+
 RocosMainWindow::RocosMainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::RocosMainWindow)
@@ -23,6 +25,8 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     ui->cartesianYawWidget->setName("Y");
 
     ui->speedPercent->setText(tr("50%"));
+
+    connectDlg = new ConnectDialog(this);
 
 }
 
@@ -74,4 +78,40 @@ void RocosMainWindow::on_speedSlider_valueChanged(int value)
     ui->cartesianRollWidget->setFactor(f);
     ui->cartesianPitchWidget->setFactor(f);
     ui->cartesianYawWidget->setFactor(f);
+}
+void RocosMainWindow::on_actionEnabled_triggered()
+{
+    isRobotEnabled = !isRobotEnabled;
+
+//    setRobotEnabled(isRobotEnabled);
+
+    if(isRobotEnabled) {
+        ui->actionEnabled->setIcon(QIcon(":/res/switchon.png"));
+    }
+    else{
+        ui->actionEnabled->setIcon(QIcon(":/res/switchoff.png"));
+    }
+}
+
+void RocosMainWindow::on_actionConnected_triggered()
+{
+    if(!isRobotConnected) {
+        int res = connectDlg->exec();
+        if(res == QDialog::Accepted){
+    //        qDebug() << "Connected!";
+            isRobotConnected = true;
+            ui->actionConnected->setIcon(QIcon(":/res/connected.png"));
+        }
+        else{
+            isRobotConnected = false;
+            ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
+        }
+    }
+    else {
+        connectDlg->connectedToRobot(false);
+        isRobotConnected = false;
+        ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
+    }
+
+
 }

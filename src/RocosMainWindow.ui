@@ -15,7 +15,7 @@
     <family>Arial</family>
     <pointsize>11</pointsize>
     <weight>75</weight>
-    <italic>true</italic>
+    <italic>false</italic>
     <bold>true</bold>
    </font>
   </property>
@@ -275,7 +275,7 @@
      <x>0</x>
      <y>0</y>
      <width>1139</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
@@ -290,6 +290,9 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionConnected"/>
+   <addaction name="actionEnabled"/>
+   <addaction name="separator"/>
    <addaction name="actionAxoView"/>
    <addaction name="actionTopView"/>
    <addaction name="actionFrontView"/>
@@ -301,7 +304,7 @@
   </widget>
   <action name="actionFrontView">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset>
      <normaloff>:/res/fview.png</normaloff>:/res/fview.png</iconset>
    </property>
    <property name="text">
@@ -313,7 +316,7 @@
   </action>
   <action name="actionTopView">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset>
      <normaloff>:/res/tview.png</normaloff>:/res/tview.png</iconset>
    </property>
    <property name="text">
@@ -322,7 +325,7 @@
   </action>
   <action name="actionRightView">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset>
      <normaloff>:/res/rview.png</normaloff>:/res/rview.png</iconset>
    </property>
    <property name="text">
@@ -331,7 +334,7 @@
   </action>
   <action name="actionAxoView">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset>
      <normaloff>:/res/cube_wire.svg</normaloff>:/res/cube_wire.svg</iconset>
    </property>
    <property name="text">
@@ -340,7 +343,7 @@
   </action>
   <action name="actionAxesView">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset>
      <normaloff>:/res/coordinates.ico</normaloff>:/res/coordinates.ico</iconset>
    </property>
    <property name="text">
@@ -349,7 +352,7 @@
   </action>
   <action name="actionPlan">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset>
      <normaloff>:/res/plan.ico</normaloff>:/res/plan.ico</iconset>
    </property>
    <property name="text">
@@ -358,7 +361,7 @@
   </action>
   <action name="actionTrajectory">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset>
      <normaloff>:/res/path.png</normaloff>:/res/path.png</iconset>
    </property>
    <property name="text">
@@ -370,11 +373,37 @@
   </action>
   <action name="actionGround">
    <property name="icon">
-    <iconset resource="../res.qrc">
+    <iconset>
      <normaloff>:/res/line.png</normaloff>:/res/line.png</iconset>
    </property>
    <property name="text">
     <string>Ground</string>
+   </property>
+  </action>
+  <action name="actionEnabled">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/res/switchoff.png</normaloff>
+     <normalon>:/res/switchon.png</normalon>:/res/switchoff.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enabled</string>
+   </property>
+  </action>
+  <action name="actionConnected">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/res/disconnected.png</normaloff>
+     <normalon>:/res/connected.png</normalon>:/res/disconnected.png</iconset>
+   </property>
+   <property name="text">
+    <string>Connected</string>
    </property>
   </action>
  </widget>
@@ -398,8 +427,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
