@@ -20,6 +20,8 @@ public:
 
     void setFactor(double f);
 
+    inline void setId(int jntId) { id = jntId; }
+
 private slots:
     void updateJointPosition(double val);
 
@@ -29,8 +31,12 @@ private slots:
 
     void on_jointPosMinusButton_clicked();
 
+    void on_jointPosPlusButton_pressed();
+
+    void on_jointPosPlusButton_released();
+
 signals:
-    void jointPositionJogging(int dir); //关节点动, >0为正 <0为负 0为停止
+    void jointPositionJogging(int id, int dir); //关节点动, >0为正 <0为负 0为停止
 
 private:
     Ui::JointPositionWidget *ui;
@@ -39,6 +45,9 @@ private:
     double step     = 0.1; //每次步进的量
 
     double factor = 0.5; //speed缩放因子
+
+    int     id;
+    QString name;
 
 
 

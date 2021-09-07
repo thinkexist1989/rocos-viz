@@ -4,13 +4,6 @@
 #include <QDialog>
 #include <QTcpSocket>
 
-#define ROBOT_ENABLE    "tv80!"
-#define ROBOT_DISABLE   "tv112!"
-#define LUA_START       "tv99!p/hanbing/app/Line0.MOV!"
-#define LUA_STOP        "tv100!"
-#define LUA_PAUSE       "tv115!"
-#define LUA_CONTINUE    "tv103!"
-
 namespace Ui {
 class ConnectDialog;
 }
@@ -23,12 +16,15 @@ public:
     explicit ConnectDialog(QWidget *parent = nullptr);
     ~ConnectDialog();
 
-private slots:
+public slots:
     void on_connectButton_clicked();
 
     void on_ipAddressEdit_textChanged(const QString &ip);
 
     void on_portEdit_textChanged(const QString &p);
+
+    void connectedToRobot(bool con);  //连接到机器人
+    void setRobotEnabled(bool enabled); //机器人是否上电
 
 private:
     Ui::ConnectDialog *ui;
@@ -42,9 +38,10 @@ public:
     QString ipAddress = "192.168.0.99";
     int     port = 6666;
 
-    void connectedToRobot(bool con);  //连接到机器人
-    void setRobotEnabled(bool enabled); //机器人是否上电
+
     inline bool getRobotEnabled() {return isRobotEnabled;} //获取Enable状态
+
+    void jointJogging(int id, int dir);
 
 };
 

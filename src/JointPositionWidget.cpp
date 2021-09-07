@@ -20,7 +20,8 @@ JointPositionWidget::~JointPositionWidget()
 
 void JointPositionWidget::setName(const QString &s)
 {
-    this->ui->jointPosValBar->setName(s);
+    name = s;
+    this->ui->jointPosValBar->setName(name);
 }
 
 void JointPositionWidget::setFactor(double f)
@@ -41,18 +42,24 @@ void JointPositionWidget::on_jointPosValBar_valueChanged(double value)
 
 void JointPositionWidget::on_jointPosPlusButton_clicked()
 {
-//    std::cout << "Joint Joggging Plus" << std::endl;
-    jointPos += step * factor;
-//    emit jointPositionJogging(step);
 
-//    this->ui->jointPosValBar->setValue(jointPos);
 }
 
 void JointPositionWidget::on_jointPosMinusButton_clicked()
 {
 //    std::cout << "Joint Joggging Minus" << std::endl;
-    jointPos -= step * factor;
-//    emit jointPositionJogging(-step);
+//    jointPos -= step * factor;
+    emit jointPositionJogging(id, -1);
+}
 
-//    this->ui->jointPosValBar->setValue(jointPos);
+void JointPositionWidget::on_jointPosPlusButton_pressed()
+{
+    //    std::cout << "Joint Joggging Plus" << std::endl;
+//    jointPos += step * factor;
+    emit jointPositionJogging(id, 1);
+}
+
+void JointPositionWidget::on_jointPosPlusButton_released()
+{
+    emit jointPositionJogging(id, 0);
 }

@@ -9,13 +9,56 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    connectDlg = new ConnectDialog(this);
+
     ui->Joint1PosWidget->setName("#1 JOINT");
+    ui->Joint1PosWidget->setId(1);
+    connect(ui->Joint1PosWidget, &JointPositionWidget::jointPositionJogging,
+            this, [=](int id, int dir){
+                connectDlg->jointJogging(id, dir);
+            });
+
     ui->Joint2PosWidget->setName("#2 JOINT");
+    ui->Joint2PosWidget->setId(2);
+    connect(ui->Joint2PosWidget, &JointPositionWidget::jointPositionJogging,
+            this, [=](int id, int dir){
+                connectDlg->jointJogging(id, dir);
+            });
+
     ui->Joint3PosWidget->setName("#3 JOINT");
+    ui->Joint3PosWidget->setId(3);
+    connect(ui->Joint3PosWidget, &JointPositionWidget::jointPositionJogging,
+            this, [=](int id, int dir){
+                connectDlg->jointJogging(id, dir);
+            });
+
     ui->Joint4PosWidget->setName("#4 JOINT");
+    ui->Joint4PosWidget->setId(4);
+    connect(ui->Joint4PosWidget, &JointPositionWidget::jointPositionJogging,
+            this, [=](int id, int dir){
+                connectDlg->jointJogging(id, dir);
+            });
+
     ui->Joint5PosWidget->setName("#5 JOINT");
+    ui->Joint5PosWidget->setId(5);
+    connect(ui->Joint5PosWidget, &JointPositionWidget::jointPositionJogging,
+            this, [=](int id, int dir){
+                connectDlg->jointJogging(id, dir);
+            });
+
     ui->Joint6PosWidget->setName("#6 JOINT");
+    ui->Joint6PosWidget->setId(6);
+    connect(ui->Joint6PosWidget, &JointPositionWidget::jointPositionJogging,
+            this, [=](int id, int dir){
+                connectDlg->jointJogging(id, dir);
+            });
+
     ui->Joint7PosWidget->setName("#7 JOINT");
+    ui->Joint7PosWidget->setId(7);
+    connect(ui->Joint7PosWidget, &JointPositionWidget::jointPositionJogging,
+            this, [=](int id, int dir){
+                connectDlg->jointJogging(id, dir);
+            });
 
     ui->cartesianXWidget->setName("X");
     ui->cartesianYWidget->setName("Y");
@@ -25,8 +68,6 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     ui->cartesianYawWidget->setName("Y");
 
     ui->speedPercent->setText(tr("50%"));
-
-    connectDlg = new ConnectDialog(this);
 
 }
 
