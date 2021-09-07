@@ -43,14 +43,16 @@ void JointPositionWidget::on_jointPosPlusButton_clicked()
 {
 //    std::cout << "Joint Joggging Plus" << std::endl;
     jointPos += step * factor;
+//    emit jointPositionJogging(step);
 
-    this->ui->jointPosValBar->setValue(jointPos);
+//    this->ui->jointPosValBar->setValue(jointPos);
 }
 
 void JointPositionWidget::on_jointPosMinusButton_clicked()
 {
 //    std::cout << "Joint Joggging Minus" << std::endl;
     jointPos -= step * factor;
+//    emit jointPositionJogging(-step);
 
-    this->ui->jointPosValBar->setValue(jointPos);
+//    this->ui->jointPosValBar->setValue(jointPos);
 }

@@ -30,7 +30,7 @@ private slots:
     void on_jointPosMinusButton_clicked();
 
 signals:
-    void jointPositionJogging(double val); //关节点动
+    void jointPositionJogging(int dir); //关节点动, >0为正 <0为负 0为停止
 
 private:
     Ui::JointPositionWidget *ui;
