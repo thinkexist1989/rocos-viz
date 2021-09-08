@@ -14,6 +14,10 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     tcpSocket = new QTcpSocket;
 
     connect(tcpSocket, &QTcpSocket::disconnected, this, [=](){connectedToRobot(false);});
+    connect(tcpSocket, &QTcpSocket::readyRead, this, &ConnectDialog::parseRobotMsg); //解析机器人状态
+
+    timerState = new QTimer(this);
+    connect(timerState, &QTimer::timeout, this, &ConnectDialog::getRobotState); //获取机器人状态
 
 }
 
@@ -30,15 +34,11 @@ void ConnectDialog::on_connectButton_clicked()
 void ConnectDialog::on_ipAddressEdit_textChanged(const QString &ip)
 {
     ipAddress = ip;
-
-//    qDebug() << "IP Address is: " << ip;
 }
 
 void ConnectDialog::on_portEdit_textChanged(const QString &p)
 {
     port = p.toInt();
-
-//    qDebug() << "Port is: " << port;
 }
 
 void ConnectDialog::connectedToRobot(bool con)
@@ -52,6 +52,11 @@ void ConnectDialog::connectedToRobot(bool con)
 
         if (tcpSocket->waitForConnected(2000)) { //链接等待2s
             qDebug("Robot controller is connected!");
+
+            getJointSpeedScaling(); //查询一下当前速度缩放
+
+            timerState->start(100);
+
             accept(); // 对话框返回accept
         }
         else {
@@ -88,6 +93,116 @@ void ConnectDialog::setRobotEnabled(bool enabled)
     else {
         tcpSocket->write(ROBOT_DISABLE);
         isRobotEnabled = false;
+    }
+}
+
+void ConnectDialog::setJointSpeedScaling(double factor)
+{
+    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
+        return;
+    }
+
+    QByteArray ba = "sc0!v";
+    ba.append(QString::number(factor));
+    ba.append("!\0");
+
+    tcpSocket->write(ba);
+
+//    QTimer::singleShot(50, this, &ConnectDialog::getJointSpeedScaling);
+
+//    qDebug() << "Set speed scaling: " << ba;
+}
+
+void ConnectDialog::getJointSpeedScaling()
+{
+    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
+        return;
+    }
+
+    tcpSocket->write(GET_JNTSPD);
+
+}
+
+void ConnectDialog::setCartesianSpeedScaling(double factor)
+{
+}
+
+void ConnectDialog::getCartesianSpeedScaling()
+{
+
+}
+
+void ConnectDialog::setToolSpeedScaling(double factor)
+{
+}
+
+void ConnectDialog::getToolSpeedScaling()
+{
+
+}
+
+void ConnectDialog::getRobotState()
+{
+    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
+        qDebug() << "Connection to robot is not established!!";
+        return;
+    }
+
+    tcpSocket->write(GET_INFO);
+}
+
+void ConnectDialog::parseRobotMsg()
+{
+    if(!tcpSocket->isValid()){
+        return;
+    }
+
+    QByteArray ba = tcpSocket->readAll();
+
+//    int size = ba.size();
+
+    //机器人状态信息： av10.0!v20.0!bv3.0!v3.4!3.0!v3.4!3.0!v3.4!\0 ,单位为rad, mm a开头为关节 b开头为笛卡尔
+    if(ba.startsWith("a")) {
+        auto list = ba.split('b'); //<av10.0!v20.0!><v3.0!v3.4!v3.0!v3.4!v3.0!v3.4!>
+
+        QByteArray jp = list[0];
+        auto jointsArray =  jp.split('!'); // <av10.0><v20.0>
+        QVector<double> jntPos;
+        for(auto& j : jointsArray) {
+            if(!j.isEmpty()) {
+                int idx = j.indexOf('v'); //
+                jntPos.push_back(j.mid(idx+1).toDouble());
+            }
+        }
+
+        emit jointPositions(jntPos); //发送关节位置信号
+//        qDebug() << "1: " << jntPos[0];
+
+        QByteArray cp = list[1];
+        auto cartArray =  cp.split('!'); // <v3.0!><v3.4!><v3.0!><v3.4!><v3.0!><v3.4!>
+        QVector<double> pose;
+        for(auto& c : cartArray) {
+            if(!c.isEmpty()) {
+                int idx = c.indexOf('v'); //
+                pose.push_back(c.mid(idx+1).toDouble());
+            }
+        }
+
+        emit cartPose(pose); //发送 笛卡尔位置信号
+//        qDebug() << "x: " << pose[0] << "y: " << pose[1] << "z: " << pose[2] << "r: " << pose[3] << "p: " << pose[4] << "y: " << pose[5];
+
+    }
+    else if(ba.startsWith("sc")) { //速度配置信息， 百分比 sc0!v25.0!
+        auto list = ba.split('!');
+        for(auto& l : list) {
+            if(!l.isEmpty()) {
+                if(l.startsWith('v')) {
+                    int idx = l.indexOf('v'); //
+                    emit speedScaling(l.mid(idx+1).toDouble());
+                    qDebug() << "Current speed scaling: " << l.mid(idx+1).toDouble();
+                }
+            }
+        }
     }
 }
 

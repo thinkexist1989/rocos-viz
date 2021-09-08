@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <ConnectDialog.h> //机器人控制链接
+#include <JointPositionWidget.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class RocosMainWindow; }
@@ -27,10 +28,15 @@ private slots:
 
     void on_actionConnected_triggered();
 
+    void updateJointPos(QVector<double>& jntPos);
+    void updateCartPose(QVector<double>& pose);
+
 private:
     Ui::RocosMainWindow *ui;
 
     ConnectDialog* connectDlg = Q_NULLPTR;
+
+    QVector<JointPositionWidget*> jpWdgs;
 
 public:
     bool isRobotConnected = false; //机器人是否连接

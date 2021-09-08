@@ -22,18 +22,18 @@ public:
 
     inline void setId(int jntId) { id = jntId; }
 
-private slots:
+public slots:
     void updateJointPosition(double val);
 
     void on_jointPosValBar_valueChanged(double value);
 
-    void on_jointPosPlusButton_clicked();
-
-    void on_jointPosMinusButton_clicked();
-
     void on_jointPosPlusButton_pressed();
 
     void on_jointPosPlusButton_released();
+
+    void on_jointPosMinusButton_pressed();
+
+    void on_jointPosMinusButton_released();
 
 signals:
     void jointPositionJogging(int id, int dir); //关节点动, >0为正 <0为负 0为停止

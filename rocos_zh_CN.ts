@@ -246,12 +246,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="27"/>
+        <location filename="src/RocosMainWindow.cpp" line="70"/>
         <source>50%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="65"/>
+        <location filename="src/RocosMainWindow.cpp" line="106"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>

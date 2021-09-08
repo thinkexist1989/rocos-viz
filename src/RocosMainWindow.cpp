@@ -17,6 +17,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             this, [=](int id, int dir){
                 connectDlg->jointJogging(id, dir);
             });
+    jpWdgs.push_back(ui->Joint1PosWidget);
 
     ui->Joint2PosWidget->setName("#2 JOINT");
     ui->Joint2PosWidget->setId(2);
@@ -24,6 +25,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             this, [=](int id, int dir){
                 connectDlg->jointJogging(id, dir);
             });
+    jpWdgs.push_back(ui->Joint2PosWidget);
 
     ui->Joint3PosWidget->setName("#3 JOINT");
     ui->Joint3PosWidget->setId(3);
@@ -31,6 +33,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             this, [=](int id, int dir){
                 connectDlg->jointJogging(id, dir);
             });
+    jpWdgs.push_back(ui->Joint3PosWidget);
 
     ui->Joint4PosWidget->setName("#4 JOINT");
     ui->Joint4PosWidget->setId(4);
@@ -38,6 +41,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             this, [=](int id, int dir){
                 connectDlg->jointJogging(id, dir);
             });
+    jpWdgs.push_back(ui->Joint4PosWidget);
 
     ui->Joint5PosWidget->setName("#5 JOINT");
     ui->Joint5PosWidget->setId(5);
@@ -45,6 +49,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             this, [=](int id, int dir){
                 connectDlg->jointJogging(id, dir);
             });
+    jpWdgs.push_back(ui->Joint5PosWidget);
 
     ui->Joint6PosWidget->setName("#6 JOINT");
     ui->Joint6PosWidget->setId(6);
@@ -52,6 +57,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             this, [=](int id, int dir){
                 connectDlg->jointJogging(id, dir);
             });
+    jpWdgs.push_back(ui->Joint6PosWidget);
 
     ui->Joint7PosWidget->setName("#7 JOINT");
     ui->Joint7PosWidget->setId(7);
@@ -59,6 +65,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             this, [=](int id, int dir){
                 connectDlg->jointJogging(id, dir);
             });
+    jpWdgs.push_back(ui->Joint7PosWidget);
 
     ui->cartesianXWidget->setName("X");
     ui->cartesianYWidget->setName("Y");
@@ -67,7 +74,11 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     ui->cartesianPitchWidget->setName("P");
     ui->cartesianYawWidget->setName("Y");
 
-    ui->speedPercent->setText(tr("50%"));
+    ui->speedPercent->setText(tr("25%"));
+
+
+    connect(connectDlg, &ConnectDialog::jointPositions, this, &RocosMainWindow::updateJointPos); //关节位置更新
+    connect(connectDlg, &ConnectDialog::speedScaling, this, [=](double f100){ ui->speedSlider->setValue(f100*10);}); //更新速度缩放因子
 
 }
 
@@ -119,6 +130,8 @@ void RocosMainWindow::on_speedSlider_valueChanged(int value)
     ui->cartesianRollWidget->setFactor(f);
     ui->cartesianPitchWidget->setFactor(f);
     ui->cartesianYawWidget->setFactor(f);
+
+    connectDlg->setJointSpeedScaling(f*100);
 }
 void RocosMainWindow::on_actionEnabled_triggered()
 {
@@ -156,5 +169,20 @@ void RocosMainWindow::on_actionConnected_triggered()
         ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
     }
 
+
+}
+
+void RocosMainWindow::updateJointPos(QVector<double> &jntPos)
+{
+    for(int i = 0; i < jntPos.size(); i++) {
+        jpWdgs[i]->updateJointPosition(jntPos[i]); //更新关节位置
+    }
+
+    jntPos.resize(7);
+    ui->visualWidget->setJointPos(jntPos);
+}
+
+void RocosMainWindow::updateCartPose(QVector<double> &pose)
+{
 
 }

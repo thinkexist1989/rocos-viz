@@ -152,6 +152,12 @@ void SceneWidget::setJointPos(std::vector<double>& jntRads)
     renderWindow->Render();
 }
 
+void SceneWidget::setJointPos(QVector<double> &jntRads)
+{
+    std::vector<double> jr(jntRads.data(), jntRads.data() + jntRads.size());
+    setJointPos(jr);
+}
+
 void SceneWidget::setJointAxesVisibility(bool isVisible)
 {
     model->setAxesVisiblity(isVisible);

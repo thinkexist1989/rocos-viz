@@ -39,6 +39,7 @@ public:
     ~SceneWidget();
 
     void setJointPos(std::vector<double> &jntRads);
+    void setJointPos(QVector<double> &jntRads);
 
     void setJointAxesVisibility(bool isVisible);
 

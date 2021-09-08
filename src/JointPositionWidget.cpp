@@ -40,26 +40,23 @@ void JointPositionWidget::on_jointPosValBar_valueChanged(double value)
 //    std::cout << "value change to: " << value << std::endl;
 }
 
-void JointPositionWidget::on_jointPosPlusButton_clicked()
-{
-
-}
-
-void JointPositionWidget::on_jointPosMinusButton_clicked()
-{
-//    std::cout << "Joint Joggging Minus" << std::endl;
-//    jointPos -= step * factor;
-    emit jointPositionJogging(id, -1);
-}
-
 void JointPositionWidget::on_jointPosPlusButton_pressed()
 {
-    //    std::cout << "Joint Joggging Plus" << std::endl;
-//    jointPos += step * factor;
     emit jointPositionJogging(id, 1);
 }
 
 void JointPositionWidget::on_jointPosPlusButton_released()
+{
+    emit jointPositionJogging(id, 0);
+}
+
+void JointPositionWidget::on_jointPosMinusButton_pressed()
+{
+    emit jointPositionJogging(id, -1);
+}
+
+
+void JointPositionWidget::on_jointPosMinusButton_released()
 {
     emit jointPositionJogging(id, 0);
 }

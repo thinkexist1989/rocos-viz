@@ -1,16 +1,18 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
+#include <QString>
+
 #define ROBOT_ENABLE    "tv80!"
 #define ROBOT_DISABLE   "tv112!"
 
-#define LUA_START(script)       "tv99!p"(script)"!" //  ->"/hanbing/app/Line0.MOV"
+#define LUA_START(script)       "tv99!p" script "!" //  ->"/hanbing/app/Line0.MOV"
 #define LUA_STOP        "tv100!"
 #define LUA_PAUSE       "tv115!"
 #define LUA_CONTINUE    "tv103!"
 
-#define RECORD_JOINT(J_NAME)  "tv111!d"(J_NAME)"!"
-#define RECORD_POSE(P_NAME)   "tv110!d"(P_NAME)"!"
+#define RECORD_JOINT(J_NAME)  "tv111!d" J_NAME "!"
+#define RECORD_POSE(P_NAME)   "tv110!d" P_NAME "!"
 
 #define J1_P          "tv49!"
 #define J1_N          "tv113!"
@@ -96,12 +98,14 @@
 #define TR_N          "tv417!"
 #define TR_Z          "tv338!"
 
-#define SET_JNTSPD(S)  "sc1!v"(S)"!" //S是百分比，默认25%
-#define SET_CARTSPD(S) "sc2!v"(S)"!"
-#define SET_TOOLSPD(S) "sc3!v"(S)"!"
+#define SET_JNTSPD(S)  "sc1!v" #S "!" //S是百分比，默认25% 一定转换成字符
+#define SET_CARTSPD(S) "sc2!v" #S "!"
+#define SET_TOOLSPD(S) "sc3!v" #S "!"
 
-#define GET_JNTSPD  "gc1!"
+#define GET_JNTSPD  "gc0!" //gc0!就行，gc1~gc2都一起设置了
 #define GET_CARTSPD "gc2!"
 #define GET_TOOLSPD "gc3!"
+
+#define GET_INFO    "a" //返回关节位置及笛卡尔空间位置
 
 #endif // PROTOCOL_H

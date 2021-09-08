@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QTcpSocket>
+#include <QTimer>
 
 namespace Ui {
 class ConnectDialog;
@@ -24,7 +25,21 @@ public slots:
     void on_portEdit_textChanged(const QString &p);
 
     void connectedToRobot(bool con);  //连接到机器人
-    void setRobotEnabled(bool enabled); //机器人是否上电
+
+    void setRobotEnabled(bool enabled); //操作：机器人是否上电
+
+    void getRobotState(); // 操作：发送GET_INFO
+
+    void parseRobotMsg(); // 解析返回的机器人信息
+
+    void setJointSpeedScaling(double factor); //关节速度
+    void getJointSpeedScaling(); //获取关节速度
+
+    void setCartesianSpeedScaling(double factor); //笛卡尔速度
+    void getCartesianSpeedScaling(); //获取 笛卡尔速度
+
+    void setToolSpeedScaling(double factor); // 工具速度
+    void getToolSpeedScaling(); //获取工具速度
 
 private:
     Ui::ConnectDialog *ui;
@@ -34,6 +49,8 @@ private:
 
     bool isRobotEnabled = false; //机器人默认不上电
 
+    QTimer* timerState;
+
 public:
     QString ipAddress = "192.168.0.99";
     int     port = 6666;
@@ -42,6 +59,11 @@ public:
     inline bool getRobotEnabled() {return isRobotEnabled;} //获取Enable状态
 
     void jointJogging(int id, int dir);
+
+signals:
+    void jointPositions(QVector<double>& jntPos); //解析到关节位置，发送 信号
+    void cartPose(QVector<double>& pose); //解析到笛卡尔空间位置，发送 信号
+    void speedScaling(double f100); // 速度缩放因数 25.0
 
 };
 
