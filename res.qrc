@@ -24,5 +24,6 @@
         <file>res/switchon.png</file>
         <file>res/connected.png</file>
         <file>res/disconnected.png</file>
+        <file>icon.ico</file>
     </qresource>
 </RCC>

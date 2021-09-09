@@ -84,6 +84,7 @@ add_executable(rocos
                     ${UI_FILES}
                     ${RC_FILES}
                     ${TS_FILES}
+                    app_win.rc
 )
 
 
