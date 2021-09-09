@@ -338,7 +338,7 @@
   <action name="actionAxoView">
    <property name="icon">
     <iconset resource="../res.qrc">
-     <normaloff>:/res/cube_wire.svg</normaloff>:/res/cube_wire.svg</iconset>
+     <normaloff>:/res/cube_wire.png</normaloff>:/res/cube_wire.png</iconset>
    </property>
    <property name="text">
     <string>AxonometricView</string>
@@ -347,7 +347,7 @@
   <action name="actionAxesView">
    <property name="icon">
     <iconset resource="../res.qrc">
-     <normaloff>:/res/coordinates.ico</normaloff>:/res/coordinates.ico</iconset>
+     <normaloff>:/res/coordinates.png</normaloff>:/res/coordinates.png</iconset>
    </property>
    <property name="text">
     <string>AxesView</string>
