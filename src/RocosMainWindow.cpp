@@ -186,3 +186,23 @@ void RocosMainWindow::updateCartPose(QVector<double> &pose)
 {
 
 }
+
+void RocosMainWindow::on_meshCheckBox_stateChanged(int arg1)
+{
+    if(arg1 == Qt::Checked) {
+        this->ui->visualWidget->setMeshVisibility(true);
+    }
+    else {
+        this->ui->visualWidget->setMeshVisibility(false);
+    }
+}
+
+void RocosMainWindow::on_actionScript_triggered()
+{
+
+}
+
+void RocosMainWindow::on_actionPlotter_triggered()
+{
+
+}

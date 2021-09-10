@@ -64,6 +64,9 @@ public:
 
     void setAxesVisiblity(bool isVisible);
 
+    void setMeshVisibility(bool isMesh);            //是否以Mesh形式显示
+
+
 };
 
 #endif //MODEL_H

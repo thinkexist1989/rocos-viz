@@ -41,7 +41,10 @@ public:
     void setJointPos(std::vector<double> &jntRads);
     void setJointPos(QVector<double> &jntRads);
 
-    void setJointAxesVisibility(bool isVisible);
+    void setJointAxesVisibility(bool isVisible);    //设置关节轴是否可见
+    void setMeshVisibility(bool isMesh);            //是否以Mesh形式显示
+    void setGroundVisibility(bool isVisible);       //地面是否可见
+    void setTrajVisibility(bool isVisible);         //轨迹是否可见
 
 private:
     vtkSmartPointer<vtkNamedColors> colors;         //负责处理各种颜色

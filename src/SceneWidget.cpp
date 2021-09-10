@@ -163,3 +163,19 @@ void SceneWidget::setJointAxesVisibility(bool isVisible)
     model->setAxesVisiblity(isVisible);
     renderWindow->Render();
 }
+
+void SceneWidget::setMeshVisibility(bool isMesh)
+{
+    model->setMeshVisibility(isMesh);
+    renderWindow->Render();
+}
+
+void SceneWidget::setGroundVisibility(bool isVisible)
+{
+
+}
+
+void SceneWidget::setTrajVisibility(bool isVisible)
+{
+
+}

@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     QApplication::setStyle(QStyleFactory::create("Fusion"));
 
     QApplication a(argc, argv);
-    a.setWindowIcon(QIcon(":/icon.png"));
+    a.setWindowIcon(QIcon(":/icon.ico"));
 
     RocosMainWindow w;
     w.show();

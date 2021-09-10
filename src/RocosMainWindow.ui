@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1139</width>
-    <height>745</height>
+    <width>1156</width>
+    <height>796</height>
    </rect>
   </property>
   <property name="font">
@@ -23,100 +23,198 @@
    <string>ROCOS-MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_4" rowstretch="5,1,1,1" columnstretch="35,20,25">
-    <item row="0" column="0" rowspan="2">
-     <widget class="QGroupBox" name="visualGroupBox">
+   <layout class="QGridLayout" name="gridLayout_4" rowstretch="8,1,2,2" columnstretch="35,20,20">
+    <item row="2" column="1" rowspan="2">
+     <widget class="QGroupBox" name="preciseCartesianGroupBox">
       <property name="title">
-       <string>3D Visualization</string>
+       <string>Precise Cartesian Control</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0" colspan="4">
-        <widget class="SceneWidget" name="visualWidget" native="true"/>
+      <layout class="QGridLayout" name="gridLayout_8" columnstretch="3,6,2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>X:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-99.989999999999995</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QCheckBox" name="axesCheckBox">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Axes</string>
+          <string>Y:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QCheckBox" name="meshCheckBox">
-         <property name="text">
-          <string>Mesh</string>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-99.989999999999995</double>
          </property>
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="QCheckBox" name="PlaneCheckBox">
+        <widget class="QPushButton" name="pushButton_3">
          <property name="text">
-          <string>Plane</string>
+          <string>Go</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
-        <widget class="QCheckBox" name="TrajCheckBox">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Trajectory</string>
+          <string>Z:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QGroupBox" name="cartesianGroupBox">
-      <property name="title">
-       <string>Cartesian Space</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="1" column="0">
-        <widget class="CartesianPositionWidget" name="cartesianYWidget" native="true"/>
+       <item row="2" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-99.989999999999995</double>
+         </property>
+        </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="CartesianPositionWidget" name="cartesianPitchWidget" native="true"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="CartesianPositionWidget" name="cartesianXWidget" native="true"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="CartesianPositionWidget" name="cartesianZWidget" native="true"/>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="pushButton_4">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
        </item>
        <item row="3" column="0">
-        <widget class="CartesianPositionWidget" name="cartesianRollWidget" native="true"/>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>R:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="CartesianPositionWidget" name="cartesianYawWidget" native="true"/>
+       <item row="3" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-99.989999999999995</double>
+         </property>
+        </widget>
        </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="2" rowspan="2">
-     <widget class="QGroupBox" name="jointGroupBox">
-      <property name="title">
-       <string>Joint Space</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="JointPositionWidget" name="Joint1PosWidget" native="true"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="JointPositionWidget" name="Joint2PosWidget" native="true"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="JointPositionWidget" name="Joint3PosWidget" native="true"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="JointPositionWidget" name="Joint4PosWidget" native="true"/>
+       <item row="3" column="2">
+        <widget class="QPushButton" name="pushButton_5">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
        </item>
        <item row="4" column="0">
-        <widget class="JointPositionWidget" name="Joint5PosWidget" native="true"/>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>P:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-99.989999999999995</double>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QPushButton" name="pushButton_6">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
        </item>
        <item row="5" column="0">
-        <widget class="JointPositionWidget" name="Joint6PosWidget" native="true"/>
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Y:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_6">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-99.989999999999995</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QPushButton" name="pushButton_7">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
        </item>
        <item row="6" column="0">
-        <widget class="JointPositionWidget" name="Joint7PosWidget" native="true"/>
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>0-Space:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_14">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QPushButton" name="pushButton_15">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -165,74 +263,34 @@
       </layout>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QGroupBox" name="FrameGroupBox">
+    <item row="0" column="2" rowspan="2">
+     <widget class="QGroupBox" name="jointGroupBox">
       <property name="title">
-       <string>Reference Frame</string>
+       <string>Joint Space</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_5">
+      <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
-        <widget class="QRadioButton" name="worldFrame">
-         <property name="text">
-          <string>World</string>
-         </property>
-        </widget>
+        <widget class="JointPositionWidget" name="Joint1PosWidget" native="true"/>
        </item>
-       <item row="0" column="1">
-        <widget class="QRadioButton" name="baseFrame">
-         <property name="text">
-          <string>Base</string>
-         </property>
-        </widget>
+       <item row="1" column="0">
+        <widget class="JointPositionWidget" name="Joint2PosWidget" native="true"/>
        </item>
-       <item row="0" column="2">
-        <widget class="QRadioButton" name="flangeFrame">
-         <property name="text">
-          <string>Flange</string>
-         </property>
-        </widget>
+       <item row="2" column="0">
+        <widget class="JointPositionWidget" name="Joint3PosWidget" native="true"/>
        </item>
-       <item row="0" column="3">
-        <widget class="QRadioButton" name="toolFrame">
-         <property name="text">
-          <string>Tool</string>
-         </property>
-        </widget>
+       <item row="3" column="0">
+        <widget class="JointPositionWidget" name="Joint4PosWidget" native="true"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="JointPositionWidget" name="Joint5PosWidget" native="true"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="JointPositionWidget" name="Joint6PosWidget" native="true"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="JointPositionWidget" name="Joint7PosWidget" native="true"/>
        </item>
       </layout>
-     </widget>
-    </item>
-    <item row="2" column="1" rowspan="2">
-     <widget class="QGroupBox" name="preciseCartesianGroupBox">
-      <property name="title">
-       <string>Precise Cartesian Control</string>
-      </property>
-      <widget class="QPushButton" name="pushButton">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>93</width>
-         <height>26</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </widget>
-    </item>
-    <item row="2" column="2" rowspan="2">
-     <widget class="QGroupBox" name="preciseJointGroupBox">
-      <property name="title">
-       <string>Precise Joint Control</string>
-      </property>
      </widget>
     </item>
     <item row="3" column="0">
@@ -270,6 +328,342 @@
       </layout>
      </widget>
     </item>
+    <item row="0" column="0" rowspan="2">
+     <widget class="QGroupBox" name="visualGroupBox">
+      <property name="title">
+       <string>3D Visualization</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="2">
+        <widget class="QCheckBox" name="PlaneCheckBox">
+         <property name="text">
+          <string>Plane</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QCheckBox" name="TrajCheckBox">
+         <property name="text">
+          <string>Trajectory</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="meshCheckBox">
+         <property name="text">
+          <string>Mesh</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="axesCheckBox">
+         <property name="text">
+          <string>Axes</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QPushButton" name="pushButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Random</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="5">
+        <widget class="SceneWidget" name="visualWidget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="cartesianGroupBox">
+      <property name="title">
+       <string>Cartesian Space</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="1" column="0">
+        <widget class="CartesianPositionWidget" name="cartesianYWidget" native="true"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="CartesianPositionWidget" name="cartesianPitchWidget" native="true"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="CartesianPositionWidget" name="cartesianXWidget" native="true"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="CartesianPositionWidget" name="cartesianZWidget" native="true"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="CartesianPositionWidget" name="cartesianRollWidget" native="true"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="CartesianPositionWidget" name="cartesianYawWidget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QGroupBox" name="FrameGroupBox">
+      <property name="title">
+       <string>Reference Frame</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="QRadioButton" name="worldFrame">
+         <property name="text">
+          <string>World</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QRadioButton" name="baseFrame">
+         <property name="text">
+          <string>Base</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QRadioButton" name="flangeFrame">
+         <property name="text">
+          <string>Flange</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QRadioButton" name="toolFrame">
+         <property name="text">
+          <string>Tool</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="2" rowspan="2">
+     <widget class="QGroupBox" name="preciseJointGroupBox">
+      <property name="title">
+       <string>Precise Joint Control</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_9" columnstretch="3,6,2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>J1:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_7">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButton_8">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>J2:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_8">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="pushButton_9">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>J3:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_9">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="pushButton_10">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>J4:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_10">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QPushButton" name="pushButton_11">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>J5:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_11">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QPushButton" name="pushButton_12">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>J6:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_12">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QPushButton" name="pushButton_13">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>J7:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_13">
+         <property name="decimals">
+          <number>3</number>
+         </property>
+         <property name="minimum">
+          <double>-180.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>180.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QPushButton" name="pushButton_14">
+         <property name="text">
+          <string>Go</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -277,7 +671,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1139</width>
+     <width>1156</width>
      <height>24</height>
     </rect>
    </property>
@@ -304,6 +698,9 @@
    <addaction name="actionAxesView"/>
    <addaction name="actionTrajectory"/>
    <addaction name="actionGround"/>
+   <addaction name="separator"/>
+   <addaction name="actionScript"/>
+   <addaction name="actionPlotter"/>
   </widget>
   <action name="actionFrontView">
    <property name="icon">
@@ -407,6 +804,27 @@
    </property>
    <property name="text">
     <string>Connected</string>
+   </property>
+  </action>
+  <action name="actionScript">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/script.png</normaloff>:/res/script.png</iconset>
+   </property>
+   <property name="text">
+    <string>Script</string>
+   </property>
+  </action>
+  <action name="actionPlotter">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/plot.png</normaloff>:/res/plot.png</iconset>
+   </property>
+   <property name="text">
+    <string>Plotter</string>
+   </property>
+   <property name="toolTip">
+    <string>Plot curve</string>
    </property>
   </action>
  </widget>

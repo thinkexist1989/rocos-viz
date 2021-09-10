@@ -164,6 +164,13 @@ void Model::setAxesVisiblity(bool isVisible)
     }
 }
 
+void Model::setMeshVisibility(bool isMesh)
+{
+    for(size_t i = 0; i < _linkGrp.size(); i++) {
+        _linkGrp[i].setMeshVisibility(isMesh);
+    }
+}
+
 
 
 

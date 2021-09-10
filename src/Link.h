@@ -110,6 +110,9 @@ public:
 
     void setAxesVisibility(bool isVisible);
 
+    void setMeshVisibility(bool isMesh);            //是否以Mesh形式显示
+
+
 //    Link& operator=(Link &b); //overload assignment
 
 };

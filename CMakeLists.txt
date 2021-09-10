@@ -78,7 +78,7 @@ set(UI_FILES
 set(RC_FILES
         res.qrc)
 
-add_executable(rocos
+add_executable(rocos WIN32
                     ${SRC_FILES}
                     ${HDR_FILES}
                     ${UI_FILES}

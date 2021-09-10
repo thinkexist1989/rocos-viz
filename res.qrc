@@ -27,5 +27,7 @@
         <file>icon.ico</file>
         <file>res/coordinates.png</file>
         <file>res/cube_wire.png</file>
+        <file>res/plot.png</file>
+        <file>res/script.png</file>
     </qresource>
 </RCC>

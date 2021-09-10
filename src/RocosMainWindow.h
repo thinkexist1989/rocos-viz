@@ -31,6 +31,12 @@ private slots:
     void updateJointPos(QVector<double>& jntPos);
     void updateCartPose(QVector<double>& pose);
 
+    void on_meshCheckBox_stateChanged(int arg1);
+
+    void on_actionScript_triggered();
+
+    void on_actionPlotter_triggered();
+
 private:
     Ui::RocosMainWindow *ui;
 

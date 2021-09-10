@@ -23,6 +23,7 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 
 #include <iostream>
 #include <string>
+#include <vtkProperty.h>
 
 Link::Link() {
     init();
@@ -85,10 +86,20 @@ void Link::setAxesVisibility(bool isVisible)
     if(isVisible) {
         axesActor->SetVisibility(1);
     }
-    else{
+    else {
         axesActor->SetVisibility(0);
     }
 
+}
+
+void Link::setMeshVisibility(bool isMesh)
+{
+    if(isMesh) {
+        actor->GetProperty()->SetRepresentationToWireframe();
+    }
+    else {
+        actor->GetProperty()->SetRepresentationToSurface();
+    }
 }
 
 
