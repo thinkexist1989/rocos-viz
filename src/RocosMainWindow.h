@@ -3,7 +3,10 @@
 
 #include <QMainWindow>
 #include <ConnectDialog.h> //机器人控制链接
+#include <ScriptDialog.h>  //LUA脚本对话框
+
 #include <JointPositionWidget.h>
+#include <CartesianPositionWidget.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class RocosMainWindow; }
@@ -41,8 +44,10 @@ private:
     Ui::RocosMainWindow *ui;
 
     ConnectDialog* connectDlg = Q_NULLPTR;
+    ScriptDialog*   scriptDlg  = Q_NULLPTR;
 
     QVector<JointPositionWidget*> jpWdgs;
+    QVector<CartesianPositionWidget*> cpWdgs;
 
 public:
     bool isRobotConnected = false; //机器人是否连接

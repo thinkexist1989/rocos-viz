@@ -36,7 +36,7 @@ CartesianPositionWidget::CartesianPositionWidget(QWidget *parent) :
 
     this->ui->cartesianValBar->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
-    updateCartesianPosition(cartesianVal);
+    updateVal(cartesianVal);
 
 }
 
@@ -61,9 +61,10 @@ void CartesianPositionWidget::setFactor(double f)
     factor = f;
 }
 
-void CartesianPositionWidget::updateCartesianPosition(double val)
+void CartesianPositionWidget::updateVal(double val)
 {
     cartesianVal = val;
+    this->ui->cartesianValBar->setValue(cartesianVal);
 }
 
 void CartesianPositionWidget::on_cartesianPlusButton_clicked()

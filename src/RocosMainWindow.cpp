@@ -10,7 +10,9 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     ui->setupUi(this);
 
     connectDlg = new ConnectDialog(this);
+    scriptDlg  = new ScriptDialog(this);
 
+    /********Joint Position Widgets********/
     ui->Joint1PosWidget->setName("#1 JOINT");
     ui->Joint1PosWidget->setId(1);
     connect(ui->Joint1PosWidget, &JointPositionWidget::jointPositionJogging,
@@ -67,17 +69,30 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     jpWdgs.push_back(ui->Joint7PosWidget);
 
+    /********Cartesian Position Widgets********/
     ui->cartesianXWidget->setName("X");
-    ui->cartesianYWidget->setName("Y");
-    ui->cartesianZWidget->setName("Z");
-    ui->cartesianRollWidget->setName("R");
-    ui->cartesianPitchWidget->setName("P");
-    ui->cartesianYawWidget->setName("Y");
+    cpWdgs.push_back(ui->cartesianXWidget);
 
+    ui->cartesianYWidget->setName("Y");
+    cpWdgs.push_back(ui->cartesianYWidget);
+
+    ui->cartesianZWidget->setName("Z");
+    cpWdgs.push_back(ui->cartesianZWidget);
+
+    ui->cartesianRollWidget->setName("R");
+    cpWdgs.push_back(ui->cartesianRollWidget);
+
+    ui->cartesianPitchWidget->setName("P");
+    cpWdgs.push_back(ui->cartesianPitchWidget);
+
+    ui->cartesianYawWidget->setName("Y");
+    cpWdgs.push_back(ui->cartesianYawWidget);
+
+    /********Speed Scaling Widgets********/
     ui->speedPercent->setText(tr("25%"));
 
-
     connect(connectDlg, &ConnectDialog::jointPositions, this, &RocosMainWindow::updateJointPos); //关节位置更新
+    connect(connectDlg, &ConnectDialog::cartPose, this, &RocosMainWindow::updateCartPose); //笛卡尔位置更新
     connect(connectDlg, &ConnectDialog::speedScaling, this, [=](double f100){ ui->speedSlider->setValue(f100*10);}); //更新速度缩放因子
 
 }
@@ -178,13 +193,19 @@ void RocosMainWindow::updateJointPos(QVector<double> &jntPos)
         jpWdgs[i]->updateJointPosition(jntPos[i]); //更新关节位置
     }
 
-    jntPos.resize(7);
+    jntPos.resize(7); //TODO: 这句话实际需要屏蔽
     ui->visualWidget->setJointPos(jntPos);
 }
 
 void RocosMainWindow::updateCartPose(QVector<double> &pose)
 {
+    if(pose.size() != 6) {
+        return;
+    }
 
+    for(int i = 0; i < cpWdgs.size(); i++) {
+        ui->cartesianXWidget->updateVal(pose[i]);
+    }
 }
 
 void RocosMainWindow::on_meshCheckBox_stateChanged(int arg1)
@@ -199,7 +220,7 @@ void RocosMainWindow::on_meshCheckBox_stateChanged(int arg1)
 
 void RocosMainWindow::on_actionScript_triggered()
 {
-
+    scriptDlg->show();
 }
 
 void RocosMainWindow::on_actionPlotter_triggered()

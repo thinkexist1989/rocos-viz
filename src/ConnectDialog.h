@@ -41,6 +41,11 @@ public slots:
     void setToolSpeedScaling(double factor); // 工具速度
     void getToolSpeedScaling(); //获取工具速度
 
+    void startScript(QString& script);
+    void stopScript();
+    void pauseScript();
+    void continueScript();
+
 private:
     Ui::ConnectDialog *ui;
 
@@ -55,7 +60,7 @@ public:
     QString ipAddress = "192.168.0.99";
     int     port = 6666;
 
-
+    inline bool isConnected() { return (tcpSocket != Q_NULLPTR) && (tcpSocket->isValid());}  //是否已经连接
     inline bool getRobotEnabled() {return isRobotEnabled;} //获取Enable状态
 
     void jointJogging(int id, int dir);

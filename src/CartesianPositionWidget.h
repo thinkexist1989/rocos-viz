@@ -22,8 +22,8 @@ public:
 
     void setFactor(double f);
 
-private slots:
-    void updateCartesianPosition(double val);
+public slots:
+    void updateVal(double val);
 
     void on_cartesianPlusButton_clicked();
 

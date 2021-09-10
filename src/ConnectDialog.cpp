@@ -141,6 +141,46 @@ void ConnectDialog::getToolSpeedScaling()
 
 }
 
+void ConnectDialog::startScript(QString &script)
+{
+    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
+        return;
+    }
+
+    QByteArray ba = "tv99!p";
+    ba.append(script);
+    ba.append("!\0");
+
+    tcpSocket->write(ba);
+}
+
+void ConnectDialog::stopScript()
+{
+    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
+        return;
+    }
+
+    tcpSocket->write(LUA_STOP);
+}
+
+void ConnectDialog::pauseScript()
+{
+    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
+        return;
+    }
+
+    tcpSocket->write(LUA_PAUSE);
+}
+
+void ConnectDialog::continueScript()
+{
+    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
+        return;
+    }
+
+    tcpSocket->write(LUA_CONTINUE);
+}
+
 void ConnectDialog::getRobotState()
 {
     if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
