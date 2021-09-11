@@ -419,6 +419,9 @@
          <property name="text">
           <string>World</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="0" column="1">
@@ -672,7 +675,7 @@
      <x>0</x>
      <y>0</y>
      <width>1156</width>
-     <height>18</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
@@ -701,6 +704,7 @@
    <addaction name="separator"/>
    <addaction name="actionScript"/>
    <addaction name="actionPlotter"/>
+   <addaction name="actionAbout"/>
   </widget>
   <action name="actionFrontView">
    <property name="icon">
@@ -825,6 +829,15 @@
    </property>
    <property name="toolTip">
     <string>Plot curve</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/about.ico</normaloff>:/res/about.ico</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

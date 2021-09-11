@@ -2,6 +2,26 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="src/AboutDialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/AboutDialog.ui" line="20"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;SimSun&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:18pt; font-weight:600;&quot;&gt;ROCOS&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:18pt; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600; font-style:italic;&quot;&gt;Writen by&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600;&quot;&gt; Yang Luo&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600;&quot;&gt;luoyang@sia.cn&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CartesianPositionWidget</name>
     <message>
         <location filename="src/CartesianPositionWidget.ui" line="23"/>
@@ -64,6 +84,31 @@
     </message>
 </context>
 <context>
+    <name>PlotDialog</name>
+    <message>
+        <location filename="src/PlotDialog.ui" line="14"/>
+        <source>Plot Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="25"/>
+        <location filename="src/PlotDialog.ui" line="32"/>
+        <location filename="src/PlotDialog.ui" line="39"/>
+        <location filename="src/PlotDialog.ui" line="46"/>
+        <location filename="src/PlotDialog.ui" line="53"/>
+        <location filename="src/PlotDialog.ui" line="60"/>
+        <source>CheckBox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="74"/>
+        <location filename="src/PlotDialog.ui" line="81"/>
+        <location filename="src/PlotDialog.ui" line="88"/>
+        <source>PushButton</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PositionBar</name>
     <message>
         <location filename="src/PositionBar.cpp" line="47"/>
@@ -100,8 +145,8 @@
     </message>
     <message>
         <location filename="src/RocosMainWindow.ui" line="347"/>
-        <location filename="src/RocosMainWindow.ui" line="768"/>
-        <location filename="src/RocosMainWindow.ui" line="771"/>
+        <location filename="src/RocosMainWindow.ui" line="769"/>
+        <location filename="src/RocosMainWindow.ui" line="772"/>
         <source>Trajectory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -225,18 +270,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="815"/>
+        <location filename="src/RocosMainWindow.ui" line="816"/>
         <source>Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="824"/>
+        <location filename="src/RocosMainWindow.ui" line="825"/>
         <source>Plotter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="827"/>
+        <location filename="src/RocosMainWindow.ui" line="828"/>
         <source>Plot curve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/RocosMainWindow.ui" line="837"/>
+        <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -295,62 +345,62 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="711"/>
+        <location filename="src/RocosMainWindow.ui" line="712"/>
         <source>frontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="714"/>
+        <location filename="src/RocosMainWindow.ui" line="715"/>
         <source>FrontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="723"/>
+        <location filename="src/RocosMainWindow.ui" line="724"/>
         <source>TopView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="732"/>
+        <location filename="src/RocosMainWindow.ui" line="733"/>
         <source>RightView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="741"/>
+        <location filename="src/RocosMainWindow.ui" line="742"/>
         <source>AxonometricView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="750"/>
+        <location filename="src/RocosMainWindow.ui" line="751"/>
         <source>AxesView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="759"/>
+        <location filename="src/RocosMainWindow.ui" line="760"/>
         <source>Plan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="780"/>
+        <location filename="src/RocosMainWindow.ui" line="781"/>
         <source>Ground</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="796"/>
+        <location filename="src/RocosMainWindow.ui" line="797"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="806"/>
+        <location filename="src/RocosMainWindow.ui" line="807"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="92"/>
+        <location filename="src/RocosMainWindow.cpp" line="94"/>
         <source>25%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="132"/>
+        <location filename="src/RocosMainWindow.cpp" line="134"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>

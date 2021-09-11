@@ -25,19 +25,32 @@ void ScriptDialog::on_runButton_clicked()
     ui->scriptComboBox->addItems(texts);
 
     //发送
+    if(connectPtr != Q_NULLPTR) {
+        connectPtr->startScript(ui->scriptComboBox->currentText());
+    }
+
+    ui->runButton->setDisabled(true);
 }
 
 void ScriptDialog::on_stopButton_clicked()
 {
+    if(connectPtr != Q_NULLPTR) {
+        connectPtr->stopScript();
+    }
 
+    ui->runButton->setEnabled(true);
 }
 
 void ScriptDialog::on_pauseButton_clicked()
 {
-
+    if(connectPtr != Q_NULLPTR) {
+        connectPtr->pauseScript();
+    }
 }
 
 void ScriptDialog::on_continueButton_clicked()
 {
-
+    if(connectPtr != Q_NULLPTR) {
+        connectPtr->continueScript();
+    }
 }

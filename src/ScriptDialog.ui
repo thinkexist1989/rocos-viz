@@ -19,7 +19,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Scripts Dialog</string>
+   <string>Scripts</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

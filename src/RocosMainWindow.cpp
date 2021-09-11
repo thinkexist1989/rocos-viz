@@ -11,6 +11,10 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 
     connectDlg = new ConnectDialog(this);
     scriptDlg  = new ScriptDialog(this);
+    plotDlg    = new PlotDialog(this);
+    aboutDlg   = new AboutDialog(this);
+
+    scriptDlg->setConnectPtr(connectDlg); //将connectDlg指针传给script
 
     /********Joint Position Widgets********/
     ui->Joint1PosWidget->setName("#1 JOINT");
@@ -225,5 +229,30 @@ void RocosMainWindow::on_actionScript_triggered()
 
 void RocosMainWindow::on_actionPlotter_triggered()
 {
+    plotDlg->show();
+}
 
+void RocosMainWindow::on_actionAbout_triggered()
+{
+    aboutDlg->show();
+}
+
+void RocosMainWindow::on_actionAxoView_triggered()
+{
+    ui->visualWidget->setAxoView();
+}
+
+void RocosMainWindow::on_actionTopView_triggered()
+{
+    ui->visualWidget->setZAxisView();
+}
+
+void RocosMainWindow::on_actionFrontView_triggered()
+{
+    ui->visualWidget->setXAxisView();
+}
+
+void RocosMainWindow::on_actionRightView_triggered()
+{
+    ui->visualWidget->setYAxisView();
 }

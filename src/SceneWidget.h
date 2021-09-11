@@ -46,6 +46,12 @@ public:
     void setGroundVisibility(bool isVisible);       //地面是否可见
     void setTrajVisibility(bool isVisible);         //轨迹是否可见
 
+    void setZAxisView();
+    void setYAxisView();
+    void setXAxisView();
+
+    void setAxoView();
+
 private:
     vtkSmartPointer<vtkNamedColors> colors;         //负责处理各种颜色
 

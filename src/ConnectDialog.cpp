@@ -141,7 +141,7 @@ void ConnectDialog::getToolSpeedScaling()
 
 }
 
-void ConnectDialog::startScript(QString &script)
+void ConnectDialog::startScript(QString script)
 {
     if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
         return;

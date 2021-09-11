@@ -57,6 +57,8 @@ set(SRC_FILES
         src/CartesianPositionWidget.cpp
         src/ConnectDialog.cpp
         src/ScriptDialog.cpp
+        src/PlotDialog.cpp
+        src/AboutDialog.cpp
 )
 set(HRD_FILES
         src/RocosMainWindow.h
@@ -69,6 +71,8 @@ set(HRD_FILES
         src/CartesianPositionWidget.h
         src/ConnectDialog.h
         src/ScriptDialog.h
+        src/PlotDialog.h
+        src/AboutDialog.h
 )
 set(UI_FILES
         src/RocosMainWindow.ui
@@ -76,6 +80,8 @@ set(UI_FILES
         src/CartesianPositionWidget.ui
         src/ConnectDialog.ui
         src/ScriptDialog.ui
+        src/PlotDialog.ui
+        src/AboutDialog.ui
 )
 
 set(RC_FILES

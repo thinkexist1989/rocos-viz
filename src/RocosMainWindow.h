@@ -4,9 +4,12 @@
 #include <QMainWindow>
 #include <ConnectDialog.h> //机器人控制链接
 #include <ScriptDialog.h>  //LUA脚本对话框
+#include <PlotDialog.h>    //曲线绘制对话框
+#include <AboutDialog.h>  // 关于对话框
 
 #include <JointPositionWidget.h>
 #include <CartesianPositionWidget.h>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class RocosMainWindow; }
@@ -40,11 +43,23 @@ private slots:
 
     void on_actionPlotter_triggered();
 
+    void on_actionAbout_triggered();
+
+    void on_actionAxoView_triggered();
+
+    void on_actionTopView_triggered();
+
+    void on_actionFrontView_triggered();
+
+    void on_actionRightView_triggered();
+
 private:
     Ui::RocosMainWindow *ui;
 
     ConnectDialog* connectDlg = Q_NULLPTR;
-    ScriptDialog*   scriptDlg  = Q_NULLPTR;
+    ScriptDialog*  scriptDlg  = Q_NULLPTR;
+    PlotDialog*    plotDlg    = Q_NULLPTR;
+    AboutDialog*   aboutDlg   = Q_NULLPTR;
 
     QVector<JointPositionWidget*> jpWdgs;
     QVector<CartesianPositionWidget*> cpWdgs;

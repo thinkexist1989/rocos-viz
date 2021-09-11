@@ -19,7 +19,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Connect To Robot</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

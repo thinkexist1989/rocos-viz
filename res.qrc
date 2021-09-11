@@ -29,5 +29,9 @@
         <file>res/cube_wire.png</file>
         <file>res/plot.png</file>
         <file>res/script.png</file>
+        <file>res/Eigen.png</file>
+        <file>res/kdl.png</file>
+        <file>res/qt.png</file>
+        <file>res/vtk.png</file>
     </qresource>
 </RCC>

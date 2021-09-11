@@ -179,3 +179,40 @@ void SceneWidget::setTrajVisibility(bool isVisible)
 {
 
 }
+
+void SceneWidget::setZAxisView()
+{
+    renderer->GetActiveCamera()->SetPosition(0,0,3);
+    renderer->GetActiveCamera()->SetFocalPoint(0,0,0);
+    renderer->GetActiveCamera()->SetViewUp(0,1,0);
+
+    renderWindow->Render();
+
+}
+
+void SceneWidget::setYAxisView()
+{
+    renderer->GetActiveCamera()->SetPosition(0,3,0.5);
+    renderer->GetActiveCamera()->SetFocalPoint(0,0,0.5);
+    renderer->GetActiveCamera()->SetViewUp(0,0,1);
+
+    renderWindow->Render();
+}
+
+void SceneWidget::setXAxisView()
+{
+    renderer->GetActiveCamera()->SetPosition(3,0,0.5);
+    renderer->GetActiveCamera()->SetFocalPoint(0,0,0.5);
+    renderer->GetActiveCamera()->SetViewUp(0,0,1);
+
+    renderWindow->Render();
+}
+
+void SceneWidget::setAxoView()
+{
+    renderer->GetActiveCamera()->SetPosition(3,3,3);
+    renderer->GetActiveCamera()->SetFocalPoint(0,0,0.5);
+    renderer->GetActiveCamera()->SetViewUp(0,0,1);
+
+    renderWindow->Render();
+}

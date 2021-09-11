@@ -41,7 +41,7 @@ public slots:
     void setToolSpeedScaling(double factor); // 工具速度
     void getToolSpeedScaling(); //获取工具速度
 
-    void startScript(QString& script);
+    void startScript(QString script);
     void stopScript();
     void pauseScript();
     void continueScript();
