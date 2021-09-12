@@ -1,6 +1,10 @@
 #include "PlotDialog.h"
 #include "ui_PlotDialog.h"
 
+#include <vtkChartLegend.h>
+#include <vtkTextProperty.h>
+#include <vtkBrush.h>
+
 PlotDialog::PlotDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PlotDialog)
@@ -18,7 +22,8 @@ PlotDialog::PlotDialog(QWidget *parent) :
     vtkNew<vtkChartMatrix> matrix;
     view->GetScene()->AddItem(matrix);
     matrix->SetSize(vtkVector2i(2, 2));         // 设置图表矩阵尺寸2*2=4
-    matrix->SetGutter(vtkVector2f(30.0, 30.0)); //图表之间的间距
+//    matrix->SetGutter(vtkVector2f(30.0, 30.0)); //图表之间的间距
+    matrix->SetGutter(vtkVector2f(60.0, 60.0)); //图表之间的间距
 
     // Create a table with some points in it...
     vtkNew<vtkTable> table;
@@ -83,6 +88,17 @@ PlotDialog::PlotDialog(QWidget *parent) :
 
       //
       chart = matrix->GetChart(vtkVector2i(1, 0));
+      chart->SetTitle("My Plotter");
+      chart->GetTitleProperties()->SetFontSize(20);
+      chart->GetTitleProperties()->SetBold(true);
+      chart->GetTitleProperties()->SetItalic(true);
+
+      chart->SetShowLegend(true);
+      auto legend = chart->GetLegend();
+//      legend->GetLabelProperties()->SetBackgroundColor(colors->GetColor3d("dark_orange").GetData());
+//      legend->GetLabelProperties()->SetBackgroundOpacity(1);
+//      legend->SetOpacity(1);
+//      legend->GetBrush()->SetOpacity(0.5);
       plot = chart->AddPlot(vtkChart::LINE);
       plot->SetInputData(table, 0, 3);
       plot->GetXAxis()->GetGridPen()->SetColorF(
@@ -139,7 +155,10 @@ PlotDialog::PlotDialog(QWidget *parent) :
                      colors->GetColor3ub("royal_blue").GetGreen(),
                      colors->GetColor3ub("royal_blue").GetBlue(), 255);
 
-      view->GetRenderer()->SetBackground(colors->GetColor3d("navajo_white").GetData());
+//      view->GetRenderer()->SetBackground(colors->GetColor3d("navajo_white").GetData());
+      view->GetRenderer()->GradientBackgroundOn(); //开启渐变
+      view->GetRenderer()->SetBackground(colors->GetColor3d("Gainsboro").GetData());
+      view->GetRenderer()->SetBackground2(colors->GetColor3d("DarkGray").GetData());
 
       view->SetRenderWindow(ui->plotWidget->GetRenderWindow());
       /* ======== 渲染窗口 ========== */

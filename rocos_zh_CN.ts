@@ -5,19 +5,23 @@
     <name>AboutDialog</name>
     <message>
         <location filename="src/AboutDialog.ui" line="14"/>
-        <source>Dialog</source>
+        <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/AboutDialog.ui" line="20"/>
+        <location filename="src/AboutDialog.ui" line="26"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;SimSun&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:18pt; font-weight:600;&quot;&gt;ROCOS&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:18pt; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600; font-style:italic;&quot;&gt;Writen by&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600;&quot;&gt; Yang Luo&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600;&quot;&gt;luoyang@sia.cn&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:18pt; font-weight:600;&quot;&gt;ROCOS&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600; font-style:italic;&quot;&gt;Writen by&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600;&quot;&gt; Yang Luo&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600;&quot;&gt;luoyang@sia.cn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:11pt; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt;&quot;&gt;  This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt;&quot;&gt;  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Arial&apos;; font-size:11pt;&quot;&gt;  You should have received a copy of the GNU General Public License along with this program.  If not, see &amp;lt;http://www.gnu.org/licenses/&amp;gt;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -38,7 +42,7 @@ p, li { white-space: pre-wrap; }
     <name>ConnectDialog</name>
     <message>
         <location filename="src/ConnectDialog.ui" line="22"/>
-        <source>Dialog</source>
+        <source>Connect To Robot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -87,7 +91,8 @@ p, li { white-space: pre-wrap; }
     <name>PlotDialog</name>
     <message>
         <location filename="src/PlotDialog.ui" line="14"/>
-        <source>Plot Dialog</source>
+        <source>Plotter</source>
+        <oldsource>Plot Dialog</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -145,8 +150,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="src/RocosMainWindow.ui" line="347"/>
-        <location filename="src/RocosMainWindow.ui" line="769"/>
         <location filename="src/RocosMainWindow.ui" line="772"/>
+        <location filename="src/RocosMainWindow.ui" line="775"/>
         <source>Trajectory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -173,13 +178,13 @@ p, li { white-space: pre-wrap; }
         <location filename="src/RocosMainWindow.ui" line="164"/>
         <location filename="src/RocosMainWindow.ui" line="191"/>
         <location filename="src/RocosMainWindow.ui" line="215"/>
-        <location filename="src/RocosMainWindow.ui" line="480"/>
-        <location filename="src/RocosMainWindow.ui" line="510"/>
-        <location filename="src/RocosMainWindow.ui" line="540"/>
-        <location filename="src/RocosMainWindow.ui" line="570"/>
-        <location filename="src/RocosMainWindow.ui" line="600"/>
-        <location filename="src/RocosMainWindow.ui" line="630"/>
-        <location filename="src/RocosMainWindow.ui" line="660"/>
+        <location filename="src/RocosMainWindow.ui" line="483"/>
+        <location filename="src/RocosMainWindow.ui" line="513"/>
+        <location filename="src/RocosMainWindow.ui" line="543"/>
+        <location filename="src/RocosMainWindow.ui" line="573"/>
+        <location filename="src/RocosMainWindow.ui" line="603"/>
+        <location filename="src/RocosMainWindow.ui" line="633"/>
+        <location filename="src/RocosMainWindow.ui" line="663"/>
         <source>Go</source>
         <translation type="unfinished"></translation>
     </message>
@@ -255,37 +260,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="427"/>
+        <location filename="src/RocosMainWindow.ui" line="430"/>
         <source>Base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="434"/>
+        <location filename="src/RocosMainWindow.ui" line="437"/>
         <source>Flange</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="441"/>
+        <location filename="src/RocosMainWindow.ui" line="444"/>
         <source>Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="816"/>
+        <location filename="src/RocosMainWindow.ui" line="819"/>
         <source>Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="825"/>
+        <location filename="src/RocosMainWindow.ui" line="828"/>
         <source>Plotter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="828"/>
+        <location filename="src/RocosMainWindow.ui" line="831"/>
         <source>Plot curve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="837"/>
+        <location filename="src/RocosMainWindow.ui" line="840"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -295,7 +300,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="451"/>
+        <location filename="src/RocosMainWindow.ui" line="454"/>
         <source>Precise Joint Control</source>
         <translation type="unfinished"></translation>
     </message>
@@ -305,102 +310,102 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="457"/>
+        <location filename="src/RocosMainWindow.ui" line="460"/>
         <source>J1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="487"/>
+        <location filename="src/RocosMainWindow.ui" line="490"/>
         <source>J2:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="517"/>
+        <location filename="src/RocosMainWindow.ui" line="520"/>
         <source>J3:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="547"/>
+        <location filename="src/RocosMainWindow.ui" line="550"/>
         <source>J4:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="577"/>
+        <location filename="src/RocosMainWindow.ui" line="580"/>
         <source>J5:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="607"/>
+        <location filename="src/RocosMainWindow.ui" line="610"/>
         <source>J6:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="637"/>
+        <location filename="src/RocosMainWindow.ui" line="640"/>
         <source>J7:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="682"/>
+        <location filename="src/RocosMainWindow.ui" line="685"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="712"/>
+        <location filename="src/RocosMainWindow.ui" line="715"/>
         <source>frontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="715"/>
+        <location filename="src/RocosMainWindow.ui" line="718"/>
         <source>FrontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="724"/>
+        <location filename="src/RocosMainWindow.ui" line="727"/>
         <source>TopView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="733"/>
+        <location filename="src/RocosMainWindow.ui" line="736"/>
         <source>RightView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="742"/>
+        <location filename="src/RocosMainWindow.ui" line="745"/>
         <source>AxonometricView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="751"/>
+        <location filename="src/RocosMainWindow.ui" line="754"/>
         <source>AxesView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="760"/>
+        <location filename="src/RocosMainWindow.ui" line="763"/>
         <source>Plan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="781"/>
+        <location filename="src/RocosMainWindow.ui" line="784"/>
         <source>Ground</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="797"/>
+        <location filename="src/RocosMainWindow.ui" line="800"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="807"/>
+        <location filename="src/RocosMainWindow.ui" line="810"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="94"/>
+        <location filename="src/RocosMainWindow.cpp" line="96"/>
         <source>25%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="134"/>
+        <location filename="src/RocosMainWindow.cpp" line="136"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -409,8 +414,8 @@ p, li { white-space: pre-wrap; }
     <name>ScriptDialog</name>
     <message>
         <location filename="src/ScriptDialog.ui" line="22"/>
-        <source>Scripts Dialog</source>
-        <oldsource>Dialog</oldsource>
+        <source>Scripts</source>
+        <oldsource>Scripts Dialog</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
