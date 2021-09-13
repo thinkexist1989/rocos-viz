@@ -33,5 +33,9 @@
         <file>res/kdl.png</file>
         <file>res/qt.png</file>
         <file>res/vtk.png</file>
+        <file>res/gear.gif</file>
+        <file>res/loading.gif</file>
+        <file>res/throbber.gif</file>
+        <file>res/skinny.gif</file>
     </qresource>
 </RCC>

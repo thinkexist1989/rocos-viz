@@ -90,26 +90,110 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PlotDialog</name>
     <message>
-        <location filename="src/PlotDialog.ui" line="14"/>
+        <location filename="src/PlotDialog.ui" line="22"/>
         <source>Plotter</source>
         <oldsource>Plot Dialog</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.ui" line="25"/>
-        <location filename="src/PlotDialog.ui" line="32"/>
-        <location filename="src/PlotDialog.ui" line="39"/>
-        <location filename="src/PlotDialog.ui" line="46"/>
-        <location filename="src/PlotDialog.ui" line="53"/>
-        <location filename="src/PlotDialog.ui" line="60"/>
-        <source>CheckBox</source>
+        <location filename="src/PlotDialog.ui" line="33"/>
+        <source>1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.ui" line="74"/>
-        <location filename="src/PlotDialog.ui" line="81"/>
-        <location filename="src/PlotDialog.ui" line="88"/>
-        <source>PushButton</source>
+        <location filename="src/PlotDialog.ui" line="43"/>
+        <source>2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="53"/>
+        <source>3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="63"/>
+        <source>4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="73"/>
+        <source>5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="83"/>
+        <source>6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="93"/>
+        <source>7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="107"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="120"/>
+        <source>Joint Space</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="125"/>
+        <source>Cartesian Space</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="136"/>
+        <source>Display Charts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="142"/>
+        <source>Pos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="155"/>
+        <source>Vel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="168"/>
+        <source>Acc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="181"/>
+        <source>Jerk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="194"/>
+        <source>Save Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="200"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="210"/>
+        <source>open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="233"/>
+        <location filename="src/PlotDialog.cpp" line="225"/>
+        <source>Start Recording</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="230"/>
+        <source>Stop Recording</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
