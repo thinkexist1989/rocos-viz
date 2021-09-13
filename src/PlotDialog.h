@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QMovie>
 #include <QTimer>
+#include <QButtonGroup>
 
 #include <vtkAxis.h>
 #include <vtkChartMatrix.h>     //矩阵图表 subplot
@@ -28,6 +29,9 @@
 #include <vtkRenderer.h>
 #include <vtkGenericOpenGLRenderWindow.h>   //配合QVTKOpenGLNativeWidget，在Qt中显示VTK
 
+#define TYPE_JOINT_SPACE 0
+#define TYPE_CARTESIAN_SPACE 1
+
 namespace Ui {
 class PlotDialog;
 }
@@ -40,12 +44,25 @@ public:
     explicit PlotDialog(QWidget *parent = nullptr);
     ~PlotDialog();
 
+    void init_joint_space();
+    void init_cartesian_space();
+
+    void update_charts(); //配置显示什么曲线
+
 private slots:
     void on_recordButton_clicked();
 
     void on_typeComboBox_currentIndexChanged(int index);
 
     void on_fitButton_clicked();
+
+    void on_posCheck_stateChanged(int);
+
+    void on_velCheck_stateChanged(int);
+
+    void on_accCheck_stateChanged(int);
+
+    void on_jerkCheck_stateChanged(int);
 
 private:
     Ui::PlotDialog *ui;
@@ -83,6 +100,13 @@ private:
     QTimer* timer;
     vtkSmartPointer<vtkVariantArray> newData;
 
+    QButtonGroup* plotDispBtnGrp;
+
+    bool isSaveData = false;
+
+    int dispType = TYPE_JOINT_SPACE;
+
+    //TODO: Just for test
     double ii = 0;
 
 

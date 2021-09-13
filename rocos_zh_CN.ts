@@ -172,27 +172,107 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="src/PlotDialog.ui" line="194"/>
-        <source>Save Data</source>
+        <source>Scaling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/PlotDialog.ui" line="200"/>
-        <source>Save</source>
+        <source>Auto Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/PlotDialog.ui" line="210"/>
+        <source>Fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="220"/>
+        <source>Save Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="226"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.ui" line="236"/>
         <source>open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.ui" line="233"/>
-        <location filename="src/PlotDialog.cpp" line="237"/>
+        <location filename="src/PlotDialog.ui" line="259"/>
+        <location filename="src/PlotDialog.cpp" line="290"/>
         <source>Start Recording</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="242"/>
+        <location filename="src/PlotDialog.cpp" line="211"/>
+        <source>J1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="212"/>
+        <source>J2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="213"/>
+        <source>J3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="214"/>
+        <source>J4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="215"/>
+        <source>J5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="216"/>
+        <source>J6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="217"/>
+        <source>J7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="223"/>
+        <source>X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="224"/>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="225"/>
+        <source>Z</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="226"/>
+        <source>Roll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="227"/>
+        <source>Pitch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="228"/>
+        <source>Yaw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/PlotDialog.cpp" line="295"/>
         <source>Stop Recording</source>
         <translation type="unfinished"></translation>
     </message>
