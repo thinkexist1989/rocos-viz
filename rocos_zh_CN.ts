@@ -187,12 +187,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="src/PlotDialog.ui" line="233"/>
-        <location filename="src/PlotDialog.cpp" line="225"/>
+        <location filename="src/PlotDialog.cpp" line="237"/>
         <source>Start Recording</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="230"/>
+        <location filename="src/PlotDialog.cpp" line="242"/>
         <source>Stop Recording</source>
         <translation type="unfinished"></translation>
     </message>

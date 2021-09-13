@@ -45,6 +45,8 @@ private slots:
 
     void on_typeComboBox_currentIndexChanged(int index);
 
+    void on_fitButton_clicked();
+
 private:
     Ui::PlotDialog *ui;
 
@@ -55,8 +57,11 @@ private:
     vtkSmartPointer<vtkNamedColors> colors; //颜色
     vtkSmartPointer<vtkContextView> view; //画图区域的展示窗口
 
-    //Table存储数据格式： t x y z r p y j1 j2 j3 j4 j5 j6 j7
-    vtkSmartPointer<vtkTable> posTable; //用于保存所有pos数据
+    //Joint Pos Table 存储数据格式：t j1 j2 j3 j4 j5 j6 j7
+    vtkSmartPointer<vtkTable> jntPosTable; //用于保存所有pos数据
+    //Cartesian Pos Table 存储数据格式： t x y z r p y
+    vtkSmartPointer<vtkTable> cartPosTable;
+
     vtkSmartPointer<vtkTable> velTable; //TODO: 暂未实现 用于保存所有vel数据
     vtkSmartPointer<vtkTable> accTable; //TODO: 暂未实现 用于保存所有acc数据
     vtkSmartPointer<vtkTable> jerkTable; //TODO: 暂未实现 用于保存所有jerk数据
@@ -78,7 +83,7 @@ private:
     QTimer* timer;
     vtkSmartPointer<vtkVariantArray> newData;
 
-    int ii = 0;
+    double ii = 0;
 
 
 

@@ -100,7 +100,7 @@
     </layout>
    </item>
    <item row="0" column="1" rowspan="2">
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,2,2,5">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,2,0,2,5">
      <item>
       <widget class="QGroupBox" name="typeGroupBox">
        <property name="title">
@@ -149,7 +149,7 @@
         <item row="0" column="1">
          <widget class="QCheckBox" name="velCheck">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="text">
            <string>Vel</string>
@@ -182,6 +182,32 @@
           </property>
           <property name="checked">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="scaleGroupBox">
+       <property name="title">
+        <string>Scaling</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="scaleCheck">
+          <property name="text">
+           <string>Auto Scale</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="fitButton">
+          <property name="text">
+           <string>Fit</string>
           </property>
          </widget>
         </item>
