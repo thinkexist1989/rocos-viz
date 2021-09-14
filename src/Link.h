@@ -106,7 +106,8 @@ public:
     void setAngle(double rad);
     inline double getAngle() { return angle; };
 
-    void setActorTransform(vtkTransform* t);
+    void setAxesActorTransform(vtkTransform* t);
+    void setLinkActorTransform(vtkTransform* t);
 
     void setAxesVisibility(bool isVisible);
 

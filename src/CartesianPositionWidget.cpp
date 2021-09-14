@@ -65,30 +65,7 @@ void CartesianPositionWidget::updateVal(double val)
 {
     cartesianVal = val;
     this->ui->cartesianValBar->setValue(cartesianVal);
-}
-
-void CartesianPositionWidget::on_cartesianPlusButton_clicked()
-{
-//    cartesianVal += step;
-
-//    val = (val + (uint16_t)(progressStep*factor)) & 0xFFFF;
-////    std::cout << "val" << (int)val << std::endl;
-
-//    updateDisp();
-
-//   this->ui->cartesianValBar->setValue(val);
-}
-
-void CartesianPositionWidget::on_cartesianMinusButton_clicked()
-{
-//    cartesianVal -= step;
-
-//    val = (val - (uint16_t)(progressStep*factor)) & 0xFFFF;
-////    std::cout << "val" << (int)val << std::endl;
-
-//    updateDisp();
-
-//    this->ui->cartesianValBar->setValue(val);
+    updateDisp();
 }
 
 void CartesianPositionWidget::on_cartesianPlusButton_pressed()

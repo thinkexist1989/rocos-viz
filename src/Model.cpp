@@ -128,14 +128,26 @@ void Model::updateModel(std::vector<double> &jointRads)
 
         }
 
+        auto mat = t.matrix();
+        vtkNew<vtkMatrix4x4> vm;
+        for(size_t i = 0; i < 4; i++) {
+            for(size_t j = 0; j < 4; j++) {
+                vm->SetElement(i,j, mat(i, j));
+            }
+        }
+
+        vtkNew<vtkTransform> vt1;
+        vt1->SetMatrix(vm);
+
+        _linkGrp[i].setAxesActorTransform(vt1);
+
         t *= Eigen::Translation3d(_linkGrp[i].getTranslateLink());
 
         t *= Eigen::AngleAxisd(_linkGrp[i].getRotateLink()[2], Eigen::Vector3d::UnitZ());
         t *= Eigen::AngleAxisd(_linkGrp[i].getRotateLink()[1], Eigen::Vector3d::UnitY());
         t *= Eigen::AngleAxisd(_linkGrp[i].getRotateLink()[0], Eigen::Vector3d::UnitX());
 
-        auto mat = t.matrix();
-        vtkNew<vtkMatrix4x4> vm;
+        mat = t.matrix();
 
         for(size_t i = 0; i < 4; i++) {
             for(size_t j = 0; j < 4; j++) {
@@ -143,9 +155,10 @@ void Model::updateModel(std::vector<double> &jointRads)
             }
         }
 
-        vtkNew<vtkTransform> vt;
-        vt->SetMatrix(vm);
-        _linkGrp[i].setActorTransform(vt);
+//        vt->Identity();
+        vtkNew<vtkTransform> vt2;
+        vt2->SetMatrix(vm);
+        _linkGrp[i].setLinkActorTransform(vt2);
     }
 }
 

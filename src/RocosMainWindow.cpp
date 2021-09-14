@@ -208,7 +208,7 @@ void RocosMainWindow::updateCartPose(QVector<double> &pose)
     }
 
     for(int i = 0; i < cpWdgs.size(); i++) {
-        ui->cartesianXWidget->updateVal(pose[i]);
+        cpWdgs[i]->updateVal(pose[i]);
     }
 }
 

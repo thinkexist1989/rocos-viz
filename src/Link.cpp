@@ -75,10 +75,14 @@ void Link::setAngle(double rad)
     angle = rad;
 }
 
-void Link::setActorTransform(vtkTransform *t)
+void Link::setAxesActorTransform(vtkTransform *t)
+{
+    axesActor->SetUserTransform(t);
+}
+
+void Link::setLinkActorTransform(vtkTransform *t)
 {
     actor->SetUserTransform(t);
-    axesActor->SetUserTransform(t);
 }
 
 void Link::setAxesVisibility(bool isVisible)

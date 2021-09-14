@@ -25,10 +25,6 @@ public:
 public slots:
     void updateVal(double val);
 
-    void on_cartesianPlusButton_clicked();
-
-    void on_cartesianMinusButton_clicked();
-
     void on_cartesianPlusButton_pressed();
 
     void on_cartesianPlusButton_released();
