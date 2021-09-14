@@ -202,77 +202,77 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="src/PlotDialog.ui" line="259"/>
-        <location filename="src/PlotDialog.cpp" line="290"/>
+        <location filename="src/PlotDialog.cpp" line="339"/>
         <source>Start Recording</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="211"/>
+        <location filename="src/PlotDialog.cpp" line="174"/>
         <source>J1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="212"/>
+        <location filename="src/PlotDialog.cpp" line="175"/>
         <source>J2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="213"/>
+        <location filename="src/PlotDialog.cpp" line="176"/>
         <source>J3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="214"/>
+        <location filename="src/PlotDialog.cpp" line="177"/>
         <source>J4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="215"/>
+        <location filename="src/PlotDialog.cpp" line="178"/>
         <source>J5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="216"/>
+        <location filename="src/PlotDialog.cpp" line="179"/>
         <source>J6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="217"/>
+        <location filename="src/PlotDialog.cpp" line="180"/>
         <source>J7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="223"/>
+        <location filename="src/PlotDialog.cpp" line="230"/>
         <source>X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="224"/>
+        <location filename="src/PlotDialog.cpp" line="231"/>
         <source>Y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="225"/>
+        <location filename="src/PlotDialog.cpp" line="232"/>
         <source>Z</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="226"/>
+        <location filename="src/PlotDialog.cpp" line="233"/>
         <source>Roll</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="227"/>
+        <location filename="src/PlotDialog.cpp" line="234"/>
         <source>Pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="228"/>
+        <location filename="src/PlotDialog.cpp" line="235"/>
         <source>Yaw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/PlotDialog.cpp" line="295"/>
+        <location filename="src/PlotDialog.cpp" line="344"/>
         <source>Stop Recording</source>
         <translation type="unfinished"></translation>
     </message>

@@ -39,38 +39,23 @@ PlotDialog::PlotDialog(QWidget *parent) :
     view->GetRenderer()->SetBackground2(colors->GetColor3d("DarkGray").GetData());
 
     /***Table格式：t x y z r p y  ***/
-    //第1列为时间t
-    vtkNew<vtkFloatArray> arrTc;    arrTc->SetName("t");    cartPosTable->AddColumn(arrTc);
-    //第2列为笛卡尔x
-    vtkNew<vtkFloatArray> arrX;    arrX->SetName("x");    cartPosTable->AddColumn(arrX);
-    //第3列为笛卡尔y
-    vtkNew<vtkFloatArray> arrY;    arrY->SetName("y");    cartPosTable->AddColumn(arrY);
-    //第4列为笛卡尔z
-    vtkNew<vtkFloatArray> arrZ;    arrZ->SetName("z");    cartPosTable->AddColumn(arrZ);
-    //第5列为笛卡尔roll
-    vtkNew<vtkFloatArray> arrRoll;    arrRoll->SetName("roll");    cartPosTable->AddColumn(arrRoll);
-    //第6列为笛卡尔pitch
-    vtkNew<vtkFloatArray> arrPitch;    arrPitch->SetName("pitch");    cartPosTable->AddColumn(arrPitch);
-    //第7列为笛卡尔yaw
-    vtkNew<vtkFloatArray> arrYaw;    arrYaw->SetName("yaw");    cartPosTable->AddColumn(arrYaw);
+    vtkNew<vtkFloatArray> arrTc;    arrTc->SetName("t");           cartPosTable->AddColumn(arrTc); //第1列为时间t
+    vtkNew<vtkFloatArray> arrX;    arrX->SetName("x");             cartPosTable->AddColumn(arrX); //第2列为笛卡尔x
+    vtkNew<vtkFloatArray> arrY;    arrY->SetName("y");             cartPosTable->AddColumn(arrY); //第3列为笛卡尔y
+    vtkNew<vtkFloatArray> arrZ;    arrZ->SetName("z");             cartPosTable->AddColumn(arrZ); //第4列为笛卡尔z
+    vtkNew<vtkFloatArray> arrRoll;    arrRoll->SetName("roll");    cartPosTable->AddColumn(arrRoll); //第5列为笛卡尔roll
+    vtkNew<vtkFloatArray> arrPitch;    arrPitch->SetName("pitch"); cartPosTable->AddColumn(arrPitch); //第6列为笛卡尔pitch
+    vtkNew<vtkFloatArray> arrYaw;    arrYaw->SetName("yaw");       cartPosTable->AddColumn(arrYaw); //第7列为笛卡尔yaw
 
     /***Table格式：t j1 j2 j3 j4 j5 j6 j7  ***/
-    //第1列为时间t
-    vtkNew<vtkFloatArray> arrTj;    arrTj->SetName("t");    jntPosTable->AddColumn(arrTj);
-    //第2列为关节1
-    vtkNew<vtkFloatArray> arrJ1;    arrJ1->SetName("j1");    jntPosTable->AddColumn(arrJ1);
-    //第3列为关节2
-    vtkNew<vtkFloatArray> arrJ2;    arrJ2->SetName("j2");    jntPosTable->AddColumn(arrJ2);
-    //第4列为关节3
-    vtkNew<vtkFloatArray> arrJ3;    arrJ3->SetName("j3");    jntPosTable->AddColumn(arrJ3);
-    //第5列为关节4
-    vtkNew<vtkFloatArray> arrJ4;    arrJ4->SetName("j4");    jntPosTable->AddColumn(arrJ4);
-    //第6列为关节5
-    vtkNew<vtkFloatArray> arrJ5;    arrJ5->SetName("j5");    jntPosTable->AddColumn(arrJ5);
-    //第7列为关节6
-    vtkNew<vtkFloatArray> arrJ6;    arrJ6->SetName("j6");    jntPosTable->AddColumn(arrJ6);
-    //第8列为关节7
-    vtkNew<vtkFloatArray> arrJ7;    arrJ7->SetName("j7");    jntPosTable->AddColumn(arrJ7);
+    vtkNew<vtkFloatArray> arrTj;    arrTj->SetName("t");     jntPosTable->AddColumn(arrTj);     //第1列为时间t
+    vtkNew<vtkFloatArray> arrJ1;    arrJ1->SetName("j1");    jntPosTable->AddColumn(arrJ1);    //第2列为关节1
+    vtkNew<vtkFloatArray> arrJ2;    arrJ2->SetName("j2");    jntPosTable->AddColumn(arrJ2);    //第3列为关节2
+    vtkNew<vtkFloatArray> arrJ3;    arrJ3->SetName("j3");    jntPosTable->AddColumn(arrJ3);    //第4列为关节3
+    vtkNew<vtkFloatArray> arrJ4;    arrJ4->SetName("j4");    jntPosTable->AddColumn(arrJ4);    //第5列为关节4
+    vtkNew<vtkFloatArray> arrJ5;    arrJ5->SetName("j5");    jntPosTable->AddColumn(arrJ5);    //第6列为关节5
+    vtkNew<vtkFloatArray> arrJ6;    arrJ6->SetName("j6");    jntPosTable->AddColumn(arrJ6);    //第7列为关节6
+    vtkNew<vtkFloatArray> arrJ7;    arrJ7->SetName("j7");    jntPosTable->AddColumn(arrJ7);    //第8列为关节7
 
 
     //设置chart的样式
@@ -102,37 +87,7 @@ PlotDialog::PlotDialog(QWidget *parent) :
     jerkChart->SetShowLegend(true);
     jerkChart->GetLegend()->GetBrush()->SetOpacity(0);
 
-
-
-    //设置pos chart中的plots
-    posPlots.resize(7);
-    for(int i = 0; i < posPlots.size(); i++) {
-        posPlots[i] = posChart->AddPlot(vtkChart::LINE);
-        posPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
-    }
-
-    //设置vel chart中的plots
-    velPlots.resize(7);
-    for(int i = 0; i < velPlots.size(); i++) {
-        velPlots[i] = velChart->AddPlot(vtkChart::LINE);
-        velPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
-    }
-
-    //设置vel chart中的plots
-    accPlots.resize(7);
-    for(int i = 0; i < accPlots.size(); i++) {
-        accPlots[i] = accChart->AddPlot(vtkChart::LINE);
-        accPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
-    }
-
-    //设置vel chart中的plots
-    jerkPlots.resize(7);
-    for(int i = 0; i < jerkPlots.size(); i++) {
-        jerkPlots[i] = jerkChart->AddPlot(vtkChart::LINE);
-        jerkPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
-    }
-
-
+    init_joint_space(); //初始化关节空间
 
     chartMat = vtkChartMatrix::New();
     view->GetScene()->AddItem(chartMat);
@@ -142,23 +97,25 @@ PlotDialog::PlotDialog(QWidget *parent) :
 
     chartMat->SetChart(vtkVector2i(0, 0), posChart); //添加pos chart
 
-    newData = vtkVariantArray::New();
+    jntNewData = vtkVariantArray::New();
 
 //    newData->SetValue(0 , ii++);
-    newData->SetNumberOfValues(8);
-    newData->SetValue(0, 0);
-    jntPosTable->InsertNextRow(newData);
+    jntNewData->SetNumberOfValues(8);
+    jntPosTable->InsertNextRow(jntNewData);
+    jntPosTable->InsertNextRow(jntNewData);
 
-    newData->SetValue(0 , 0);
-    jntPosTable->InsertNextRow(newData);
+    cartNewData = vtkVariantArray::New();
+    cartNewData->SetNumberOfValues(7);
+    cartPosTable->InsertNextRow(cartNewData);
+    cartPosTable->InsertNextRow(cartNewData);
 
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [=](){
-        newData->SetValue(0 , ii);
-        newData->SetValue(1 , (double)rand()/double(RAND_MAX));
+        jntNewData->SetValue(0 , ii);
+        jntNewData->SetValue(1 , (double)rand()/double(RAND_MAX));
         ii += 0.1;
-        jntPosTable->InsertNextRow(newData);
+        jntPosTable->InsertNextRow(jntNewData);
 
 //        jntPosTable->Modified();
 //        posChart->RecalculateBounds(); //一调用便会刷新显示
@@ -191,6 +148,12 @@ PlotDialog::PlotDialog(QWidget *parent) :
     connect(plotDispBtnGrp, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
             [=](int id, bool checked){
                 qDebug() << "Clicked: " << id << "; state: " << checked;
+                if(checked) {
+                    posChart->AddPlot(posPlots[id]);
+                }
+                else {
+                    posChart->RemovePlotInstance(posPlots[id]);
+                }
 
             });
 
@@ -215,6 +178,50 @@ void PlotDialog::init_joint_space()
     ui->dispCheck5->setText(tr("J5"));
     ui->dispCheck6->setText(tr("J6"));
     ui->dispCheck7->setText(tr("J7"));
+    ui->dispCheck7->setVisible(true); //启用
+
+
+    /***** 更改chart链接的数据 *******/
+    //设置pos chart中的plots
+    posChart->ClearPlots();
+    posPlots.resize(7);
+    for(int i = 0; i < posPlots.size(); i++) {
+        posPlots[i] = posChart->AddPlot(vtkChart::LINE);
+        posPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
+    }
+    posChart->RecalculateBounds();
+
+
+    //设置vel chart中的plots
+    velChart->ClearPlots();
+    velPlots.resize(7);
+    for(int i = 0; i < velPlots.size(); i++) {
+        velPlots[i] = velChart->AddPlot(vtkChart::LINE);
+        velPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
+    }
+    velChart->RecalculateBounds();
+
+
+    //设置vel chart中的plots
+    accChart->ClearPlots();
+    accPlots.resize(7);
+    for(int i = 0; i < accPlots.size(); i++) {
+        accPlots[i] = accChart->AddPlot(vtkChart::LINE);
+        accPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
+    }
+    accChart->RecalculateBounds();
+
+
+    //设置vel chart中的plots
+    jerkChart->ClearPlots();
+    jerkPlots.resize(7);
+    for(int i = 0; i < jerkPlots.size(); i++) {
+        jerkPlots[i] = jerkChart->AddPlot(vtkChart::LINE);
+        jerkPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
+    }
+    jerkChart->RecalculateBounds();
+
+
 }
 
 void PlotDialog::init_cartesian_space()
@@ -227,7 +234,48 @@ void PlotDialog::init_cartesian_space()
     ui->dispCheck5->setText(tr("Pitch"));
     ui->dispCheck6->setText(tr("Yaw"));
     ui->dispCheck7->setText(tr(""));
-    ui->dispCheck7->setDisabled(true); //禁用
+    ui->dispCheck7->setVisible(false); //禁用
+
+    //设置pos chart中的plots
+    posChart->ClearPlots();
+    posPlots.resize(6);
+    for(int i = 0; i < posPlots.size(); i++) {
+        posPlots[i] = posChart->AddPlot(vtkChart::LINE);
+        posPlots[i]->SetInputData(cartPosTable, 0, i+1); //初始化显示关节位置
+    }
+    posChart->RecalculateBounds();
+
+
+    //设置vel chart中的plots
+    velChart->ClearPlots();
+    velPlots.resize(6);
+    for(int i = 0; i < velPlots.size(); i++) {
+        velPlots[i] = velChart->AddPlot(vtkChart::LINE);
+        velPlots[i]->SetInputData(cartPosTable, 0, i+1); //初始化显示关节位置
+    }
+    velChart->RecalculateBounds();
+
+
+    //设置vel chart中的plots
+    accChart->ClearPlots();
+    accPlots.resize(6);
+    for(int i = 0; i < accPlots.size(); i++) {
+        accPlots[i] = accChart->AddPlot(vtkChart::LINE);
+        accPlots[i]->SetInputData(cartPosTable, 0, i+1); //初始化显示关节位置
+    }
+    accChart->RecalculateBounds();
+
+
+    //设置vel chart中的plots
+    jerkChart->ClearPlots();
+    jerkPlots.resize(6);
+    for(int i = 0; i < jerkPlots.size(); i++) {
+        jerkPlots[i] = jerkChart->AddPlot(vtkChart::LINE);
+        jerkPlots[i]->SetInputData(cartPosTable, 0, i+1); //初始化显示关节位置
+    }
+    jerkChart->RecalculateBounds();
+
+
 }
 
 void PlotDialog::update_charts()
@@ -296,9 +344,6 @@ void PlotDialog::on_recordButton_clicked()
         ui->recordButton->setText(tr("Stop Recording"));
         movie->start();
         timer->start(100);
-
-//        posChart->GetAxis(vtkAxis::LEFT)->SetRange(-M_PI, M_PI);
-//        ui->plotWidget->GetRenderWindow()->Render();
     }
 
     isRecording = !isRecording;
@@ -318,6 +363,10 @@ void PlotDialog::on_fitButton_clicked()
 {
 //    posChart->GetAxis(vtkAxis::LEFT)->SetRange(-M_PI, M_PI);
     posChart->RecalculateBounds(); //一调用便会刷新显示
+    velChart->RecalculateBounds();
+    accChart->RecalculateBounds();
+    jerkChart->RecalculateBounds();
+
     ui->plotWidget->GetRenderWindow()->Render();
 }
 
@@ -339,4 +388,9 @@ void PlotDialog::on_accCheck_stateChanged(int)
 void PlotDialog::on_jerkCheck_stateChanged(int)
 {
     update_charts();
+}
+
+void PlotDialog::on_scaleCheck_stateChanged(int arg1)
+{
+
 }

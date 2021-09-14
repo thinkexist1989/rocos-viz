@@ -100,7 +100,7 @@ SceneWidget::SceneWidget(QWidget *parent) :
 //    link1Actor->SetMapper(mapper1);
 //    link1Actor->SetUserTransform(trans1);
 
-    model = std::make_shared<Model>("models/iiwa/config.yaml");
+    model = std::make_shared<Model>("models/sia/config.yaml");
 //    model = new Model("models/iiwa/config.yaml");
     model->addToRenderer(renderer);
 

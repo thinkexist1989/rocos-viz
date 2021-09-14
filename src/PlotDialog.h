@@ -64,6 +64,8 @@ private slots:
 
     void on_jerkCheck_stateChanged(int);
 
+    void on_scaleCheck_stateChanged(int arg1);
+
 private:
     Ui::PlotDialog *ui;
 
@@ -98,7 +100,8 @@ private:
     QVector<vtkSmartPointer<vtkPlot>> jerkPlots; //用于存储jerk中的曲线
 
     QTimer* timer;
-    vtkSmartPointer<vtkVariantArray> newData;
+    vtkSmartPointer<vtkVariantArray> jntNewData;
+    vtkSmartPointer<vtkVariantArray> cartNewData;
 
     QButtonGroup* plotDispBtnGrp;
 
