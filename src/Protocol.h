@@ -108,4 +108,6 @@
 
 #define GET_INFO    "a" //返回关节位置及笛卡尔空间位置
 
+#define ZERO_CALI   "sc37!v0!"
+
 #endif // PROTOCOL_H

@@ -53,6 +53,8 @@ private slots:
 
     void on_actionRightView_triggered();
 
+    void on_actionSetZero_triggered();
+
 private:
     Ui::RocosMainWindow *ui;
 

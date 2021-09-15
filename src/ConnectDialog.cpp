@@ -181,6 +181,15 @@ void ConnectDialog::continueScript()
     tcpSocket->write(LUA_CONTINUE);
 }
 
+void ConnectDialog::setZeroCalibration()
+{
+    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
+        return;
+    }
+
+    tcpSocket->write(ZERO_CALI);
+}
+
 void ConnectDialog::getRobotState()
 {
     if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {

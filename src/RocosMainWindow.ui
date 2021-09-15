@@ -702,6 +702,7 @@
    <addaction name="actionTrajectory"/>
    <addaction name="actionGround"/>
    <addaction name="separator"/>
+   <addaction name="actionSetZero"/>
    <addaction name="actionScript"/>
    <addaction name="actionPlotter"/>
    <addaction name="actionAbout"/>
@@ -838,6 +839,15 @@
    </property>
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionSetZero">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/zero.png</normaloff>:/res/zero.png</iconset>
+   </property>
+   <property name="text">
+    <string>SetZero</string>
    </property>
   </action>
  </widget>

@@ -24,7 +24,7 @@ robot:
   - name: link_3
     order: 3
     translate: [0.0, 0.3977, 0.0]
-    rotate: [1.5708, 0.0, -3.1416]
+    rotate: [-1.5708, 0.0, 0.0]
     angleAxis: [0, 0, 1]
     translateLink: [ 0.0, 0.0, 0.0 ]
     rotateLink: [ 0, 0, 0 ]
@@ -42,7 +42,7 @@ robot:
   - name: link_5
     order: 5
     translate: [0.0, 0.3925, 0.0]
-    rotate: [1.5708, 0, 3.1416]
+    rotate: [-1.5708, 0, 0.0]
     angleAxis: [0, 0, 1]
     translateLink: [ 0.0, 0.0, 0.0]
     rotateLink: [ 0, 0, 0 ]

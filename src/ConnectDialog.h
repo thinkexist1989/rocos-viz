@@ -46,6 +46,8 @@ public slots:
     void pauseScript();
     void continueScript();
 
+    void setZeroCalibration();
+
 private:
     Ui::ConnectDialog *ui;
 

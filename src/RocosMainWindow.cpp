@@ -2,6 +2,7 @@
 #include "./ui_RocosMainWindow.h"
 
 #include <QDebug>
+#include <QMessageBox>
 
 RocosMainWindow::RocosMainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -255,4 +256,14 @@ void RocosMainWindow::on_actionFrontView_triggered()
 void RocosMainWindow::on_actionRightView_triggered()
 {
     ui->visualWidget->setYAxisView();
+}
+
+void RocosMainWindow::on_actionSetZero_triggered()
+{
+    auto ret = QMessageBox::warning(this, tr("Zero Calibration"), tr("The current joint position will set as ZERO. Are you sure?"), QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
+
+    if(ret == QMessageBox::Ok) {
+        connectDlg->setZeroCalibration();
+    }
+
 }
