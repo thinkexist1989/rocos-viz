@@ -467,7 +467,7 @@ void PlotDialog::getCartPose(QVector<double> &pose)
 
     double t = time->elapsed()/1000.0;
 
-    cartNewData->SetValue(0 , (double)(time->elapsed())/1000.0);
+    cartNewData->SetValue(0 , t);
     for(int i = 0; i < pose.size(); i++) {
         cartNewData->SetValue(i+1 , pose[i]);
     }
@@ -485,11 +485,11 @@ void PlotDialog::getCartPose(QVector<double> &pose)
         cartPoseFile->write(ba);
     }
 
-    if(dispType == TYPE_JOINT_SPACE)
+    if(dispType == TYPE_CARTESIAN_SPACE)
         if(isAutoScale)
             posChart->GetAxis(vtkAxis::BOTTOM)->SetRange((t - 3)>0?(t-3):0, t);
 
-    jntPosTable->Modified();
+    cartPosTable->Modified();
     ui->plotWidget->GetRenderWindow()->Render();
 
 }

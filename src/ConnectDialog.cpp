@@ -165,6 +165,9 @@ void ConnectDialog::startScript(QString script)
     ba.append("!\0");
 
     tcpSocket->write(ba);
+    tcpSocket->waitForBytesWritten();
+
+    tcpSocket->write(GET_ERROR);
 }
 
 void ConnectDialog::stopScript()
@@ -174,6 +177,9 @@ void ConnectDialog::stopScript()
     }
 
     tcpSocket->write(LUA_STOP);
+    tcpSocket->waitForBytesWritten();
+
+    tcpSocket->write(GET_ERROR);
 }
 
 void ConnectDialog::pauseScript()
@@ -183,6 +189,9 @@ void ConnectDialog::pauseScript()
     }
 
     tcpSocket->write(LUA_PAUSE);
+    tcpSocket->waitForBytesWritten();
+
+    tcpSocket->write(GET_ERROR);
 }
 
 void ConnectDialog::continueScript()
@@ -192,6 +201,9 @@ void ConnectDialog::continueScript()
     }
 
     tcpSocket->write(LUA_CONTINUE);
+    tcpSocket->waitForBytesWritten();
+
+    tcpSocket->write(GET_ERROR);
 }
 
 void ConnectDialog::setZeroCalibration()
@@ -201,6 +213,10 @@ void ConnectDialog::setZeroCalibration()
     }
 
     tcpSocket->write(ZERO_CALI);
+    tcpSocket->waitForBytesWritten();
+
+    tcpSocket->write(GET_ERROR);
+    tcpSocket->waitForBytesWritten();
 }
 
 void ConnectDialog::getRobotState()
@@ -220,6 +236,8 @@ void ConnectDialog::parseRobotMsg()
     }
 
     QByteArray ba = tcpSocket->readAll();
+//    qDebug() << ba;
+
 
 //    int size = ba.size();
 
@@ -266,6 +284,10 @@ void ConnectDialog::parseRobotMsg()
             }
         }
     }
+    else if(ba.startsWith("ee")) {
+        emit logging(ba);
+        qDebug() << ba;
+    }
 }
 
 void ConnectDialog::jointJogging(int id, int dir)
@@ -296,6 +318,10 @@ void ConnectDialog::jointJogging(int id, int dir)
 
     tcpSocket->write(ba);
     tcpSocket->waitForBytesWritten();
+
+    tcpSocket->write(GET_ERROR);
+    tcpSocket->waitForBytesWritten();
+
 }
 
 void ConnectDialog::cartesianJogging(int frame, int freedom, int dir)
@@ -322,10 +348,12 @@ void ConnectDialog::cartesianJogging(int frame, int freedom, int dir)
     ba.append(QString::number(matrixDof(freedom, direction) + matrixFrame(frame, direction)));
     ba.append("!\0");
 
-   qDebug() << ba << " ; dof: " << matrixDof(freedom, direction) << "frame: " << matrixFrame(frame, direction) ;
+//   qDebug() << ba << " ; dof: " << matrixDof(freedom, direction) << "frame: " << matrixFrame(frame, direction) ;
 
 
     tcpSocket->write(ba);
     tcpSocket->waitForBytesWritten();
 
+    tcpSocket->write(GET_ERROR);
+    tcpSocket->waitForBytesWritten();
 }

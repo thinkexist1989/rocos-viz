@@ -153,6 +153,15 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     connect(connectDlg, &ConnectDialog::jointPositions, plotDlg, &PlotDialog::getJointPositions); //关节位置更新
     connect(connectDlg, &ConnectDialog::cartPose, plotDlg, &PlotDialog::getCartPose); //笛卡尔位置更新
 
+    connect(connectDlg, &ConnectDialog::logging, this, [=](QByteArray& ba){
+//        ui->logBrowser->insertPlainText(QTime::currentTime().toString("[HH:mm:ss.zzz] ") + QString(ba) + "\n");
+//        ui->logBrowser->
+        ui->logEdit->moveCursor(QTextCursor::End);
+        QString str = QTime::currentTime().toString("[HH:mm:ss.zzz] ") + QString(ba) + "\n";
+        ui->logEdit->appendPlainText(str.simplified());
+
+    });
+
 }
 
 RocosMainWindow::~RocosMainWindow()

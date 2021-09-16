@@ -131,5 +131,7 @@
 
 #define ZERO_CALI   "sc37!v0!"
 
+#define GET_ERROR   "e"
+
 
 #endif // PROTOCOL_H

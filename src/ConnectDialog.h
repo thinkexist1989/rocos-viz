@@ -78,6 +78,7 @@ signals:
     void jointPositions(QVector<double>& jntPos); //解析到关节位置，发送 信号
     void cartPose(QVector<double>& pose); //解析到笛卡尔空间位置，发送 信号
     void speedScaling(double f100); // 速度缩放因数 25.0
+    void logging(QByteArray& ba); //返回的日志信息
 
 };
 
