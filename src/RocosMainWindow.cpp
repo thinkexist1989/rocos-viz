@@ -176,7 +176,7 @@ RocosMainWindow::~RocosMainWindow()
 
 void RocosMainWindow::on_pushButton_clicked()
 {
-    std::vector<double> jntRads;
+    QVector<double> jntRads;
     jntRads.push_back(rand()/double(RAND_MAX));
     jntRads.push_back(rand()/double(RAND_MAX));
     jntRads.push_back(rand()/double(RAND_MAX));
@@ -184,7 +184,9 @@ void RocosMainWindow::on_pushButton_clicked()
     jntRads.push_back(rand()/double(RAND_MAX));
     jntRads.push_back(rand()/double(RAND_MAX));
     jntRads.push_back(rand()/double(RAND_MAX));
-    this->ui->visualWidget->setJointPos(jntRads);
+//    this->ui->visualWidget->setJointPos(jntRads);
+
+    updateJointPos(jntRads);
 }
 
 void RocosMainWindow::on_axesCheckBox_stateChanged(int arg1)

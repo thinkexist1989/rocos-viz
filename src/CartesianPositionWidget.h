@@ -28,6 +28,7 @@ public:
 
     inline void setAngleRep(int flag) {
         r2d = (flag == ANGLE_DEGREE) ? (180.0/M_PI) : 1.0;
+        updateVal(cartesianVal);
         qDebug() << "cartid: " << id << " r2d: " << r2d;
     }
 

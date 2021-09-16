@@ -331,7 +331,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="src/RocosMainWindow.ui" line="200"/>
-        <location filename="src/RocosMainWindow.cpp" line="341"/>
+        <location filename="src/RocosMainWindow.cpp" line="346"/>
         <source>Cartesian Space (BASE)</source>
         <oldsource>Cartesian Space</oldsource>
         <translation type="unfinished"></translation>
@@ -667,27 +667,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="148"/>
+        <location filename="src/RocosMainWindow.cpp" line="151"/>
         <source>25%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="200"/>
+        <location filename="src/RocosMainWindow.cpp" line="205"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="329"/>
+        <location filename="src/RocosMainWindow.cpp" line="334"/>
         <source>Zero Calibration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="329"/>
+        <location filename="src/RocosMainWindow.cpp" line="334"/>
         <source>The current joint position will set as ZERO. Are you sure?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="349"/>
+        <location filename="src/RocosMainWindow.cpp" line="354"/>
         <source>Cartesian Space (FLANGE)</source>
         <translation type="unfinished"></translation>
     </message>
