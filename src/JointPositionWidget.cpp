@@ -32,7 +32,7 @@ void JointPositionWidget::setFactor(double f)
 void JointPositionWidget::updateJointPosition(double val)
 {
     jointPos = val;
-    this->ui->jointPosValBar->setValue(jointPos);
+    this->ui->jointPosValBar->setValue(jointPos * r2d);
 }
 
 void JointPositionWidget::on_jointPosValBar_valueChanged(double value)

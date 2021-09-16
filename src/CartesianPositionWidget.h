@@ -2,6 +2,8 @@
 #define CARTESIANPOSITIONWIDGET_H
 
 #include <QWidget>
+#include <Protocol.h>
+#include <QDebug>
 
 
 namespace Ui {
@@ -23,6 +25,11 @@ public:
     void setFactor(double f);
 
     inline void setId(int Id) { id = Id; }
+
+    inline void setAngleRep(int flag) {
+        r2d = (flag == ANGLE_DEGREE) ? (180.0/M_PI) : 1.0;
+        qDebug() << "cartid: " << id << " r2d: " << r2d;
+    }
 
 public slots:
     void updateVal(double val);
@@ -49,6 +56,8 @@ private:
 
     int    progressStep = 2000; // 最大步进量
     double factor = 0.5; //speed缩放因子
+
+    double r2d = 1.0; // 由于笛卡尔位置只有rpy需要转换角度，默认为1
 
     QTimer* timerPlus;
     QTimer* timerMinus;

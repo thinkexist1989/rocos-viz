@@ -2,6 +2,8 @@
 #define JOINTPOSITIONWIDGET_H
 
 #include <QWidget>
+#include <Protocol.h> //协议
+#include <QDebug>
 
 
 namespace Ui {
@@ -21,6 +23,11 @@ public:
     void setFactor(double f);
 
     inline void setId(int jntId) { id = jntId; }
+
+    inline void setAngleRep(int flag) {
+        r2d = (flag == ANGLE_DEGREE) ? (180.0/M_PI) : 1.0;
+        qDebug() << "jntid: " << id << " r2d: " << r2d;
+    }
 
 public slots:
     void updateJointPosition(double val);
@@ -45,6 +52,8 @@ private:
     double step     = 0.1; //每次步进的量
 
     double factor = 0.5; //speed缩放因子
+
+    double r2d    = 180.0/M_PI; //radius to degree
 
     int     id;
     QString name;

@@ -100,6 +100,9 @@
          </item>
          <item row="0" column="1">
           <widget class="QRadioButton" name="baseFrame">
+           <property name="statusTip">
+            <string>Change frame to Base</string>
+           </property>
            <property name="text">
             <string>Base</string>
            </property>
@@ -110,6 +113,9 @@
          </item>
          <item row="0" column="2">
           <widget class="QRadioButton" name="flangeFrame">
+           <property name="statusTip">
+            <string>Change frame to Flange</string>
+           </property>
            <property name="text">
             <string>Flange</string>
            </property>
@@ -136,6 +142,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout" stretch="10,1">
          <item>
           <widget class="QSlider" name="speedSlider">
+           <property name="statusTip">
+            <string>Scaling the speed of robot</string>
+           </property>
            <property name="minimum">
             <number>1</number>
            </property>
@@ -270,6 +279,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="statusTip">
+            <string>Change working mode</string>
            </property>
            <item>
             <property name="text">
@@ -737,7 +749,7 @@
      <x>0</x>
      <y>0</y>
      <width>1156</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -767,6 +779,7 @@
    <addaction name="actionSetZero"/>
    <addaction name="actionScript"/>
    <addaction name="actionPlotter"/>
+   <addaction name="actionAngleRep"/>
    <addaction name="actionAbout"/>
   </widget>
   <action name="actionFrontView">
@@ -780,6 +793,9 @@
    <property name="toolTip">
     <string>FrontView</string>
    </property>
+   <property name="statusTip">
+    <string>Set 3D to Front View</string>
+   </property>
   </action>
   <action name="actionTopView">
    <property name="icon">
@@ -788,6 +804,9 @@
    </property>
    <property name="text">
     <string>TopView</string>
+   </property>
+   <property name="statusTip">
+    <string>Set 3D to Top View</string>
    </property>
   </action>
   <action name="actionRightView">
@@ -798,6 +817,9 @@
    <property name="text">
     <string>RightView</string>
    </property>
+   <property name="statusTip">
+    <string>Set 3D to Right View</string>
+   </property>
   </action>
   <action name="actionAxoView">
    <property name="icon">
@@ -806,6 +828,9 @@
    </property>
    <property name="text">
     <string>AxonometricView</string>
+   </property>
+   <property name="statusTip">
+    <string>Set 3D to Axonometric View</string>
    </property>
   </action>
   <action name="actionAxesView">
@@ -862,6 +887,9 @@
    <property name="text">
     <string>Enabled</string>
    </property>
+   <property name="statusTip">
+    <string>Set robot enable state</string>
+   </property>
   </action>
   <action name="actionConnected">
    <property name="icon">
@@ -872,6 +900,9 @@
    <property name="text">
     <string>Connected</string>
    </property>
+   <property name="statusTip">
+    <string>Connect to robot</string>
+   </property>
   </action>
   <action name="actionScript">
    <property name="icon">
@@ -880,6 +911,9 @@
    </property>
    <property name="text">
     <string>Script</string>
+   </property>
+   <property name="statusTip">
+    <string>Execute LUA scripts</string>
    </property>
   </action>
   <action name="actionPlotter">
@@ -893,6 +927,9 @@
    <property name="toolTip">
     <string>Plot curve</string>
    </property>
+   <property name="statusTip">
+    <string>Plot curves of robot</string>
+   </property>
   </action>
   <action name="actionAbout">
    <property name="icon">
@@ -900,6 +937,9 @@
      <normaloff>:/res/about.ico</normaloff>:/res/about.ico</iconset>
    </property>
    <property name="text">
+    <string>About</string>
+   </property>
+   <property name="statusTip">
     <string>About</string>
    </property>
   </action>
@@ -910,6 +950,24 @@
    </property>
    <property name="text">
     <string>SetZero</string>
+   </property>
+   <property name="statusTip">
+    <string>Set joint position to zero</string>
+   </property>
+  </action>
+  <action name="actionAngleRep">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/degree.png</normaloff>:/res/degree.png</iconset>
+   </property>
+   <property name="text">
+    <string>AngleRep</string>
+   </property>
+   <property name="toolTip">
+    <string>Angle Representation</string>
+   </property>
+   <property name="statusTip">
+    <string>Set angle representation</string>
    </property>
   </action>
  </widget>

@@ -64,6 +64,8 @@ private slots:
 
     void on_flangeFrame_clicked(bool checked);
 
+    void on_actionAngleRep_triggered();
+
 private:
     Ui::RocosMainWindow *ui;
 
@@ -82,6 +84,8 @@ private:
 public:
     bool isRobotConnected = false; //机器人是否连接
     bool isRobotEnabled = false; //机器人默认不上电
+
+    bool isAngleDegree = true; //默认角度显示
 
     int  currentFrame = FRAME_BASE; // 默认为base系
 

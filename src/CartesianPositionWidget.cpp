@@ -63,7 +63,7 @@ void CartesianPositionWidget::setFactor(double f)
 
 void CartesianPositionWidget::updateVal(double val)
 {
-    cartesianVal = val;
+    cartesianVal = val * r2d;
     this->ui->cartesianValBar->setValue(cartesianVal);
     updateDisp();
 }

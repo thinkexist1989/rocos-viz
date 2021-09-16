@@ -2,6 +2,10 @@
 #define PROTOCOL_H
 
 #include <QString>
+#include <QtMath>
+
+#define ANGLE_RADIUS    0     //弧度制
+#define ANGLE_DEGREE    1     //角度制
 
 #define ROBOT_ENABLE    "tv80!"
 #define ROBOT_DISABLE   "tv112!"
