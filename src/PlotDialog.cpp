@@ -2,6 +2,7 @@
 #include "ui_PlotDialog.h"
 #include <QDebug>
 #include <QtMath>
+#include <QFileDialog>
 
 PlotDialog::PlotDialog(QWidget *parent) :
     QDialog(parent),
@@ -24,6 +25,8 @@ PlotDialog::PlotDialog(QWidget *parent) :
 //    jerkPlots(7,vtkPlotLine::New())
 {
     ui->setupUi(this);
+
+    time = new QTime;
 
     //设置Record按钮动画
     movie = new QMovie(this);
@@ -112,15 +115,15 @@ PlotDialog::PlotDialog(QWidget *parent) :
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [=](){
-        jntNewData->SetValue(0 , ii);
+        jntNewData->SetValue(0 , t);
         jntNewData->SetValue(1 , (double)rand()/double(RAND_MAX));
-        ii += 0.1;
+        t += 0.1;
         jntPosTable->InsertNextRow(jntNewData);
 
 //        jntPosTable->Modified();
 //        posChart->RecalculateBounds(); //一调用便会刷新显示
 
-        posChart->GetAxis(vtkAxis::BOTTOM)->SetRange((ii - 3)>0?(ii-3):0, ii);
+        posChart->GetAxis(vtkAxis::BOTTOM)->SetRange((t - 3)>0?(t-3):0, t);
 //        posChart->GetAxis(vtkAxis::LEFT)->SetRange(-M_PI, M_PI);
 
         if(jntPosTable->GetNumberOfRows() > 30) {
@@ -154,7 +157,6 @@ PlotDialog::PlotDialog(QWidget *parent) :
                 else {
                     posChart->RemovePlotInstance(posPlots[id]);
                 }
-
             });
 
 
@@ -192,34 +194,34 @@ void PlotDialog::init_joint_space()
     posChart->RecalculateBounds();
 
 
-    //设置vel chart中的plots
-    velChart->ClearPlots();
-    velPlots.resize(7);
-    for(int i = 0; i < velPlots.size(); i++) {
-        velPlots[i] = velChart->AddPlot(vtkChart::LINE);
-        velPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
-    }
-    velChart->RecalculateBounds();
+//    //设置vel chart中的plots
+//    velChart->ClearPlots();
+//    velPlots.resize(7);
+//    for(int i = 0; i < velPlots.size(); i++) {
+//        velPlots[i] = velChart->AddPlot(vtkChart::LINE);
+//        velPlots[i]->SetInputData(jntVelTable, 0, i+1); //初始化显示关节位置
+//    }
+//    velChart->RecalculateBounds();
 
 
-    //设置vel chart中的plots
-    accChart->ClearPlots();
-    accPlots.resize(7);
-    for(int i = 0; i < accPlots.size(); i++) {
-        accPlots[i] = accChart->AddPlot(vtkChart::LINE);
-        accPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
-    }
-    accChart->RecalculateBounds();
+//    //设置vel chart中的plots
+//    accChart->ClearPlots();
+//    accPlots.resize(7);
+//    for(int i = 0; i < accPlots.size(); i++) {
+//        accPlots[i] = accChart->AddPlot(vtkChart::LINE);
+//        accPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
+//    }
+//    accChart->RecalculateBounds();
 
 
-    //设置vel chart中的plots
-    jerkChart->ClearPlots();
-    jerkPlots.resize(7);
-    for(int i = 0; i < jerkPlots.size(); i++) {
-        jerkPlots[i] = jerkChart->AddPlot(vtkChart::LINE);
-        jerkPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
-    }
-    jerkChart->RecalculateBounds();
+//    //设置vel chart中的plots
+//    jerkChart->ClearPlots();
+//    jerkPlots.resize(7);
+//    for(int i = 0; i < jerkPlots.size(); i++) {
+//        jerkPlots[i] = jerkChart->AddPlot(vtkChart::LINE);
+//        jerkPlots[i]->SetInputData(jntPosTable, 0, i+1); //初始化显示关节位置
+//    }
+//    jerkChart->RecalculateBounds();
 
 
 }
@@ -338,12 +340,36 @@ void PlotDialog::on_recordButton_clicked()
     if(isRecording) { //正在记录，要停止
         ui->recordButton->setText(tr("Start Recording"));
         movie->stop();
-        timer->stop();
+
+        if(isSaveData) { // 是否保存数据
+            jntPosFile->close();
+            cartPoseFile->close();
+        }
+//        timer->stop(); //TODO: for test
     }
     else { //还未记录，要开始记录
         ui->recordButton->setText(tr("Stop Recording"));
         movie->start();
-        timer->start(100);
+
+        timestamp = QDateTime::currentDateTime().toString("yyyyMMddTHHmmss");
+
+        if(isSaveData) { // 是否保存数据
+            jntPosFile = new QFile(saveDir + "/" + "jntPos" + timestamp + ".csv");
+            jntPosFile->open(QIODevice::ReadWrite | QIODevice::Text);
+            jntPosFile->write("t \t j1 \t j2 \t j3 \t j4 \t j5 \t j6 \t j7\n");
+
+            cartPoseFile = new QFile(saveDir + "/" + "cartPose" + timestamp + ".csv");
+            cartPoseFile->open(QIODevice::ReadWrite | QIODevice::Text);
+            cartPoseFile->write("t \t X \t Y \t Z \t r \t p \t y\n");
+        }
+
+        time->restart(); //重新启动计时
+
+        jntPosTable->SetNumberOfRows(2);
+        cartPosTable->SetNumberOfRows(2);
+
+        //        timer->start(100); //TODO: for test
+
     }
 
     isRecording = !isRecording;
@@ -392,5 +418,100 @@ void PlotDialog::on_jerkCheck_stateChanged(int)
 
 void PlotDialog::on_scaleCheck_stateChanged(int arg1)
 {
+//    qDebug() << "Auto Scale: " << arg1;
+    if(arg1 > 0) { // checked值为2
+        isAutoScale = true;
+    }
+    else{
+        isAutoScale = false;
+    }
+}
 
+void PlotDialog::getJointPositions(QVector<double> &jntPos)
+{
+    if(!isRecording)
+        return;
+
+    double t = time->elapsed()/1000.0;
+
+    jntNewData->SetValue(0 , t);
+    for(int i = 0; i < jntPos.size(); i++) {
+        jntNewData->SetValue(i+1 , jntPos[i]);
+    }
+
+    jntPosTable->InsertNextRow(jntNewData);
+
+    if(isSaveData) { //记录数据到 /your_path/jntPos20210916T143500.csv
+        QByteArray ba;
+        ba.append(QString("%1 \t ").arg(t));
+        for(int i = 0; i < jntPos.size(); i++) {
+            ba.append(QString("%1 \t ").arg(jntPos[i]));
+        }
+        ba.append("\n");
+
+        jntPosFile->write(ba);
+    }
+
+    if(dispType == TYPE_JOINT_SPACE)
+        if(isAutoScale)
+            posChart->GetAxis(vtkAxis::BOTTOM)->SetRange((t - 3)>0?(t-3):0, t);
+
+    jntPosTable->Modified();
+    ui->plotWidget->GetRenderWindow()->Render();
+}
+
+void PlotDialog::getCartPose(QVector<double> &pose)
+{
+    if(!isRecording)
+        return;
+
+    double t = time->elapsed()/1000.0;
+
+    cartNewData->SetValue(0 , (double)(time->elapsed())/1000.0);
+    for(int i = 0; i < pose.size(); i++) {
+        cartNewData->SetValue(i+1 , pose[i]);
+    }
+
+    cartPosTable->InsertNextRow(cartNewData);
+
+    if(isSaveData) { //记录数据到 /your_path/cartPose20210916T143500.csv
+        QByteArray ba;
+        ba.append(QString("%1 \t ").arg(t));
+        for(int i = 0; i < pose.size(); i++) {
+            ba.append(QString("%1 \t ").arg(pose[i]));
+        }
+        ba.append("\n");
+
+        cartPoseFile->write(ba);
+    }
+
+    if(dispType == TYPE_JOINT_SPACE)
+        if(isAutoScale)
+            posChart->GetAxis(vtkAxis::BOTTOM)->SetRange((t - 3)>0?(t-3):0, t);
+
+    jntPosTable->Modified();
+    ui->plotWidget->GetRenderWindow()->Render();
+
+}
+
+void PlotDialog::on_saveCheck_stateChanged(int arg1)
+{
+//    qDebug() << "Save Data: " << arg1;
+    if(arg1 > 0) { // checked值为2
+        isSaveData = true;
+        ui->dataSavePathEdit->setEnabled(true);
+        ui->dirButton->setEnabled(true);
+    }
+    else{
+        isSaveData = false;
+        ui->dataSavePathEdit->setEnabled(false);
+        ui->dirButton->setEnabled(false);
+    }
+
+}
+
+void PlotDialog::on_dirButton_clicked()
+{
+    saveDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "./", QFileDialog::ShowDirsOnly);
+    ui->dataSavePathEdit->setText(saveDir);
 }

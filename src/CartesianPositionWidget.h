@@ -22,6 +22,8 @@ public:
 
     void setFactor(double f);
 
+    inline void setId(int Id) { id = Id; }
+
 public slots:
     void updateVal(double val);
 
@@ -34,7 +36,7 @@ public slots:
     void on_cartesianMinusButton_released();
 
 signals:
-    void cartesianJogging(double val); //关节点动
+    void cartesianJogging(int freedom, int dir); //关节点动
 
 private:
     Ui::CartesianPositionWidget *ui;
@@ -50,6 +52,8 @@ private:
 
     QTimer* timerPlus;
     QTimer* timerMinus;
+
+    int     id;
 
 };
 

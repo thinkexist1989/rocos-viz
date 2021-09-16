@@ -72,6 +72,7 @@ void CartesianPositionWidget::on_cartesianPlusButton_pressed()
 {
 //    std::cout << "pressed+++" << std::endl;
     timerPlus->start(10);
+    emit cartesianJogging(id, 1);
 }
 
 void CartesianPositionWidget::on_cartesianPlusButton_released()
@@ -81,12 +82,15 @@ void CartesianPositionWidget::on_cartesianPlusButton_released()
     timerPlus->stop();
     val = 0;
     this->ui->cartesianValBar->setValue(val);
+
+    emit cartesianJogging(id, 0);
 }
 
 void CartesianPositionWidget::on_cartesianMinusButton_pressed()
 {
 //    std::cout << "pressed---" << std::endl;
     timerMinus->start(10);
+    emit cartesianJogging(id, -1);
 }
 
 void CartesianPositionWidget::on_cartesianMinusButton_released()
@@ -95,4 +99,6 @@ void CartesianPositionWidget::on_cartesianMinusButton_released()
     timerMinus->stop();
     val = 0;
     this->ui->cartesianValBar->setValue(val);
+
+    emit cartesianJogging(id, 0);
 }

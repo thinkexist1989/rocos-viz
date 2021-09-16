@@ -19,6 +19,19 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     timerState = new QTimer(this);
     connect(timerState, &QTimer::timeout, this, &ConnectDialog::getRobotState); //获取机器人状态
 
+
+    matrixDof << 49, 13, 33, // 1 or x
+                 50, 19, 64, // 2 or y
+                 51, 01, 35, // 3 or z
+                 52, 14, 36, // 4 or k
+                 53, 16, 37, // 5 or p
+                 54, 21, 94, // 6 or s
+                 55, 17, 38; // 7 or r
+
+    matrixFrame <<   0, 100,   0, //joint
+                   200, 300, 200, //cartesian
+                   300, 400, 300; //tool
+
 }
 
 ConnectDialog::~ConnectDialog()
@@ -259,95 +272,60 @@ void ConnectDialog::jointJogging(int id, int dir)
 {
     QByteArray data;
 
-    if(dir > 0) {// 正向运动
-        qDebug() << "Joint " << id << " jogging++";
-        switch(id) {
-        case 1:
-            data = J1_P;
-            break;
-        case 2:
-            data = J2_P;
-            break;
-        case 3:
-            data = J3_P;
-            break;
-        case 4:
-            data = J4_P;
-            break;
-        case 5:
-            data = J5_P;
-            break;
-        case 6:
-            data = J6_P;
-            break;
-        case 7:
-            data = J7_P;
-            break;
-        default:
-            break;
-        }
+    int direction = 0;
+
+    if(dir > 0) { // 正向运动
+        direction = DIRECTION_P;
     }
-    else if(dir < 0) {// 负向运动
-        qDebug() << "Joint " << id << " jogging--";
-        switch(id) {
-        case 1:
-            data = J1_N;
-            break;
-        case 2:
-            data = J2_N;
-            break;
-        case 3:
-            data = J3_N;
-            break;
-        case 4:
-            data = J4_N;
-            break;
-        case 5:
-            data = J5_N;
-            break;
-        case 6:
-            data = J6_N;
-            break;
-        case 7:
-            data = J7_N;
-            break;
-        default:
-            break;
-        }
+    else if(dir < 0) { // 负向运动
+        direction = DIRECTION_N;
     }
-    else if(dir == 0){// 停止运动
-        switch(id) {
-        case 1:
-            data = J1_Z;
-            break;
-        case 2:
-            data = J2_Z;
-            break;
-        case 3:
-            data = J3_Z;
-            break;
-        case 4:
-            data = J4_Z;
-            break;
-        case 5:
-            data = J5_Z;
-            break;
-        case 6:
-            data = J6_Z;
-            break;
-        case 7:
-            data = J7_Z;
-            break;
-        default:
-            break;
-        }
+    else if(dir == 0) { // 停止运动
+        direction = DIRECTION_Z;
     }
 
     if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        qDebug() << "Connection to robot is not established!!";
         return;
     }
-    else {
-        tcpSocket->write(data);
+
+    QByteArray ba = "tv";
+    ba.append(QString::number(matrixDof(id, direction) + matrixFrame(FRAME_JOINT, direction))); //由于关节id从1开始，因此需要-1
+    ba.append("!\0");
+
+//    qDebug() << ba << " ; dof: " << matrixDof(id-1, direction) << "frame: " << matrixFrame(FRAME_JOINT, direction) ;
+
+    tcpSocket->write(ba);
+    tcpSocket->waitForBytesWritten();
+}
+
+void ConnectDialog::cartesianJogging(int frame, int freedom, int dir)
+{
+    QByteArray data;
+
+    int direction = 0;
+
+    if(dir > 0) { // 正向运动
+        direction = DIRECTION_P;
     }
+    else if(dir < 0) { // 负向运动
+        direction = DIRECTION_N;
+    }
+    else if(dir == 0) { // 停止运动
+        direction = DIRECTION_Z;
+    }
+
+    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
+        return;
+    }
+
+    QByteArray ba = "tv";
+    ba.append(QString::number(matrixDof(freedom, direction) + matrixFrame(frame, direction)));
+    ba.append("!\0");
+
+   qDebug() << ba << " ; dof: " << matrixDof(freedom, direction) << "frame: " << matrixFrame(frame, direction) ;
+
+
+    tcpSocket->write(ba);
+    tcpSocket->waitForBytesWritten();
+
 }

@@ -14,6 +14,7 @@
 #define RECORD_JOINT(J_NAME)  "tv111!d" J_NAME "!"
 #define RECORD_POSE(P_NAME)   "tv110!d" P_NAME "!"
 
+/***** 关节点动 ******/
 #define J1_P          "tv49!"
 #define J1_N          "tv113!"
 #define J1_Z          "tv33!"
@@ -42,6 +43,25 @@
 #define J7_N          "tv117!"
 #define J7_Z          "tv38!"
 
+//笛卡尔坐标系
+#define FRAME_JOINT    0
+#define FRAME_BASE     1
+#define FRAME_FLANGE   2
+#define FRAME_WORLD    3 //TODO: 暂未实现，等于world系
+#define FRAME_TOOL     4 //TODO: 暂未实现，等于Tool系
+
+#define FREEDOM_X      0
+#define FREEDOM_Y      1
+#define FREEDOM_Z      2
+#define FREEDOM_K      3
+#define FREEDOM_P      4
+#define FREEDOM_S      5
+
+#define DIRECTION_P    0
+#define DIRECTION_N    1
+#define DIRECTION_Z    2
+
+/***** 世界笛卡尔点动 ******/
 #define CX_P          "tv249!"
 #define CX_N          "tv313!"
 #define CX_Z          "tv233!"
@@ -70,6 +90,7 @@
 #define CR_N          "tv317!"
 #define CR_Z          "tv238!"
 
+/***** 工具笛卡尔点动 ******/
 #define TX_P          "tv349!"
 #define TX_N          "tv413!"
 #define TX_Z          "tv333!"
@@ -109,5 +130,6 @@
 #define GET_INFO    "a" //返回关节位置及笛卡尔空间位置
 
 #define ZERO_CALI   "sc37!v0!"
+
 
 #endif // PROTOCOL_H

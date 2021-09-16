@@ -5,6 +5,8 @@
 #include <QTcpSocket>
 #include <QTimer>
 
+#include <Eigen/Dense>
+
 namespace Ui {
 class ConnectDialog;
 }
@@ -58,6 +60,9 @@ private:
 
     QTimer* timerState;
 
+    Eigen::Matrix<int, 7, 3> matrixDof;
+    Eigen::Matrix<int, 3, 3> matrixFrame;
+
 public:
     QString ipAddress = "192.168.0.99";
     int     port = 6666;
@@ -65,7 +70,9 @@ public:
     inline bool isConnected() { return (tcpSocket != Q_NULLPTR) && (tcpSocket->isValid());}  //是否已经连接
     inline bool getRobotEnabled() {return isRobotEnabled;} //获取Enable状态
 
-    void jointJogging(int id, int dir);
+    void jointJogging(int id, int dir); //关节点动
+    void cartesianJogging(int frame, int freedom, int dir); //笛卡尔点动
+    void jogging(int frame, int freedom, int dir); //两种点动可以合在一起
 
 signals:
     void jointPositions(QVector<double>& jntPos); //解析到关节位置，发送 信号

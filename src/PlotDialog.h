@@ -4,7 +4,10 @@
 #include <QDialog>
 #include <QMovie>
 #include <QTimer>
+#include <QTime>
+#include <QDateTime>
 #include <QButtonGroup>
+#include <QFile>
 
 #include <vtkAxis.h>
 #include <vtkChartMatrix.h>     //矩阵图表 subplot
@@ -49,7 +52,7 @@ public:
 
     void update_charts(); //配置显示什么曲线
 
-private slots:
+public slots:
     void on_recordButton_clicked();
 
     void on_typeComboBox_currentIndexChanged(int index);
@@ -66,12 +69,18 @@ private slots:
 
     void on_scaleCheck_stateChanged(int arg1);
 
+    void getJointPositions(QVector<double>& jntPos); // 处理关节位置
+    void getCartPose(QVector<double>& pose); // 处理笛卡尔空间位置
+
+private slots:
+    void on_saveCheck_stateChanged(int arg1);
+
+    void on_dirButton_clicked();
+
 private:
     Ui::PlotDialog *ui;
 
     QMovie* movie;
-
-    bool isRecording = false;
 
     vtkSmartPointer<vtkNamedColors> colors; //颜色
     vtkSmartPointer<vtkContextView> view; //画图区域的展示窗口
@@ -105,12 +114,22 @@ private:
 
     QButtonGroup* plotDispBtnGrp;
 
+    bool isRecording = false;
     bool isSaveData = false;
+    bool isAutoScale = true;
 
     int dispType = TYPE_JOINT_SPACE;
 
+    QTime* time;
+
+    QString timestamp; //用于记录保存文件时间的时间戳
+    QString saveDir = "./";  //保存记录文件的路径
+
+    QFile* jntPosFile;
+    QFile* cartPoseFile;
+
     //TODO: Just for test
-    double ii = 0;
+    double t = 0;
 
 
 

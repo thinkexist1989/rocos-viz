@@ -2,6 +2,10 @@
 #define ROCOSMAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
+#include <QTimer>
+#include <QTime>
+
 #include <ConnectDialog.h> //机器人控制链接
 #include <ScriptDialog.h>  //LUA脚本对话框
 #include <PlotDialog.h>    //曲线绘制对话框
@@ -10,6 +14,7 @@
 #include <JointPositionWidget.h>
 #include <CartesianPositionWidget.h>
 
+#include <Protocol.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class RocosMainWindow; }
@@ -55,8 +60,16 @@ private slots:
 
     void on_actionSetZero_triggered();
 
+    void on_baseFrame_clicked(bool checked);
+
+    void on_flangeFrame_clicked(bool checked);
+
 private:
     Ui::RocosMainWindow *ui;
+
+    QLabel*        timeLabel;
+    QTime*         time;
+    QTimer*        timer;
 
     ConnectDialog* connectDlg = Q_NULLPTR;
     ScriptDialog*  scriptDlg  = Q_NULLPTR;
@@ -69,6 +82,8 @@ private:
 public:
     bool isRobotConnected = false; //机器人是否连接
     bool isRobotEnabled = false; //机器人默认不上电
+
+    int  currentFrame = FRAME_BASE; // 默认为base系
 
 
 };
