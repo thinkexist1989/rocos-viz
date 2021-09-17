@@ -32,6 +32,12 @@ public:
         qDebug() << "cartid: " << id << " r2d: " << r2d;
     }
 
+    inline void setPosRep(int flag) {
+        r2d = (flag == POS_MM) ? 1.0 : 0.001;
+        updateVal(cartesianVal);
+        qDebug() << "cartid: " << id << " mm2m: " << r2d;
+    }
+
 public slots:
     void updateVal(double val);
 

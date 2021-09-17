@@ -11,11 +11,15 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //给Log增加一个右键菜单clear，清除之前记录
+    ui->logEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    //记录程序开始运行的时间
     time = new QTime;
     time->start();
 
     QTime tt(0,0);
-    timeLabel = new QLabel("Current Time: " + QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") + "    Program is running: " + tt.addMSecs(time->elapsed()).toString(), this);
+    timeLabel = new QLabel("Current Time: " + QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") + "    Program is running: " + tt.addMSecs(time->elapsed()).toString() + " ", this);
     QFont font;
     font.setFamily("Arial");
     font.setBold(true);
@@ -374,4 +378,38 @@ void RocosMainWindow::on_actionAngleRep_triggered()
     else{
         ui->actionAngleRep->setIcon(QIcon(":/res/radius.png"));
     }
+}
+
+void RocosMainWindow::on_actionPosRep_triggered()
+{
+    isPosMM = !isPosMM;
+
+    int posRep = isPosMM ? POS_MM : POS_M;
+
+    ui->cartesianXWidget->setPosRep(posRep);
+    ui->cartesianYWidget->setPosRep(posRep);
+    ui->cartesianZWidget->setPosRep(posRep);
+
+    if(isPosMM) {
+        ui->actionPosRep->setIcon(QIcon(":/res/mm.png"));
+    }
+    else{
+        ui->actionPosRep->setIcon(QIcon(":/res/m.png"));
+    }
+
+
+}
+
+void RocosMainWindow::on_logEdit_customContextMenuRequested(const QPoint &pos)
+{
+    Q_UNUSED(pos); //这个pos显示的位置不对
+
+    QMenu* menu = new QMenu(this);
+    QAction *action = new QAction(tr("clear"), this);
+    connect(action, &QAction::triggered, ui->logEdit, &QPlainTextEdit::clear);
+
+    menu->addAction(action);
+    menu->move(cursor().pos());
+    menu->show();
+
 }

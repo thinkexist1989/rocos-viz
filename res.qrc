@@ -40,5 +40,7 @@
         <file>res/zero.png</file>
         <file>res/degree.png</file>
         <file>res/radius.png</file>
+        <file>res/m.png</file>
+        <file>res/mm.png</file>
     </qresource>
 </RCC>

@@ -749,7 +749,7 @@
      <x>0</x>
      <y>0</y>
      <width>1156</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
@@ -780,6 +780,7 @@
    <addaction name="actionScript"/>
    <addaction name="actionPlotter"/>
    <addaction name="actionAngleRep"/>
+   <addaction name="actionPosRep"/>
    <addaction name="actionAbout"/>
   </widget>
   <action name="actionFrontView">
@@ -968,6 +969,21 @@
    </property>
    <property name="statusTip">
     <string>Set angle representation</string>
+   </property>
+  </action>
+  <action name="actionPosRep">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/mm.png</normaloff>:/res/mm.png</iconset>
+   </property>
+   <property name="text">
+    <string>PosRep</string>
+   </property>
+   <property name="toolTip">
+    <string>Set Position Representation</string>
+   </property>
+   <property name="statusTip">
+    <string>Set Position Representation</string>
    </property>
   </action>
  </widget>

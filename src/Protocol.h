@@ -7,6 +7,9 @@
 #define ANGLE_RADIUS    0     //弧度制
 #define ANGLE_DEGREE    1     //角度制
 
+#define POS_M           0     // m
+#define POS_MM          1     // mm
+
 #define ROBOT_ENABLE    "tv80!"
 #define ROBOT_DISABLE   "tv112!"
 

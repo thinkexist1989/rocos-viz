@@ -66,6 +66,10 @@ private slots:
 
     void on_actionAngleRep_triggered();
 
+    void on_actionPosRep_triggered();
+
+    void on_logEdit_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::RocosMainWindow *ui;
 
@@ -86,6 +90,7 @@ public:
     bool isRobotEnabled = false; //机器人默认不上电
 
     bool isAngleDegree = true; //默认角度显示
+    bool isPosMM = true; //默认mm显示
 
     int  currentFrame = FRAME_BASE; // 默认为base系
 
