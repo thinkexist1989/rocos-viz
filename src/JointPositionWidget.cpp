@@ -9,6 +9,7 @@ JointPositionWidget::JointPositionWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->jointPosValBar->setRange(-M_PI*r2d, M_PI*r2d);
     updateJointPosition(jointPos);
 
 }
@@ -27,6 +28,14 @@ void JointPositionWidget::setName(const QString &s)
 void JointPositionWidget::setFactor(double f)
 {
     factor = f;
+}
+
+void JointPositionWidget::setAngleRep(int flag)
+{
+    r2d = (flag == ANGLE_DEGREE) ? (180.0/M_PI) : 1.0;
+    ui->jointPosValBar->setRange(-M_PI*r2d, M_PI*r2d);
+    updateJointPosition(jointPos); //立即更新一下显示
+    qDebug() << "jntid: " << id << " r2d: " << r2d;
 }
 
 void JointPositionWidget::updateJointPosition(double val)

@@ -24,11 +24,7 @@ public:
 
     inline void setId(int jntId) { id = jntId; }
 
-    inline void setAngleRep(int flag) {
-        r2d = (flag == ANGLE_DEGREE) ? (180.0/M_PI) : 1.0;
-        updateJointPosition(jointPos); //立即更新一下显示
-        qDebug() << "jntid: " << id << " r2d: " << r2d;
-    }
+    void setAngleRep(int flag);
 
 public slots:
     void updateJointPosition(double val);
