@@ -356,11 +356,11 @@ void PlotDialog::on_recordButton_clicked()
         if(isSaveData) { // 是否保存数据
             jntPosFile = new QFile(saveDir + "/" + "jntPos" + timestamp + ".csv");
             jntPosFile->open(QIODevice::ReadWrite | QIODevice::Text);
-            jntPosFile->write("t \t j1 \t j2 \t j3 \t j4 \t j5 \t j6 \t j7\n");
+            jntPosFile->write("t , j1 , j2 , j3 , j4 , j5 , j6 , j7\n");
 
             cartPoseFile = new QFile(saveDir + "/" + "cartPose" + timestamp + ".csv");
             cartPoseFile->open(QIODevice::ReadWrite | QIODevice::Text);
-            cartPoseFile->write("t \t X \t Y \t Z \t r \t p \t y\n");
+            cartPoseFile->write("t , X , Y , Z , r , p , y\n");
         }
 
         time->restart(); //重新启动计时
@@ -443,9 +443,9 @@ void PlotDialog::getJointPositions(QVector<double> &jntPos)
 
     if(isSaveData) { //记录数据到 /your_path/jntPos20210916T143500.csv
         QByteArray ba;
-        ba.append(QString("%1 \t ").arg(t));
+        ba.append(QString("%1 , ").arg(t));
         for(int i = 0; i < jntPos.size(); i++) {
-            ba.append(QString("%1 \t ").arg(jntPos[i]));
+            ba.append(QString("%1 , ").arg(jntPos[i]));
         }
         ba.append("\n");
 
@@ -476,9 +476,9 @@ void PlotDialog::getCartPose(QVector<double> &pose)
 
     if(isSaveData) { //记录数据到 /your_path/cartPose20210916T143500.csv
         QByteArray ba;
-        ba.append(QString("%1 \t ").arg(t));
+        ba.append(QString("%1 , ").arg(t));
         for(int i = 0; i < pose.size(); i++) {
-            ba.append(QString("%1 \t ").arg(pose[i]));
+            ba.append(QString("%1 , ").arg(pose[i]));
         }
         ba.append("\n");
 
