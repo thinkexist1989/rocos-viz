@@ -10,17 +10,13 @@
     <height>796</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <family>Arial</family>
-    <pointsize>11</pointsize>
-    <weight>75</weight>
-    <italic>false</italic>
-    <bold>true</bold>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>ROCOS-MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">*{font-family: &quot;Arial&quot;;
+  font-size: 11pt;
+  font-weight: bold;}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_10">

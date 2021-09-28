@@ -324,99 +324,99 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="src/RocosMainWindow.ui" line="45"/>
-        <location filename="src/RocosMainWindow.ui" line="861"/>
-        <location filename="src/RocosMainWindow.ui" line="864"/>
+        <location filename="src/RocosMainWindow.ui" line="885"/>
+        <location filename="src/RocosMainWindow.ui" line="888"/>
         <source>Trajectory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="200"/>
-        <location filename="src/RocosMainWindow.cpp" line="350"/>
+        <location filename="src/RocosMainWindow.ui" line="218"/>
+        <location filename="src/RocosMainWindow.cpp" line="355"/>
         <source>Cartesian Space (BASE)</source>
         <oldsource>Cartesian Space</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="233"/>
+        <location filename="src/RocosMainWindow.ui" line="251"/>
         <source>Joint Space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="351"/>
+        <location filename="src/RocosMainWindow.ui" line="375"/>
         <source>X:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="361"/>
-        <location filename="src/RocosMainWindow.ui" line="368"/>
-        <location filename="src/RocosMainWindow.ui" line="375"/>
-        <location filename="src/RocosMainWindow.ui" line="422"/>
-        <location filename="src/RocosMainWindow.ui" line="476"/>
-        <location filename="src/RocosMainWindow.ui" line="483"/>
-        <location filename="src/RocosMainWindow.ui" line="510"/>
-        <location filename="src/RocosMainWindow.ui" line="555"/>
-        <location filename="src/RocosMainWindow.ui" line="585"/>
-        <location filename="src/RocosMainWindow.ui" line="615"/>
-        <location filename="src/RocosMainWindow.ui" line="645"/>
-        <location filename="src/RocosMainWindow.ui" line="675"/>
-        <location filename="src/RocosMainWindow.ui" line="705"/>
-        <location filename="src/RocosMainWindow.ui" line="735"/>
+        <location filename="src/RocosMainWindow.ui" line="385"/>
+        <location filename="src/RocosMainWindow.ui" line="392"/>
+        <location filename="src/RocosMainWindow.ui" line="399"/>
+        <location filename="src/RocosMainWindow.ui" line="446"/>
+        <location filename="src/RocosMainWindow.ui" line="500"/>
+        <location filename="src/RocosMainWindow.ui" line="507"/>
+        <location filename="src/RocosMainWindow.ui" line="534"/>
+        <location filename="src/RocosMainWindow.ui" line="579"/>
+        <location filename="src/RocosMainWindow.ui" line="609"/>
+        <location filename="src/RocosMainWindow.ui" line="639"/>
+        <location filename="src/RocosMainWindow.ui" line="669"/>
+        <location filename="src/RocosMainWindow.ui" line="699"/>
+        <location filename="src/RocosMainWindow.ui" line="729"/>
+        <location filename="src/RocosMainWindow.ui" line="759"/>
         <source>Go</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="402"/>
-        <location filename="src/RocosMainWindow.ui" line="456"/>
+        <location filename="src/RocosMainWindow.ui" line="426"/>
+        <location filename="src/RocosMainWindow.ui" line="480"/>
         <source>Y:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="331"/>
+        <location filename="src/RocosMainWindow.ui" line="355"/>
         <source>Z:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="412"/>
+        <location filename="src/RocosMainWindow.ui" line="436"/>
         <source>R:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="392"/>
+        <location filename="src/RocosMainWindow.ui" line="416"/>
         <source>P:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="466"/>
+        <location filename="src/RocosMainWindow.ui" line="490"/>
         <source>0-Space:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="272"/>
+        <location filename="src/RocosMainWindow.ui" line="296"/>
         <source>Working Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="288"/>
+        <location filename="src/RocosMainWindow.ui" line="312"/>
         <source>Position Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="293"/>
+        <location filename="src/RocosMainWindow.ui" line="317"/>
         <source>Velocity Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="298"/>
+        <location filename="src/RocosMainWindow.ui" line="322"/>
         <source>Torque Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="303"/>
+        <location filename="src/RocosMainWindow.ui" line="327"/>
         <source>Joint Impedance Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="308"/>
+        <location filename="src/RocosMainWindow.ui" line="332"/>
         <source>Cartisian Impedance Mode</source>
         <translation type="unfinished"></translation>
     </message>
@@ -426,254 +426,254 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="85"/>
+        <location filename="src/RocosMainWindow.ui" line="91"/>
         <source>Reference Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="94"/>
+        <location filename="src/RocosMainWindow.ui" line="100"/>
         <source>World</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="107"/>
+        <location filename="src/RocosMainWindow.ui" line="113"/>
         <source>Base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="120"/>
+        <location filename="src/RocosMainWindow.ui" line="126"/>
         <source>Flange</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="130"/>
+        <location filename="src/RocosMainWindow.ui" line="136"/>
         <source>Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="905"/>
+        <location filename="src/RocosMainWindow.ui" line="929"/>
         <source>Connect to robot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="914"/>
+        <location filename="src/RocosMainWindow.ui" line="938"/>
         <source>Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="917"/>
+        <location filename="src/RocosMainWindow.ui" line="941"/>
         <source>Execute LUA scripts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="926"/>
+        <location filename="src/RocosMainWindow.ui" line="950"/>
         <source>Plotter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="929"/>
+        <location filename="src/RocosMainWindow.ui" line="953"/>
         <source>Plot curve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="932"/>
+        <location filename="src/RocosMainWindow.ui" line="956"/>
         <source>Plot curves of robot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="941"/>
-        <location filename="src/RocosMainWindow.ui" line="944"/>
+        <location filename="src/RocosMainWindow.ui" line="965"/>
+        <location filename="src/RocosMainWindow.ui" line="968"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="953"/>
+        <location filename="src/RocosMainWindow.ui" line="977"/>
         <source>SetZero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="325"/>
+        <location filename="src/RocosMainWindow.ui" line="349"/>
         <source>Precise Cartesian Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="526"/>
+        <location filename="src/RocosMainWindow.ui" line="550"/>
         <source>Precise Joint Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="140"/>
+        <location filename="src/RocosMainWindow.ui" line="152"/>
         <source>Speed Scaling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="104"/>
+        <location filename="src/RocosMainWindow.ui" line="110"/>
         <source>Change frame to Base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="117"/>
+        <location filename="src/RocosMainWindow.ui" line="123"/>
         <source>Change frame to Flange</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="146"/>
+        <location filename="src/RocosMainWindow.ui" line="158"/>
         <source>Scaling the speed of robot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="178"/>
+        <location filename="src/RocosMainWindow.ui" line="196"/>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="284"/>
+        <location filename="src/RocosMainWindow.ui" line="308"/>
         <source>Change working mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="532"/>
+        <location filename="src/RocosMainWindow.ui" line="556"/>
         <source>J1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="562"/>
+        <location filename="src/RocosMainWindow.ui" line="586"/>
         <source>J2:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="592"/>
+        <location filename="src/RocosMainWindow.ui" line="616"/>
         <source>J3:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="622"/>
+        <location filename="src/RocosMainWindow.ui" line="646"/>
         <source>J4:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="652"/>
+        <location filename="src/RocosMainWindow.ui" line="676"/>
         <source>J5:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="682"/>
+        <location filename="src/RocosMainWindow.ui" line="706"/>
         <source>J6:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="712"/>
+        <location filename="src/RocosMainWindow.ui" line="736"/>
         <source>J7:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="759"/>
+        <location filename="src/RocosMainWindow.ui" line="783"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="792"/>
+        <location filename="src/RocosMainWindow.ui" line="816"/>
         <source>frontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="795"/>
+        <location filename="src/RocosMainWindow.ui" line="819"/>
         <source>FrontView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="798"/>
+        <location filename="src/RocosMainWindow.ui" line="822"/>
         <source>Set 3D to Front View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="807"/>
+        <location filename="src/RocosMainWindow.ui" line="831"/>
         <source>TopView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="810"/>
+        <location filename="src/RocosMainWindow.ui" line="834"/>
         <source>Set 3D to Top View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="819"/>
+        <location filename="src/RocosMainWindow.ui" line="843"/>
         <source>RightView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="822"/>
+        <location filename="src/RocosMainWindow.ui" line="846"/>
         <source>Set 3D to Right View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="831"/>
+        <location filename="src/RocosMainWindow.ui" line="855"/>
         <source>AxonometricView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="834"/>
+        <location filename="src/RocosMainWindow.ui" line="858"/>
         <source>Set 3D to Axonometric View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="843"/>
+        <location filename="src/RocosMainWindow.ui" line="867"/>
         <source>AxesView</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="852"/>
+        <location filename="src/RocosMainWindow.ui" line="876"/>
         <source>Plan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="873"/>
+        <location filename="src/RocosMainWindow.ui" line="897"/>
         <source>Ground</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="889"/>
+        <location filename="src/RocosMainWindow.ui" line="913"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="892"/>
+        <location filename="src/RocosMainWindow.ui" line="916"/>
         <source>Set robot enable state</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="902"/>
+        <location filename="src/RocosMainWindow.ui" line="926"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="956"/>
+        <location filename="src/RocosMainWindow.ui" line="980"/>
         <source>Set joint position to zero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="965"/>
+        <location filename="src/RocosMainWindow.ui" line="989"/>
         <source>AngleRep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="968"/>
+        <location filename="src/RocosMainWindow.ui" line="992"/>
         <source>Angle Representation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="971"/>
+        <location filename="src/RocosMainWindow.ui" line="995"/>
         <source>Set angle representation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="980"/>
+        <location filename="src/RocosMainWindow.ui" line="1004"/>
         <source>PosRep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.ui" line="983"/>
-        <location filename="src/RocosMainWindow.ui" line="986"/>
+        <location filename="src/RocosMainWindow.ui" line="1007"/>
+        <location filename="src/RocosMainWindow.ui" line="1010"/>
         <source>Set Position Representation</source>
         <translation type="unfinished"></translation>
     </message>
@@ -683,27 +683,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="209"/>
+        <location filename="src/RocosMainWindow.cpp" line="214"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="338"/>
+        <location filename="src/RocosMainWindow.cpp" line="343"/>
         <source>Zero Calibration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="338"/>
+        <location filename="src/RocosMainWindow.cpp" line="343"/>
         <source>The current joint position will set as ZERO. Are you sure?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="358"/>
+        <location filename="src/RocosMainWindow.cpp" line="363"/>
         <source>Cartesian Space (FLANGE)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="408"/>
+        <location filename="src/RocosMainWindow.cpp" line="413"/>
         <source>clear</source>
         <translation type="unfinished"></translation>
     </message>
