@@ -22,7 +22,7 @@
 sudo apt install qt5-default
 ```
 
-- [Eigen3](http://eigen.tuxfamily.org/index.php?title=Main_Page) Eigen is a C++ template library for linear algebra (:warning: unused)
+- [Eigen3](http://eigen.tuxfamily.org/index.php?title=Main_Page) Eigen is a C++ template library for linear algebra.
 
 ```bash
 sudo apt install libeigen3-dev
