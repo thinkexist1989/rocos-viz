@@ -10,7 +10,7 @@
   <blockquote> The Visualization And Remote Control GUI for ROCOS </blockquote>
 </div>
 
-![rocos-viz]("./res/../../res/rocos-viz.gif")
+![rocos-viz](./res/rocos-viz.gif)
 
 ## Introduction
 
