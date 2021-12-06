@@ -1,6 +1,6 @@
 <!--
  Copyright (c) 2021 'Yang Luo, luoyang@sia.cn'
- 
+
  This software is released under the MIT License.
  https://opensource.org/licenses/MIT
 -->
@@ -11,6 +11,8 @@
 </div>
 
 ![rocos-viz]("./res/../../res/rocos-viz.gif")
+
+:warning: Rocos-Viz is under development, not finished~ :thinking:
 
 ## Introduction
 
