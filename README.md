@@ -32,9 +32,7 @@ sudo apt install libeigen3-dev
 
 - [VTK](https://vtk.org/) The Visualization Toolkit (VTK) is an open-source, freely available software system for 3D computer graphics, modeling, image processing, volume rendering, scientific visualization, and 2D plotting.
 
-```bash
-sudo apt install libvtk7-qt-dev
-```
+  > VTK8.2 need to be compiled with QVTKOpenglWidget supported.
 
 ## Usage
 
