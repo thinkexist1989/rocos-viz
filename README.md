@@ -10,7 +10,7 @@
   <blockquote> The Visualization And Remote Control GUI for ROCOS </blockquote>
 </div>
 
-![rocos-viz]("./res/../../res/rocos-viz.gif")
+![rocos-viz](./res/rocos-viz.gif)
 
 :warning: Rocos-Viz is under development, not finished~ :thinking:
 
@@ -24,7 +24,7 @@
 sudo apt install qt5-default
 ```
 
-- [Eigen3](http://eigen.tuxfamily.org/index.php?title=Main_Page) Eigen is a C++ template library for linear algebra (:warning: unused)
+- [Eigen3](http://eigen.tuxfamily.org/index.php?title=Main_Page) Eigen is a C++ template library for linear algebra.
 
 ```bash
 sudo apt install libeigen3-dev
