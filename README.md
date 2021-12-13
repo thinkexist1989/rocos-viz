@@ -49,4 +49,7 @@ make -j`nproc`
 
 ## Contributor
 
-:bust_in_silhouette:[**Yang Luo (luoyang@sia.cn)**](mailto:luoyang@sia.cn)
+:bust_in_silhouette: **Yang Luo (luoyang@sia.cn)**
+
+:framed_picture: Icon Designed by :**Yuhan Ying (1027649507@qq.com)**
+
