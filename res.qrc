@@ -42,5 +42,8 @@
         <file>res/radius.png</file>
         <file>res/m.png</file>
         <file>res/mm.png</file>
+        <file>res/splash.png</file>
+        <file>res/rocos-viz.jpg</file>
+        <file>res/rocos-viz2.jpg</file>
     </qresource>
 </RCC>

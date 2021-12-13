@@ -6,9 +6,11 @@
 -->
 
 <div align="center">
+  <img src="./res/rocos-viz.jpg" alt="" height="300">
   <h1>ROCOS-Viz</h1>
   <blockquote> The Visualization And Remote Control GUI for ROCOS </blockquote>
 </div>
+
 
 ![rocos-viz](./res/rocos-viz.gif)
 

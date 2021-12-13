@@ -59,6 +59,7 @@ set(SRC_FILES
         src/ScriptDialog.cpp
         src/PlotDialog.cpp
         src/AboutDialog.cpp
+        src/SplashScreen.cpp
 )
 set(HRD_FILES
         src/RocosMainWindow.h
@@ -73,6 +74,7 @@ set(HRD_FILES
         src/ScriptDialog.h
         src/PlotDialog.h
         src/AboutDialog.h
+        src/SplashScreen.h
 )
 set(UI_FILES
         src/RocosMainWindow.ui
