@@ -6,7 +6,7 @@
 -->
 
 <div align="center">
-  <img src="./res/rocos-viz.jpg" alt="" height="300">
+  <img src="./rocos-viz.png" alt="" height="150">
   <h1>ROCOS-Viz</h1>
   <blockquote> The Visualization And Remote Control GUI for ROCOS </blockquote>
 </div>
