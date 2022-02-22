@@ -1,0 +1,170 @@
+// Copyright 2021, Yang Luo"
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// @Author
+// Yang Luo, PHD
+// Shenyang Institute of Automation, Chinese Academy of Sciences.
+// email: luoyang@sia.cn
+
+syntax = "proto3";
+
+package rocos;
+
+option java_outer_classname = "RobotStateProto";
+
+import "header.proto"; // Standard header of gRPC
+import "geometry.proto";
+import "google/protobuf/wrappers.proto";
+
+enum Synchronization {
+    SYNC_NONE = 0;
+    SYNC_TIME = 1;
+    SYNC_PHASE = 2;
+}
+
+enum Mode {
+    MODE_CSP = 0;
+    MODE_CSV = 1;
+    MODE_CST = 2;
+}
+
+/////// SingleAxisCommand ////////////
+message SingleAxisEnabled {
+    int32 id = 1;
+}
+
+message SingleAxisDisabled {
+    int32 id = 1;
+}
+
+message SingleAxisMode {
+    int32 id = 1;
+    Mode value = 2;
+}
+
+message SingleAxisMove {
+    int32 id = 1;
+    double pos = 2;
+    optional double max_vel = 3;
+    optional double max_acc = 4;
+    optional double max_jerk = 5;
+    optional double least_time = 6;
+    optional bool   raw_data = 7;
+}
+
+message SingleAxisStop {
+    int32 id = 1;
+}
+
+message SingleAxisCommand {
+    oneof command {
+        SingleAxisEnabled enabled = 1;
+        SingleAxisDisabled disabled = 2;
+        SingleAxisMode mode = 3;
+        SingleAxisMove move = 4;
+        SingleAxisStop stop = 5; //增加停止命令，可以以允许的最大加速度立刻停止
+    }
+}
+
+/////// MultiAxisCommand ////////////
+message MultiAxisEnabled {
+}
+
+message MultiAxisDisabled {
+}
+
+message MultiAxisMode {
+    repeated Mode value = 1;
+}
+
+message MultiAxisSync {
+    Synchronization value = 1;
+}
+
+message MultiAxisMove {
+    repeated double target_pos = 1;
+    repeated double max_vel = 3;
+    repeated double max_acc = 4;
+    repeated double max_jerk = 5;
+    optional double least_time = 6;
+    optional bool raw_data = 7;
+    optional Synchronization sync = 8;
+}
+
+message MultiAxisStop {
+}
+
+message MultiAxisCommand {
+    oneof command {
+        MultiAxisEnabled enabled = 1;
+        MultiAxisDisabled disabled = 2;
+        MultiAxisMode mode = 3;
+        MultiAxisSync sync = 4;
+        MultiAxisMove move = 5;
+        MultiAxisStop stop = 6; //增加停止命令，每个轴都可以以允许的最大加速度立刻停止
+    }
+}
+
+
+/////// General Command /////////////
+message Enabled {
+    repeated double target_pos = 1;
+    repeated double target_vel = 2;
+}
+
+message Disabled {
+}
+
+// 查询或设置零位偏移
+message ZeroOffset {
+    repeated google.protobuf.Int32Value value = 1;
+}
+
+// 查询或设置单位转换
+message CntPerUnit {
+    repeated google.protobuf.DoubleValue value = 1;
+}
+
+message MoveJ {
+    repeated double target_pos = 1;
+}
+
+message MoveL {
+    SE3Pose target_pos = 1;
+}
+
+
+
+///////////////////////////////////////
+
+message RobotCommand {
+    oneof command {
+        Enabled enabled = 1;
+        Disabled disabled = 2;
+        MoveJ   move_j = 3;
+        SingleAxisCommand single_axis_command = 4;
+        MultiAxisCommand multi_axis_command = 5;
+    }
+}
+
+message RobotCommandRequest {
+    //Common request header.
+    RequestHeader header = 1;
+    RobotCommand command = 2;
+}
+
+message RobotCommandResponse {
+    //Common request header.
+    ResponseHeader header = 1;
+}
