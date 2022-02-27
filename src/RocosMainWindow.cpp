@@ -42,6 +42,22 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 
     scriptDlg->setConnectPtr(connectDlg); //将connectDlg指针传给script
 
+
+    /********connect信号处理********/
+    connect(connectDlg, &ConnectDialog::connectState, this, [=](bool isConnected){
+        if(isConnected) {
+            ui->actionConnected->setText(tr("Disconnect"));
+            ui->actionConnected->setIcon(QIcon(":/res/connected.png"));
+//            _isConnected = true;
+        }
+        else {
+            ui->actionConnected->setText(tr("Connect"));
+            ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
+//            _isConnected = false;
+        }
+    });
+
+
     /********Joint Position Widgets********/
     ui->Joint1PosWidget->setName("#1 ");
     ui->Joint1PosWidget->setId(0);
@@ -325,7 +341,7 @@ void RocosMainWindow::on_pushButton_clicked()
     jntRads.push_back(rand()/double(RAND_MAX));
     jntRads.push_back(rand()/double(RAND_MAX));
     jntRads.push_back(rand()/double(RAND_MAX));
-    jntRads.push_back(rand()/double(RAND_MAX));
+//    jntRads.push_back(rand()/double(RAND_MAX));
 //    this->ui->visualWidget->setJointPos(jntRads);
 
     updateJointPos(jntRads);
@@ -365,11 +381,11 @@ void RocosMainWindow::on_speedSlider_valueChanged(int value)
 }
 void RocosMainWindow::on_actionEnabled_triggered()
 {
-    isRobotEnabled = connectDlg->getRobotEnabled();
-
-    connectDlg->setRobotEnabled(!isRobotEnabled);
-
-    isRobotEnabled = connectDlg->getRobotEnabled();
+//    isRobotEnabled = connectDlg->getRobotEnabled();
+//
+//    connectDlg->setRobotEnabled(!isRobotEnabled);
+//
+//    isRobotEnabled = connectDlg->getRobotEnabled();
 
     if(isRobotEnabled) {
         ui->actionEnabled->setIcon(QIcon(":/res/switchon.png"));
@@ -381,24 +397,12 @@ void RocosMainWindow::on_actionEnabled_triggered()
 
 void RocosMainWindow::on_actionConnected_triggered()
 {
-    if(!isRobotConnected) {
-        int res = connectDlg->exec();
-        if(res == QDialog::Accepted){
-    //        qDebug() << "Connected!";
-            isRobotConnected = true;
-            ui->actionConnected->setIcon(QIcon(":/res/connected.png"));
-        }
-        else{
-            isRobotConnected = false;
-            ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
-        }
+    if(connectDlg->isConnected()) {
+        connectDlg->shutdown();
     }
-    else {
-        connectDlg->connectedToRobot(false);
-        isRobotConnected = false;
-        ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
+    else{
+        connectDlg->show();
     }
-
 
 }
 
@@ -408,7 +412,7 @@ void RocosMainWindow::updateJointPos(QVector<double> &jntPos)
         jpWdgs[i]->updateJointPosition(jntPos[i]); //更新关节位置
     }
 
-    jntPos.resize(7); //TODO: 这句话实际需要屏蔽
+//    jntPos.resize(7); //TODO: 这句话实际需要屏蔽
     ui->visualWidget->setJointPos(jntPos);
 }
 

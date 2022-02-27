@@ -5,355 +5,315 @@
 
 #include <Protocol.h> //通讯协议
 
+const int POLLING_INTERVAL_MS = 100; // 轮询间隔 100ms
+
 ConnectDialog::ConnectDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ConnectDialog)
-{
+        QDialog(parent),
+        ui(new Ui::ConnectDialog) {
     ui->setupUi(this);
+
+    this->setWindowFlag(Qt::FramelessWindowHint);
+
+    ui->ipAddressEdit->setText(ip_address_); //更新界面默认值
+    ui->portEdit->setText(QString::number(port_)); //更新界面默认值
 
     tcpSocket = new QTcpSocket;
 
-    connect(tcpSocket, &QTcpSocket::disconnected, this, [=](){connectedToRobot(false);});
-    connect(tcpSocket, &QTcpSocket::readyRead, this, &ConnectDialog::parseRobotMsg); //解析机器人状态
+    connect(tcpSocket, &QTcpSocket::disconnected, this, [=]() { connectedToRobot(false); });
 
-    timerState = new QTimer(this);
-    connect(timerState, &QTimer::timeout, this, &ConnectDialog::getRobotState); //获取机器人状态
-
-
-    matrixDof << 49, 13, 33, // 1 or x
-                 50, 19, 64, // 2 or y
-                 51, 01, 35, // 3 or z
-                 52, 14, 36, // 4 or k
-                 53, 16, 37, // 5 or p
-                 54, 21, 94, // 6 or s
-                 55, 17, 38; // 7 or r
-
-    matrixFrame <<   0, 100,   0, //joint
-                   200, 300, 200, //cartesian
-                   300, 400, 300; //tool
+    timer_state_ = new QTimer(this);
+    connect(timer_state_, &QTimer::timeout, this, &ConnectDialog::getRobotState); //获取机器人状态
 
 }
 
-ConnectDialog::~ConnectDialog()
-{
+ConnectDialog::~ConnectDialog() {
     delete ui;
 }
 
-void ConnectDialog::on_connectButton_clicked()
-{
+void ConnectDialog::on_connectButton_clicked() {
     connectedToRobot(true);
 }
 
-void ConnectDialog::on_ipAddressEdit_textChanged(const QString &ip)
-{
-    ipAddress = ip;
+void ConnectDialog::on_ipAddressEdit_textChanged(const QString &ip) {
+    ip_address_ = ip;
 }
 
-void ConnectDialog::on_portEdit_textChanged(const QString &p)
-{
-    port = p.toInt();
+void ConnectDialog::on_portEdit_textChanged(const QString &p) {
+    port_ = p.toInt();
 }
 
-void ConnectDialog::connectedToRobot(bool con)
-{
-    if(con) { //连接
-        if(tcpSocket == Q_NULLPTR) {
-            tcpSocket = new QTcpSocket;
-        }
-
-        tcpSocket->connectToHost(ipAddress, port);
-
-        if (tcpSocket->waitForConnected(2000)) { //链接等待2s
-            qDebug("Robot controller is connected!");
-
-            getJointSpeedScaling(); //查询一下当前速度缩放
-
-            timerState->start(100);
-
-            accept(); // 对话框返回accept
-        }
-        else {
-            reject(); // 对话框返回reject
-        }
-    }
-    else { //断开连接
-        if(tcpSocket == Q_NULLPTR) {
-            reject(); // 未连接
+void ConnectDialog::connectedToRobot(bool con) {
+    if (con) { //连接机器人
+        if (is_connected_)
             return;
-        }
 
-        tcpSocket->disconnectFromHost();
+        channel_ = grpc::CreateChannel(QString("%1:%2").arg(ip_address_).arg(port_).toStdString(),
+                                       grpc::InsecureChannelCredentials());
 
-        if (tcpSocket->state() == QAbstractSocket::UnconnectedState ||
-            tcpSocket->waitForDisconnected(2000)) {
-            qDebug("Robot controller is disconnected!");
-            reject();
-        }
-    }
-}
+        stub_ = RobotService::NewStub(channel_);
 
-void ConnectDialog::setRobotEnabled(bool enabled)
-{
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        qDebug() << "Connection to robot is not established!!";
-        return;
-    }
+        //获取一下RobotInfo,顺便测试一下连接否成功
+        RobotInfoRequest request;
+//    RobotInfoResponse response;
+        Status status;
 
-    if(enabled){
-        tcpSocket->write(ROBOT_ENABLE);
-        isRobotEnabled = true;
-    }
-    else {
-        tcpSocket->write(ROBOT_DISABLE);
-        isRobotEnabled = false;
-    }
-}
+        //之前发现如果退出程序，重启只发送一次会卡住，所以多发几次，但这个问题需要仔细研究一下
+        // 后来发现不是这个原因造成的,是由于channel_没有释放造成的
+        ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+        status = stub_->ReadRobotInfo(&context, request, &robot_info_response_);
+//    }
 
-void ConnectDialog::setJointSpeedScaling(double factor)
-{
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        return;
-    }
+        if (status.ok()) {
+            emit connectState(true);
+            timer_state_->start(POLLING_INTERVAL_MS); // 如果连接上机器人，则以POLLING_INTERVAL_MS间隔轮询数据
+            this->close();
+            is_connected_ = true;
 
-    QByteArray ba = "sc0!v";
-    ba.append(QString::number(factor));
-    ba.append("!\0");
+            cnt_per_unit_.resize(robot_info_response_.robot_info().joint_infos_size());
+            torque_per_unit_.resize(robot_info_response_.robot_info().joint_infos_size());
+            load_per_unit_.resize(robot_info_response_.robot_info().joint_infos_size());
+            ratio_.resize(robot_info_response_.robot_info().joint_infos_size());
+            pos_zero_offset_.resize(robot_info_response_.robot_info().joint_infos_size());
 
-    tcpSocket->write(ba);
+            user_unit_name_.resize(robot_info_response_.robot_info().joint_infos_size());
+            torque_unit_name_.resize(robot_info_response_.robot_info().joint_infos_size());
+            load_unit_name_.resize(robot_info_response_.robot_info().joint_infos_size());
 
-//    QTimer::singleShot(50, this, &ConnectDialog::getJointSpeedScaling);
+            for (int i = 0; i < robot_info_response_.robot_info().joint_infos_size(); ++i) {
+                cnt_per_unit_[i] = robot_info_response_.robot_info().joint_infos().at(i).cnt_per_unit();
+                torque_per_unit_[i] = robot_info_response_.robot_info().joint_infos().at(i).torque_per_unit();
+                //TODO: load_per_unit
+                user_unit_name_[i] = QString::fromStdString(
+                        robot_info_response_.robot_info().joint_infos().at(i).user_unit_name());
+                //TODO: torque_unit_name 及 load_unit_name
 
-//    qDebug() << "Set speed scaling: " << ba;
-}
+                qDebug() << "Joint " << i << ": ";
+                qDebug() << "    cnt_per_unit: "
+                         << robot_info_response_.robot_info().joint_infos().at(i).cnt_per_unit();
+                qDebug() << "    torque_per_unit: "
+                         << robot_info_response_.robot_info().joint_infos().at(i).torque_per_unit();
+                qDebug() << "    ratio: " << robot_info_response_.robot_info().joint_infos().at(i).ratio();
+                qDebug() << "    pos_zero_offset: "
+                         << robot_info_response_.robot_info().joint_infos().at(i).pos_zero_offset();
+                qDebug() << "    user_unit_name: "
+                         << robot_info_response_.robot_info().joint_infos().at(i).user_unit_name().c_str();
 
-void ConnectDialog::getJointSpeedScaling()
-{
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        return;
-    }
-
-    tcpSocket->write(GET_JNTSPD);
-
-}
-
-void ConnectDialog::setCartesianSpeedScaling(double factor)
-{
-}
-
-void ConnectDialog::getCartesianSpeedScaling()
-{
-
-}
-
-void ConnectDialog::setToolSpeedScaling(double factor)
-{
-}
-
-void ConnectDialog::getToolSpeedScaling()
-{
-
-}
-
-void ConnectDialog::startScript(QString script)
-{
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        return;
-    }
-
-    QByteArray ba = "tv99!p";
-    ba.append(script);
-    ba.append("!\0");
-
-    tcpSocket->write(ba);
-    tcpSocket->waitForBytesWritten();
-
-    tcpSocket->write(GET_ERROR);
-}
-
-void ConnectDialog::stopScript()
-{
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        return;
-    }
-
-    tcpSocket->write(LUA_STOP);
-    tcpSocket->waitForBytesWritten();
-
-    tcpSocket->write(GET_ERROR);
-}
-
-void ConnectDialog::pauseScript()
-{
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        return;
-    }
-
-    tcpSocket->write(LUA_PAUSE);
-    tcpSocket->waitForBytesWritten();
-
-    tcpSocket->write(GET_ERROR);
-}
-
-void ConnectDialog::continueScript()
-{
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        return;
-    }
-
-    tcpSocket->write(LUA_CONTINUE);
-    tcpSocket->waitForBytesWritten();
-
-    tcpSocket->write(GET_ERROR);
-}
-
-void ConnectDialog::setZeroCalibration()
-{
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        return;
-    }
-
-    tcpSocket->write(ZERO_CALI);
-    tcpSocket->waitForBytesWritten();
-
-    tcpSocket->write(GET_ERROR);
-    tcpSocket->waitForBytesWritten();
-}
-
-void ConnectDialog::getRobotState()
-{
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        qDebug() << "Connection to robot is not established!!";
-        return;
-    }
-
-    tcpSocket->write(GET_INFO);
-}
-
-void ConnectDialog::parseRobotMsg()
-{
-    if(!tcpSocket->isValid()){
-        return;
-    }
-
-    QByteArray ba = tcpSocket->readAll();
-//    qDebug() << ba;
-
-
-//    int size = ba.size();
-
-    //机器人状态信息： av10.0!v20.0!bv3.0!v3.4!3.0!v3.4!3.0!v3.4!\0 ,单位为rad, mm a开头为关节 b开头为笛卡尔
-    if(ba.startsWith("a")) {
-        auto list = ba.split('b'); //<av10.0!v20.0!><v3.0!v3.4!v3.0!v3.4!v3.0!v3.4!>
-
-        QByteArray jp = list[0];
-        auto jointsArray =  jp.split('!'); // <av10.0><v20.0>
-        QVector<double> jntPos;
-        for(auto& j : jointsArray) {
-            if(!j.isEmpty()) {
-                int idx = j.indexOf('v'); //
-                jntPos.push_back(j.mid(idx+1).toDouble());
             }
+
+        } else {
+            emit connectState(false);
+            is_connected_ = false;
         }
+    } else { //断开连接机器人
+        timer_state_->stop();
+        while (channel_.use_count())
+            channel_.reset();
 
-        emit jointPositions(jntPos); //发送关节位置信号
-//        qDebug() << "1: " << jntPos[0];
-
-        QByteArray cp = list[1];
-        auto cartArray =  cp.split('!'); // <v3.0!><v3.4!><v3.0!><v3.4!><v3.0!><v3.4!>
-        QVector<double> pose;
-        for(auto& c : cartArray) {
-            if(!c.isEmpty()) {
-                int idx = c.indexOf('v'); //
-                pose.push_back(c.mid(idx+1).toDouble());
-            }
-        }
-
-        emit cartPose(pose); //发送 笛卡尔位置信号
-//        qDebug() << "x: " << pose[0] << "y: " << pose[1] << "z: " << pose[2] << "r: " << pose[3] << "p: " << pose[4] << "y: " << pose[5];
-
-    }
-    else if(ba.startsWith("sc")) { //速度配置信息， 百分比 sc0!v25.0!
-        auto list = ba.split('!');
-        for(auto& l : list) {
-            if(!l.isEmpty()) {
-                if(l.startsWith('v')) {
-                    int idx = l.indexOf('v'); //
-                    emit speedScaling(l.mid(idx+1).toDouble());
-                    qDebug() << "Current speed scaling: " << l.mid(idx+1).toDouble();
-                }
-            }
-        }
-    }
-    else if(ba.startsWith("ee")) {
-        emit logging(ba);
-        qDebug() << ba;
+        is_connected_ = false;
+        emit connectState(false);
     }
 }
 
-void ConnectDialog::jointJogging(int id, int dir)
-{
-    QByteArray data;
+/// \brief 机械臂多关节使能
+/// \param enabled
+void ConnectDialog::setRobotEnabled(bool enabled) {
+    RobotCommandRequest request;
+    RobotCommandResponse response;
 
-    int direction = 0;
+    if (enabled)
+        request.mutable_command()->mutable_enabled();
+    else
+        request.mutable_command()->mutable_disabled();
 
-    if(dir > 0) { // 正向运动
-        direction = DIRECTION_P;
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cerr << "Send command Error" << std::endl;
     }
-    else if(dir < 0) { // 负向运动
-        direction = DIRECTION_N;
-    }
-    else if(dir == 0) { // 停止运动
-        direction = DIRECTION_Z;
-    }
+}
 
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        return;
-    }
-
-    QByteArray ba = "tv";
-    ba.append(QString::number(matrixDof(id, direction) + matrixFrame(FRAME_JOINT, direction))); //由于关节id从1开始，因此需要-1
-    ba.append("!\0");
-
-//    qDebug() << ba << " ; dof: " << matrixDof(id-1, direction) << "frame: " << matrixFrame(FRAME_JOINT, direction) ;
-
-    tcpSocket->write(ba);
-    tcpSocket->waitForBytesWritten();
-
-    tcpSocket->write(GET_ERROR);
-    tcpSocket->waitForBytesWritten();
+void ConnectDialog::setJointSpeedScaling(double factor) {
 
 }
 
-void ConnectDialog::cartesianJogging(int frame, int freedom, int dir)
-{
-    QByteArray data;
+void ConnectDialog::getJointSpeedScaling() {
 
-    int direction = 0;
+}
 
-    if(dir > 0) { // 正向运动
-        direction = DIRECTION_P;
+void ConnectDialog::setCartesianSpeedScaling(double factor) {
+}
+
+void ConnectDialog::getCartesianSpeedScaling() {
+
+}
+
+void ConnectDialog::setToolSpeedScaling(double factor) {
+}
+
+void ConnectDialog::getToolSpeedScaling() {
+
+}
+
+void ConnectDialog::startScript(QString script) {
+
+}
+
+void ConnectDialog::stopScript() {
+
+}
+
+void ConnectDialog::pauseScript() {
+
+}
+
+void ConnectDialog::continueScript() {
+
+}
+
+void ConnectDialog::setZeroCalibration() {
+
+}
+
+void ConnectDialog::getRobotState() {
+    RobotStateRequest request;
+
+    if (use_raw_data_) {
+        request.set_raw_data(true);
     }
-    else if(dir < 0) { // 负向运动
-        direction = DIRECTION_N;
+
+//    RobotStateResponse robot_state_response_;
+    robot_state_response_.Clear();
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->ReadRobotState(&context, request, &robot_state_response_);
+    if (status.ok()) {
+        emit newStateComming(); // 收到了新的机器人状态信息就直接上传
+//        std::cout << "Joint state size: " << robot_state_response_.robot_state().joint_states_size() << std::endl;
+//        std::cout << "Joint state status: " << robot_state_response_.robot_state().joint_states(0).status() << std::endl;
+//        std::cout << "slave num: " << robot_state_response_.robot_state().hw_state().slave_num() << std::endl;
+//        std::cout << "hw type: " << robot_state_response_.robot_state().hw_state().hw_type() << std::endl;
+//        std::cout << "curr cycle time: " << robot_state_response_.robot_state().hw_state().current_cycle_time() << std::endl;
+    } else {
+        std::cout << status.error_code() << ": " << status.error_message() << std::endl;
     }
-    else if(dir == 0) { // 停止运动
-        direction = DIRECTION_Z;
+}
+
+void ConnectDialog::jointJogging(int id, int dir) {
+
+}
+
+void ConnectDialog::cartesianJogging(int frame, int freedom, int dir) {
+
+}
+
+bool ConnectDialog::event(QEvent *event) {
+    if (event->type() == QEvent::ActivationChange) {
+        if (QApplication::activeWindow() != this) {
+            this->close();
+        }
     }
 
-    if(tcpSocket == Q_NULLPTR || !tcpSocket->isValid()) {
-        return;
+    return QDialog::event(event);
+}
+
+void ConnectDialog::powerOn() {
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+
+    request.mutable_command()->mutable_enabled();
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cerr << "Send command Error" << std::endl;
     }
+}
 
-    QByteArray ba = "tv";
-    ba.append(QString::number(matrixDof(freedom, direction) + matrixFrame(frame, direction)));
-    ba.append("!\0");
+void ConnectDialog::powerOff() {
+    RobotCommandRequest request;
+    RobotCommandResponse response;
 
-//   qDebug() << ba << " ; dof: " << matrixDof(freedom, direction) << "frame: " << matrixFrame(frame, direction) ;
+    request.mutable_command()->mutable_disabled();
 
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
 
-    tcpSocket->write(ba);
-    tcpSocket->waitForBytesWritten();
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
+    }
+}
 
-    tcpSocket->write(GET_ERROR);
-    tcpSocket->waitForBytesWritten();
+void ConnectDialog::shutdown() {
+    timer_state_->stop();
+    while (channel_.use_count())
+        channel_.reset();
+
+    is_connected_ = false;
+    emit connectState(false);
+}
+
+void ConnectDialog::powerOn(int id) {
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+
+    request.mutable_command()->mutable_single_axis_command()->mutable_enabled()->set_id(id);
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
+    }
+}
+
+void ConnectDialog::powerOff(int id) {
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+
+    request.mutable_command()->mutable_single_axis_command()->mutable_disabled()->set_id(id);
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cerr << "Send command Error" << std::endl;
+    }
+}
+
+QString ConnectDialog::getHardwareType() {
+    switch (robot_state_response_.robot_state().hw_state().hw_type()) {
+        case rocos::HardwareState::HardwareType::HardwareState_HardwareType_HW_TYPE_UNKNOWN:
+            return tr("Unkown");
+        case rocos::HardwareState::HardwareType::HardwareState_HardwareType_HW_TYPE_SIM:
+            return tr("Simulation");
+        case rocos::HardwareState::HardwareType::HardwareState_HardwareType_HW_TYPE_ETHERCAT:
+            return tr("EtherCAT");
+        default:
+            return "";
+    }
+}
+
+QString ConnectDialog::getJointStatus(int id) {
+    switch (robot_state_response_.robot_state().joint_states(id).status()) {
+        case rocos::JointState_Status::JointState_Status_STATUS_FAULT:
+            return tr("Fault");
+        case rocos::JointState_Status::JointState_Status_STATUS_DISABLED:
+            return tr("Disabled");
+        case rocos::JointState_Status::JointState_Status_STATUS_ENABLED:
+            return tr("Enabled");
+        default:
+            return "";
+    }
 }

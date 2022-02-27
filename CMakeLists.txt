@@ -28,6 +28,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ##    gRPC    ##
 ################
 
+if(UNIX AND NOT APPLE)
+    set(CMAKE_PREFIX_PATH "/opt/grpc")
+endif()
+
+include(cmake/common.cmake) # gRPC
+
 file(GLOB PROTO_FILES protos/*.proto) # protobuf
 file(GLOB GRPC_FILES protos/*_service.proto) # gRPC
 
@@ -170,7 +176,15 @@ add_executable(rocos WIN32
 
 
 target_link_libraries(rocos
-    PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::Gamepad ${VTK_LIBRARIES} Eigen3::Eigen yaml-cpp orocos-kdl)
+    PRIVATE
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Network
+        Qt${QT_VERSION_MAJOR}::Gamepad
+        ${VTK_LIBRARIES}
+        Eigen3::Eigen
+        yaml-cpp
+        orocos-kdl
+        rocos::protocol)
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
