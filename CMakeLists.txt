@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(rocos LANGUAGES CXX)
+project(rocos-viz LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-# Check http://doc.qt.io/qt-5/deployment-android.html for more information.
+# Check http://doc.qt.io/qt-5/deployment-android.html for more information.d
 # They need to be set before the find_package(Qt5 ...) call.
 
 #if(ANDROID)
@@ -165,7 +165,7 @@ set(UI_FILES
 set(RC_FILES
         res.qrc)
 
-add_executable(rocos WIN32
+add_executable(${PROJECT_NAME} WIN32
                     ${SRC_FILES}
                     ${HDR_FILES}
                     ${UI_FILES}
@@ -175,7 +175,7 @@ add_executable(rocos WIN32
 )
 
 
-target_link_libraries(rocos
+target_link_libraries(${PROJECT_NAME}
     PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Network

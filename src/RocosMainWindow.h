@@ -72,6 +72,9 @@ private slots:
 
     void on_logEdit_customContextMenuRequested(const QPoint &pos);
 
+
+    void updateRobotState();
+
 private:
     Ui::RocosMainWindow *ui;
 

@@ -89,6 +89,9 @@ public slots:
         return QString{robot_info_response_.robot_info().joint_infos().at(id).user_unit_name().c_str()};
     }
 
+    ////////////运动学信息//////////////
+//    inline
+
 
     void powerOn();
 
@@ -161,14 +164,14 @@ public:
 
 signals:
 
-    void jointPositions(QVector<double> &jntPos); //解析到关节位置，发送 信号
-    void cartPose(QVector<double> &pose); //解析到笛卡尔空间位置，发送 信号
-    void speedScaling(double f100); // 速度缩放因数 25.0
-    void logging(QByteArray &ba); //返回的日志信息
+    void jointPositions(QVector<double> &jntPos); //TODO(yang luo): 解析到关节位置，发送 信号, 已废弃, new state comming中包含了机器人各种状态信息
+    void cartPose(QVector<double> &pose); // TODO(yang luo): 解析到笛卡尔空间位置，发送 信号, 已废弃, new state comming中包含了机器人各种状态信息
+//    void speedScaling(double f100); // TODO(yang luo): 速度缩放因数 25.0,已废弃,规划的scaling直接在rocos-viz中完成
+    void logging(QByteArray &ba); //TODO(yang luo): 返回的日志信息,暂时还未用到
 
-    void newStateComming(void); // 如果收到了机器人的状态信息就通知主界面更新
+    void newStateComming(void); // 机器人状态更新信号, 如果收到了机器人的状态信息就通知主界面更新
 
-    void connectState(bool isConnected);
+    void connectState(bool isConnected); // 连接状态信号, 通知与机器人rpc连接状态
 
 private:
     bool event(QEvent *event) override;

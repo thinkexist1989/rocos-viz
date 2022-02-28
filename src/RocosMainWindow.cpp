@@ -14,7 +14,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     //给Log增加一个右键菜单clear，清除之前记录
     ui->logEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    //记录程序开始运行的时间
+    /********记录程序开始运行的时间********/
     time = new QTime;
     time->start();
 
@@ -33,7 +33,9 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
         QTime tt(0,0);
         timeLabel->setText("Current Time: " + QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") + "    Program is running: " + tt.addMSecs(time->elapsed()).toString());
     });
-    timer->start(500);
+    timer->start(500); // 每500ms更新一次时间
+
+    //////////////////////////////////////////////////////////
 
     connectDlg = new ConnectDialog(this);
     scriptDlg  = new ScriptDialog(this);
@@ -41,21 +43,6 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     aboutDlg   = new AboutDialog(this);
 
     scriptDlg->setConnectPtr(connectDlg); //将connectDlg指针传给script
-
-
-    /********connect信号处理********/
-    connect(connectDlg, &ConnectDialog::connectState, this, [=](bool isConnected){
-        if(isConnected) {
-            ui->actionConnected->setText(tr("Disconnect"));
-            ui->actionConnected->setIcon(QIcon(":/res/connected.png"));
-//            _isConnected = true;
-        }
-        else {
-            ui->actionConnected->setText(tr("Connect"));
-            ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
-//            _isConnected = false;
-        }
-    });
 
 
     /********Joint Position Widgets********/
@@ -170,13 +157,17 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     /********Speed Scaling Widgets********/
     ui->speedPercent->setText(tr("25%"));
 
-    connect(connectDlg, &ConnectDialog::jointPositions, this, &RocosMainWindow::updateJointPos); //关节位置更新
-    connect(connectDlg, &ConnectDialog::cartPose, this, &RocosMainWindow::updateCartPose); //笛卡尔位置更新
-    connect(connectDlg, &ConnectDialog::speedScaling, this, [=](double f100){ ui->speedSlider->setValue(f100*10);}); //更新速度缩放因子
+
+//    connect(connectDlg, &ConnectDialog::speedScaling, this, [=](double f100){ ui->speedSlider->setValue(f100*10);}); //更新速度缩放因子
+
+    /////////////////////////////////////////////////////
 
     connect(connectDlg, &ConnectDialog::jointPositions, plotDlg, &PlotDialog::getJointPositions); //关节位置更新
     connect(connectDlg, &ConnectDialog::cartPose, plotDlg, &PlotDialog::getCartPose); //笛卡尔位置更新
 
+
+    connect(connectDlg, &ConnectDialog::jointPositions, this, &RocosMainWindow::updateJointPos); //关节位置更新
+    connect(connectDlg, &ConnectDialog::cartPose, this, &RocosMainWindow::updateCartPose); //笛卡尔位置更新
     connect(connectDlg, &ConnectDialog::logging, this, [=](QByteArray& ba){
 //        ui->logBrowser->insertPlainText(QTime::currentTime().toString("[HH:mm:ss.zzz] ") + QString(ba) + "\n");
 //        ui->logBrowser->
@@ -186,6 +177,24 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 
     });
 
+    /********connect信号处理********/
+    connect(connectDlg, &ConnectDialog::connectState, this, [=](bool isConnected){
+        if(isConnected) {
+            ui->actionConnected->setText(tr("Disconnect"));
+            ui->actionConnected->setIcon(QIcon(":/res/connected.png"));
+//            _isConnected = true;
+        }
+        else {
+            ui->actionConnected->setText(tr("Connect"));
+            ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
+//            _isConnected = false;
+        }
+    });
+
+    /*********RobotState数据处理******/
+    connect(connectDlg, &ConnectDialog::newStateComming, this, &RocosMainWindow::updateRobotState);
+
+    ///////////////////////////////////////////////////////
 
     /*********** Joystick **************/
     grpBox = ui->cartesianGroupBox; //默认是BaseT 0 -> BaseR 1 -> FlangeT 2 -> FlangeR 3
@@ -406,27 +415,6 @@ void RocosMainWindow::on_actionConnected_triggered()
 
 }
 
-void RocosMainWindow::updateJointPos(QVector<double> &jntPos)
-{
-    for(int i = 0; i < jntPos.size(); i++) {
-        jpWdgs[i]->updateJointPosition(jntPos[i]); //更新关节位置
-    }
-
-//    jntPos.resize(7); //TODO: 这句话实际需要屏蔽
-    ui->visualWidget->setJointPos(jntPos);
-}
-
-void RocosMainWindow::updateCartPose(QVector<double> &pose)
-{
-    if(pose.size() != 6) {
-        return;
-    }
-
-    for(int i = 0; i < cpWdgs.size(); i++) {
-        cpWdgs[i]->updateVal(pose[i]);
-    }
-}
-
 void RocosMainWindow::on_meshCheckBox_stateChanged(int arg1)
 {
     if(arg1 == Qt::Checked) {
@@ -553,5 +541,30 @@ void RocosMainWindow::on_logEdit_customContextMenuRequested(const QPoint &pos)
     menu->addAction(action);
     menu->move(cursor().pos());
     menu->show();
+
+}
+
+void RocosMainWindow::updateJointPos(QVector<double> &jntPos)
+{
+    for(int i = 0; i < jntPos.size(); i++) {
+        jpWdgs[i]->updateJointPosition(jntPos[i]); //更新关节位置
+    }
+
+//    jntPos.resize(7); //TODO: 这句话实际需要屏蔽
+    ui->visualWidget->setJointPos(jntPos);
+}
+
+void RocosMainWindow::updateCartPose(QVector<double> &pose)
+{
+    if(pose.size() != 6) {
+        return;
+    }
+
+    for(int i = 0; i < cpWdgs.size(); i++) {
+        cpWdgs[i]->updateVal(pose[i]);
+    }
+}
+
+void RocosMainWindow::updateRobotState() {
 
 }
