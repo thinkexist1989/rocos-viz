@@ -10,6 +10,9 @@
 #include <grpcpp/grpcpp.h>
 #include "robot_service.grpc.pb.h"
 
+#include <kdl/frames.hpp>
+#include <kdl/frames_io.hpp>
+
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
@@ -90,7 +93,7 @@ public slots:
     }
 
     ////////////运动学信息//////////////
-//    inline
+    inline
 
 
     void powerOn();
