@@ -52,7 +52,9 @@ public slots:
 
     inline int getJointNum() const { return robot_state_response_.robot_state().joint_states_size(); }
 
-    ////////////关节状态//////////////
+    /// \brief 获取关节状态信息
+    /// \param id 关节ID（From 0）
+    /// \return
     QString getJointStatus(int id);
 
     inline QString getJointName(int id) const {
@@ -74,6 +76,10 @@ public slots:
     inline double getJointLoad(int id) const { return robot_state_response_.robot_state().joint_states(id).load(); }
 
     ////////////关节信息//////////////
+
+    /// \brief 获取关节用户单位对应脉冲数
+    /// \param id 关节ID（From 0）
+    /// \return  cnt_per_unit
     inline double getJointCntPerUnit(int id) const {
         return robot_info_response_.robot_info().joint_infos().at(id).cnt_per_unit();
     }
