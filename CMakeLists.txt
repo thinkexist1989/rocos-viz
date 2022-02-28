@@ -28,9 +28,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ##    gRPC    ##
 ################
 
-if(UNIX AND NOT APPLE)
+if (UNIX AND NOT APPLE)
     set(CMAKE_PREFIX_PATH "/opt/grpc")
-endif()
+endif ()
 
 include(cmake/common.cmake) # gRPC
 
@@ -99,14 +99,13 @@ target_link_libraries(protocol
 add_library(rocos::protocol ALIAS protocol)
 
 
-
 # Qt
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network Gamepad REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network Gamepad REQUIRED)
 
 # VTK
-find_package(VTK 8.2 REQUIRED )
-include( ${VTK_USE_FILE} )
+find_package(VTK 8.2 REQUIRED)
+include(${VTK_USE_FILE})
 
 # Eigen3
 find_package(Eigen3 REQUIRED)
@@ -136,7 +135,7 @@ set(SRC_FILES
         src/PlotDialog.cpp
         src/AboutDialog.cpp
         src/SplashScreen.cpp
-)
+        )
 set(HRD_FILES
         src/RocosMainWindow.h
         src/MouseInteractorChooseActor.h
@@ -151,7 +150,7 @@ set(HRD_FILES
         src/PlotDialog.h
         src/AboutDialog.h
         src/SplashScreen.h
-)
+        )
 set(UI_FILES
         src/RocosMainWindow.ui
         src/JointPositionWidget.ui
@@ -160,31 +159,36 @@ set(UI_FILES
         src/ScriptDialog.ui
         src/PlotDialog.ui
         src/AboutDialog.ui
-)
+        )
 
 set(RC_FILES
         res.qrc)
 
 add_executable(${PROJECT_NAME} WIN32
-                    ${SRC_FILES}
-                    ${HDR_FILES}
-                    ${UI_FILES}
-                    ${RC_FILES}
-                    ${TS_FILES}
-                    app_win.rc
-)
+        ${SRC_FILES}
+        ${HDR_FILES}
+        ${UI_FILES}
+        ${RC_FILES}
+        ${TS_FILES}
+        app_win.rc
+        )
 
+target_include_directories(${PROJECT_NAME}
+        PUBLIC
+        ${orocos_kdl_INCLUDE_DIRS}
+        )
 
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE
+        PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Network
         Qt${QT_VERSION_MAJOR}::Gamepad
         ${VTK_LIBRARIES}
         Eigen3::Eigen
         yaml-cpp
-        orocos-kdl
-        rocos::protocol)
+        ${orocos_kdl_INCLUDE_DIRS}
+        rocos::protocol
+        )
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 

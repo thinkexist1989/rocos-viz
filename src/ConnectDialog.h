@@ -28,6 +28,9 @@ using rocos::RobotCommandResponse;
 using rocos::RobotInfoRequest;
 using rocos::RobotInfoResponse;
 
+using KDL::Frame;
+using KDL::JntArray;
+
 namespace Ui {
     class ConnectDialog;
 }
@@ -40,19 +43,41 @@ public:
 
     ~ConnectDialog();
 
+    void on_connectButton_clicked();
+
+    void on_ipAddressEdit_textChanged(const QString &ip);
+
+    void on_portEdit_textChanged(const QString &p);
+
 public slots:
+    /**
+     * 获取硬件主站相关信息
+     */
+
+    //! \brief 获取硬件信息
+    //! \return 硬件信息字符串，Unknown/Simulation/EtherCAT
     QString getHardwareType();
 
+    //! \brief 获取最短循环周期
+    //! \return 最短循环时间[ms]
     inline double getMinCyclicTime() const { return robot_state_response_.robot_state().hw_state().min_cycle_time(); }
 
+    //! \brief 获取最大循环周期
+    //! \return 最大循环时间[ms]
     inline double getMaxCyclicTime() const { return robot_state_response_.robot_state().hw_state().max_cycle_time(); }
 
+    //! \brief 获取当前循环周期
+    //! \return 当前魂环时间[ms]
     inline double
     getCurrCyclicTime() const { return robot_state_response_.robot_state().hw_state().current_cycle_time(); }
 
     inline int getJointNum() const { return robot_state_response_.robot_state().joint_states_size(); }
 
-    /// \brief 获取关节状态信息
+    /////////////////////////////////////////////////////////
+    ///////////////     获取关节状态       ///////////////////
+    /////////////////////////////////////////////////////////
+
+    /// \brief 获取关节当前状态，上电/下电/错误
     /// \param id 关节ID（From 0）
     /// \return
     QString getJointStatus(int id);
@@ -75,32 +100,56 @@ public slots:
 
     inline double getJointLoad(int id) const { return robot_state_response_.robot_state().joint_states(id).load(); }
 
-    ////////////关节信息//////////////
+    /////////////////////////////////////////////////////////
+    ///////////////     获取关节信息       ///////////////////
+    /////////////////////////////////////////////////////////
 
-    /// \brief 获取关节用户单位对应脉冲数
-    /// \param id 关节ID（From 0）
-    /// \return  cnt_per_unit
+    //! \brief 获取关节用户单位对应脉冲数
+    //! \param id 关节ID（From 0）
+    //! \return  cnt_per_unit
     inline double getJointCntPerUnit(int id) const {
         return robot_info_response_.robot_info().joint_infos().at(id).cnt_per_unit();
     }
 
+    //!
+    //! \param id
+    //! \return
     inline double getJointTorquePerUnit(int id) const {
         return robot_info_response_.robot_info().joint_infos().at(id).torque_per_unit();
     }
 
+    //!
+    //! \param id
+    //! \return
     inline double getJointRatio(int id) const { return robot_info_response_.robot_info().joint_infos().at(id).ratio(); }
 
+    //!
+    //! \param id
+    //! \return
     inline int32_t getJointPosZeroOffset(int id) const {
         return robot_info_response_.robot_info().joint_infos().at(id).pos_zero_offset();
     }
 
+    //!
+    //! \param id
+    //! \return
     inline QString getJointUserUnitName(int id) const {
         return QString{robot_info_response_.robot_info().joint_infos().at(id).user_unit_name().c_str()};
     }
 
-    ////////////运动学信息//////////////
-    inline
+    /////////////////////////////////////////////////////////
+    ///////////////      运动学函数        ///////////////////
+    /////////////////////////////////////////////////////////
 
+    //!
+    //! \return
+    inline Frame getEndPose() const {
+        return Frame();
+    }
+
+
+
+public slots:
 
     void powerOn();
 
@@ -129,13 +178,7 @@ public slots:
 //
 //    void stopMultiAxis();
 
-public slots:
 
-    void on_connectButton_clicked();
-
-    void on_ipAddressEdit_textChanged(const QString &ip);
-
-    void on_portEdit_textChanged(const QString &p);
 
     void connectedToRobot(bool con);  //连接到机器人
 
@@ -163,7 +206,6 @@ public slots:
     void setZeroCalibration();
 
 public:
-
     inline bool isConnected() { return is_connected_; }  // 是否已经连接
 //    inline bool getRobotEnabled() { return isRobotEnabled; } // TODO: 获取Enable状态
 
@@ -172,7 +214,6 @@ public:
     void jogging(int frame, int freedom, int dir); //两种点动可以合在一起
 
 signals:
-
     void jointPositions(QVector<double> &jntPos); //TODO(yang luo): 解析到关节位置，发送 信号, 已废弃, new state comming中包含了机器人各种状态信息
     void cartPose(QVector<double> &pose); // TODO(yang luo): 解析到笛卡尔空间位置，发送 信号, 已废弃, new state comming中包含了机器人各种状态信息
 //    void speedScaling(double f100); // TODO(yang luo): 速度缩放因数 25.0,已废弃,规划的scaling直接在rocos-viz中完成
@@ -204,13 +245,13 @@ private:
     RobotStateResponse robot_state_response_;
 
 private:
-    bool use_raw_data_ { false };
+    bool use_raw_data_{false};
 
-    QVector<double>  cnt_per_unit_;
-    QVector<double>  torque_per_unit_;
-    QVector<double>  load_per_unit_;
-    QVector<int32_t>  pos_zero_offset_;
-    QVector<double>  ratio_;
+    QVector<double> cnt_per_unit_;
+    QVector<double> torque_per_unit_;
+    QVector<double> load_per_unit_;
+    QVector<int32_t> pos_zero_offset_;
+    QVector<double> ratio_;
     QVector<QString> user_unit_name_;
     QVector<QString> torque_unit_name_;
     QVector<QString> load_unit_name_;

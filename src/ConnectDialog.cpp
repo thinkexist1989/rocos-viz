@@ -295,7 +295,7 @@ void ConnectDialog::powerOff(int id) {
 QString ConnectDialog::getHardwareType() {
     switch (robot_state_response_.robot_state().hw_state().hw_type()) {
         case rocos::HardwareState::HardwareType::HardwareState_HardwareType_HW_TYPE_UNKNOWN:
-            return tr("Unkown");
+            return tr("Unknown");
         case rocos::HardwareState::HardwareType::HardwareState_HardwareType_HW_TYPE_SIM:
             return tr("Simulation");
         case rocos::HardwareState::HardwareType::HardwareState_HardwareType_HW_TYPE_ETHERCAT:
