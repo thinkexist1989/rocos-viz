@@ -33,7 +33,7 @@ public:
     }
 
     inline void setPosRep(int flag) {
-        r2d = (flag == POS_MM) ? 1.0 : 0.001;
+        r2d = (flag == POS_MM) ? 1000.0 : 1.0;
         updateVal(cartesianVal);
         qDebug() << "cartid: " << id << " mm2m: " << r2d;
     }
@@ -64,7 +64,7 @@ private:
     int    progressStep = 2000; // 最大步进量
     double factor = 0.5; //speed缩放因子
 
-    double r2d = 1.0; // 由于笛卡尔位置只有rpy需要转换角度，默认为1
+    double r2d = 1000.0; // 由于笛卡尔位置只有rpy需要转换角度，默认为1000, 单位mm
 
     QTimer* timerPlus;
     QTimer* timerMinus;

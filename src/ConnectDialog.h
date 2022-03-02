@@ -45,6 +45,8 @@ public:
 
     ~ConnectDialog();
 
+public slots:
+
     void on_connectButton_clicked();
 
     void on_ipAddressEdit_textChanged(const QString &ip);

@@ -566,5 +566,27 @@ void RocosMainWindow::updateCartPose(QVector<double> &pose)
 }
 
 void RocosMainWindow::updateRobotState() {
+    //更新关节位置
+    QVector<double> jntPos;
+    for(int i = 0; i < connectDlg->getJointNum(); i++) {
+        jpWdgs[i]->updateJointPosition(connectDlg->getJointPosition(i)); //更新关节位置
+        jntPos.push_back(connectDlg->getJointPosition(i));
+    }
 
+//    jntPos.resize(7); //TODO: 这句话实际需要屏蔽
+    ui->visualWidget->setJointPos(jntPos);
+
+
+
+    //更新Flange系
+    auto flange = connectDlg->getFlangePose();
+    cpWdgs[0]->updateVal(flange.p.x());
+    cpWdgs[1]->updateVal(flange.p.y());
+    cpWdgs[2]->updateVal(flange.p.z());
+
+    double roll, pitch, yaw;
+    flange.M.GetRPY(roll, pitch, yaw);
+    cpWdgs[3]->updateVal(roll);
+    cpWdgs[4]->updateVal(pitch);
+    cpWdgs[5]->updateVal(yaw);
 }

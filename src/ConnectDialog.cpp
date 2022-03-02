@@ -17,10 +17,6 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
     ui->ipAddressEdit->setText(ip_address_); //更新界面默认值
     ui->portEdit->setText(QString::number(port_)); //更新界面默认值
 
-    tcpSocket = new QTcpSocket;
-
-    connect(tcpSocket, &QTcpSocket::disconnected, this, [=]() { connectedToRobot(false); });
-
     timer_state_ = new QTimer(this);
     connect(timer_state_, &QTimer::timeout, this, &ConnectDialog::getRobotState); //获取机器人状态
 

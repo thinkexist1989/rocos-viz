@@ -186,7 +186,7 @@ target_link_libraries(${PROJECT_NAME}
         ${VTK_LIBRARIES}
         Eigen3::Eigen
         yaml-cpp
-        ${orocos_kdl_INCLUDE_DIRS}
+        ${orocos_kdl_LIBRARIES}
         rocos::protocol
         )
 
