@@ -174,17 +174,17 @@ public slots:
 
     //! 获取Flange空间位姿
     inline Frame getToolPose() const {
-
+        return Frame();
     }
 
     //! 获取Object空间位姿
     inline Frame getObjectPose() const {
-
+        return Frame();
     }
 
     //! 获取Base空间位姿(倒置安装或者装载在移动平台上,Base会变化)
     inline Frame getBasePose() const {
-
+        return Frame();
     }
 
 public slots:

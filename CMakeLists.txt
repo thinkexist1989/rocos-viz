@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(rocos-viz LANGUAGES CXX)
+#project(rocos-viz LANGUAGES CXX)
+project(rocos-viz)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
