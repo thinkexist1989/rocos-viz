@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1156</width>
-    <height>796</height>
+    <height>683</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -344,19 +344,15 @@
         <property name="title">
          <string>Precise Cartesian Control</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_8" columnstretch="3,6,2">
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>Z:</string>
+        <layout class="QGridLayout" name="gridLayout_12" columnstretch="1,2,1">
+         <item row="2" column="1">
+          <widget class="QDoubleSpinBox" name="z">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
            <property name="decimals">
             <number>3</number>
            </property>
@@ -376,33 +372,77 @@
           </widget>
          </item>
          <item row="6" column="2">
-          <widget class="QPushButton" name="space0Ctrl">
-           <property name="text">
-            <string>Go</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="2">
-          <widget class="QPushButton" name="cartCtrlYaw">
-           <property name="text">
-            <string>Go</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QPushButton" name="cartCtrlZ">
+          <widget class="QPushButton" name="MoveSpace0">
            <property name="text">
             <string>Go</string>
            </property>
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
+          <widget class="QDoubleSpinBox" name="roll">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>
            <property name="minimum">
             <double>-99.989999999999995</double>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QDoubleSpinBox" name="yaw">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="decimals">
+            <number>3</number>
+           </property>
+           <property name="minimum">
+            <double>-99.989999999999995</double>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>0-Space:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QDoubleSpinBox" name="pitch">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="decimals">
+            <number>3</number>
+           </property>
+           <property name="minimum">
+            <double>-99.989999999999995</double>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Y:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -416,10 +456,49 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_6">
            <property name="text">
             <string>Y:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QDoubleSpinBox" name="space0">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="decimals">
+            <number>3</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="x">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="decimals">
+            <number>3</number>
+           </property>
+           <property name="minimum">
+            <double>-99.989999999999995</double>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Z:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -436,22 +515,14 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
-          <widget class="QPushButton" name="cartCtrlX">
-           <property name="text">
-            <string>Go</string>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="y">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_14">
-           <property name="decimals">
-            <number>3</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox">
            <property name="decimals">
             <number>3</number>
            </property>
@@ -460,76 +531,35 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
-           <property name="decimals">
-            <number>3</number>
-           </property>
-           <property name="minimum">
-            <double>-99.989999999999995</double>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>Y:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="label_14">
-           <property name="text">
-            <string>0-Space:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="2">
-          <widget class="QPushButton" name="cartCtrlRoll">
-           <property name="text">
-            <string>Go</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QPushButton" name="cartCtrlY">
-           <property name="text">
-            <string>Go</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
-           <property name="decimals">
-            <number>3</number>
-           </property>
-           <property name="minimum">
-            <double>-99.989999999999995</double>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_6">
-           <property name="decimals">
-            <number>3</number>
-           </property>
-           <property name="minimum">
-            <double>-99.989999999999995</double>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="2">
-          <widget class="QPushButton" name="cartCtrlPitch">
-           <property name="text">
-            <string>Go</string>
-           </property>
-          </widget>
+         <item row="0" column="2" rowspan="6">
+          <layout class="QGridLayout" name="gridLayout_8">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="MoveJ_IK">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>MoveJ_IK</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="MoveL">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>MoveL</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -545,7 +575,7 @@
         <property name="title">
          <string>Precise Joint Control</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_9" columnstretch="3,6,2">
+        <layout class="QGridLayout" name="gridLayout_11" columnstretch="1,2,1">
          <item row="0" column="0">
           <widget class="QLabel" name="label_7">
            <property name="text">
@@ -557,7 +587,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_7">
+          <widget class="QDoubleSpinBox" name="j1">
            <property name="decimals">
             <number>3</number>
            </property>
@@ -566,13 +596,6 @@
            </property>
            <property name="maximum">
             <double>180.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QPushButton" name="jntCtrl1">
-           <property name="text">
-            <string>Go</string>
            </property>
           </widget>
          </item>
@@ -587,7 +610,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_8">
+          <widget class="QDoubleSpinBox" name="j2">
            <property name="decimals">
             <number>3</number>
            </property>
@@ -596,13 +619,6 @@
            </property>
            <property name="maximum">
             <double>180.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QPushButton" name="jntCtrl2">
-           <property name="text">
-            <string>Go</string>
            </property>
           </widget>
          </item>
@@ -617,7 +633,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_9">
+          <widget class="QDoubleSpinBox" name="j3">
            <property name="decimals">
             <number>3</number>
            </property>
@@ -626,13 +642,6 @@
            </property>
            <property name="maximum">
             <double>180.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QPushButton" name="jntCtrl3">
-           <property name="text">
-            <string>Go</string>
            </property>
           </widget>
          </item>
@@ -647,7 +656,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_10">
+          <widget class="QDoubleSpinBox" name="j4">
            <property name="decimals">
             <number>3</number>
            </property>
@@ -656,13 +665,6 @@
            </property>
            <property name="maximum">
             <double>180.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="2">
-          <widget class="QPushButton" name="jntCtrl4">
-           <property name="text">
-            <string>Go</string>
            </property>
           </widget>
          </item>
@@ -677,7 +679,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_11">
+          <widget class="QDoubleSpinBox" name="j5">
            <property name="decimals">
             <number>3</number>
            </property>
@@ -686,13 +688,6 @@
            </property>
            <property name="maximum">
             <double>180.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="2">
-          <widget class="QPushButton" name="jntCtrl5">
-           <property name="text">
-            <string>Go</string>
            </property>
           </widget>
          </item>
@@ -707,7 +702,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_12">
+          <widget class="QDoubleSpinBox" name="j6">
            <property name="decimals">
             <number>3</number>
            </property>
@@ -716,13 +711,6 @@
            </property>
            <property name="maximum">
             <double>180.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="2">
-          <widget class="QPushButton" name="jntCtrl6">
-           <property name="text">
-            <string>Go</string>
            </property>
           </widget>
          </item>
@@ -737,7 +725,7 @@
           </widget>
          </item>
          <item row="6" column="1">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_13">
+          <widget class="QDoubleSpinBox" name="j7">
            <property name="decimals">
             <number>3</number>
            </property>
@@ -749,12 +737,35 @@
            </property>
           </widget>
          </item>
-         <item row="6" column="2">
-          <widget class="QPushButton" name="jntCtrl7">
-           <property name="text">
-            <string>Go</string>
-           </property>
-          </widget>
+         <item row="0" column="2" rowspan="7">
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="MoveJ">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>MoveJ</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="MoveL_FK">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>MoveL_FK</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>

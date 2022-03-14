@@ -75,6 +75,8 @@ void ConnectDialog::connectedToRobot(bool con) {
             torque_unit_name_.resize(robot_info_response_.robot_info().joint_infos_size());
             load_unit_name_.resize(robot_info_response_.robot_info().joint_infos_size());
 
+            jnt_num_ = robot_info_response_.robot_info().joint_infos_size();
+
             for (int i = 0; i < robot_info_response_.robot_info().joint_infos_size(); ++i) {
                 cnt_per_unit_[i] = robot_info_response_.robot_info().joint_infos().at(i).cnt_per_unit();
                 torque_per_unit_[i] = robot_info_response_.robot_info().joint_infos().at(i).torque_per_unit();
@@ -311,5 +313,64 @@ QString ConnectDialog::getJointStatus(int id) {
             return tr("Enabled");
         default:
             return "";
+    }
+}
+
+void ConnectDialog::moveJ(QVector<double> q) {
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+
+    auto movej = request.mutable_command()->mutable_motion_command()->mutable_move_j();
+    for(int i = 0; i < jnt_num_; ++i) {
+        qDebug() << "q[" << i << "]: " << q[i];
+        movej->mutable_q()->add_data(q[i]);
+    }
+    movej->set_speed(vj_);
+    movej->set_acceleration(aj_);
+    movej->set_time(0);
+    movej->set_radius(0);
+    movej->set_asynchronous(true);
+
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
+    }
+}
+
+void ConnectDialog::moveL(QVector<double> pose) {
+
+}
+
+void ConnectDialog::moveJ_IK(QVector<double> pose) {
+
+}
+
+void ConnectDialog::moveL_FK(QVector<double> q) {
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+
+    auto movel_fk = request.mutable_command()->mutable_motion_command()->mutable_move_l_fk();
+    for(int i = 0; i < jnt_num_; ++i) {
+        movel_fk->mutable_q()->add_data(q[i]);
+    }
+    movel_fk->set_speed(vc_);
+    movel_fk->set_acceleration(ac_);
+    movel_fk->set_time(0);
+    movel_fk->set_radius(0);
+    movel_fk->set_asynchronous(false);
+
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
     }
 }

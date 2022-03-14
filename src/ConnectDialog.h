@@ -71,11 +71,14 @@ public slots:
     inline double getMaxCyclicTime() const { return robot_state_response_.robot_state().hw_state().max_cycle_time(); }
 
     //! \brief 获取当前循环周期
-    //! \return 当前魂环时间[ms]
+    //! \return 当前循环时间[ms]
     inline double
     getCurrCyclicTime() const { return robot_state_response_.robot_state().hw_state().current_cycle_time(); }
 
-    inline int getJointNum() const { return robot_state_response_.robot_state().joint_states_size(); }
+    inline int getJointNum() {
+        jnt_num_ = robot_state_response_.robot_state().joint_states_size();
+        return jnt_num_;
+    }
 
     /////////////////////////////////////////////////////////
     ///////////////     获取关节状态       ///////////////////
@@ -272,6 +275,14 @@ public slots:
 
     void continueScript();
 
+
+    //! 机器人运动学
+    void moveJ(QVector<double> q);
+    void moveJ_IK(QVector<double> pose);
+
+    void moveL(QVector<double> pose);
+    void moveL_FK(QVector<double> q);
+
 public:
     //! 机器人是否已经连接
     inline bool isConnected() { return is_connected_; }
@@ -321,6 +332,12 @@ private:
     RobotStateResponse robot_state_response_; //!< 机器人状态回复
 
 private:
+    int jnt_num_ {0};
+    double  vj_ {0.1};
+    double  vc_ {0.1};
+    double  aj_ {1.4};
+    double  ac_ {1.4};
+
     bool use_raw_data_{false};         //!< 是否使用原始类型数据
 
     QVector<double> cnt_per_unit_;     //!< 用户单位对应脉冲数

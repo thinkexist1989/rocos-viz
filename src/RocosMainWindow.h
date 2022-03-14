@@ -74,6 +74,12 @@ private slots:
 
     void updateRobotState();
 
+    void on_MoveJ_clicked();
+    void on_MoveJ_IK_clicked();
+    void on_MoveL_FK_clicked();
+    void on_MoveL_clicked();
+    void on_MoveSpace0_clicked();
+
 private:
     Ui::RocosMainWindow *ui;
 
@@ -85,9 +91,6 @@ private:
     ScriptDialog*  scriptDlg  = Q_NULLPTR;
     PlotDialog*    plotDlg    = Q_NULLPTR;
     AboutDialog*   aboutDlg   = Q_NULLPTR;
-
-    QButtonGroup* jntCtrlGrp = Q_NULLPTR;
-    QButtonGroup* cartCtrlGrp = Q_NULLPTR;
 
     QVector<JointPositionWidget*> jpWdgs;
     QVector<CartesianPositionWidget*> cpWdgs;

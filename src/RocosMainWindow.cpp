@@ -332,30 +332,6 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     connect(joystick, &QGamepad::buttonL2Changed,  [=](double val){ qDebug() << "Button L2: " << val; }); //L2按钮
     connect(joystick, &QGamepad::buttonR2Changed,  [=](double val){ qDebug() << "Button R2: " << val; }); //R2按钮
 
-
-    // Precision Control 处理
-    jntCtrlGrp = new QButtonGroup(this);
-    jntCtrlGrp->addButton(ui->jntCtrl1, 0);
-    jntCtrlGrp->addButton(ui->jntCtrl2, 1);
-    jntCtrlGrp->addButton(ui->jntCtrl3, 2);
-    jntCtrlGrp->addButton(ui->jntCtrl4, 3);
-    jntCtrlGrp->addButton(ui->jntCtrl5, 4);
-    jntCtrlGrp->addButton(ui->jntCtrl6, 5);
-    jntCtrlGrp->addButton(ui->jntCtrl7, 6);
-
-    connect(jntCtrlGrp, QOverload<int>::of(&QButtonGroup::buttonClicked), [](int id){qDebug() << "joint id:" << id; } );
-
-    cartCtrlGrp = new QButtonGroup(this);
-    cartCtrlGrp->addButton(ui->cartCtrlX, 0);
-    cartCtrlGrp->addButton(ui->cartCtrlY, 1);
-    cartCtrlGrp->addButton(ui->cartCtrlZ, 2);
-    cartCtrlGrp->addButton(ui->cartCtrlRoll, 3);
-    cartCtrlGrp->addButton(ui->cartCtrlPitch, 4);
-    cartCtrlGrp->addButton(ui->cartCtrlYaw, 5);
-    cartCtrlGrp->addButton(ui->space0Ctrl, 6);
-
-    connect(cartCtrlGrp, QOverload<int>::of(&QButtonGroup::buttonClicked), [](int id){qDebug() << "cartesian id:" << id; });
-
 }
 
 RocosMainWindow::~RocosMainWindow()
@@ -612,4 +588,42 @@ void RocosMainWindow::updateRobotState() {
     cpWdgs[3]->updateVal(roll);
     cpWdgs[4]->updateVal(pitch);
     cpWdgs[5]->updateVal(yaw);
+}
+
+void RocosMainWindow::on_MoveJ_clicked() {
+    qDebug() << "MoveJ";
+    QVector<double> q;
+    q.push_back(ui->j1->value());
+    q.push_back(ui->j2->value());
+    q.push_back(ui->j3->value());
+    q.push_back(ui->j4->value());
+    q.push_back(ui->j5->value());
+    q.push_back(ui->j6->value());
+
+    connectDlg->moveJ(q);
+}
+
+void RocosMainWindow::on_MoveJ_IK_clicked() {
+    qDebug() << "MoveJ_IK";
+}
+
+void RocosMainWindow::on_MoveL_FK_clicked() {
+    qDebug() << "MoveL_FK";
+    QVector<double> q;
+    q.push_back(ui->j1->value());
+    q.push_back(ui->j2->value());
+    q.push_back(ui->j3->value());
+    q.push_back(ui->j4->value());
+    q.push_back(ui->j5->value());
+    q.push_back(ui->j6->value());
+
+    connectDlg->moveL_FK(q);
+}
+
+void RocosMainWindow::on_MoveL_clicked() {
+    qDebug() << "MoveL";
+}
+
+void RocosMainWindow::on_MoveSpace0_clicked() {
+    qDebug() << "Move 0-Space";
 }
