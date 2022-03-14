@@ -72,10 +72,6 @@ private slots:
 
     void on_logEdit_customContextMenuRequested(const QPoint &pos);
 
-    void on_jntCtrlGrp_idClicked(int id); //!< 关节空间控制
-    void on_cartCtrlGrp_idClicked(int id); //!< 笛卡尔空间控制
-
-
     void updateRobotState();
 
 private:
@@ -89,6 +85,9 @@ private:
     ScriptDialog*  scriptDlg  = Q_NULLPTR;
     PlotDialog*    plotDlg    = Q_NULLPTR;
     AboutDialog*   aboutDlg   = Q_NULLPTR;
+
+    QButtonGroup* jntCtrlGrp = Q_NULLPTR;
+    QButtonGroup* cartCtrlGrp = Q_NULLPTR;
 
     QVector<JointPositionWidget*> jpWdgs;
     QVector<CartesianPositionWidget*> cpWdgs;

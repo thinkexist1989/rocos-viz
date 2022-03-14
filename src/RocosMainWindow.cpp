@@ -333,6 +333,29 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     connect(joystick, &QGamepad::buttonR2Changed,  [=](double val){ qDebug() << "Button R2: " << val; }); //R2按钮
 
 
+    // Precision Control 处理
+    jntCtrlGrp = new QButtonGroup(this);
+    jntCtrlGrp->addButton(ui->jntCtrl1, 0);
+    jntCtrlGrp->addButton(ui->jntCtrl2, 1);
+    jntCtrlGrp->addButton(ui->jntCtrl3, 2);
+    jntCtrlGrp->addButton(ui->jntCtrl4, 3);
+    jntCtrlGrp->addButton(ui->jntCtrl5, 4);
+    jntCtrlGrp->addButton(ui->jntCtrl6, 5);
+    jntCtrlGrp->addButton(ui->jntCtrl7, 6);
+
+    connect(jntCtrlGrp, QOverload<int>::of(&QButtonGroup::buttonClicked), [](int id){qDebug() << "joint id:" << id; } );
+
+    cartCtrlGrp = new QButtonGroup(this);
+    cartCtrlGrp->addButton(ui->cartCtrlX, 0);
+    cartCtrlGrp->addButton(ui->cartCtrlY, 1);
+    cartCtrlGrp->addButton(ui->cartCtrlZ, 2);
+    cartCtrlGrp->addButton(ui->cartCtrlRoll, 3);
+    cartCtrlGrp->addButton(ui->cartCtrlPitch, 4);
+    cartCtrlGrp->addButton(ui->cartCtrlYaw, 5);
+    cartCtrlGrp->addButton(ui->space0Ctrl, 6);
+
+    connect(cartCtrlGrp, QOverload<int>::of(&QButtonGroup::buttonClicked), [](int id){qDebug() << "cartesian id:" << id; });
+
 }
 
 RocosMainWindow::~RocosMainWindow()
