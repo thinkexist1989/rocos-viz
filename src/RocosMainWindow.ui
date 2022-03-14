@@ -376,24 +376,33 @@
           </widget>
          </item>
          <item row="6" column="2">
-          <widget class="QPushButton" name="pushButton_15">
+          <widget class="QPushButton" name="space0Ctrl">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">cartCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="5" column="2">
-          <widget class="QPushButton" name="pushButton_7">
+          <widget class="QPushButton" name="cartCtrlYaw">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">cartCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="2" column="2">
-          <widget class="QPushButton" name="pushButton_4">
+          <widget class="QPushButton" name="cartCtrlZ">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">cartCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="3" column="1">
@@ -437,10 +446,13 @@
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="cartCtrlX">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">cartCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="6" column="1">
@@ -491,17 +503,23 @@
           </widget>
          </item>
          <item row="3" column="2">
-          <widget class="QPushButton" name="pushButton_5">
+          <widget class="QPushButton" name="cartCtrlRoll">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">cartCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="1" column="2">
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="cartCtrlY">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">cartCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="2" column="1">
@@ -525,10 +543,13 @@
           </widget>
          </item>
          <item row="4" column="2">
-          <widget class="QPushButton" name="pushButton_6">
+          <widget class="QPushButton" name="cartCtrlPitch">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">cartCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
         </layout>
@@ -570,10 +591,13 @@
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QPushButton" name="pushButton_8">
+          <widget class="QPushButton" name="jntCtrl1">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">jntCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="1" column="0">
@@ -600,10 +624,13 @@
           </widget>
          </item>
          <item row="1" column="2">
-          <widget class="QPushButton" name="pushButton_9">
+          <widget class="QPushButton" name="jntCtrl2">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">jntCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="2" column="0">
@@ -630,10 +657,13 @@
           </widget>
          </item>
          <item row="2" column="2">
-          <widget class="QPushButton" name="pushButton_10">
+          <widget class="QPushButton" name="jntCtrl3">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">jntCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="3" column="0">
@@ -660,10 +690,13 @@
           </widget>
          </item>
          <item row="3" column="2">
-          <widget class="QPushButton" name="pushButton_11">
+          <widget class="QPushButton" name="jntCtrl4">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">jntCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="4" column="0">
@@ -690,10 +723,13 @@
           </widget>
          </item>
          <item row="4" column="2">
-          <widget class="QPushButton" name="pushButton_12">
+          <widget class="QPushButton" name="jntCtrl5">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">jntCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="5" column="0">
@@ -720,10 +756,13 @@
           </widget>
          </item>
          <item row="5" column="2">
-          <widget class="QPushButton" name="pushButton_13">
+          <widget class="QPushButton" name="jntCtrl6">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">jntCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
          <item row="6" column="0">
@@ -750,10 +789,13 @@
           </widget>
          </item>
          <item row="6" column="2">
-          <widget class="QPushButton" name="pushButton_14">
+          <widget class="QPushButton" name="jntCtrl7">
            <property name="text">
             <string>Go</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">jntCtrlGrp</string>
+           </attribute>
           </widget>
          </item>
         </layout>
@@ -769,7 +811,7 @@
      <x>0</x>
      <y>0</y>
      <width>1156</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>
@@ -1031,4 +1073,8 @@
   <include location="../res.qrc"/>
  </resources>
  <connections/>
+ <buttongroups>
+  <buttongroup name="jntCtrlGrp"/>
+  <buttongroup name="cartCtrlGrp"/>
+ </buttongroups>
 </ui>

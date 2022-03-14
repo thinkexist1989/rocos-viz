@@ -72,6 +72,9 @@ private slots:
 
     void on_logEdit_customContextMenuRequested(const QPoint &pos);
 
+    void on_jntCtrlGrp_idClicked(int id); //!< 关节空间控制
+    void on_cartCtrlGrp_idClicked(int id); //!< 笛卡尔空间控制
+
 
     void updateRobotState();
 
