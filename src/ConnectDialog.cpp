@@ -189,6 +189,12 @@ void ConnectDialog::getRobotState() {
     Status status = stub_->ReadRobotState(&context, request, &robot_state_response_);
     if (status.ok()) {
         emit newStateComming(); // 收到了新的机器人状态信息就直接上传
+
+        std::cout << "JntPos: ";
+        for(int i =0; i < jnt_num_; ++i) {
+            std::cout << getJointPosition(i) << " ; ";
+        }
+        std::cout << std::endl;
 //        std::cout << "Joint state size: " << robot_state_response_.robot_state().joint_states_size() << std::endl;
 //        std::cout << "Joint state status: " << robot_state_response_.robot_state().joint_states(0).status() << std::endl;
 //        std::cout << "slave num: " << robot_state_response_.robot_state().hw_state().slave_num() << std::endl;
@@ -362,7 +368,7 @@ void ConnectDialog::moveL_FK(QVector<double> q) {
     movel_fk->set_acceleration(ac_);
     movel_fk->set_time(0);
     movel_fk->set_radius(0);
-    movel_fk->set_asynchronous(false);
+    movel_fk->set_asynchronous(true);
 
 
     ClientContext context; //这个只能使用一次，每次请求都需要重新创建
