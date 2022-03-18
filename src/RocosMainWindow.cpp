@@ -605,6 +605,15 @@ void RocosMainWindow::on_MoveJ_clicked() {
 
 void RocosMainWindow::on_MoveJ_IK_clicked() {
     qDebug() << "MoveJ_IK";
+    QVector<double> pose;
+    pose.push_back(ui->x->value());
+    pose.push_back(ui->y->value());
+    pose.push_back(ui->z->value());
+    pose.push_back(ui->roll->value());
+    pose.push_back(ui->pitch->value());
+    pose.push_back(ui->yaw->value());
+
+    connectDlg->moveJ_IK(pose);
 }
 
 void RocosMainWindow::on_MoveL_FK_clicked() {
@@ -622,6 +631,15 @@ void RocosMainWindow::on_MoveL_FK_clicked() {
 
 void RocosMainWindow::on_MoveL_clicked() {
     qDebug() << "MoveL";
+    QVector<double> pose;
+    pose.push_back(ui->x->value());
+    pose.push_back(ui->y->value());
+    pose.push_back(ui->z->value());
+    pose.push_back(ui->roll->value());
+    pose.push_back(ui->pitch->value());
+    pose.push_back(ui->yaw->value());
+
+    connectDlg->moveL(pose);
 }
 
 void RocosMainWindow::on_MoveSpace0_clicked() {

@@ -190,11 +190,11 @@ void ConnectDialog::getRobotState() {
     if (status.ok()) {
         emit newStateComming(); // 收到了新的机器人状态信息就直接上传
 
-        std::cout << "JntPos: ";
-        for(int i =0; i < jnt_num_; ++i) {
-            std::cout << getJointPosition(i) << " ; ";
-        }
-        std::cout << std::endl;
+//        std::cout << "JntPos: ";
+//        for(int i =0; i < jnt_num_; ++i) {
+//            std::cout << getJointPosition(i) << " ; ";
+//        }
+//        std::cout << std::endl;
 //        std::cout << "Joint state size: " << robot_state_response_.robot_state().joint_states_size() << std::endl;
 //        std::cout << "Joint state status: " << robot_state_response_.robot_state().joint_states(0).status() << std::endl;
 //        std::cout << "slave num: " << robot_state_response_.robot_state().hw_state().slave_num() << std::endl;
@@ -349,11 +349,71 @@ void ConnectDialog::moveJ(QVector<double> q) {
 }
 
 void ConnectDialog::moveL(QVector<double> pose) {
+    RobotCommandRequest request;
+    RobotCommandResponse response;
 
+    auto movel = request.mutable_command()->mutable_motion_command()->mutable_move_l();
+    movel->mutable_pose()->mutable_position()->set_x(pose[0]);
+    movel->mutable_pose()->mutable_position()->set_y(pose[1]);
+    movel->mutable_pose()->mutable_position()->set_z(pose[2]);
+
+    auto rotation = Rotation::RPY(pose[3], pose[4], pose[5]);
+    double x,y,z,w;
+    rotation.GetQuaternion(x,y,z,w);
+    movel->mutable_pose()->mutable_rotation()->set_x(x);
+    movel->mutable_pose()->mutable_rotation()->set_y(y);
+    movel->mutable_pose()->mutable_rotation()->set_z(z);
+    movel->mutable_pose()->mutable_rotation()->set_w(w);
+
+    movel->set_speed(vc_);
+    movel->set_acceleration(ac_);
+    movel->set_time(0);
+    movel->set_radius(0);
+    movel->set_asynchronous(true);
+
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
+    }
 }
 
 void ConnectDialog::moveJ_IK(QVector<double> pose) {
+    RobotCommandRequest request;
+    RobotCommandResponse response;
 
+    auto movej_ik = request.mutable_command()->mutable_motion_command()->mutable_move_j_ik();
+    movej_ik->mutable_pose()->mutable_position()->set_x(pose[0]);
+    movej_ik->mutable_pose()->mutable_position()->set_y(pose[1]);
+    movej_ik->mutable_pose()->mutable_position()->set_z(pose[2]);
+
+    auto rotation = Rotation::RPY(pose[3], pose[4], pose[5]);
+    double x,y,z,w;
+    rotation.GetQuaternion(x,y,z,w);
+    movej_ik->mutable_pose()->mutable_rotation()->set_x(x);
+    movej_ik->mutable_pose()->mutable_rotation()->set_y(y);
+    movej_ik->mutable_pose()->mutable_rotation()->set_z(z);
+    movej_ik->mutable_pose()->mutable_rotation()->set_w(w);
+
+    movej_ik->set_speed(vj_);
+    movej_ik->set_acceleration(aj_);
+    movej_ik->set_time(0);
+    movej_ik->set_radius(0);
+    movej_ik->set_asynchronous(true);
+
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
+    }
 }
 
 void ConnectDialog::moveL_FK(QVector<double> q) {
