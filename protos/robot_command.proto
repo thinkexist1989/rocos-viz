@@ -39,6 +39,19 @@ enum Mode {
     MODE_CST = 2;
 }
 
+enum DraggingFlag {
+    J0 = 0; J1 = 1; J2 = 2; J3 = 3;J4 = 4;J5 = 5;J6 = 6;
+    TOOL_X = 7; TOOL_Y = 8; TOOL_Z = 9;
+    FLANG_X = 10; FLANG_Y = 11; FLANG_Z = 12;
+    OBJECT_X = 13; OBJECT_Y = 14; OBJECT_Z = 15;
+};
+
+enum DraggingDirection {
+    NONE = 0;
+    POSITIVE = 1;
+    NEGATIVE = -1;
+};
+
 /////// SingleAxisCommand ////////////
 message SingleAxisEnabled {
     int32 id = 1;
@@ -183,7 +196,7 @@ message MoveC {
     double radius = 6;
     enum OrientationMode {
         UNCONSTRAINED = 0;
-            FIXED = 1;
+        FIXED = 1;
     }
     OrientationMode mode = 7;
     bool asynchronous = 8;
@@ -235,6 +248,14 @@ message MotionCommand {
     }
 }
 
+/////// Dragging Command /////////////
+message DraggingCommand {
+    DraggingFlag flag = 1;
+    DraggingDirection dir = 2;
+    double max_speed = 3;
+    double max_acceleration = 4;
+}
+
 ///////////////////////////////////////
 
 message RobotCommand {
@@ -245,6 +266,7 @@ message RobotCommand {
         SingleAxisCommand single_axis_command = 4;
         MultiAxisCommand multi_axis_command = 5;
         MotionCommand motion_command = 6;
+        DraggingCommand dragging_command = 7;
     }
 }
 
