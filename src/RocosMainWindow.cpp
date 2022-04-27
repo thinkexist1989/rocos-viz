@@ -625,6 +625,7 @@ void RocosMainWindow::on_MoveJ_clicked() {
     q.push_back(ui->j4->value() / r2d);
     q.push_back(ui->j5->value() / r2d);
     q.push_back(ui->j6->value() / r2d);
+    q.push_back(ui->j7->value() / r2d);
 
     connectDlg->moveJ(q);
 }
@@ -651,6 +652,7 @@ void RocosMainWindow::on_MoveL_FK_clicked() {
     q.push_back(ui->j4->value() / r2d);
     q.push_back(ui->j5->value() / r2d);
     q.push_back(ui->j6->value() / r2d);
+    q.push_back(ui->j7->value() / r2d);
 
     connectDlg->moveL_FK(q);
 }
