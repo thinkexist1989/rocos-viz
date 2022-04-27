@@ -602,7 +602,7 @@ void RocosMainWindow::updateRobotState() {
         if(connectDlg->getJointStatus(i).contains("Enabled"))
             cnt++;
     }
-    if(cnt == 7)
+    if(cnt == connectDlg->getJointNum())
         isRobotEnabled = true;
     else
         isRobotEnabled = false;
