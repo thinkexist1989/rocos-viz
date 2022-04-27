@@ -101,9 +101,9 @@ SceneWidget::SceneWidget(QWidget *parent) :
 //    link1Actor->SetUserTransform(trans1);
 
     // 7自由度机械臂
-//    model = std::make_shared<Model>("models/sia/config.yaml");
+    model = std::make_shared<Model>("models/sia/config.yaml");
     // 泰科6自由度机械臂TB6-R3
-    model = std::make_shared<Model>("models/techsoft_tb6_r3/config.yaml");
+//    model = std::make_shared<Model>("models/techsoft_tb6_r3/config.yaml");
 
 //    model = new Model("models/iiwa/config.yaml");
     model->addToRenderer(renderer);

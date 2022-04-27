@@ -109,6 +109,9 @@ public:
 
     int  currentFrame = FRAME_BASE; // 默认为base系
 
+    double r2d = 180.0/M_PI; // 默认是角度显示
+    double m2mm = 1000.0;    // 默认是mm显示
+
 
 };
 #endif // ROCOSMAINWINDOW_H

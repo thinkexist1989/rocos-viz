@@ -494,6 +494,9 @@ void RocosMainWindow::on_actionAngleRep_triggered()
 
     int angleRep = isAngleDegree ? ANGLE_DEGREE : ANGLE_RADIUS;
 
+    r2d = (angleRep == ANGLE_DEGREE) ? (180.0/M_PI) : 1.0; // TODO：这个给precision control使用的，后续要封装起来
+
+
     for(auto& jpWdg : jpWdgs) {
         jpWdg->setAngleRep(angleRep);
     }
@@ -514,6 +517,8 @@ void RocosMainWindow::on_actionPosRep_triggered()
     isPosMM = !isPosMM;
 
     int posRep = isPosMM ? POS_MM : POS_M;
+
+    m2mm = (posRep == POS_MM) ? 1000.0 : 1.0;
 
     ui->cartesianXWidget->setPosRep(posRep);
     ui->cartesianYWidget->setPosRep(posRep);
@@ -593,12 +598,12 @@ void RocosMainWindow::updateRobotState() {
 void RocosMainWindow::on_MoveJ_clicked() {
     qDebug() << "MoveJ";
     QVector<double> q;
-    q.push_back(ui->j1->value());
-    q.push_back(ui->j2->value());
-    q.push_back(ui->j3->value());
-    q.push_back(ui->j4->value());
-    q.push_back(ui->j5->value());
-    q.push_back(ui->j6->value());
+    q.push_back(ui->j1->value() / r2d);
+    q.push_back(ui->j2->value() / r2d);
+    q.push_back(ui->j3->value() / r2d);
+    q.push_back(ui->j4->value() / r2d);
+    q.push_back(ui->j5->value() / r2d);
+    q.push_back(ui->j6->value() / r2d);
 
     connectDlg->moveJ(q);
 }
@@ -606,12 +611,12 @@ void RocosMainWindow::on_MoveJ_clicked() {
 void RocosMainWindow::on_MoveJ_IK_clicked() {
     qDebug() << "MoveJ_IK";
     QVector<double> pose;
-    pose.push_back(ui->x->value());
-    pose.push_back(ui->y->value());
-    pose.push_back(ui->z->value());
-    pose.push_back(ui->roll->value());
-    pose.push_back(ui->pitch->value());
-    pose.push_back(ui->yaw->value());
+    pose.push_back(ui->x->value() / m2mm);
+    pose.push_back(ui->y->value() / m2mm);
+    pose.push_back(ui->z->value() / m2mm);
+    pose.push_back(ui->roll->value() / r2d);
+    pose.push_back(ui->pitch->value() / r2d);
+    pose.push_back(ui->yaw->value() / r2d);
 
     connectDlg->moveJ_IK(pose);
 }
@@ -619,12 +624,12 @@ void RocosMainWindow::on_MoveJ_IK_clicked() {
 void RocosMainWindow::on_MoveL_FK_clicked() {
     qDebug() << "MoveL_FK";
     QVector<double> q;
-    q.push_back(ui->j1->value());
-    q.push_back(ui->j2->value());
-    q.push_back(ui->j3->value());
-    q.push_back(ui->j4->value());
-    q.push_back(ui->j5->value());
-    q.push_back(ui->j6->value());
+    q.push_back(ui->j1->value() / r2d);
+    q.push_back(ui->j2->value() / r2d);
+    q.push_back(ui->j3->value() / r2d);
+    q.push_back(ui->j4->value() / r2d);
+    q.push_back(ui->j5->value() / r2d);
+    q.push_back(ui->j6->value() / r2d);
 
     connectDlg->moveL_FK(q);
 }
@@ -632,12 +637,12 @@ void RocosMainWindow::on_MoveL_FK_clicked() {
 void RocosMainWindow::on_MoveL_clicked() {
     qDebug() << "MoveL";
     QVector<double> pose;
-    pose.push_back(ui->x->value());
-    pose.push_back(ui->y->value());
-    pose.push_back(ui->z->value());
-    pose.push_back(ui->roll->value());
-    pose.push_back(ui->pitch->value());
-    pose.push_back(ui->yaw->value());
+    pose.push_back(ui->x->value() / m2mm);
+    pose.push_back(ui->y->value() / m2mm);
+    pose.push_back(ui->z->value() / m2mm);
+    pose.push_back(ui->roll->value() / r2d);
+    pose.push_back(ui->pitch->value() / r2d);
+    pose.push_back(ui->yaw->value() / r2d);
 
     connectDlg->moveL(pose);
 }
