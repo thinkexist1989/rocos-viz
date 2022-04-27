@@ -396,10 +396,12 @@ void RocosMainWindow::on_actionEnabled_triggered()
 //    isRobotEnabled = connectDlg->getRobotEnabled();
 
     if(isRobotEnabled) {
-        ui->actionEnabled->setIcon(QIcon(":/res/switchon.png"));
+//        ui->actionEnabled->setIcon(QIcon(":/res/switchon.png"));
+        connectDlg->powerOff();
     }
     else{
-        ui->actionEnabled->setIcon(QIcon(":/res/switchoff.png"));
+        connectDlg->powerOn();
+//        ui->actionEnabled->setIcon(QIcon(":/res/switchoff.png"));
     }
 }
 
@@ -593,6 +595,25 @@ void RocosMainWindow::updateRobotState() {
     cpWdgs[3]->updateVal(roll);
     cpWdgs[4]->updateVal(pitch);
     cpWdgs[5]->updateVal(yaw);
+
+    //更新使能状态
+    int cnt = 0;
+    for(int i = 0; i < connectDlg->getJointNum(); ++i) {
+        if(connectDlg->getJointStatus(i).contains("Enabled"))
+            cnt++;
+    }
+    if(cnt == 7)
+        isRobotEnabled = true;
+    else
+        isRobotEnabled = false;
+
+    // 更新使能按钮图标
+    if(isRobotEnabled) {
+        ui->actionEnabled->setIcon(QIcon(":/res/switchon.png"));
+    }
+    else{
+        ui->actionEnabled->setIcon(QIcon(":/res/switchoff.png"));
+    }
 }
 
 void RocosMainWindow::on_MoveJ_clicked() {
