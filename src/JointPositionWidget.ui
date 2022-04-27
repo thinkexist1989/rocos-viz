@@ -48,10 +48,10 @@
       </size>
      </property>
      <property name="autoRepeat">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="autoRepeatDelay">
-      <number>100</number>
+      <number>10</number>
      </property>
      <property name="autoRepeatInterval">
       <number>80</number>
@@ -99,7 +99,7 @@
       <bool>true</bool>
      </property>
      <property name="autoRepeatDelay">
-      <number>100</number>
+      <number>10</number>
      </property>
      <property name="autoRepeatInterval">
       <number>80</number>
