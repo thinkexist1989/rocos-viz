@@ -32,6 +32,8 @@
 
 #include <Model.h>
 
+#include <MouseInteractorChooseActor.h>
+
 class SceneWidget : public QVTKOpenGLNativeWidget
 {
 public:
@@ -67,6 +69,8 @@ private:
     vtkSmartPointer<vtkOrientationMarkerWidget> marker; //左下角姿态Marker显示
 
     std::shared_ptr<Model> model;
+
+    vtkSmartPointer<MouseInteractorChooseActor> style;
 };
 
 #endif // SCENEWIDGET_H

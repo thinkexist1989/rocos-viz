@@ -32,7 +32,8 @@ SceneWidget::SceneWidget(QWidget *parent) :
     groundSource(vtkPlaneSource::New()),
     groundActor(vtkActor::New()),
     axesActor(vtkAxesActor::New()),
-    marker(vtkOrientationMarkerWidget::New())
+    marker(vtkOrientationMarkerWidget::New()),
+    style(MouseInteractorChooseActor::New())
 {
     /* ======== 画平面 ======== */
     groundSource->SetXResolution(10);
@@ -142,6 +143,9 @@ SceneWidget::SceneWidget(QWidget *parent) :
     renderer->GetActiveCamera()->SetPosition(3,3,3);
     renderer->GetActiveCamera()->SetFocalPoint(0,0,0.5);
     renderer->GetActiveCamera()->SetViewUp(0,0,1);
+
+    style->SetDefaultRenderer(renderer);
+    this->GetInteractor()->SetInteractorStyle(style);
 
 }
 
