@@ -385,7 +385,7 @@ void RocosMainWindow::on_speedSlider_valueChanged(int value)
     ui->cartesianPitchWidget->setFactor(f);
     ui->cartesianYawWidget->setFactor(f);
 
-    connectDlg->setJointSpeedScaling(f*100);
+    connectDlg->setJointSpeedScaling(f);
 }
 void RocosMainWindow::on_actionEnabled_triggered()
 {

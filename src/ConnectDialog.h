@@ -331,6 +331,10 @@ private:
     RobotInfoResponse robot_info_response_;   //!< 机器人信息回复
     RobotStateResponse robot_state_response_; //!< 机器人状态回复
 
+    double factor_ {0.25}; //!< 机器人运行速度缩放比例
+    double max_jnt_speed_ {1}; //!< 关节空间运动最大速度
+    double max_cart_speed_ {0.5}; //!< 笛卡尔空间运动最大速度
+
 private:
     int jnt_num_ {0};
     double  vj_ {0.1};
