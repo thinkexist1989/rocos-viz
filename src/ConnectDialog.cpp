@@ -229,7 +229,25 @@ void ConnectDialog::jointJogging(int id, int dir) {
 }
 
 void ConnectDialog::cartesianJogging(int frame, int freedom, int dir) {
+    std::cout << "Cartesian is jogging..." << std::endl;
 
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+
+    auto dragging_command = request.mutable_command()->mutable_dragging_command();
+    dragging_command->set_flag(static_cast<rocos::DraggingFlag>(frame));
+    dragging_command->set_dir(static_cast<rocos::DraggingDirection>(dir));
+    dragging_command->set_max_speed(max_cart_speed_ * factor_); // TODO: 需要获取关节最大速度
+    dragging_command->set_max_acceleration(max_cart_speed_ * factor_ * 10); // TODO: 需要获取关节最大加速度
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cerr << "Send command Error" << std::endl;
+    }
 }
 
 bool ConnectDialog::event(QEvent *event) {

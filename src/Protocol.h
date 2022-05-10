@@ -52,10 +52,11 @@
 
 //笛卡尔坐标系
 #define FRAME_JOINT    0
-#define FRAME_BASE     1
-#define FRAME_FLANGE   2
+#define FRAME_TOOL     100
+#define FRAME_FLANGE   200
+#define FRAME_OBJECT   300
+#define FRAME_BASE     400
 #define FRAME_WORLD    3 //TODO: 暂未实现，等于world系
-#define FRAME_TOOL     4 //TODO: 暂未实现，等于Tool系
 
 #define FREEDOM_X      0
 #define FREEDOM_Y      1

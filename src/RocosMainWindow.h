@@ -66,6 +66,10 @@ private slots:
 
     void on_flangeFrame_clicked(bool checked);
 
+    void on_toolFrame_clicked(bool checked);
+
+    void on_objectFrame_clicked(bool checked);
+
     void on_actionAngleRep_triggered();
 
     void on_actionPosRep_triggered();
