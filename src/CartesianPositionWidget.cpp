@@ -83,7 +83,10 @@ void CartesianPositionWidget::on_cartesianPlusButton_released()
 //    val = 0;
 //    this->ui->cartesianValBar->setValue(val);
 
-    emit cartesianJogging(id, 0);
+// TODO: 使用了QButton的AutoRepeat，相当于每隔一段时间自动按下并抬起按键，导致released也一直调用，所以屏蔽了
+//    emit cartesianJogging(id, 0);
+//    std::cout << "Cart Pos Minus Released" << std::endl;
+
 }
 
 void CartesianPositionWidget::on_cartesianMinusButton_pressed()
@@ -100,5 +103,7 @@ void CartesianPositionWidget::on_cartesianMinusButton_released()
 //    val = 0;
 //    this->ui->cartesianValBar->setValue(val);
 
-    emit cartesianJogging(id, 0);
+// TODO: 使用了QButton的AutoRepeat，相当于每隔一段时间自动按下并抬起按键，导致released也一直调用，所以屏蔽了
+//    emit cartesianJogging(id, 0);
+//    std::cout << "Cart Pos Minus Released" << std::endl;
 }

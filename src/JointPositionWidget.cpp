@@ -56,7 +56,9 @@ void JointPositionWidget::on_jointPosPlusButton_pressed()
 
 void JointPositionWidget::on_jointPosPlusButton_released()
 {
-    emit jointPositionJogging(id, 0);
+// TODO: 使用了QButton的AutoRepeat，相当于每隔一段时间自动按下并抬起按键，导致released也一直调用，所以屏蔽了
+//    std::cout << "Joint Pos Minus Released" << std::endl;
+//    emit jointPositionJogging(id, 0);
 }
 
 void JointPositionWidget::on_jointPosMinusButton_pressed()
@@ -67,5 +69,7 @@ void JointPositionWidget::on_jointPosMinusButton_pressed()
 
 void JointPositionWidget::on_jointPosMinusButton_released()
 {
-    emit jointPositionJogging(id, 0);
+// TODO: 使用了QButton的AutoRepeat，相当于每隔一段时间自动按下并抬起按键，导致released也一直调用，所以屏蔽了
+//    std::cout << "Joint Pos Minus Released" << std::endl;
+//    emit jointPositionJogging(id, 0);
 }
