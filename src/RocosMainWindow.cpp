@@ -51,7 +51,6 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     connect(ui->Joint1PosWidget, &JointPositionWidget::jointPositionJogging,
             this, [=](int id, int dir) {
                 connectDlg->jointJogging(id, dir);
-                std::cout << "Joint Pos: " << dir << std::endl;
             });
     jpWdgs.push_back(ui->Joint1PosWidget);
 
