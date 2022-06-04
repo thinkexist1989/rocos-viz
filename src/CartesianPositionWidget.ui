@@ -93,7 +93,7 @@
       <number>10</number>
      </property>
      <property name="autoRepeatInterval">
-      <number>80</number>
+      <number>50</number>
      </property>
     </widget>
    </item>
