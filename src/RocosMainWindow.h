@@ -1,12 +1,17 @@
 #ifndef ROCOSMAINWINDOW_H
 #define ROCOSMAINWINDOW_H
 
+//#define USE_GAMEPAD
+
 #include <QMainWindow>
 #include <QLabel>
 #include <QTimer>
 #include <QTime>
-#include <QGamepad>
 #include <QGroupBox>
+
+#ifdef USE_GAMEPAD
+#include <QGamepad>
+#endif
 
 #include <ConnectDialog.h> //机器人控制链接
 #include <ScriptDialog.h>  //LUA脚本对话框
@@ -99,7 +104,9 @@ private:
     QVector<JointPositionWidget*> jpWdgs;
     QVector<CartesianPositionWidget*> cpWdgs;
 
+#ifdef USE_GAMEPAD
     QGamepad *joystick;
+#endif
     QGroupBox *grpBox;
     bool safeOn = false;
     int      jogDir = 0; //点动方向 默认是BaseT 0 -> BaseR 1 -> FlangeT 2 -> FlangeR 3

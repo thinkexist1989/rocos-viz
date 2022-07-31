@@ -101,7 +101,8 @@ add_library(rocos::protocol ALIAS protocol)
 
 
 # Qt
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network Gamepad REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Gamepad)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network Gamepad REQUIRED)
 
 # VTK

@@ -457,7 +457,7 @@ p, li { white-space: pre-wrap; }
         <location filename="src/RocosMainWindow.ui" line="214"/>
         <location filename="cmake-build-debug/rocos-viz_autogen/include/ui_RocosMainWindow.h" line="888"/>
         <location filename="cmake-build-release/rocos-viz_autogen/include/ui_RocosMainWindow.h" line="888"/>
-        <location filename="src/RocosMainWindow.cpp" line="495"/>
+        <location filename="src/RocosMainWindow.cpp" line="496"/>
         <source>Cartesian Space (BASE)</source>
         <oldsource>Cartesian Space</oldsource>
         <translation type="unfinished"></translation>
@@ -970,87 +970,87 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="221"/>
+        <location filename="src/RocosMainWindow.cpp" line="222"/>
         <source>Joystick jogging in Base Space(Translate)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="228"/>
+        <location filename="src/RocosMainWindow.cpp" line="229"/>
         <source>Joystick jogging in Base Space(Rotate)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="235"/>
+        <location filename="src/RocosMainWindow.cpp" line="236"/>
         <source>Joystick jogging in Flange Space(Translate)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="242"/>
+        <location filename="src/RocosMainWindow.cpp" line="243"/>
         <source>Joystick jogging in Flange Space(Rotate)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="249"/>
+        <location filename="src/RocosMainWindow.cpp" line="250"/>
         <source>Joystick jogging in Tool Space(Translate)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="256"/>
+        <location filename="src/RocosMainWindow.cpp" line="257"/>
         <source>Joystick jogging in Tool Space(Rotate)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="263"/>
+        <location filename="src/RocosMainWindow.cpp" line="264"/>
         <source>Joystick jogging in Object Space(Translate)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="270"/>
+        <location filename="src/RocosMainWindow.cpp" line="271"/>
         <source>Joystick jogging in Object Space(Rotate)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="342"/>
+        <location filename="src/RocosMainWindow.cpp" line="343"/>
         <source>.QGroupBox{margin:6px; border:3px solid red}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="344"/>
+        <location filename="src/RocosMainWindow.cpp" line="345"/>
         <source>.QGroupBox{margin:6px; border:3px solid green}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="397"/>
+        <location filename="src/RocosMainWindow.cpp" line="398"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="482"/>
+        <location filename="src/RocosMainWindow.cpp" line="483"/>
         <source>Zero Calibration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="483"/>
+        <location filename="src/RocosMainWindow.cpp" line="484"/>
         <source>The current joint position will set as ZERO. Are you sure?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="502"/>
+        <location filename="src/RocosMainWindow.cpp" line="503"/>
         <source>Cartesian Space (FLANGE)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="509"/>
+        <location filename="src/RocosMainWindow.cpp" line="510"/>
         <source>Cartesian Space (TOOL)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="516"/>
+        <location filename="src/RocosMainWindow.cpp" line="517"/>
         <source>Cartesian Space (OBJECT)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/RocosMainWindow.cpp" line="567"/>
+        <location filename="src/RocosMainWindow.cpp" line="568"/>
         <source>clear</source>
         <translation type="unfinished"></translation>
     </message>

@@ -198,6 +198,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     /*********** Joystick **************/
     grpBox = ui->cartesianGroupBox; //默认是BaseT 0 -> BaseR 1 -> FlangeT 2 -> FlangeR 3
 
+#ifdef USE_GAMEPAD
     joystick = new QGamepad(0, this);
     connect(joystick, &QGamepad::connectedChanged, [=](bool val) {
         if (val)
@@ -362,7 +363,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 
     connect(joystick, &QGamepad::buttonL2Changed, [=](double val) { qDebug() << "Button L2: " << val; }); //L2按钮
     connect(joystick, &QGamepad::buttonR2Changed, [=](double val) { qDebug() << "Button R2: " << val; }); //R2按钮
-
+#endif
 }
 
 RocosMainWindow::~RocosMainWindow() {
