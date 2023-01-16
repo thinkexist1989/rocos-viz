@@ -117,7 +117,7 @@ SceneWidget::SceneWidget(QWidget *parent) :
     /* ======== 渲染窗口 ========== */
     renderWindow->AddRenderer(renderer);
     /* ======== 关联渲染窗口 ========== */
-    this->SetRenderWindow(renderWindow);
+    this->setRenderWindow(renderWindow);
 
 
 //    renderer->AddActor(axesActor); // 画坐标系
@@ -127,7 +127,7 @@ SceneWidget::SceneWidget(QWidget *parent) :
 //    renderer->AddActor(link1Actor); // link1
 
     marker->SetOrientationMarker(axesActor);
-    marker->SetInteractor(this->GetInteractor());
+    marker->SetInteractor(this->interactor());
     marker->EnabledOn();
     marker->InteractiveOff();
 //    axes->InteractiveOn();
@@ -145,7 +145,7 @@ SceneWidget::SceneWidget(QWidget *parent) :
     renderer->GetActiveCamera()->SetViewUp(0,0,1);
 
     style->SetDefaultRenderer(renderer);
-    this->GetInteractor()->SetInteractorStyle(style);
+    this->interactor()->SetInteractorStyle(style);
 
 }
 

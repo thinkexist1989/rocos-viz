@@ -99,14 +99,53 @@ target_link_libraries(protocol
         )
 add_library(rocos::protocol ALIAS protocol)
 
+# VTK
+#find_package(VTK COMPONENTS
+#        CommonColor
+#        CommonCore
+#        CommonComputationalGeometry
+#        CommonDataModel
+#        CommonExecutionModel
+#        CommonMath
+#        CommonMisc
+#        FiltersCore
+#        FiltersSources
+#        InfovisCore
+#        InteractionStyle
+#        RenderingContextOpenGL2
+#        RenderingCore
+#        RenderingFreeType
+#        RenderingGL2PSOpenGL2
+#        RenderingOpenGL2
+#        ViewsQt
+#        GUISupportQt
+#        RenderingQt
+#        )
+find_package(VTK REQUIRED COMPONENTS)
+
+message("VTK LIBS: ${VTK_LIBRARIES}")
+#include(${VTK_USE_FILE})
+
+#if(NOT DEFINED VTK_QT_VERSION)
+#    set(VTK_QT_VERSION 5)
+#endif()
+#
+#set(qt_components Core Gui Widgets)
+#if(${VTK_QT_VERSION} VERSION_GREATER_EQUAL 6)
+#    list(APPEND qt_components OpenGLWidgets)
+#endif()
+#list(SORT qt_components)
+## We have ui files, so this will also bring in the macro:
+##   qt5_wrap_ui or qt_wrap_ui from Widgets.
+#find_package(Qt${VTK_QT_VERSION} QUIET
+#        REQUIRED COMPONENTS ${qt_components}
+#        )
 
 # Qt
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network Gamepad REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network Gamepad REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
 
-# VTK
-find_package(VTK 8.2 REQUIRED)
-include(${VTK_USE_FILE})
+
 
 # Eigen3
 find_package(Eigen3 REQUIRED)
@@ -183,7 +222,7 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Network
-        Qt${QT_VERSION_MAJOR}::Gamepad
+        Qt${QT_VERSION_MAJOR}::OpenGLWidgets
         ${VTK_LIBRARIES}
         Eigen3::Eigen
         yaml-cpp
@@ -191,7 +230,12 @@ target_link_libraries(${PROJECT_NAME}
         rocos::protocol
         )
 
-qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+vtk_module_autoinit(
+        TARGETS ${PROJECT_NAME}
+        MODULES ${VTK_LIBRARIES}
+)
+
+#qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 #configure_file(${MODELS} ./ COPYONLY)
 file(COPY models/ DESTINATION models/)

@@ -5,6 +5,7 @@
 #include <QMovie>
 #include <QTimer>
 #include <QTime>
+#include <QElapsedTimer>
 #include <QDateTime>
 #include <QButtonGroup>
 #include <QFile>
@@ -120,7 +121,7 @@ private:
 
     int dispType = TYPE_JOINT_SPACE;
 
-    QTime* time;
+    QElapsedTimer* time;
 
     QString timestamp; //用于记录保存文件时间的时间戳
     QString saveDir = "./";  //保存记录文件的路径

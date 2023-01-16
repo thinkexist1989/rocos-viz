@@ -5,7 +5,6 @@
 #include <QLabel>
 #include <QTimer>
 #include <QTime>
-#include <QGamepad>
 #include <QGroupBox>
 
 #include <ConnectDialog.h> //机器人控制链接
@@ -88,7 +87,7 @@ private:
     Ui::RocosMainWindow *ui;
 
     QLabel*        timeLabel;
-    QTime*         time;
+    QElapsedTimer* time;
     QTimer*        timer;
 
     ConnectDialog* connectDlg = Q_NULLPTR;
@@ -99,7 +98,6 @@ private:
     QVector<JointPositionWidget*> jpWdgs;
     QVector<CartesianPositionWidget*> cpWdgs;
 
-    QGamepad *joystick;
     QGroupBox *grpBox;
     bool safeOn = false;
     int      jogDir = 0; //点动方向 默认是BaseT 0 -> BaseR 1 -> FlangeT 2 -> FlangeR 3
