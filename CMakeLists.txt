@@ -101,6 +101,7 @@ add_library(rocos::protocol ALIAS protocol)
 
 # VTK
 #find_package(VTK COMPONENTS
+#        WrappingTools
 #        CommonColor
 #        CommonCore
 #        CommonComputationalGeometry
@@ -121,7 +122,7 @@ add_library(rocos::protocol ALIAS protocol)
 #        GUISupportQt
 #        RenderingQt
 #        )
-find_package(VTK REQUIRED COMPONENTS)
+find_package(VTK REQUIRED)
 
 message("VTK LIBS: ${VTK_LIBRARIES}")
 #include(${VTK_USE_FILE})
