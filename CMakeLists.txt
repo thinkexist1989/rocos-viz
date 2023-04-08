@@ -99,6 +99,14 @@ target_link_libraries(protocol
         )
 add_library(rocos::protocol ALIAS protocol)
 
+if(UNIX AND NOT APPLE)
+    set(CMAKE_PREFIX_PATH "/home/think/Qt/6.2.4/gcc_64/lib/cmake")
+endif()
+
+# Qt
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
+
 # VTK
 #find_package(VTK COMPONENTS
 #        WrappingTools
@@ -141,12 +149,6 @@ message("VTK LIBS: ${VTK_LIBRARIES}")
 #find_package(Qt${VTK_QT_VERSION} QUIET
 #        REQUIRED COMPONENTS ${qt_components}
 #        )
-
-# Qt
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
-
-
 
 # Eigen3
 find_package(Eigen3 REQUIRED)
