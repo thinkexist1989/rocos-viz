@@ -9,9 +9,9 @@ SplashScreen::SplashScreen(QPixmap& pixmap,int time) :
 {
     ProgressBar = new QProgressBar(this);
     //设置进度条的位置
-    ProgressBar->setGeometry(0,pixmap.height()-20,pixmap.width(),40);
+    ProgressBar->setGeometry(0,pixmap.height()-10,pixmap.width(),20);
     //设置进度条的样式
-    ProgressBar->setStyleSheet("QProgressBar {color:black;font:30px;text-align:center; }QProgressBar::chunk {background-color: rgb(50, 200, 50);}");
+    ProgressBar->setStyleSheet("QProgressBar {color:black;font:30px;text-align:center; }QProgressBar::chunk {background-color: rgb(02, 87, 190);}");
     //设置进度条的范围
     ProgressBar->setRange(0, 100);
     //设置进度条的当前进度

@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
     a.setWindowIcon(QIcon(":/icon.ico"));
 
 //    QPixmap pixmap(":/res/splash.png");://res/rocos-viz.jpg
-    QPixmap pixmap(":/res/rocos-viz.jpg");
-    QPixmap scaledPixmap = pixmap.scaled(700,700, Qt::KeepAspectRatio);
+    QPixmap pixmap(":/res/logo.jpg");
+    QPixmap scaledPixmap = pixmap.scaled(700,700, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     SplashScreen* splash = new SplashScreen(scaledPixmap, 10000);
     splash->show();
 
