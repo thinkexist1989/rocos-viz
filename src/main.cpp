@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 
     for(int i = 0; i <= 100; i++) {
         splash->setProgress(i);
+        splash->repaint(); // 在Linux下必须加入这句，否则不显示splash screen
         QThread::usleep(10000);
     }
 
