@@ -836,6 +836,7 @@
    <addaction name="actionPlotter"/>
    <addaction name="actionAngleRep"/>
    <addaction name="actionPosRep"/>
+   <addaction name="actionFullscreenView"/>
    <addaction name="actionAbout"/>
   </widget>
   <action name="actionFrontView">
@@ -1039,6 +1040,21 @@
    </property>
    <property name="statusTip">
     <string>Set Position Representation</string>
+   </property>
+  </action>
+  <action name="actionFullscreenView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/fullscreen.png</normaloff>:/res/fullscreen.png</iconset>
+   </property>
+   <property name="text">
+    <string>fullscreenView</string>
+   </property>
+   <property name="toolTip">
+    <string>FullscreenView</string>
    </property>
   </action>
  </widget>
