@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 #project(rocos-viz LANGUAGES CXX)
-project(rocos-viz)
+project(rocos-viz VERSION 0.1.0 DESCRIPTION "ROCOS Visualization Application")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -11,6 +11,21 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# rocos-viz install path
+include(GNUInstallDirs)
+set(CMAKE_INSTALL_PREFIX /opt/rocos/viz)
+message(STATUS "INSTALL PREFIX: ${CMAKE_INSTALL_PREFIX}")
+#message(STATUS "INSTALL INCLUDE DIR: ${CMAKE_INSTALL_INCLUDEDIR}")
+#message(STATUS "INSTALL LIB DIR: ${CMAKE_INSTALL_LIBDIR}")
+#message(STATUS "INSTALL BIN DIR: ${CMAKE_INSTALL_BINDIR}")
+
+set(${PROJECT_NAME}_INSTALL_CONFIGDIR ${CMAKE_INSTALL_PREFIX}/config)
+set(${PROJECT_NAME}_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check http://doc.qt.io/qt-5/deployment-android.html for more information.d
@@ -244,3 +259,44 @@ vtk_module_autoinit(
 
 #configure_file(${MODELS} ./ COPYONLY)
 file(COPY models/ DESTINATION models/)
+
+#############
+## Install ##
+#############
+
+# Add support for installaion
+include(CMakePackageConfigHelpers)
+
+install(TARGETS ${PROJECT_NAME}
+        EXPORT rocos_viz-targets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}  # 动态库安装路径
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}  # 静态库安装路径
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}  # 可执行文件安装路径
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}  # 头文件安装路径
+        )
+
+install(EXPORT rocos_viz-targets
+        FILE rocos_viz-targets.cmake
+        NAMESPACE rocos::
+        DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+        )
+
+install(DIRECTORY models DESTINATION .)
+
+configure_package_config_file(
+        cmake/rocos_viz-config.cmake.in
+        rocos_viz-config.cmake
+        INSTALL_DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+)
+
+# 写入库的版本信息
+write_basic_package_version_file(
+        rocos_viz-config-version.cmake
+        VERSION ${PACKAGE_VERSION}
+        COMPATIBILITY AnyNewerVersion  # 表示该函数库向下兼容
+)
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/rocos_viz-config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/rocos_viz-config-version.cmake"
+        DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+        )

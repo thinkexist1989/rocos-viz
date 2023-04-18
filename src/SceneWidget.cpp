@@ -102,7 +102,7 @@ SceneWidget::SceneWidget(QWidget *parent) :
 //    link1Actor->SetUserTransform(trans1);
 
     // 7自由度机械臂
-    model = std::make_shared<Model>("models/talon/config.yaml");
+    model = std::make_shared<Model>(yamlCfgFile);
     // 泰科6自由度机械臂TB6-R3
 //    model = std::make_shared<Model>("models/techsoft_tb6_r3/config.yaml");
 
@@ -224,3 +224,5 @@ void SceneWidget::setAxoView()
 
     renderWindow->Render();
 }
+
+std::string SceneWidget::yamlCfgFile {"models/talon/config.yaml"};

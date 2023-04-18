@@ -11,6 +11,10 @@
 
 #include <QThread>
 
+#include <SceneWidget.h>
+
+#include <QCommandLineParser>
+
 int main(int argc, char *argv[])
 {
     // needed to ensure appropriate OpenGL context is created for VTK rendering.
@@ -20,6 +24,23 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/icon.ico"));
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("ROCOS-Viz Application");
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption modelOption(QStringList() << "m" << "model",
+                                   QCoreApplication::translate("main", "Load model from <file>."),
+                                   QCoreApplication::translate("main", "file"),
+                                   "models/talon/config.yaml");
+    parser.addOption(modelOption);
+    parser.process(a);
+
+    SceneWidget::yamlCfgFile = parser.value(modelOption).toStdString();
+
+
+
 
 //    QPixmap pixmap(":/res/splash.png");://res/rocos-viz.jpg
     QPixmap pixmap(":/res/logo.jpg");
