@@ -30,7 +30,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ################
 
 if (UNIX AND NOT APPLE)
-    set(CMAKE_PREFIX_PATH "/opt/grpc")
+    list(APPEND CMAKE_PREFIX_PATH "/opt/grpc")
 endif ()
 
 include(cmake/common.cmake) # gRPC
@@ -104,8 +104,10 @@ if(UNIX AND NOT APPLE)
 endif()
 
 # Qt
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
+#find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
+#find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Network REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network REQUIRED)
 
 # VTK
 #find_package(VTK COMPONENTS
