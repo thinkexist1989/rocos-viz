@@ -10,28 +10,28 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     ui->setupUi(this);
 
     //给Log增加一个右键菜单clear，清除之前记录
-    ui->logEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+    //ui->logEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
     /********记录程序开始运行的时间********/
     time = new QElapsedTimer;
     time->start();
 
     QTime tt(0, 0);
-    timeLabel = new QLabel("Current Time: " + QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") +
-                           "    Program is running: " + tt.addMSecs(time->elapsed()).toString() + " ", this);
-    QFont font;
-    font.setFamily("Arial");
-    font.setBold(true);
-    font.setPointSize(11);
-    timeLabel->setFont(font);
-    ui->statusbar->setFont(font);
-    ui->statusbar->addPermanentWidget(timeLabel);
+    ui->timerLabel->setText("CURRENT TIME: " + QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+    ui->runningLabel->setText("RUNNING TIME: " + tt.addMSecs(time->elapsed()).toString());
+//    QFont font;
+//    font.setFamily("Arial");
+//    font.setBold(true);
+//    font.setPointSize(11);
+//    timeLabel->setFont(font);
+//    ui->statusbar->setFont(font);
+//    ui->statusbar->addPermanentWidget(timeLabel);
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [=]() {
         QTime tt(0, 0);
-        timeLabel->setText("Current Time: " + QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") +
-                           "    Program is running: " + tt.addMSecs(time->elapsed()).toString());
+        ui->timerLabel->setText("CURRENT TIME: " + QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+        ui->runningLabel->setText("RUNNING TIME: " + tt.addMSecs(time->elapsed()).toString());
     });
     timer->start(500); // 每500ms更新一次时间
 
@@ -171,9 +171,9 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     connect(connectDlg, &ConnectDialog::logging, this, [=](QByteArray &ba) {
 //        ui->logBrowser->insertPlainText(QTime::currentTime().toString("[HH:mm:ss.zzz] ") + QString(ba) + "\n");
 //        ui->logBrowser->
-        ui->logEdit->moveCursor(QTextCursor::End);
-        QString str = QTime::currentTime().toString("[HH:mm:ss.zzz] ") + QString(ba) + "\n";
-        ui->logEdit->appendPlainText(str.simplified());
+//        ui->logEdit->moveCursor(QTextCursor::End);
+//        QString str = QTime::currentTime().toString("[HH:mm:ss.zzz] ") + QString(ba) + "\n";
+//        ui->logEdit->appendPlainText(str.simplified());
 
     });
 
@@ -384,8 +384,8 @@ void RocosMainWindow::on_pushButton_clicked() {
     updateJointPos(jntRads);
 }
 
-void RocosMainWindow::on_axesCheckBox_stateChanged(int arg1) {
-    if (arg1 == Qt::Checked) {
+void RocosMainWindow::on_axesCheckBox_toggled(bool checked) {
+    if (checked) {
         this->ui->visualWidget->setJointAxesVisibility(true);
     } else {
         this->ui->visualWidget->setJointAxesVisibility(false);
@@ -439,8 +439,8 @@ void RocosMainWindow::on_actionConnected_triggered() {
 
 }
 
-void RocosMainWindow::on_meshCheckBox_stateChanged(int arg1) {
-    if (arg1 == Qt::Checked) {
+void RocosMainWindow::on_meshCheckBox_toggled(bool checked) {
+    if (checked) {
         this->ui->visualWidget->setMeshVisibility(true);
     } else {
         this->ui->visualWidget->setMeshVisibility(false);
@@ -560,18 +560,18 @@ void RocosMainWindow::on_actionPosRep_triggered() {
 
 }
 
-void RocosMainWindow::on_logEdit_customContextMenuRequested(const QPoint &pos) {
-    Q_UNUSED(pos); //这个pos显示的位置不对
+//void RocosMainWindow::on_logEdit_customContextMenuRequested(const QPoint &pos) {
+//    Q_UNUSED(pos); //这个pos显示的位置不对
 
-    QMenu *menu = new QMenu(this);
-    QAction *action = new QAction(tr("clear"), this);
-    connect(action, &QAction::triggered, ui->logEdit, &QPlainTextEdit::clear);
+////    QMenu *menu = new QMenu(this);
+////    QAction *action = new QAction(tr("clear"), this);
+////    connect(action, &QAction::triggered, ui->logEdit, &QPlainTextEdit::clear);
 
-    menu->addAction(action);
-    menu->move(cursor().pos());
-    menu->show();
+////    menu->addAction(action);
+////    menu->move(cursor().pos());
+////    menu->show();
 
-}
+//}
 
 void RocosMainWindow::updateJointPos(QVector<double> &jntPos) {
     for (int i = 0; i < jntPos.size(); i++) {
