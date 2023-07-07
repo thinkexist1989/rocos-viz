@@ -337,7 +337,7 @@ QPushButton:pressed, QPushButton:checked {
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="actionConnected">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -347,7 +347,16 @@ QPushButton:pressed, QPushButton:checked {
             <property name="styleSheet">
              <string notr="true">QPushButton {
 	background-color: white;
-	border: 0
+	border: 0;
+	border-radius: 5px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
 }</string>
             </property>
             <property name="text">
@@ -366,7 +375,7 @@ QPushButton:pressed, QPushButton:checked {
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_3">
+           <widget class="QPushButton" name="actionEnabled">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -376,7 +385,16 @@ QPushButton:pressed, QPushButton:checked {
             <property name="styleSheet">
              <string notr="true">QPushButton {
 	background-color: white;
-	border: 0
+	border: 0;
+	border-radius: 5px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
 }</string>
             </property>
             <property name="text">
@@ -395,7 +413,7 @@ QPushButton:pressed, QPushButton:checked {
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_4">
+           <widget class="QPushButton" name="actionAxoView">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -405,7 +423,16 @@ QPushButton:pressed, QPushButton:checked {
             <property name="styleSheet">
              <string notr="true">QPushButton {
 	background-color: white;
-	border: 0
+	border: 0;
+	border-radius: 5px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
 }</string>
             </property>
             <property name="text">
@@ -424,7 +451,7 @@ QPushButton:pressed, QPushButton:checked {
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_5">
+           <widget class="QPushButton" name="actionFrontView">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -434,7 +461,16 @@ QPushButton:pressed, QPushButton:checked {
             <property name="styleSheet">
              <string notr="true">QPushButton {
 	background-color: white;
-	border: 0
+	border: 0;
+	border-radius: 5px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
 }</string>
             </property>
             <property name="text">
@@ -453,7 +489,7 @@ QPushButton:pressed, QPushButton:checked {
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_6">
+           <widget class="QPushButton" name="actionTopView">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -463,7 +499,16 @@ QPushButton:pressed, QPushButton:checked {
             <property name="styleSheet">
              <string notr="true">QPushButton {
 	background-color: white;
-	border: 0
+	border: 0;
+	border-radius: 5px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
 }</string>
             </property>
             <property name="text">
@@ -482,7 +527,7 @@ QPushButton:pressed, QPushButton:checked {
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_7">
+           <widget class="QPushButton" name="actionRightView">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -492,7 +537,16 @@ QPushButton:pressed, QPushButton:checked {
             <property name="styleSheet">
              <string notr="true">QPushButton {
 	background-color: white;
-	border: 0
+	border: 0;
+	border-radius: 5px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
 }</string>
             </property>
             <property name="text">
@@ -1459,6 +1513,40 @@ QSlider::add-page:horizontal {
            <property name="statusTip">
             <string>Change working mode</string>
            </property>
+           <property name="styleSheet">
+            <string notr="true">QComboBox {
+	border: 0;
+}
+
+/* 下拉展开后，整个下拉窗体样式 */
+QComboBox QAbstractItemView {
+  outline: 0;/*选中项外边框*/
+  border: 0;/* 整个下拉窗体的边框 */
+  color: #262626;
+  background-color: #FFFFFF; /* 整个下拉窗体的背景色 */
+  selection-color: #ED0B84;/*下拉框选中项字体颜色*/
+  selection-background-color:#DFF3FC;/* 下拉框选中项的背景色 */
+}
+
+/* 选中每一项高度 */
+QComboBox QAbstractItemView::item {
+  height: 25px;
+}
+
+/* 选中每一项的字体颜色和背景颜色 */
+QComboBox QAbstractItemView::item:selected {
+  color: #ED0B84;
+  background-color: #DFF3FC;
+  font-weight: bold;
+}
+
+
+QComboBox:drop-down {
+	  background: transparent;/* 下拉箭头的的背景色 */
+	 
+}
+</string>
+           </property>
            <item>
             <property name="text">
              <string>Position Mode</string>
@@ -1493,57 +1581,6 @@ QSlider::add-page:horizontal {
     </item>
    </layout>
   </widget>
-  <action name="actionFrontView">
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/res/fview.png</normaloff>:/res/fview.png</iconset>
-   </property>
-   <property name="text">
-    <string>frontView</string>
-   </property>
-   <property name="toolTip">
-    <string>FrontView</string>
-   </property>
-   <property name="statusTip">
-    <string>Set 3D to Front View</string>
-   </property>
-  </action>
-  <action name="actionTopView">
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/res/tview.png</normaloff>:/res/tview.png</iconset>
-   </property>
-   <property name="text">
-    <string>TopView</string>
-   </property>
-   <property name="statusTip">
-    <string>Set 3D to Top View</string>
-   </property>
-  </action>
-  <action name="actionRightView">
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/res/rview.png</normaloff>:/res/rview.png</iconset>
-   </property>
-   <property name="text">
-    <string>RightView</string>
-   </property>
-   <property name="statusTip">
-    <string>Set 3D to Right View</string>
-   </property>
-  </action>
-  <action name="actionAxoView">
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/res/cube_wire.png</normaloff>:/res/cube_wire.png</iconset>
-   </property>
-   <property name="text">
-    <string>AxonometricView</string>
-   </property>
-   <property name="statusTip">
-    <string>Set 3D to Axonometric View</string>
-   </property>
-  </action>
   <action name="actionAxesView">
    <property name="icon">
     <iconset resource="../res.qrc">
@@ -1581,38 +1618,6 @@ QSlider::add-page:horizontal {
    </property>
    <property name="text">
     <string>Ground</string>
-   </property>
-  </action>
-  <action name="actionEnabled">
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/res/switchoff.png</normaloff>
-     <normalon>:/res/switchon.png</normalon>:/res/switchoff.png</iconset>
-   </property>
-   <property name="text">
-    <string>Enabled</string>
-   </property>
-   <property name="statusTip">
-    <string>Set robot enable state</string>
-   </property>
-  </action>
-  <action name="actionConnected">
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/res/disconnected.png</normaloff>
-     <normalon>:/res/connected.png</normalon>:/res/disconnected.png</iconset>
-   </property>
-   <property name="text">
-    <string>Connected</string>
-   </property>
-   <property name="statusTip">
-    <string>Connect to robot</string>
    </property>
   </action>
   <action name="actionScript">

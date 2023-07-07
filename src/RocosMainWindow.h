@@ -36,9 +36,9 @@ private slots:
 
     void on_speedSlider_valueChanged(int value);
 
-    void on_actionEnabled_triggered();
+    void on_actionEnabled_clicked();
 
-    void on_actionConnected_triggered();
+    void on_actionConnected_clicked();
 
     void updateJointPos(QVector<double>& jntPos);
     void updateCartPose(QVector<double>& pose);
@@ -51,13 +51,13 @@ private slots:
 
     void on_actionAbout_triggered();
 
-    void on_actionAxoView_triggered();
+    void on_actionAxoView_clicked();
 
-    void on_actionTopView_triggered();
+    void on_actionTopView_clicked();
 
-    void on_actionFrontView_triggered();
+    void on_actionFrontView_clicked();
 
-    void on_actionRightView_triggered();
+    void on_actionRightView_clicked();
 
     void on_actionSetZero_triggered();
 

@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QDateTime>
+#include <QStyledItemDelegate>
 
 RocosMainWindow::RocosMainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::RocosMainWindow) {
@@ -11,6 +12,9 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 
     //给Log增加一个右键菜单clear，清除之前记录
     //ui->logEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
+    ui->workingModeBox->setItemDelegate(itemDelegate);
 
     /********记录程序开始运行的时间********/
     time = new QElapsedTimer;
@@ -414,7 +418,7 @@ void RocosMainWindow::on_speedSlider_valueChanged(int value) {
     connectDlg->setJointSpeedScaling(f);
 }
 
-void RocosMainWindow::on_actionEnabled_triggered() {
+void RocosMainWindow::on_actionEnabled_clicked() {
 //    isRobotEnabled = connectDlg->getRobotEnabled();
 //
 //    connectDlg->setRobotEnabled(!isRobotEnabled);
@@ -430,7 +434,7 @@ void RocosMainWindow::on_actionEnabled_triggered() {
     }
 }
 
-void RocosMainWindow::on_actionConnected_triggered() {
+void RocosMainWindow::on_actionConnected_clicked() {
     if (connectDlg->isConnected()) {
         connectDlg->shutdown();
     } else {
@@ -462,19 +466,19 @@ void RocosMainWindow::on_actionAbout_triggered() {
     aboutDlg->show();
 }
 
-void RocosMainWindow::on_actionAxoView_triggered() {
+void RocosMainWindow::on_actionAxoView_clicked() {
     ui->visualWidget->setAxoView();
 }
 
-void RocosMainWindow::on_actionTopView_triggered() {
+void RocosMainWindow::on_actionTopView_clicked() {
     ui->visualWidget->setZAxisView();
 }
 
-void RocosMainWindow::on_actionFrontView_triggered() {
+void RocosMainWindow::on_actionFrontView_clicked() {
     ui->visualWidget->setXAxisView();
 }
 
-void RocosMainWindow::on_actionRightView_triggered() {
+void RocosMainWindow::on_actionRightView_clicked() {
     ui->visualWidget->setYAxisView();
 }
 
