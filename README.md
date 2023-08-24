@@ -12,7 +12,7 @@
 </div>
 
 
-![rocos-viz](./res/rocos-viz.gif)
+<img src="https://github.com/thinkexist1989/rocos-viz/blob/Sun_11/11.png" alt="show" />
 
 :warning: Rocos-Viz is under development, not finished~ :thinking:
 
