@@ -45,5 +45,7 @@
         <file>res/splash.png</file>
         <file>res/rocos-viz.jpg</file>
         <file>res/rocos-viz2.jpg</file>
+        <file>res/logo.jpg</file>
+        <file>res/fullscreen.png</file>
     </qresource>
 </RCC>

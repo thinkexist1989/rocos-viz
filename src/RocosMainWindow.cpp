@@ -13,7 +13,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     ui->logEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
     /********记录程序开始运行的时间********/
-    time = new QTime;
+    time = new QElapsedTimer;
     time->start();
 
     QTime tt(0, 0);
@@ -197,171 +197,173 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 
     /*********** Joystick **************/
     grpBox = ui->cartesianGroupBox; //默认是BaseT 0 -> BaseR 1 -> FlangeT 2 -> FlangeR 3
+    // Assuming you have created a QPushButton named "logButton" in your UI
+    connect(ui->pushButton_2, &QPushButton::clicked, this, &RocosMainWindow::on_pushButton_2_clicked);
 
-    joystick = new QGamepad(0, this);
-    connect(joystick, &QGamepad::connectedChanged, [=](bool val) {
-        if (val)
-            qDebug() << "Joystick is connected: " << joystick->name();
-        else
-            qDebug() << "Joystick is disconnected: " << joystick->name();
-    });
-    connect(joystick, &QGamepad::buttonStartChanged,
-            [=](bool val) { if (val) on_actionEnabled_triggered(); }); //Start按钮用于电机使能切换
-    connect(joystick, &QGamepad::buttonSelectChanged, [=](bool val) { //选择坐标系
-        static int i = 0;
-        if (val) {
-            i++;
-//            jogDir = i % 4;
-            switch (i % 8) {
-                case 0:
-                    jogDir = 0;
-                    on_baseFrame_clicked(true);
-                    ui->baseFrame->setChecked(true);
-                    grpBox = ui->cartesianGroupBox; // Base系 移动 0
-                    this->statusBar()->showMessage(tr("Joystick jogging in Base Space(Translate)"));
-                    break;
-                case 1:
-                    jogDir = 3;
-                    on_baseFrame_clicked(true);
-                    ui->baseFrame->setChecked(true);
-                    grpBox = ui->cartesianGroupBox; // Base系 转动 1
-                    this->statusBar()->showMessage(tr("Joystick jogging in Base Space(Rotate)"));
-                    break;
-                case 2:
-                    jogDir = 0;
-                    on_flangeFrame_clicked(true);
-                    ui->flangeFrame->setChecked(true);
-                    grpBox = ui->cartesianGroupBox; // Flange系 移动 2
-                    this->statusBar()->showMessage(tr("Joystick jogging in Flange Space(Translate)"));
-                    break;
-                case 3:
-                    jogDir = 3;
-                    on_flangeFrame_clicked(true);
-                    ui->flangeFrame->setChecked(true);
-                    grpBox = ui->cartesianGroupBox; // Flange系 转动 3
-                    this->statusBar()->showMessage(tr("Joystick jogging in Flange Space(Rotate)"));
-                    break;
-                case 4:
-                    jogDir = 0;
-                    on_toolFrame_clicked(true);
-                    ui->toolFrame->setChecked(true);
-                    grpBox = ui->cartesianGroupBox; // Tool系 移动 4
-                    this->statusBar()->showMessage(tr("Joystick jogging in Tool Space(Translate)"));
-                    break;
-                case 5:
-                    jogDir = 3;
-                    on_toolFrame_clicked(true);
-                    ui->toolFrame->setChecked(true);
-                    grpBox = ui->cartesianGroupBox; // Tool系 转动 5
-                    this->statusBar()->showMessage(tr("Joystick jogging in Tool Space(Rotate)"));
-                    break;
-                case 6:
-                    jogDir = 0;
-                    on_objectFrame_clicked(true);
-                    ui->objectFrame->setChecked(true);
-                    grpBox = ui->cartesianGroupBox; // Object系 移动 6
-                    this->statusBar()->showMessage(tr("Joystick jogging in Object Space(Translate)"));
-                    break;
-                case 7:
-                    jogDir = 3;
-                    on_objectFrame_clicked(true);
-                    ui->objectFrame->setChecked(true);
-                    grpBox = ui->cartesianGroupBox; // Object系 转动 7
-                    this->statusBar()->showMessage(tr("Joystick jogging in Object Space(Rotate)"));
-                    break;
-                default:
-                    break;
-            }
-        }
-
-    }); //Select按钮
-    connect(joystick, &QGamepad::buttonCenterChanged,
-            [=](bool val) { qDebug() << "Button Center: " << val; }); //Center按钮(手柄上未找到)
-    connect(joystick, &QGamepad::buttonGuideChanged,
-            [=](bool val) { qDebug() << "Button Guide: " << val; }); //Guide按钮(手柄上未找到)
-
-    connect(joystick, &QGamepad::buttonLeftChanged, [=](bool val) { qDebug() << "Button Left: " << val; }); //Left按钮
-    connect(joystick, &QGamepad::buttonRightChanged, [=](bool val) { qDebug() << "Button Right: " << val; }); //Right按钮
-
-    connect(joystick, &QGamepad::buttonUpChanged, [=](bool val) {
-        int freedom = jogDir < 2 ? 2 : 5; //<2就是移动，否则是转动
-        if (val && safeOn) {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 2, freedom, 1);
-        } else {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 2, freedom, 0);
-        }
-    }); //Up按钮, Z+
-    connect(joystick, &QGamepad::buttonDownChanged, [=](bool val) {
-        int freedom = jogDir < 2 ? 2 : 5; //<2就是移动，否则是转动
-        if (val && safeOn) {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 2, freedom, -1);
-        } else {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 2, freedom, 0);
-        }
-    }); //Down按钮, Z-
-
-    connect(joystick, &QGamepad::buttonXChanged, [=](bool val) {
-        int freedom = jogDir < 2 ? 0 : 3; //<2就是移动，否则是转动
-        if (val && safeOn) {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 0, freedom, -1);
-        } else {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 0, freedom, 0);
-        }
-    }); //X按钮, X-
-    connect(joystick, &QGamepad::buttonBChanged, [=](bool val) {
-        int freedom = jogDir < 2 ? 0 : 3;
-        if (val && safeOn) {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 0, freedom, 1);
-        } else {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 0, freedom, 0);
-        }
-    }); //B按钮, X+
-    connect(joystick, &QGamepad::buttonYChanged, [=](bool val) {
-        int freedom = jogDir < 2 ? 1 : 4;
-        if (val && safeOn) {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 1, freedom, 1);
-        } else {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 1, freedom, 0);
-        }
-    }); //Y按钮, Y+
-    connect(joystick, &QGamepad::buttonAChanged, [=](bool val) {
-        int freedom = jogDir < 2 ? 1 : 4;
-        if (val) {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 1, freedom, -1);
-        } else {
-            connectDlg->cartesianJogging(currentFrame + jogDir + 1, freedom, 0);
-        }
-    }); //A按钮, Y-
-
-
-    connect(joystick, &QGamepad::buttonR1Changed, [=](bool val) { qDebug() << "Button R1: " << val; }); //R1按钮
-    connect(joystick, &QGamepad::buttonR3Changed, [=](bool val) { qDebug() << "Button R3: " << val; }); //R3按钮(手柄上未找到)
-    connect(joystick, &QGamepad::buttonL1Changed, [=](bool val) {
-        if (val) {
-            if (jogDir < 2)
-                grpBox->setStyleSheet(tr(".QGroupBox{margin:6px; border:3px solid red}"));
-            else
-                grpBox->setStyleSheet(tr(".QGroupBox{margin:6px; border:3px solid green}"));
-
-            safeOn = true;
-        } else {
-            grpBox->setStyleSheet("");
-            safeOn = false;
-        }
-    }); //L1按钮, safe button
-    connect(joystick, &QGamepad::buttonL3Changed, [=](bool val) { qDebug() << "Button L3: " << val; }); //L3按钮(手柄上未找到)
-
-    connect(joystick, &QGamepad::axisLeftXChanged,
-            [=](double val) { qDebug() << "Axis Left X: " << val; }); //Axis Left X
-    connect(joystick, &QGamepad::axisRightXChanged,
-            [=](double val) { qDebug() << "Axis Right X: " << val; }); //Axis Right X
-    connect(joystick, &QGamepad::axisLeftYChanged,
-            [=](double val) { qDebug() << "Axis Left Y: " << val; }); //Axis Left Y
-    connect(joystick, &QGamepad::axisRightYChanged,
-            [=](double val) { qDebug() << "Axis Right Y: " << val; }); //Axis Right Y
-
-    connect(joystick, &QGamepad::buttonL2Changed, [=](double val) { qDebug() << "Button L2: " << val; }); //L2按钮
-    connect(joystick, &QGamepad::buttonR2Changed, [=](double val) { qDebug() << "Button R2: " << val; }); //R2按钮
+//    joystick = new QGamepad(0, this);
+//    connect(joystick, &QGamepad::connectedChanged, [=](bool val) {
+//        if (val)
+//            qDebug() << "Joystick is connected: " << joystick->name();
+//        else
+//            qDebug() << "Joystick is disconnected: " << joystick->name();
+//    });
+//    connect(joystick, &QGamepad::buttonStartChanged,
+//            [=](bool val) { if (val) on_actionEnabled_triggered(); }); //Start按钮用于电机使能切换
+//    connect(joystick, &QGamepad::buttonSelectChanged, [=](bool val) { //选择坐标系
+//        static int i = 0;
+//        if (val) {
+//            i++;
+////            jogDir = i % 4;
+//            switch (i % 8) {
+//                case 0:
+//                    jogDir = 0;
+//                    on_baseFrame_clicked(true);
+//                    ui->baseFrame->setChecked(true);
+//                    grpBox = ui->cartesianGroupBox; // Base系 移动 0
+//                    this->statusBar()->showMessage(tr("Joystick jogging in Base Space(Translate)"));
+//                    break;
+//                case 1:
+//                    jogDir = 3;
+//                    on_baseFrame_clicked(true);
+//                    ui->baseFrame->setChecked(true);
+//                    grpBox = ui->cartesianGroupBox; // Base系 转动 1
+//                    this->statusBar()->showMessage(tr("Joystick jogging in Base Space(Rotate)"));
+//                    break;
+//                case 2:
+//                    jogDir = 0;
+//                    on_flangeFrame_clicked(true);
+//                    ui->flangeFrame->setChecked(true);
+//                    grpBox = ui->cartesianGroupBox; // Flange系 移动 2
+//                    this->statusBar()->showMessage(tr("Joystick jogging in Flange Space(Translate)"));
+//                    break;
+//                case 3:
+//                    jogDir = 3;
+//                    on_flangeFrame_clicked(true);
+//                    ui->flangeFrame->setChecked(true);
+//                    grpBox = ui->cartesianGroupBox; // Flange系 转动 3
+//                    this->statusBar()->showMessage(tr("Joystick jogging in Flange Space(Rotate)"));
+//                    break;
+//                case 4:
+//                    jogDir = 0;
+//                    on_toolFrame_clicked(true);
+//                    ui->toolFrame->setChecked(true);
+//                    grpBox = ui->cartesianGroupBox; // Tool系 移动 4
+//                    this->statusBar()->showMessage(tr("Joystick jogging in Tool Space(Translate)"));
+//                    break;
+//                case 5:
+//                    jogDir = 3;
+//                    on_toolFrame_clicked(true);
+//                    ui->toolFrame->setChecked(true);
+//                    grpBox = ui->cartesianGroupBox; // Tool系 转动 5
+//                    this->statusBar()->showMessage(tr("Joystick jogging in Tool Space(Rotate)"));
+//                    break;
+//                case 6:
+//                    jogDir = 0;
+//                    on_objectFrame_clicked(true);
+//                    ui->objectFrame->setChecked(true);
+//                    grpBox = ui->cartesianGroupBox; // Object系 移动 6
+//                    this->statusBar()->showMessage(tr("Joystick jogging in Object Space(Translate)"));
+//                    break;
+//                case 7:
+//                    jogDir = 3;
+//                    on_objectFrame_clicked(true);
+//                    ui->objectFrame->setChecked(true);
+//                    grpBox = ui->cartesianGroupBox; // Object系 转动 7
+//                    this->statusBar()->showMessage(tr("Joystick jogging in Object Space(Rotate)"));
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//
+//    }); //Select按钮
+//    connect(joystick, &QGamepad::buttonCenterChanged,
+//            [=](bool val) { qDebug() << "Button Center: " << val; }); //Center按钮(手柄上未找到)
+//    connect(joystick, &QGamepad::buttonGuideChanged,
+//            [=](bool val) { qDebug() << "Button Guide: " << val; }); //Guide按钮(手柄上未找到)
+//
+//    connect(joystick, &QGamepad::buttonLeftChanged, [=](bool val) { qDebug() << "Button Left: " << val; }); //Left按钮
+//    connect(joystick, &QGamepad::buttonRightChanged, [=](bool val) { qDebug() << "Button Right: " << val; }); //Right按钮
+//
+//    connect(joystick, &QGamepad::buttonUpChanged, [=](bool val) {
+//        int freedom = jogDir < 2 ? 2 : 5; //<2就是移动，否则是转动
+//        if (val && safeOn) {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 2, freedom, 1);
+//        } else {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 2, freedom, 0);
+//        }
+//    }); //Up按钮, Z+
+//    connect(joystick, &QGamepad::buttonDownChanged, [=](bool val) {
+//        int freedom = jogDir < 2 ? 2 : 5; //<2就是移动，否则是转动
+//        if (val && safeOn) {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 2, freedom, -1);
+//        } else {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 2, freedom, 0);
+//        }
+//    }); //Down按钮, Z-
+//
+//    connect(joystick, &QGamepad::buttonXChanged, [=](bool val) {
+//        int freedom = jogDir < 2 ? 0 : 3; //<2就是移动，否则是转动
+//        if (val && safeOn) {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 0, freedom, -1);
+//        } else {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 0, freedom, 0);
+//        }
+//    }); //X按钮, X-
+//    connect(joystick, &QGamepad::buttonBChanged, [=](bool val) {
+//        int freedom = jogDir < 2 ? 0 : 3;
+//        if (val && safeOn) {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 0, freedom, 1);
+//        } else {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 0, freedom, 0);
+//        }
+//    }); //B按钮, X+
+//    connect(joystick, &QGamepad::buttonYChanged, [=](bool val) {
+//        int freedom = jogDir < 2 ? 1 : 4;
+//        if (val && safeOn) {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 1, freedom, 1);
+//        } else {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 1, freedom, 0);
+//        }
+//    }); //Y按钮, Y+
+//    connect(joystick, &QGamepad::buttonAChanged, [=](bool val) {
+//        int freedom = jogDir < 2 ? 1 : 4;
+//        if (val) {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 1, freedom, -1);
+//        } else {
+//            connectDlg->cartesianJogging(currentFrame + jogDir + 1, freedom, 0);
+//        }
+//    }); //A按钮, Y-
+//
+//
+//    connect(joystick, &QGamepad::buttonR1Changed, [=](bool val) { qDebug() << "Button R1: " << val; }); //R1按钮
+//    connect(joystick, &QGamepad::buttonR3Changed, [=](bool val) { qDebug() << "Button R3: " << val; }); //R3按钮(手柄上未找到)
+//    connect(joystick, &QGamepad::buttonL1Changed, [=](bool val) {
+//        if (val) {
+//            if (jogDir < 2)
+//                grpBox->setStyleSheet(tr(".QGroupBox{margin:6px; border:3px solid red}"));
+//            else
+//                grpBox->setStyleSheet(tr(".QGroupBox{margin:6px; border:3px solid green}"));
+//
+//            safeOn = true;
+//        } else {
+//            grpBox->setStyleSheet("");
+//            safeOn = false;
+//        }
+//    }); //L1按钮, safe button
+//    connect(joystick, &QGamepad::buttonL3Changed, [=](bool val) { qDebug() << "Button L3: " << val; }); //L3按钮(手柄上未找到)
+//
+//    connect(joystick, &QGamepad::axisLeftXChanged,
+//            [=](double val) { qDebug() << "Axis Left X: " << val; }); //Axis Left X
+//    connect(joystick, &QGamepad::axisRightXChanged,
+//            [=](double val) { qDebug() << "Axis Right X: " << val; }); //Axis Right X
+//    connect(joystick, &QGamepad::axisLeftYChanged,
+//            [=](double val) { qDebug() << "Axis Left Y: " << val; }); //Axis Left Y
+//    connect(joystick, &QGamepad::axisRightYChanged,
+//            [=](double val) { qDebug() << "Axis Right Y: " << val; }); //Axis Right Y
+//
+//    connect(joystick, &QGamepad::buttonL2Changed, [=](double val) { qDebug() << "Button L2: " << val; }); //L2按钮
+//    connect(joystick, &QGamepad::buttonR2Changed, [=](double val) { qDebug() << "Button R2: " << val; }); //R2按钮
 
 }
 
@@ -694,3 +696,38 @@ void RocosMainWindow::on_MoveSpace0_clicked() {
     qDebug() << "Move 0-Space";
 }
 
+void RocosMainWindow::on_pushButton_2_clicked() {
+    ui->logEdit->clear();
+    ui->poseEdit->clear();
+    auto flange = connectDlg->getFlangePose();
+    // 更新法兰盘信息的显示
+    QString flangeInfoText = "";
+    double roll, pitch, yaw;
+    flange.M.GetRPY(roll, pitch, yaw);
+    flangeInfoText +=
+                      QString::number(flange.p.x(), 'f', 6) + ", " +
+                      QString::number(flange.p.y(), 'f', 6) + ", " +
+                      QString::number(flange.p.z(), 'f', 6) + "," +
+                      QString::number(roll, 'f', 6) + ", " +
+                      QString::number(pitch, 'f', 6) + ", " +
+                      QString::number(yaw, 'f', 6) + "\n";
+
+
+
+
+
+    QVector<double> jntPos;
+    for (int i = 0; i < connectDlg->getJointNum(); i++) {
+        jntPos.push_back(connectDlg->getJointPosition(i));
+    }
+    QString jointPositionsText = "";
+    for (double pos : jntPos) {
+        jointPositionsText += QString::number(pos, 'f', 6) + " ,";
+
+    }
+if (!jntPos.isEmpty()) {
+    jointPositionsText.chop(2);  // 去除最后的逗号和空格
+}
+    ui->logEdit->insertPlainText(jointPositionsText );
+    ui->poseEdit->insertPlainText(flangeInfoText );
+}

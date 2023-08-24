@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 #project(rocos-viz LANGUAGES CXX)
-project(rocos-viz)
+project(rocos-viz VERSION 0.1.0 DESCRIPTION "ROCOS Visualization Application")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -11,6 +11,21 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# rocos-viz install path
+include(GNUInstallDirs)
+set(CMAKE_INSTALL_PREFIX /opt/rocos/viz)
+message(STATUS "INSTALL PREFIX: ${CMAKE_INSTALL_PREFIX}")
+#message(STATUS "INSTALL INCLUDE DIR: ${CMAKE_INSTALL_INCLUDEDIR}")
+#message(STATUS "INSTALL LIB DIR: ${CMAKE_INSTALL_LIBDIR}")
+#message(STATUS "INSTALL BIN DIR: ${CMAKE_INSTALL_BINDIR}")
+
+set(${PROJECT_NAME}_INSTALL_CONFIGDIR ${CMAKE_INSTALL_PREFIX}/config)
+set(${PROJECT_NAME}_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check http://doc.qt.io/qt-5/deployment-android.html for more information.d
@@ -30,7 +45,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ################
 
 if (UNIX AND NOT APPLE)
-    set(CMAKE_PREFIX_PATH "/opt/grpc")
+    list(APPEND CMAKE_PREFIX_PATH "/opt/grpc")
 endif ()
 
 include(cmake/common.cmake) # gRPC
@@ -96,18 +111,62 @@ target_link_libraries(protocol
         ${_REFLECTION}
         ${_GRPC_GRPCPP}
         ${_PROTOBUF_LIBPROTOBUF}
-        z
         )
 add_library(rocos::protocol ALIAS protocol)
 
+if(UNIX AND NOT APPLE)
+    set(CMAKE_PREFIX_PATH "/opt/Qt/6.2.4/gcc_64/lib/cmake")
+endif()
 
 # Qt
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network Gamepad REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network Gamepad REQUIRED)
+set(CMAKE_PREFIX_PATH "/opt/Qt/6.2.4/gcc_64/lib/cmake")
+#find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
+#find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Network REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network REQUIRED)
 
 # VTK
-find_package(VTK 8.2 REQUIRED)
-include(${VTK_USE_FILE})
+#find_package(VTK COMPONENTS
+#        WrappingTools
+#        CommonColor
+#        CommonCore
+#        CommonComputationalGeometry
+#        CommonDataModel
+#        CommonExecutionModel
+#        CommonMath
+#        CommonMisc
+#        FiltersCore
+#        FiltersSources
+#        InfovisCore
+#        InteractionStyle
+#        RenderingContextOpenGL2
+#        RenderingCore
+#        RenderingFreeType
+#        RenderingGL2PSOpenGL2
+#        RenderingOpenGL2
+#        ViewsQt
+#        GUISupportQt
+#        RenderingQt
+#        )
+find_package(VTK REQUIRED)
+
+message("VTK LIBS: ${VTK_LIBRARIES}")
+#include(${VTK_USE_FILE})
+
+#if(NOT DEFINED VTK_QT_VERSION)
+#    set(VTK_QT_VERSION 5)
+#endif()
+#
+#set(qt_components Core Gui Widgets)
+#if(${VTK_QT_VERSION} VERSION_GREATER_EQUAL 6)
+#    list(APPEND qt_components OpenGLWidgets)
+#endif()
+#list(SORT qt_components)
+## We have ui files, so this will also bring in the macro:
+##   qt5_wrap_ui or qt_wrap_ui from Widgets.
+#find_package(Qt${VTK_QT_VERSION} QUIET
+#        REQUIRED COMPONENTS ${qt_components}
+#        )
 
 # Eigen3
 find_package(Eigen3 REQUIRED)
@@ -184,7 +243,7 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Network
-        Qt${QT_VERSION_MAJOR}::Gamepad
+        Qt${QT_VERSION_MAJOR}::OpenGLWidgets
         ${VTK_LIBRARIES}
         Eigen3::Eigen
         yaml-cpp
@@ -192,7 +251,53 @@ target_link_libraries(${PROJECT_NAME}
         rocos::protocol
         )
 
-qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+vtk_module_autoinit(
+        TARGETS ${PROJECT_NAME}
+        MODULES ${VTK_LIBRARIES}
+)
+
+#qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 #configure_file(${MODELS} ./ COPYONLY)
 file(COPY models/ DESTINATION models/)
+
+#############
+## Install ##
+#############
+
+# Add support for installaion
+include(CMakePackageConfigHelpers)
+
+install(TARGETS ${PROJECT_NAME}
+        EXPORT rocos_viz-targets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}  # 动态库安装路径
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}  # 静态库安装路径
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}  # 可执行文件安装路径
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}  # 头文件安装路径
+        )
+
+install(EXPORT rocos_viz-targets
+        FILE rocos_viz-targets.cmake
+        NAMESPACE rocos::
+        DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+        )
+
+install(DIRECTORY models DESTINATION .)
+
+configure_package_config_file(
+        cmake/rocos_viz-config.cmake.in
+        rocos_viz-config.cmake
+        INSTALL_DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+)
+
+# 写入库的版本信息
+write_basic_package_version_file(
+        rocos_viz-config-version.cmake
+        VERSION ${PACKAGE_VERSION}
+        COMPATIBILITY AnyNewerVersion  # 表示该函数库向下兼容
+)
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/rocos_viz-config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/rocos_viz-config-version.cmake"
+        DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+        )

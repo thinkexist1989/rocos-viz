@@ -14,7 +14,6 @@
    <font>
     <family>Arial</family>
     <pointsize>11</pointsize>
-    <weight>75</weight>
     <bold>true</bold>
    </font>
   </property>
@@ -39,7 +38,7 @@
    <item row="0" column="1" colspan="2">
     <widget class="QLineEdit" name="ipAddressEdit">
      <property name="text">
-      <string>192.168.0.194</string>
+      <string>170.170.170.170</string>
      </property>
     </widget>
    </item>

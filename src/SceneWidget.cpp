@@ -102,7 +102,7 @@ SceneWidget::SceneWidget(QWidget *parent) :
 //    link1Actor->SetUserTransform(trans1);
 
     // 7自由度机械臂
-    model = std::make_shared<Model>("models/sia/config.yaml");
+    model = std::make_shared<Model>(yamlCfgFile);
     // 泰科6自由度机械臂TB6-R3
 //    model = std::make_shared<Model>("models/techsoft_tb6_r3/config.yaml");
 
@@ -117,7 +117,7 @@ SceneWidget::SceneWidget(QWidget *parent) :
     /* ======== 渲染窗口 ========== */
     renderWindow->AddRenderer(renderer);
     /* ======== 关联渲染窗口 ========== */
-    this->SetRenderWindow(renderWindow);
+    this->setRenderWindow(renderWindow);
 
 
 //    renderer->AddActor(axesActor); // 画坐标系
@@ -127,7 +127,7 @@ SceneWidget::SceneWidget(QWidget *parent) :
 //    renderer->AddActor(link1Actor); // link1
 
     marker->SetOrientationMarker(axesActor);
-    marker->SetInteractor(this->GetInteractor());
+    marker->SetInteractor(this->interactor());
     marker->EnabledOn();
     marker->InteractiveOff();
 //    axes->InteractiveOn();
@@ -145,7 +145,7 @@ SceneWidget::SceneWidget(QWidget *parent) :
     renderer->GetActiveCamera()->SetViewUp(0,0,1);
 
     style->SetDefaultRenderer(renderer);
-    this->GetInteractor()->SetInteractorStyle(style);
+    this->interactor()->SetInteractorStyle(style);
 
 }
 
@@ -224,3 +224,5 @@ void SceneWidget::setAxoView()
 
     renderWindow->Render();
 }
+
+std::string SceneWidget::yamlCfgFile {"models/talon/config.yaml"};

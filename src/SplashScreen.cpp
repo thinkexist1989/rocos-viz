@@ -9,9 +9,9 @@ SplashScreen::SplashScreen(QPixmap& pixmap,int time) :
 {
     ProgressBar = new QProgressBar(this);
     //设置进度条的位置
-    ProgressBar->setGeometry(0,pixmap.height()-20,pixmap.width(),40);
+    ProgressBar->setGeometry(0,pixmap.height()-10,pixmap.width(),20);
     //设置进度条的样式
-    ProgressBar->setStyleSheet("QProgressBar {color:black;font:30px;text-align:center; }QProgressBar::chunk {background-color: rgb(50, 200, 50);}");
+    ProgressBar->setStyleSheet("QProgressBar {color:black;font:30px;text-align:center; }QProgressBar::chunk {background-color: rgb(02, 87, 190);}");
     //设置进度条的范围
     ProgressBar->setRange(0, 100);
     //设置进度条的当前进度
@@ -53,13 +53,13 @@ void SplashScreen::slotUpdateProgress()
 void SplashScreen::generateAscendRandomNumber()
 {
     int i;
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+    srand(QTime(0,0,0).secsTo(QTime::currentTime()));
     //生成100个大小在[0,100]之间的随机数
     for(i=0;i<100;i++)
     {
-        numbersList.append(qrand()%101);
+        numbersList.append(rand()%101);
     }
     //递增排序
-    qSort(numbersList.begin(),numbersList.end());
+//    sort(numbersList.begin(),numbersList.end());
 }
 

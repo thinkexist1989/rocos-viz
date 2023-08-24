@@ -54,6 +54,8 @@ public:
 
     void setAxoView();
 
+    static std::string yamlCfgFile;
+
 private:
     vtkSmartPointer<vtkNamedColors> colors;         //负责处理各种颜色
 

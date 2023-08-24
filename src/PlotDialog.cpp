@@ -26,7 +26,7 @@ PlotDialog::PlotDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    time = new QTime;
+    time = new QElapsedTimer;
 
     //设置Record按钮动画
     movie = new QMovie(this);
@@ -35,7 +35,8 @@ PlotDialog::PlotDialog(QWidget *parent) :
 
     // Set up a 2D scene, add an XY chart to it
     //设置view的RenderWindow为plotWidget，即可展示contextView了，不需要再设置renderer
-    view->SetRenderWindow(ui->plotWidget->GetRenderWindow());
+//    view->SetRenderWindow(ui->plotWidget->GetRenderWindow());
+    view->SetRenderWindow(ui->plotWidget->renderWindow());
     //设置view的背景
     view->GetRenderer()->GradientBackgroundOn(); //开启渐变
     view->GetRenderer()->SetBackground(colors->GetColor3d("Gainsboro").GetData());
@@ -135,7 +136,7 @@ PlotDialog::PlotDialog(QWidget *parent) :
         }
         jntPosTable->Modified();
 //        posChart->Modified();
-        ui->plotWidget->GetRenderWindow()->Render();
+        ui->plotWidget->renderWindow()->Render(); // VTK9.0之后从GetRenderWindow变为renderWindow
 
     });
 
@@ -148,8 +149,9 @@ PlotDialog::PlotDialog(QWidget *parent) :
     plotDispBtnGrp->addButton(ui->dispCheck5, 4);
     plotDispBtnGrp->addButton(ui->dispCheck6, 5);
     plotDispBtnGrp->addButton(ui->dispCheck7, 6);
-    connect(plotDispBtnGrp, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
-            [=](int id, bool checked){
+    connect(plotDispBtnGrp, &QButtonGroup::buttonToggled,
+            [=](QAbstractButton *button, bool checked){
+                int id = plotDispBtnGrp->id(button);
                 qDebug() << "Clicked: " << id << "; state: " << checked;
                 if(checked) {
                     posChart->AddPlot(posPlots[id]);
@@ -331,7 +333,7 @@ void PlotDialog::update_charts()
 
     }
 
-    ui->plotWidget->GetRenderWindow()->Render();
+    ui->plotWidget->renderWindow()->Render();
 
 }
 
@@ -363,7 +365,7 @@ void PlotDialog::on_recordButton_clicked()
             cartPoseFile->write("t , X , Y , Z , r , p , y\n");
         }
 
-        time->restart(); //重新启动计时
+//        time->restart(); //重新启动计时
 
         jntPosTable->SetNumberOfRows(2);
         cartPosTable->SetNumberOfRows(2);
@@ -393,7 +395,7 @@ void PlotDialog::on_fitButton_clicked()
     accChart->RecalculateBounds();
     jerkChart->RecalculateBounds();
 
-    ui->plotWidget->GetRenderWindow()->Render();
+    ui->plotWidget->renderWindow()->Render();
 }
 
 void PlotDialog::on_posCheck_stateChanged(int)
@@ -443,9 +445,9 @@ void PlotDialog::getJointPositions(QVector<double> &jntPos)
 
     if(isSaveData) { //记录数据到 /your_path/jntPos20210916T143500.csv
         QByteArray ba;
-        ba.append(QString("%1 , ").arg(t));
+        ba.append(QString("%1 , ").arg(t).toStdString().c_str());
         for(int i = 0; i < jntPos.size(); i++) {
-            ba.append(QString("%1 , ").arg(jntPos[i]));
+            ba.append(QString("%1 , ").arg(jntPos[i]).toStdString().c_str());
         }
         ba.append("\n");
 
@@ -457,7 +459,7 @@ void PlotDialog::getJointPositions(QVector<double> &jntPos)
             posChart->GetAxis(vtkAxis::BOTTOM)->SetRange((t - 3)>0?(t-3):0, t);
 
     jntPosTable->Modified();
-    ui->plotWidget->GetRenderWindow()->Render();
+    ui->plotWidget->renderWindow()->Render();
 }
 
 void PlotDialog::getCartPose(QVector<double> &pose)
@@ -476,9 +478,9 @@ void PlotDialog::getCartPose(QVector<double> &pose)
 
     if(isSaveData) { //记录数据到 /your_path/cartPose20210916T143500.csv
         QByteArray ba;
-        ba.append(QString("%1 , ").arg(t));
+        ba.append(QString("%1 , ").arg(t).toStdString().c_str());
         for(int i = 0; i < pose.size(); i++) {
-            ba.append(QString("%1 , ").arg(pose[i]));
+            ba.append(QString("%1 , ").arg(pose[i]).toStdString().c_str());
         }
         ba.append("\n");
 
@@ -490,7 +492,7 @@ void PlotDialog::getCartPose(QVector<double> &pose)
             posChart->GetAxis(vtkAxis::BOTTOM)->SetRange((t - 3)>0?(t-3):0, t);
 
     cartPosTable->Modified();
-    ui->plotWidget->GetRenderWindow()->Render();
+    ui->plotWidget->renderWindow()->Render();
 
 }
 

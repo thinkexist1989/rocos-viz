@@ -192,8 +192,32 @@
          <string>Log</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="0">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Joint Positions</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
           <widget class="QPlainTextEdit" name="logEdit"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QTextEdit" name="poseEdit"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="text">
+            <string>Log data</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>Flange Pose</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -804,7 +828,7 @@
      <x>0</x>
      <y>0</y>
      <width>1156</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -836,6 +860,7 @@
    <addaction name="actionPlotter"/>
    <addaction name="actionAngleRep"/>
    <addaction name="actionPosRep"/>
+   <addaction name="actionFullscreenView"/>
    <addaction name="actionAbout"/>
   </widget>
   <action name="actionFrontView">
@@ -1039,6 +1064,21 @@
    </property>
    <property name="statusTip">
     <string>Set Position Representation</string>
+   </property>
+  </action>
+  <action name="actionFullscreenView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/res/fullscreen.png</normaloff>:/res/fullscreen.png</iconset>
+   </property>
+   <property name="text">
+    <string>fullscreenView</string>
+   </property>
+   <property name="toolTip">
+    <string>FullscreenView</string>
    </property>
   </action>
  </widget>
