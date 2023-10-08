@@ -216,7 +216,7 @@ void ConnectDialog::jointJogging(int id, int dir) {
     dragging_command->set_flag(static_cast<rocos::DraggingFlag>(id));
     dragging_command->set_dir(static_cast<rocos::DraggingDirection>(dir));
     dragging_command->set_max_speed(max_jnt_speed_ * factor_); // TODO: 需要获取关节最大速度
-    dragging_command->set_max_acceleration(max_jnt_speed_ * factor_ * 10); // TODO: 需要获取关节最大加速度
+    dragging_command->set_max_acceleration(max_jnt_speed_ * factor_ * 1); // TODO: 需要获取关节最大加速度
 
     ClientContext context; //这个只能使用一次，每次请求都需要重新创建
     Status status = stub_->WriteRobotCommmand(&context, request, &response);
@@ -238,7 +238,7 @@ void ConnectDialog::cartesianJogging(int frame, int freedom, int dir) {
     dragging_command->set_flag(static_cast<rocos::DraggingFlag>(frame));
     dragging_command->set_dir(static_cast<rocos::DraggingDirection>(dir));
     dragging_command->set_max_speed(max_cart_speed_ * factor_); // TODO: 需要获取关节最大速度
-    dragging_command->set_max_acceleration(max_cart_speed_ * factor_ * 10); // TODO: 需要获取关节最大加速度
+    dragging_command->set_max_acceleration(max_cart_speed_ * factor_ * 1); // TODO: 需要获取关节最大加速度
 
     ClientContext context; //这个只能使用一次，每次请求都需要重新创建
     Status status = stub_->WriteRobotCommmand(&context, request, &response);
@@ -371,7 +371,7 @@ void ConnectDialog::moveJ(QVector<double> q) {
 //    movej->set_speed(vj_);
 //    movej->set_acceleration(aj_);
     movej->set_speed(max_jnt_speed_ * factor_);
-    movej->set_acceleration(max_jnt_speed_ * factor_ * 10);
+    movej->set_acceleration(max_jnt_speed_ * factor_ * 1);
     movej->set_time(0);
     movej->set_radius(0);
     movej->set_asynchronous(true);
@@ -407,7 +407,7 @@ void ConnectDialog::moveL(QVector<double> pose) {
 //    movel->set_speed(vc_);
 //    movel->set_acceleration(ac_);
     movel->set_speed(max_cart_speed_ * factor_);
-    movel->set_acceleration(max_cart_speed_ * factor_ * 10);
+    movel->set_acceleration(max_cart_speed_ * factor_ * 1);
     movel->set_time(0);
     movel->set_radius(0);
     movel->set_asynchronous(true);
@@ -443,7 +443,7 @@ void ConnectDialog::moveJ_IK(QVector<double> pose) {
 //    movej_ik->set_speed(vj_);
 //    movej_ik->set_acceleration(aj_);
     movej_ik->set_speed(max_jnt_speed_ * factor_);
-    movej_ik->set_acceleration(max_jnt_speed_ * factor_ * 10);
+    movej_ik->set_acceleration(max_jnt_speed_ * factor_ * 1);
     movej_ik->set_time(0);
     movej_ik->set_radius(0);
     movej_ik->set_asynchronous(true);
@@ -470,7 +470,7 @@ void ConnectDialog::moveL_FK(QVector<double> q) {
 //    movel_fk->set_speed(vc_);
 //    movel_fk->set_acceleration(ac_);
     movel_fk->set_speed(max_cart_speed_ * factor_);
-    movel_fk->set_acceleration(max_cart_speed_ * factor_ * 10);
+    movel_fk->set_acceleration(max_cart_speed_ * factor_ * 1);
     movel_fk->set_time(0);
     movel_fk->set_radius(0);
     movel_fk->set_asynchronous(true);
