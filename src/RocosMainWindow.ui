@@ -63,7 +63,7 @@ QMainWindow {
 color: rgb(255, 255, 255);</string>
          </property>
          <property name="text">
-          <string>LANDAU /</string>
+          <string>SJTU_5G /</string>
          </property>
         </widget>
        </item>
