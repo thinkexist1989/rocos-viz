@@ -32,18 +32,18 @@ public:
 private slots:
     void on_pushButton_clicked();
 
-    void on_axesCheckBox_stateChanged(int arg1);
+    void on_axesCheckBox_toggled(bool checked);
 
     void on_speedSlider_valueChanged(int value);
 
-    void on_actionEnabled_triggered();
+    void on_actionEnabled_clicked();
 
-    void on_actionConnected_triggered();
+    void on_actionConnected_clicked();
 
     void updateJointPos(QVector<double>& jntPos);
     void updateCartPose(QVector<double>& pose);
 
-    void on_meshCheckBox_stateChanged(int arg1);
+    void on_meshCheckBox_toggled(bool checked);
 
     void on_actionScript_triggered();
 
@@ -51,13 +51,13 @@ private slots:
 
     void on_actionAbout_triggered();
 
-    void on_actionAxoView_triggered();
+    void on_actionAxoView_clicked();
 
-    void on_actionTopView_triggered();
+    void on_actionTopView_clicked();
 
-    void on_actionFrontView_triggered();
+    void on_actionFrontView_clicked();
 
-    void on_actionRightView_triggered();
+    void on_actionRightView_clicked();
 
     void on_actionSetZero_triggered();
 
@@ -73,7 +73,7 @@ private slots:
 
     void on_actionPosRep_triggered();
 
-    void on_logEdit_customContextMenuRequested(const QPoint &pos);
+//    void on_logEdit_customContextMenuRequested(const QPoint &pos);
 
     void updateRobotState();
 
@@ -86,7 +86,7 @@ private slots:
 private:
     Ui::RocosMainWindow *ui;
 
-    QLabel*        timeLabel;
+//    QLabel*        timeLabel;
     QElapsedTimer* time;
     QTimer*        timer;
 

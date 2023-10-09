@@ -12,14 +12,18 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
+    <family>Alibaba PuHuiTi 2.0</family>
     <pointsize>11</pointsize>
-    <weight>75</weight>
-    <bold>true</bold>
+    <italic>false</italic>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
    <string>Connect To Robot</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font: 11pt &quot;Alibaba PuHuiTi 2.0&quot;;
+background-color: rgb(255, 255, 255);</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -31,6 +35,11 @@
    </item>
    <item row="1" column="1" colspan="2">
     <widget class="QLineEdit" name="portEdit">
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+	border-radius: 5px;
+}</string>
+     </property>
      <property name="text">
       <string>30001</string>
      </property>
@@ -38,6 +47,11 @@
    </item>
    <item row="0" column="1" colspan="2">
     <widget class="QLineEdit" name="ipAddressEdit">
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+	border-radius: 5px;
+}</string>
+     </property>
      <property name="text">
       <string>192.168.0.194</string>
      </property>
@@ -57,6 +71,26 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: white;
+	border: 1px solid #D8D8D8;
+	border-radius: 5px;
+	color: #B3B4B5;
+	font-weight: bold;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+	color: #262626;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #DFF3FC;
+	color: #262626;
+	border: 0;
+}</string>
      </property>
      <property name="text">
       <string>Connect</string>

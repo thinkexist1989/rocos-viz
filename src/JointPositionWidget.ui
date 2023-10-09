@@ -14,7 +14,6 @@
    <font>
     <family>Arial</family>
     <pointsize>11</pointsize>
-    <weight>75</weight>
     <italic>false</italic>
     <bold>true</bold>
    </font>
@@ -32,7 +31,24 @@
       <string>Jogging</string>
      </property>
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">QPushButton {
+	background-color: white;
+	border: 1px solid #D8D8D8;
+	border-radius: 5px;
+	color: #B3B4B5;
+	font-weight: bold;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+	color: #262626;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #DFF3FC;
+	color: #262626;
+	border: 0;
+}</string>
      </property>
      <property name="text">
       <string/>
@@ -80,7 +96,24 @@
       <string>Jogging</string>
      </property>
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">QPushButton {
+	background-color: white;
+	border: 1px solid #D8D8D8;
+	border-radius: 5px;
+	color: #B3B4B5;
+	font-weight: bold;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+	color: #262626;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #DFF3FC;
+	color: #262626;
+	border: 0;
+}</string>
      </property>
      <property name="text">
       <string/>

@@ -47,5 +47,19 @@
         <file>res/rocos-viz2.jpg</file>
         <file>res/logo.jpg</file>
         <file>res/fullscreen.png</file>
+        <file>res/minus.png</file>
+        <file>res/plus.png</file>
+        <file>res/rocos-axo-disabled.png</file>
+        <file>res/rocos-axo-enabled.png</file>
+        <file>res/rocos-connected.png</file>
+        <file>res/rocos-disabled.png</file>
+        <file>res/rocos-disconnected.png</file>
+        <file>res/rocos-enabled.png</file>
+        <file>res/rocos-fview-disabled.png</file>
+        <file>res/rocos-fview-enabled.png</file>
+        <file>res/rocos-rview-disabled.png</file>
+        <file>res/rocos-rview-enabled.png</file>
+        <file>res/rocos-tview-disabled.png</file>
+        <file>res/rocos-tview-enabled.png</file>
     </qresource>
 </RCC>

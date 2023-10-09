@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
     }
 
     RocosMainWindow w;
+    w.setWindowFlags(Qt::FramelessWindowHint);
     w.show();
     splash->finish(&w);
     return a.exec();
