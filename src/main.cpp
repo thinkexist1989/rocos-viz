@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     QCommandLineOption modelOption(QStringList() << "m" << "model",
                                    QCoreApplication::translate("main", "Load model from <file>."),
                                    QCoreApplication::translate("main", "file"),
-                                   "models/talon/config.yaml");
+                                   "models/sjtu/config.yaml");
     parser.addOption(modelOption);
     parser.process(a);
 
