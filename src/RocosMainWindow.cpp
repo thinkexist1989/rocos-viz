@@ -184,11 +184,11 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     /********connect信号处理********/
     connect(connectDlg, &ConnectDialog::connectState, this, [=](bool isConnected) {
         if (isConnected) {
-            ui->actionConnected->setText(tr("Disconnect"));
+//            ui->actionConnected->setText(tr("Disconnect"));
             ui->actionConnected->setIcon(QIcon(":/res/connected.png"));
 //            _isConnected = true;
         } else {
-            ui->actionConnected->setText(tr("Connect"));
+//            ui->actionConnected->setText(tr("Connect"));
             ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
 //            _isConnected = false;
         }
