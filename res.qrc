@@ -61,5 +61,7 @@
         <file>res/rocos-rview-enabled.png</file>
         <file>res/rocos-tview-disabled.png</file>
         <file>res/rocos-tview-enabled.png</file>
+        <file>res/landau-logo.png</file>
+        <file>res/landau-rocos.png</file>
     </qresource>
 </RCC>
