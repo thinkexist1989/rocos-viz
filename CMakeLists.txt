@@ -117,7 +117,7 @@ add_library(rocos::protocol ALIAS protocol)
 if(UNIX AND NOT APPLE)
     set(CMAKE_PREFIX_PATH "/home/think/Qt/6.2.4/gcc_64/lib/cmake")
 endif()
-
+set(CMAKE_PREFIX_PATH "/opt/Qt/6.2.4/gcc_64/lib/cmake")
 # Qt
 #find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
 #find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
