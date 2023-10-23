@@ -13,6 +13,12 @@
 #include <kdl/frames.hpp>
 #include <kdl/frames_io.hpp>
 
+#define POSITION_MODE 0
+#define EE_ADMIT_TEACH_MODE 1
+#define JNT_ADMIT_TEACH_MODE 2
+#define JNT_IMP_MODE 3
+#define CART_IMP_MODE 4
+
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
@@ -291,6 +297,8 @@ public:
     void jointJogging(int id, int dir); //!< 关节点动
     void cartesianJogging(int frame, int freedom, int dir); //!< 笛卡尔点动
     void jogging(int frame, int freedom, int dir); //!< 两种点动可以合在一起
+
+    void setRobotWorkMode(int mode); //!< 设置机器人工作模式
 
 signals:
 

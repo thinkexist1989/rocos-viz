@@ -698,3 +698,11 @@ void RocosMainWindow::on_MoveSpace0_clicked() {
     qDebug() << "Move 0-Space";
 }
 
+
+void RocosMainWindow::on_workingModeBox_currentIndexChanged(int index)
+{
+    qDebug() << "Robot Mode Changing...";
+    connectDlg->setRobotWorkMode(index);
+
+}
+

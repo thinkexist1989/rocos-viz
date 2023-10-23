@@ -250,6 +250,25 @@ void ConnectDialog::cartesianJogging(int frame, int freedom, int dir) {
     }
 }
 
+void ConnectDialog::setRobotWorkMode(int mode)
+{
+
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+
+    auto set_work_mode = request.mutable_command()->mutable_general_command()->mutable_set_work_mode();
+    set_work_mode->set_value(static_cast<rocos::WorkMode>(mode));
+
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+
+    if (status.ok()) {
+        //        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cerr << "Send command Error" << std::endl;
+    }
+}
+
 bool ConnectDialog::event(QEvent *event) {
     if (event->type() == QEvent::ActivationChange) {
         if (QApplication::activeWindow() != this) {

@@ -83,6 +83,8 @@ private slots:
     void on_MoveL_clicked();
     void on_MoveSpace0_clicked();
 
+    void on_workingModeBox_currentIndexChanged(int index);
+
 private:
     Ui::RocosMainWindow *ui;
 
