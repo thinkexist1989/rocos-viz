@@ -1,0 +1,68 @@
+robot:
+  - name: link_0
+    order: 0
+    mesh: base_link.STL
+
+  - name: link_1
+    order: 1
+    translate: [0.0, 0.0, 0.1763]
+    rotate: [0, 0, 0]
+    angleAxis: [0, 0, 1]
+    translateLink: [0.0, 0.0, 0.0]
+    rotateLink: [0, 0, 0]
+    mesh: link_1.STL
+
+  - name: link_2
+    order: 2
+    translate: [0.1996, -0.1738, 0]
+    rotate: [1.5708, -1.5708, 0]
+    angleAxis: [0, 0, 1]
+    translateLink: [ 0.0, 0.0, 0.0 ]
+    rotateLink: [ 0, 0, 0 ]
+    mesh: link_2.STL
+
+  - name: link_3
+    order: 3
+    translate: [0.0, -1.105, 0.0]
+    rotate: [1.5708, 0, 0.0]
+    angleAxis: [0, 0, 1]
+    translateLink: [ 0.0, 0.0, 0.0 ]
+    rotateLink: [ 0, 0, 0 ]
+    mesh: link_3.STL
+
+  - name: link_4
+    order: 4
+    translate: [0.0, 0.1538, 0.0]
+    rotate: [-1.5708, 0, 0]
+    angleAxis: [0, 0, 1]
+    translateLink: [ 0.0, 0.0, 0.0 ]
+    rotateLink: [ 0, 0, 0 ]
+    mesh:  link_4.STL
+
+  - name: link_5
+    order: 5
+    translate: [0.0, 0.895, 0.0]
+    rotate: [-1.5708, 0, 0]
+    angleAxis: [0, 0, 1]
+    translateLink: [ 0.0, 0.0, 0.0]
+    rotateLink: [ 0, 0, 0 ]
+    mesh: link_5.STL
+
+  - name: link_6
+    order: 6
+    translate: [0.0, -0.1208, 0.0]
+    rotate: [1.5708, 0, 0]
+    angleAxis: [0, 0, 1]
+    translateLink: [ 0.0, 0.0, 0.0 ]
+    rotateLink: [ 0, 0, 0 ]
+    mesh: link_6.STL
+
+  - name: link_7
+    order: 7
+    translate: [ 0.0, 0.0755, 0.0 ]
+    rotate: [-1.5708, 0, 0]
+    angleAxis: [ 0, 0, 1 ]
+    translateLink: [ 0.0, 0.0, 0.0 ]
+    rotateLink: [ 0, 0, 0 ]
+    mesh: link_7.STL
+

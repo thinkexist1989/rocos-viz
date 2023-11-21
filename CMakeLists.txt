@@ -53,7 +53,31 @@ include(cmake/common.cmake) # gRPC
 file(GLOB PROTO_FILES protos/*.proto) # protobuf
 file(GLOB GRPC_FILES protos/*_service.proto) # gRPC
 
-foreach (PFIL ${PROTO_FILES}) #protobuf gen
+# foreach (PFIL ${PROTO_FILES}) #protobuf gen
+#     # Proto file
+#     get_filename_component(PROTO_ABS ${PFIL} ABSOLUTE)
+#     get_filename_component(PROTO_PATH ${PFIL} PATH)
+#     get_filename_component(PROTO_NAME ${PFIL} NAME_WE)
+
+#     # Generated sources
+#     set(PROTO_SRC "${CMAKE_BINARY_DIR}/${PROTO_NAME}.pb.cc")
+#     set(PROTO_HDR "${CMAKE_BINARY_DIR}/${PROTO_NAME}.pb.h")
+#     add_custom_command(
+#             OUTPUT "${PROTO_SRC}" "${PROTO_HDR}"
+#             COMMAND ${_PROTOBUF_PROTOC}
+#             ARGS --cpp_out "${CMAKE_BINARY_DIR}"
+#             -I "${PROTO_PATH}"
+#             "${PROTO_ABS}"
+#             DEPENDS "${PROTO_ABS}"
+#     )
+        
+    
+#     list(APPEND PROTO_SRCS ${PROTO_SRC})
+#     list(APPEND PROTO_HDRS ${PROTO_HDR})
+# endforeach ()
+
+
+foreach (PFIL ${PROTO_FILES}) # protobuf gen
     # Proto file
     get_filename_component(PROTO_ABS ${PFIL} ABSOLUTE)
     get_filename_component(PROTO_PATH ${PFIL} PATH)
@@ -62,17 +86,39 @@ foreach (PFIL ${PROTO_FILES}) #protobuf gen
     # Generated sources
     set(PROTO_SRC "${CMAKE_BINARY_DIR}/${PROTO_NAME}.pb.cc")
     set(PROTO_HDR "${CMAKE_BINARY_DIR}/${PROTO_NAME}.pb.h")
+    set(PROTO_PY "${CMAKE_BINARY_DIR}/${PROTO_NAME}.pb.py")
+    message("PROTO_NAME: ${PROTO_NAME}")
+    message("PROTO_SRC: ${PROTO_SRC}")
+    message("PROTO_HDR: ${PROTO_HDR}")
+    message("PROTO_PY: ${PROTO_PY}")
     add_custom_command(
-            OUTPUT "${PROTO_SRC}" "${PROTO_HDR}"
-            COMMAND ${_PROTOBUF_PROTOC}
-            ARGS --cpp_out "${CMAKE_BINARY_DIR}"
+        OUTPUT "${PROTO_SRC}" "${PROTO_HDR}" "${PROTO_PY}"
+        COMMAND ${_PROTOBUF_PROTOC}
+        ARGS
+            --cpp_out "${CMAKE_BINARY_DIR}"
             -I "${PROTO_PATH}"
             "${PROTO_ABS}"
-            DEPENDS "${PROTO_ABS}"
+       
+        DEPENDS "${PROTO_ABS}"
     )
+    add_custom_command(
+    OUTPUT "${PROTO_PY}"
+    COMMAND ${_PROTOBUF_PROTOC}
+    ARGS
+        --python_out "${CMAKE_BINARY_DIR}"
+        --pyi_out "${CMAKE_BINARY_DIR}"
+        -I "${PROTO_PATH}"
+        "${PROTO_ABS}"
+    DEPENDS "${PROTO_ABS}"
+        )
+
+
+
     list(APPEND PROTO_SRCS ${PROTO_SRC})
     list(APPEND PROTO_HDRS ${PROTO_HDR})
+    list(APPEND PROTO_PYS ${PROTO_PY})
 endforeach ()
+
 
 foreach (GFIL ${GRPC_FILES}) #grpc gen
     # Proto file
@@ -181,6 +227,8 @@ include_directories(include)
 include_directories(src)
 
 set(TS_FILES rocos_zh_CN.ts)
+
+
 set(SRC_FILES
         src/main.cpp
         src/RocosMainWindow.cpp
@@ -196,6 +244,7 @@ set(SRC_FILES
         src/PlotDialog.cpp
         src/AboutDialog.cpp
         src/SplashScreen.cpp
+        
         )
 set(HRD_FILES
         src/RocosMainWindow.h
@@ -250,7 +299,18 @@ target_link_libraries(${PROJECT_NAME}
         ${orocos_kdl_LIBRARIES}
         rocos::protocol
         )
-
+add_executable(demo_grpc src/demo_grpc.cpp  src/ConnectDialog.cpp src/ConnectDialog.h)
+target_link_libraries(demo_grpc
+        PRIVATE
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Network
+        Qt${QT_VERSION_MAJOR}::OpenGLWidgets
+        ${VTK_LIBRARIES}
+        Eigen3::Eigen
+        yaml-cpp
+        ${orocos_kdl_LIBRARIES}
+        rocos::protocol
+        )
 vtk_module_autoinit(
         TARGETS ${PROJECT_NAME}
         MODULES ${VTK_LIBRARIES}
