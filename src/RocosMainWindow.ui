@@ -72,32 +72,13 @@ QMainWindow {
          </property>
          <property name="icon">
           <iconset resource="../res.qrc">
-           <normaloff>:/res/landau-logo.png</normaloff>:/res/landau-logo.png</iconset>
+           <normaloff>:/res/landau-rocos-viz.png</normaloff>:/res/landau-rocos-viz.png</iconset>
          </property>
          <property name="iconSize">
           <size>
            <width>100</width>
            <height>40</height>
           </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_17">
-         <property name="font">
-          <font>
-           <family>Alibaba PuHuiTi 2.0</family>
-           <pointsize>11</pointsize>
-           <italic>false</italic>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font: 11pt &quot;Alibaba PuHuiTi 2.0&quot;;
-color: rgb(255, 255, 255);</string>
-         </property>
-         <property name="text">
-          <string>| ROCOS Viz</string>
          </property>
         </widget>
        </item>
@@ -1080,6 +1061,12 @@ QPushButton:pressed, QPushButton:checked {
          </item>
          <item row="0" column="1">
           <widget class="QDoubleSpinBox" name="j1">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>
@@ -1103,6 +1090,12 @@ QPushButton:pressed, QPushButton:checked {
          </item>
          <item row="1" column="1">
           <widget class="QDoubleSpinBox" name="j2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>
@@ -1126,6 +1119,12 @@ QPushButton:pressed, QPushButton:checked {
          </item>
          <item row="2" column="1">
           <widget class="QDoubleSpinBox" name="j3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>
@@ -1149,6 +1148,12 @@ QPushButton:pressed, QPushButton:checked {
          </item>
          <item row="3" column="1">
           <widget class="QDoubleSpinBox" name="j4">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>
@@ -1172,6 +1177,12 @@ QPushButton:pressed, QPushButton:checked {
          </item>
          <item row="4" column="1">
           <widget class="QDoubleSpinBox" name="j5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>
@@ -1195,6 +1206,12 @@ QPushButton:pressed, QPushButton:checked {
          </item>
          <item row="5" column="1">
           <widget class="QDoubleSpinBox" name="j6">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>
@@ -1218,6 +1235,12 @@ QPushButton:pressed, QPushButton:checked {
          </item>
          <item row="6" column="1">
           <widget class="QDoubleSpinBox" name="j7">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="decimals">
             <number>3</number>
            </property>

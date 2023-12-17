@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     QApplication::setStyle(QStyleFactory::create("Fusion"));
 
     QApplication a(argc, argv);
-    a.setWindowIcon(QIcon(":/icon.ico"));
+    a.setWindowIcon(QIcon(":/icon.png"));
 
     QCommandLineParser parser;
     parser.setApplicationDescription("ROCOS-Viz Application");
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 
 
 //    QPixmap pixmap(":/res/splash.png");://res/rocos-viz.jpg
-    QPixmap pixmap(":/res/logo.jpg");
+    QPixmap pixmap(":/res/logo.png");
     QPixmap scaledPixmap = pixmap.scaled(700,700, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     SplashScreen* splash = new SplashScreen(scaledPixmap, 10000);
     splash->show();

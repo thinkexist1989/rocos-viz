@@ -116,7 +116,7 @@ add_library(rocos::protocol ALIAS protocol)
 
 if(UNIX AND NOT APPLE)
 #    set(CMAKE_PREFIX_PATH "/home/think/Qt/6.2.4/gcc_64/lib/cmake")
-    set(CMAKE_PREFIX_PATH "/opt/Qt/6.2.4/gcc_64/lib/cmake")
+    set(CMAKE_PREFIX_PATH "/opt/Qt/6.6.1/gcc_64/lib/cmake")
 endif()
 
 # Qt
@@ -148,7 +148,8 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network REQUIRED)
 #        GUISupportQt
 #        RenderingQt
 #        )
-find_package(VTK REQUIRED)
+
+find_package(VTK 9 REQUIRED)
 
 message("VTK LIBS: ${VTK_LIBRARIES}")
 #include(${VTK_USE_FILE})

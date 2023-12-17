@@ -45,7 +45,6 @@
         <file>res/splash.png</file>
         <file>res/rocos-viz.jpg</file>
         <file>res/rocos-viz2.jpg</file>
-        <file>res/logo.jpg</file>
         <file>res/fullscreen.png</file>
         <file>res/minus.png</file>
         <file>res/plus.png</file>
@@ -63,5 +62,7 @@
         <file>res/rocos-tview-enabled.png</file>
         <file>res/landau-logo.png</file>
         <file>res/landau-rocos.png</file>
+        <file>res/logo.png</file>
+        <file>res/landau-rocos-viz.png</file>
     </qresource>
 </RCC>
