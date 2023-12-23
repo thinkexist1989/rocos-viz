@@ -46,6 +46,7 @@ set(${PROJECT_NAME}_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAM
 
 if (UNIX AND NOT APPLE)
     list(APPEND CMAKE_PREFIX_PATH "/opt/grpc")
+    list(APPEND CMAKE_PREFIX_PATH "/home/think/Qt/6.2.4/gcc_64")
 endif ()
 
 include(cmake/common.cmake) # gRPC
@@ -113,11 +114,6 @@ target_link_libraries(protocol
         ${_PROTOBUF_LIBPROTOBUF}
         )
 add_library(rocos::protocol ALIAS protocol)
-
-if(UNIX AND NOT APPLE)
-#    set(CMAKE_PREFIX_PATH "/home/think/Qt/6.2.4/gcc_64/lib/cmake")
-    set(CMAKE_PREFIX_PATH "/opt/Qt/6.6.1/gcc_64/lib/cmake")
-endif()
 
 # Qt
 #find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
