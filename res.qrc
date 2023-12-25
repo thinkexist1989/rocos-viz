@@ -66,5 +66,6 @@
         <file>res/landau-rocos-viz.png</file>
         <file>res/file_upload.png</file>
         <file>res/model.png</file>
+        <file>res/file.png</file>
     </qresource>
 </RCC>

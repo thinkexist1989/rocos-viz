@@ -15,8 +15,16 @@ public:
     explicit ModelLoaderDialog(QWidget *parent = nullptr);
     ~ModelLoaderDialog();
 
+    QString getCfgFileName();
+
+private slots:
+    void on_openFileButton_clicked();
+
+    void on_uploadButton_clicked();
+
 private:
     Ui::ModelLoaderDialog *ui;
+    QString cfgFileName;
 };
 
 #endif // MODELLOADERDIALOG_H

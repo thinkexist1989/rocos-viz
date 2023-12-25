@@ -547,5 +547,10 @@ void RocosMainWindow::on_actionDispModel_clicked()
 {
 //    ui->visualWidget->displayModelFromYaml("models/talon/config.yaml");
 
+    ModelLoaderDialog modelLoaderDlg;
+    if(modelLoaderDlg.exec() == QDialog::Accepted) {
+        ui->visualWidget->displayModelFromYaml(modelLoaderDlg.getCfgFileName().toStdString());
+    }
+
 }
 

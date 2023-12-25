@@ -40,6 +40,12 @@ Model::~Model() {
 
 void Model::getModelFromYamlFile(const std::string &fileName) {
 
+    // before reload model, need to remove the previous actors. by think 2023.12.25
+    for(size_t i = 0; i < _linkGrp.size(); i++) {
+        _renderer->RemoveActor(_linkGrp[i].actor);
+        _renderer->RemoveActor(_linkGrp[i].axesActor);
+    }
+
     //parse yaml file
     YAML::Node config = YAML::LoadFile(fileName);
 
