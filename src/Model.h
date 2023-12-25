@@ -29,14 +29,6 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 #include <vtkRenderer.h>
 
 class Model {
-public:
-//        typedef Link Link; //typedef in Model, so can be used as RHCL::Model::Link
-
-private:
-    /* data */
-    std::vector<Link> _linkGrp; //Save all the links of manipulator
-//    std::vector<double> _jntRads; // Save the joint state (radians)
-    int _freedom = 0;
 
 public:
     /**
@@ -44,6 +36,8 @@ public:
      * @param fileName The yaml file
      */
     Model(const std::string& fileName);
+
+    Model();
 
     ~Model();
 
@@ -62,10 +56,19 @@ public:
 
     void addToRenderer(vtkRenderer* renderer);
 
+    void setRenderer(vtkRenderer* renderer);
+
     void setAxesVisiblity(bool isVisible);
 
     void setMeshVisibility(bool isMesh);            //是否以Mesh形式显示
 
+private:
+    /* data */
+    std::vector<Link> _linkGrp; //Save all the links of manipulator
+//    std::vector<double> _jntRads; // Save the joint state (radians)
+    int _freedom = 0;
+
+    vtkRenderer* _renderer = nullptr;
 
 };
 

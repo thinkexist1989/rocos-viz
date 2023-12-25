@@ -101,13 +101,11 @@ SceneWidget::SceneWidget(QWidget *parent) :
 //    link1Actor->SetMapper(mapper1);
 //    link1Actor->SetUserTransform(trans1);
 
-    // 7自由度机械臂
-    model = std::make_shared<Model>(yamlCfgFile);
-    // 泰科6自由度机械臂TB6-R3
-//    model = std::make_shared<Model>("models/techsoft_tb6_r3/config.yaml");
+//    model = std::make_shared<Model>(yamlCfgFile);
+//    model->addToRenderer(renderer);
 
-//    model = new Model("models/iiwa/config.yaml");
-    model->addToRenderer(renderer);
+    model = std::make_shared<Model>();
+    model->setRenderer(renderer); // 直接将render指针传递给model
 
 
     /* ======== 渲染器 ========== */
@@ -225,4 +223,9 @@ void SceneWidget::setAxoView()
     renderWindow->Render();
 }
 
-std::string SceneWidget::yamlCfgFile {"models/talon/config.yaml"};
+void SceneWidget::displayModelFromYaml(const std::string& yaml_file) {
+    yamlCfgFile = yaml_file;
+    model->getModelFromYamlFile(yamlCfgFile);
+    renderWindow->Render();
+
+}

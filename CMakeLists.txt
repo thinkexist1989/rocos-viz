@@ -193,6 +193,7 @@ set(SRC_FILES
         src/PlotDialog.cpp
         src/AboutDialog.cpp
         src/SplashScreen.cpp
+        src/ModelLoaderDialog.cpp
         )
 set(HRD_FILES
         src/RocosMainWindow.h
@@ -208,6 +209,7 @@ set(HRD_FILES
         src/PlotDialog.h
         src/AboutDialog.h
         src/SplashScreen.h
+        src/ModelLoaderDialog.h
         )
 set(UI_FILES
         src/RocosMainWindow.ui
@@ -217,6 +219,7 @@ set(UI_FILES
         src/ScriptDialog.ui
         src/PlotDialog.ui
         src/AboutDialog.ui
+        src/ModelLoaderDialog.ui
         )
 
 set(RC_FILES

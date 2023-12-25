@@ -40,6 +40,8 @@ public:
     SceneWidget(QWidget  * parent  =   0);
     ~SceneWidget();
 
+    void displayModelFromYaml(const std::string& yaml_file);
+
     void setJointPos(std::vector<double> &jntRads);
     void setJointPos(QVector<double> &jntRads);
 
@@ -54,7 +56,7 @@ public:
 
     void setAxoView();
 
-    static std::string yamlCfgFile;
+    std::string yamlCfgFile;
 
 private:
     vtkSmartPointer<vtkNamedColors> colors;         //负责处理各种颜色

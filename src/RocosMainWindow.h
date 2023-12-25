@@ -11,6 +11,7 @@
 #include <ScriptDialog.h>  //LUA脚本对话框
 #include <PlotDialog.h>    //曲线绘制对话框
 #include <AboutDialog.h>  // 关于对话框
+#include <ModelLoaderDialog.h> // 模型加载对话框
 
 #include <JointPositionWidget.h>
 #include <CartesianPositionWidget.h>
@@ -84,6 +85,8 @@ private slots:
     void on_MoveSpace0_clicked();
 
     void on_workingModeBox_currentIndexChanged(int index);
+
+    void on_actionDispModel_clicked();
 
 private:
     Ui::RocosMainWindow *ui;

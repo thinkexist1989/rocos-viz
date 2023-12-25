@@ -25,19 +25,19 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/icon.png"));
 
-    QCommandLineParser parser;
-    parser.setApplicationDescription("ROCOS-Viz Application");
-    parser.addHelpOption();
-    parser.addVersionOption();
+//    QCommandLineParser parser;
+//    parser.setApplicationDescription("ROCOS-Viz Application");
+//    parser.addHelpOption();
+//    parser.addVersionOption();
 
-    QCommandLineOption modelOption(QStringList() << "m" << "model",
-                                   QCoreApplication::translate("main", "Load model from <file>."),
-                                   QCoreApplication::translate("main", "file"),
-                                   "models/talon/config.yaml");
-    parser.addOption(modelOption);
-    parser.process(a);
+//    QCommandLineOption modelOption(QStringList() << "m" << "model",
+//                                   QCoreApplication::translate("main", "Load model from <file>."),
+//                                   QCoreApplication::translate("main", "file"),
+//                                   "models/talon/config.yaml");
+//    parser.addOption(modelOption);
+//    parser.process(a);
 
-    SceneWidget::yamlCfgFile = parser.value(modelOption).toStdString();
+//    yamlCfgFile = parser.value(modelOption).toStdString();
 
 
 

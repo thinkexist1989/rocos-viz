@@ -27,14 +27,19 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 #include <Eigen/Geometry>
 
 
-Model::~Model() {
+
+Model::Model() {
 }
 
 Model::Model(const std::string& fileName) {
     getModelFromYamlFile(fileName);
 }
 
+Model::~Model() {
+}
+
 void Model::getModelFromYamlFile(const std::string &fileName) {
+
     //parse yaml file
     YAML::Node config = YAML::LoadFile(fileName);
 
@@ -101,6 +106,9 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
 
     std::vector<double> temp(_freedom, 0);
     updateModel(temp);
+
+    std::cout << "Model is loaded." << std::endl;
+    addToRenderer(_renderer); //add model to renderer and the model will be seen
 }
 
 void Model::updateModel(std::vector<double> &jointRads)
@@ -182,6 +190,10 @@ void Model::setMeshVisibility(bool isMesh)
     for(size_t i = 0; i < _linkGrp.size(); i++) {
         _linkGrp[i].setMeshVisibility(isMesh);
     }
+}
+
+void Model::setRenderer(vtkRenderer *renderer) {
+    _renderer = renderer;
 }
 
 
