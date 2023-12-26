@@ -165,7 +165,9 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 //    connect(connectDlg, &ConnectDialog::speedScaling, this, [=](double f100){ ui->speedSlider->setValue(f100*10);}); //更新速度缩放因子
 
     /////////////////////////////////////////////////////
-
+    connect(connectDlg, &ConnectDialog::showRobot, this, [=](QString path){
+        ui->visualWidget->displayModelFromYaml(path.toStdString());
+    });
     connect(connectDlg, &ConnectDialog::jointPositions, plotDlg, &PlotDialog::getJointPositions); //关节位置更新
     connect(connectDlg, &ConnectDialog::cartPose, plotDlg, &PlotDialog::getCartPose); //笛卡尔位置更新
 
@@ -548,9 +550,13 @@ void RocosMainWindow::on_actionDispModel_clicked()
 //    ui->visualWidget->displayModelFromYaml("models/talon/config.yaml");
 
     ModelLoaderDialog modelLoaderDlg;
+    connect(&modelLoaderDlg, &ModelLoaderDialog::getRobotModel, connectDlg, &ConnectDialog::getRobotModel);
+    connect(&modelLoaderDlg, &ModelLoaderDialog::removeRobotModel, this, [=](){ui->visualWidget->removeRobotModel();});
     if(modelLoaderDlg.exec() == QDialog::Accepted) {
         ui->visualWidget->displayModelFromYaml(modelLoaderDlg.getCfgFileName().toStdString());
     }
+
+
 
 }
 

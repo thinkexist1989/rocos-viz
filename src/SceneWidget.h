@@ -41,6 +41,7 @@ public:
     ~SceneWidget();
 
     void displayModelFromYaml(const std::string& yaml_file);
+    void removeRobotModel();
 
     void setJointPos(std::vector<double> &jntRads);
     void setJointPos(QVector<double> &jntRads);

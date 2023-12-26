@@ -259,7 +259,7 @@ vtk_module_autoinit(
 #qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 #configure_file(${MODELS} ./ COPYONLY)
-file(COPY models/ DESTINATION bin/models/)
+#file(COPY models/ DESTINATION bin/models/)
 
 #############
 ## Install ##

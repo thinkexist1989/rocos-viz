@@ -4,6 +4,8 @@
 #include <QDebug>
 
 #include <Protocol.h> //通讯协议
+#include <fstream>
+#include <filesystem>
 
 const int POLLING_INTERVAL_MS = 100; // 轮询间隔 100ms
 
@@ -27,7 +29,8 @@ ConnectDialog::~ConnectDialog() {
 }
 
 void ConnectDialog::on_connectButton_clicked() {
-    connectedToRobot(true);
+    bool isAutoLoad = ui->autoLoadCheck->isChecked();
+    connectedToRobot(true, isAutoLoad);
 }
 
 void ConnectDialog::on_ipAddressEdit_textChanged(const QString &ip) {
@@ -38,7 +41,7 @@ void ConnectDialog::on_portEdit_textChanged(const QString &p) {
     port_ = p.toInt();
 }
 
-void ConnectDialog::connectedToRobot(bool con) {
+void ConnectDialog::connectedToRobot(bool con, bool autoLoadModel) {
     if (con) { //连接机器人
         if (is_connected_)
             return;
@@ -50,14 +53,13 @@ void ConnectDialog::connectedToRobot(bool con) {
 
         //获取一下RobotInfo,顺便测试一下连接否成功
         RobotInfoRequest request;
-//    RobotInfoResponse response;
+//      RobotInfoResponse response;
         Status status;
 
         //之前发现如果退出程序，重启只发送一次会卡住，所以多发几次，但这个问题需要仔细研究一下
         // 后来发现不是这个原因造成的,是由于channel_没有释放造成的
         ClientContext context; //这个只能使用一次，每次请求都需要重新创建
         status = stub_->ReadRobotInfo(&context, request, &robot_info_response_);
-//    }
 
         if (status.ok()) {
             emit connectState(true);
@@ -97,6 +99,9 @@ void ConnectDialog::connectedToRobot(bool con) {
                          << robot_info_response_.robot_info().joint_infos().at(i).user_unit_name().c_str();
 
             }
+
+            if(autoLoadModel)
+                getRobotModel(); //if autoLoadCheck is checked, then auto load model from rocos-app
 
         } else {
             emit connectState(false);
@@ -318,6 +323,95 @@ void ConnectDialog::shutdown() {
 
     is_connected_ = false;
     emit connectState(false);
+}
+
+void ConnectDialog::getRobotModel()
+{
+    if(!is_connected_)
+        return;
+
+    google::protobuf::Empty request;
+    RobotModel response;
+
+    ClientContext context;
+    Status status = stub_->GetRobotModel(&context, request, &response);
+
+    if(status.ok()) {
+        std::cout << "Robot name: " << response.name() << std::endl;
+
+        std::filesystem::path cfgFilePath = "models/" + response.name() + "/config.yaml";
+        if(!std::filesystem::exists(cfgFilePath.parent_path())) {
+            std::filesystem::create_directories(cfgFilePath.parent_path());
+        }
+
+        std::ofstream cfgYamlFile(cfgFilePath);
+
+        if(!cfgYamlFile.is_open()) {
+            std::cerr << "Can not open " << cfgFilePath << std::endl;
+            return;
+        }
+
+        cfgYamlFile.clear(); // clear file content
+        cfgYamlFile << "robot: " << std::endl;
+
+        // 创建映射表
+        std::map<int, std::string> enumMap;
+        enumMap[rocos::JointType::UNKNOWN] = "unknown";
+        enumMap[rocos::JointType::FIXED] = "fixed";
+        enumMap[rocos::JointType::REVOLUTE] = "revolute";
+        enumMap[rocos::JointType::PRISMATIC] = "prismatic";
+        enumMap[rocos::JointType::CONTINUOUS] = "continuous";
+
+        for(int i = 0; i < response.links_size(); i++) {
+            cfgYamlFile << "  - name: " << response.links(i).name() << std::endl;
+            cfgYamlFile << "    order: " << response.links(i).order() << std::endl;
+
+            cfgYamlFile << "    type: " << enumMap[response.links(i).type()] << std::endl;
+
+            cfgYamlFile << "    translate: [" << response.links(i).translate().x() << ", "
+                      << response.links(i).translate().y() << ", "
+                        << response.links(i).translate().z() << "]" << std::endl;
+
+            cfgYamlFile << "    rotate: [" <<  response.links(i).rotate().x()  << ", "
+                      << response.links(i).rotate().y() << ", "
+                        << response.links(i).rotate().z() << "]" << std::endl;
+
+            cfgYamlFile << "    axis: [" << response.links(i).axis().x() << ", "
+                      << response.links(i).axis().y() << ", "
+                      << response.links(i).axis().z() << "]" << std::endl;
+
+
+            cfgYamlFile << "    translateLink: [" << response.links(i).translatelink().x()  << ", " << response.links(i).translatelink().y() << ", "
+                        << response.links(i).translatelink().z() << "]" << std::endl;
+
+            cfgYamlFile << "    rotateLink: [" << response.links(i).rotatelink().x() << ", " << response.links(i).rotatelink().y() << ", " << response.links(i).rotatelink().z() << "]" << std::endl;
+
+            cfgYamlFile << "    mesh: " << response.links(i).mesh() << std::endl;
+
+            ClientContext context; // get mesh file
+            LinkMeshPath pathRequest;
+            *pathRequest.mutable_path() = response.links(i).mesh();
+            LinkMeshFile meshRespone;
+            status = stub_->GetLinkMesh(&context, pathRequest, &meshRespone);
+            if(status.ok()) {
+                std::ofstream mesh(cfgFilePath.parent_path() / meshRespone.name(), std::ios::binary);
+                mesh.write(meshRespone.content().c_str(), meshRespone.content().size());
+                mesh.close();
+
+            } else {
+                std::cerr << "Can not get mesh file" << std::endl;
+            }
+        }
+
+        cfgYamlFile.close();
+
+        emit showRobot(QString::fromStdString(cfgFilePath.string())); // send showRobot signal
+
+
+
+    } else {
+        std::cout << "Fail to get robot model!" << std::endl;
+    }
 }
 
 void ConnectDialog::powerOn(int id) {

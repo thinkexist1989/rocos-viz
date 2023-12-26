@@ -42,6 +42,7 @@ public:
     ~Model();
 
     void getModelFromYamlFile(const std::string& fileName); // Load model from file
+    void removeRobotModel();
 
 //    void addLink(Link link, int order);
 

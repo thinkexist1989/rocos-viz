@@ -31,11 +31,19 @@ void ModelLoaderDialog::on_openFileButton_clicked()
 
 void ModelLoaderDialog::on_uploadButton_clicked()
 {
-
+    emit getRobotModel();
+    this->reject();
 }
 
 QString ModelLoaderDialog::getCfgFileName()
 {
     return cfgFileName;
+}
+
+
+void ModelLoaderDialog::on_removeButton_clicked()
+{
+    emit removeRobotModel();
+    this->reject();
 }
 

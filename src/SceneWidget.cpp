@@ -229,3 +229,9 @@ void SceneWidget::displayModelFromYaml(const std::string& yaml_file) {
     renderWindow->Render();
 
 }
+
+void SceneWidget::removeRobotModel()
+{
+    model->removeRobotModel();
+    renderWindow->Render();
+}

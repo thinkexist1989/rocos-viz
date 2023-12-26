@@ -34,6 +34,10 @@ using rocos::RobotCommandResponse;
 using rocos::RobotInfoRequest;
 using rocos::RobotInfoResponse;
 
+using rocos::RobotModel;
+using rocos::LinkMeshFile;
+using rocos::LinkMeshPath;
+
 using KDL::Frame;
 using KDL::JntArray;
 using KDL::Rotation;
@@ -221,10 +225,12 @@ public slots:
     /////////////////////////////////////////////////////////
 
     //!< 连接到机器人
-    void connectedToRobot(bool con);
+    void connectedToRobot(bool con, bool autoLoadModel);
 
     //!< 断开和机器人连接
     void shutdown();
+
+    void getRobotModel();
 
 //    void setJointMode(int id, int mode);
 //    void setSync(int sync);
@@ -319,6 +325,8 @@ signals:
 
     //!< 连接状态信号, 通知与机器人rpc连接状态
     void connectState(bool isConnected);
+
+    void showRobot(QString path);
 
 private:
     bool event(QEvent *event) override; //!< 重写事件相应函数,窗口失去焦点自动关闭

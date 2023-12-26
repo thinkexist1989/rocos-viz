@@ -33,18 +33,6 @@ background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2">
-    <widget class="QLineEdit" name="portEdit">
-     <property name="styleSheet">
-      <string notr="true">QLineEdit {
-	border-radius: 5px;
-}</string>
-     </property>
-     <property name="text">
-      <string>30001</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1" colspan="2">
     <widget class="QLineEdit" name="ipAddressEdit">
      <property name="styleSheet">
@@ -64,7 +52,19 @@ background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="3" rowspan="2">
+   <item row="1" column="1" colspan="2">
+    <widget class="QLineEdit" name="portEdit">
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+	border-radius: 5px;
+}</string>
+     </property>
+     <property name="text">
+      <string>30001</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3" rowspan="3">
     <widget class="QPushButton" name="connectButton">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -94,6 +94,13 @@ QPushButton:pressed, QPushButton:checked {
      </property>
      <property name="text">
       <string>Connect</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <widget class="QCheckBox" name="autoLoadCheck">
+     <property name="text">
+      <string>Auto load robot model</string>
      </property>
     </widget>
    </item>

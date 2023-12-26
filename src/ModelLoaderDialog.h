@@ -22,9 +22,15 @@ private slots:
 
     void on_uploadButton_clicked();
 
+    void on_removeButton_clicked();
+
 private:
     Ui::ModelLoaderDialog *ui;
     QString cfgFileName;
+
+signals:
+    void getRobotModel();
+    void removeRobotModel();
 };
 
 #endif // MODELLOADERDIALOG_H
