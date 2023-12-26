@@ -376,7 +376,7 @@ void ConnectDialog::getRobotModel()
                       << response.links(i).rotate().y() << ", "
                         << response.links(i).rotate().z() << "]" << std::endl;
 
-            cfgYamlFile << "    axis: [" << response.links(i).axis().x() << ", "
+            cfgYamlFile << "    angleAxis: [" << response.links(i).axis().x() << ", "
                       << response.links(i).axis().y() << ", "
                       << response.links(i).axis().z() << "]" << std::endl;
 
