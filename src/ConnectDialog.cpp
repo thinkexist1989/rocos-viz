@@ -285,6 +285,9 @@ bool ConnectDialog::event(QEvent *event) {
 }
 
 void ConnectDialog::powerOn() {
+    if(!is_connected_)
+        return;
+
     RobotCommandRequest request;
     RobotCommandResponse response;
 
@@ -301,6 +304,9 @@ void ConnectDialog::powerOn() {
 }
 
 void ConnectDialog::powerOff() {
+    if(!is_connected_)
+        return;
+
     RobotCommandRequest request;
     RobotCommandResponse response;
 

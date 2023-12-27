@@ -45,6 +45,12 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     scriptDlg = new ScriptDialog(this);
     plotDlg = new PlotDialog(this);
     aboutDlg = new AboutDialog(this);
+    modelLoaderDlg = new ModelLoaderDialog(this);
+
+    connect(modelLoaderDlg, &ModelLoaderDialog::getRobotModel, connectDlg, &ConnectDialog::getRobotModel);
+    connect(modelLoaderDlg, &ModelLoaderDialog::removeRobotModel, this, [=](){ui->visualWidget->removeRobotModel();});
+
+
 
     scriptDlg->setConnectPtr(connectDlg); //将connectDlg指针传给script
 
@@ -549,11 +555,8 @@ void RocosMainWindow::on_actionDispModel_clicked()
 {
 //    ui->visualWidget->displayModelFromYaml("models/talon/config.yaml");
 
-    ModelLoaderDialog modelLoaderDlg;
-    connect(&modelLoaderDlg, &ModelLoaderDialog::getRobotModel, connectDlg, &ConnectDialog::getRobotModel);
-    connect(&modelLoaderDlg, &ModelLoaderDialog::removeRobotModel, this, [=](){ui->visualWidget->removeRobotModel();});
-    if(modelLoaderDlg.exec() == QDialog::Accepted) {
-        ui->visualWidget->displayModelFromYaml(modelLoaderDlg.getCfgFileName().toStdString());
+    if(modelLoaderDlg->exec() == QDialog::Accepted) {
+        ui->visualWidget->displayModelFromYaml(modelLoaderDlg->getCfgFileName().toStdString());
     }
 
 

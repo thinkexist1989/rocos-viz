@@ -99,6 +99,7 @@ private:
     ScriptDialog*  scriptDlg  = Q_NULLPTR;
     PlotDialog*    plotDlg    = Q_NULLPTR;
     AboutDialog*   aboutDlg   = Q_NULLPTR;
+    ModelLoaderDialog* modelLoaderDlg = Q_NULLPTR;
 
     QVector<JointPositionWidget*> jpWdgs;
     QVector<CartesianPositionWidget*> cpWdgs;
