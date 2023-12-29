@@ -46,8 +46,10 @@ void ConnectDialog::connectedToRobot(bool con, bool autoLoadModel) {
         if (is_connected_)
             return;
 
-        channel_ = grpc::CreateChannel(QString("%1:%2").arg(ip_address_).arg(port_).toStdString(),
-                                       grpc::InsecureChannelCredentials());
+        grpc::ChannelArguments channel_args;
+        channel_args.SetMaxReceiveMessageSize(-1); // 设置接收消息的最大长度，-1表示不限制
+        channel_ = grpc::CreateCustomChannel(QString("%1:%2").arg(ip_address_).arg(port_).toStdString(),
+                                       grpc::InsecureChannelCredentials(), channel_args);
 
         stub_ = RobotService::NewStub(channel_);
 
