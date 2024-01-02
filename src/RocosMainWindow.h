@@ -60,8 +60,6 @@ private slots:
 
     void on_actionRightView_clicked();
 
-    void on_actionSetZero_clicked();
-
     void on_baseFrame_clicked(bool checked);
 
     void on_flangeFrame_clicked(bool checked);

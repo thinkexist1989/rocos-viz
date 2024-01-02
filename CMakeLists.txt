@@ -118,8 +118,8 @@ add_library(rocos::protocol ALIAS protocol)
 # Qt
 #find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
 #find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Network REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Network Charts REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Charts REQUIRED)
 
 # VTK
 #find_package(VTK COMPONENTS
@@ -244,6 +244,7 @@ target_link_libraries(${PROJECT_NAME}
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Network
         Qt${QT_VERSION_MAJOR}::OpenGLWidgets
+        Qt${QT_VERSION_MAJOR}::Charts
         ${VTK_LIBRARIES}
         Eigen3::Eigen
         yaml-cpp

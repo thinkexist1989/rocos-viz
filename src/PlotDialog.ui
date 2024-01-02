@@ -108,7 +108,7 @@ QPushButton:pressed, QPushButton:checked {
        </layout>
       </item>
       <item row="1" column="0">
-       <widget class="QWidget" name="plotWidget" native="true">
+       <widget class="QChartView" name="plotWidget" native="true">
         <property name="styleSheet">
          <string notr="true">.QWidget {
 	 border-radius: 30px;
@@ -399,6 +399,14 @@ QPushButton:pressed, QPushButton:checked {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QWidget</extends>
+   <header>qchartview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../res.qrc"/>
  </resources>

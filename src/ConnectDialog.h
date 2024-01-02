@@ -254,9 +254,6 @@ public slots:
      */
     void getRobotState();
 
-    //!< 设置零点校正
-    void setZeroCalibration();
-
     //!< 关节速度
     void setJointSpeedScaling(double factor);
 

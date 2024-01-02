@@ -180,10 +180,6 @@ void ConnectDialog::continueScript() {
 
 }
 
-void ConnectDialog::setZeroCalibration() {
-
-}
-
 void ConnectDialog::getRobotState() {
     RobotStateRequest request;
 

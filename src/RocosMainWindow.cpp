@@ -263,18 +263,11 @@ void RocosMainWindow::on_speedSlider_valueChanged(int value) {
 }
 
 void RocosMainWindow::on_actionEnabled_clicked() {
-//    isRobotEnabled = connectDlg->getRobotEnabled();
-//
-//    connectDlg->setRobotEnabled(!isRobotEnabled);
-//
-//    isRobotEnabled = connectDlg->getRobotEnabled();
 
     if (isRobotEnabled) {
-//        ui->actionEnabled->setIcon(QIcon(":/res/switchon.png"));
         connectDlg->powerOff();
     } else {
         connectDlg->powerOn();
-//        ui->actionEnabled->setIcon(QIcon(":/res/switchoff.png"));
     }
 }
 
@@ -282,7 +275,7 @@ void RocosMainWindow::on_actionConnected_clicked() {
     if (connectDlg->isConnected()) {
         connectDlg->shutdown();
     } else {
-        connectDlg->show();
+        connectDlg->exec();
     }
 
 }
@@ -299,7 +292,7 @@ void RocosMainWindow::on_actionScript_clicked() {
 //    isRobotEnabled = false;
 //    ui->actionEnabled->setIcon(QIcon(":/res/switchoff.png"));
 
-    scriptDlg->show();
+    scriptDlg->exec();
 }
 
 void RocosMainWindow::on_actionPlotter_clicked() {
@@ -307,7 +300,7 @@ void RocosMainWindow::on_actionPlotter_clicked() {
 }
 
 void RocosMainWindow::on_actionAbout_clicked() {
-    aboutDlg->show();
+    aboutDlg->exec();
 }
 
 void RocosMainWindow::on_actionAxoView_clicked() {
@@ -324,17 +317,6 @@ void RocosMainWindow::on_actionFrontView_clicked() {
 
 void RocosMainWindow::on_actionRightView_clicked() {
     ui->visualWidget->setYAxisView();
-}
-
-void RocosMainWindow::on_actionSetZero_clicked() {
-    auto ret = QMessageBox::warning(this, tr("Zero Calibration"),
-                                    tr("The current joint position will set as ZERO. Are you sure?"),
-                                    QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);
-
-    if (ret == QMessageBox::Ok) {
-        connectDlg->setZeroCalibration();
-    }
-
 }
 
 void RocosMainWindow::on_baseFrame_clicked(bool checked) {

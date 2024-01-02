@@ -9,6 +9,7 @@
 #include <QDateTime>
 #include <QButtonGroup>
 #include <QFile>
+#include <QtCharts>
 
 #define TYPE_JOINT_SPACE 0
 #define TYPE_CARTESIAN_SPACE 1
@@ -82,6 +83,10 @@ private:
 
     //TODO: Just for test
     double t = 0;
+
+
+//    void mousePressEvent(QMouseEvent* event) override;
+//    void mouseMoveEvent(QMouseEvent* event) override;
 
 
 
