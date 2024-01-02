@@ -38,7 +38,7 @@ QWidget {
    <item row="0" column="0">
     <widget class="QWidget" name="widget" native="true">
      <property name="styleSheet">
-      <string notr="true">QWidget {
+      <string notr="true">.QWidget {
 	font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
    background-color: white;
    border-radius: 30px;
