@@ -246,18 +246,6 @@ QPushButton:pressed, QPushButton:checked {
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="9">
-        <widget class="SceneWidget" name="visualWidget" native="true">
-         <property name="font">
-          <font>
-           <family>Alibaba PuHuiTi 3.0</family>
-           <pointsize>11</pointsize>
-           <italic>false</italic>
-           <bold>false</bold>
-          </font>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="6">
         <spacer name="horizontalSpacer_4">
          <property name="orientation">
@@ -781,6 +769,23 @@ QPushButton:pressed, QPushButton:checked {
          <property name="text">
           <string>Random</string>
          </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="9">
+        <widget class="QStackedWidget" name="stackedWidget">
+         <property name="font">
+          <font>
+           <family>Alibaba PuHuiTi 3.0</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="SceneWidget" name="visualWidget" native="true"/>
+         <widget class="QWidget" name="plotWidget"/>
         </widget>
        </item>
       </layout>
