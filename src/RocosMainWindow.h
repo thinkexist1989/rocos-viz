@@ -9,7 +9,7 @@
 
 #include <ConnectDialog.h> //机器人控制链接
 #include <ScriptDialog.h>  //LUA脚本对话框
-#include <PlotDialog.h>    //曲线绘制对话框
+#include <PlotWidget.h>    //曲线绘制对话框
 #include <AboutDialog.h>  // 关于对话框
 #include <ModelLoaderDialog.h> // 模型加载对话框
 
@@ -95,7 +95,6 @@ private:
 
     ConnectDialog* connectDlg = Q_NULLPTR;
     ScriptDialog*  scriptDlg  = Q_NULLPTR;
-    PlotDialog*    plotDlg    = Q_NULLPTR;
     AboutDialog*   aboutDlg   = Q_NULLPTR;
     ModelLoaderDialog* modelLoaderDlg = Q_NULLPTR;
 

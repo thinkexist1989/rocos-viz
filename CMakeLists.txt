@@ -190,7 +190,7 @@ set(SRC_FILES
         src/CartesianPositionWidget.cpp
         src/ConnectDialog.cpp
         src/ScriptDialog.cpp
-        src/PlotDialog.cpp
+        src/PlotWidget.cpp
         src/AboutDialog.cpp
         src/SplashScreen.cpp
         src/ModelLoaderDialog.cpp
@@ -206,7 +206,7 @@ set(HRD_FILES
         src/CartesianPositionWidget.h
         src/ConnectDialog.h
         src/ScriptDialog.h
-        src/PlotDialog.h
+        src/PlotWidget.h
         src/AboutDialog.h
         src/SplashScreen.h
         src/ModelLoaderDialog.h
@@ -217,7 +217,7 @@ set(UI_FILES
         src/CartesianPositionWidget.ui
         src/ConnectDialog.ui
         src/ScriptDialog.ui
-        src/PlotDialog.ui
+        src/PlotWidget.ui
         src/AboutDialog.ui
         src/ModelLoaderDialog.ui
         )

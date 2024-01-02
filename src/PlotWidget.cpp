@@ -1,12 +1,12 @@
-#include "PlotDialog.h"
-#include "ui_PlotDialog.h"
+#include "PlotWidget.h"
+#include "ui_PlotWidget.h"
 #include <QDebug>
 #include <QtMath>
 #include <QFileDialog>
 
-PlotDialog::PlotDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::PlotDialog)
+PlotWidget::PlotWidget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::PlotWidget)
 
 {
     ui->setupUi(this);
@@ -26,12 +26,12 @@ PlotDialog::PlotDialog(QWidget *parent) :
 
 }
 
-PlotDialog::~PlotDialog()
+PlotWidget::~PlotWidget()
 {
     delete ui;
 }
 
-void PlotDialog::init_joint_space()
+void PlotWidget::init_joint_space()
 {
     /****** 显示曲线按钮文字更改 *******/
     ui->dispCheck1->setText(tr("J1"));
@@ -46,7 +46,7 @@ void PlotDialog::init_joint_space()
 
 }
 
-void PlotDialog::init_cartesian_space()
+void PlotWidget::init_cartesian_space()
 {
     /****** 显示曲线按钮文字更改 *******/
     ui->dispCheck1->setText(tr("X"));
@@ -60,12 +60,12 @@ void PlotDialog::init_cartesian_space()
 
 }
 
-void PlotDialog::update_charts()
+void PlotWidget::update_charts()
 {
 
 }
 
-void PlotDialog::on_recordButton_clicked()
+void PlotWidget::on_recordButton_clicked()
 {
     if(isRecording) { //正在记录，要停止
         ui->recordButton->setText(tr("Start Recording"));
@@ -97,7 +97,7 @@ void PlotDialog::on_recordButton_clicked()
     isRecording = !isRecording;
 }
 
-void PlotDialog::on_typeComboBox_currentIndexChanged(int index)
+void PlotWidget::on_typeComboBox_currentIndexChanged(int index)
 {
     if(index == 0) {
         init_joint_space(); // 关节空间
@@ -107,32 +107,32 @@ void PlotDialog::on_typeComboBox_currentIndexChanged(int index)
     }
 }
 
-void PlotDialog::on_fitButton_clicked()
+void PlotWidget::on_fitButton_clicked()
 {
 
 }
 
-void PlotDialog::on_posCheck_stateChanged(int)
+void PlotWidget::on_posCheck_stateChanged(int)
 {
 
 }
 
-void PlotDialog::on_velCheck_stateChanged(int)
+void PlotWidget::on_velCheck_stateChanged(int)
 {
 
 }
 
-void PlotDialog::on_accCheck_stateChanged(int)
+void PlotWidget::on_accCheck_stateChanged(int)
 {
 
 }
 
-void PlotDialog::on_jerkCheck_stateChanged(int)
+void PlotWidget::on_jerkCheck_stateChanged(int)
 {
 
 }
 
-void PlotDialog::on_scaleCheck_stateChanged(int arg1)
+void PlotWidget::on_scaleCheck_stateChanged(int arg1)
 {
     if(arg1 > 0) { // checked值为2
         isAutoScale = true;
@@ -142,28 +142,28 @@ void PlotDialog::on_scaleCheck_stateChanged(int arg1)
     }
 }
 
-void PlotDialog::getJointPositions(QVector<double> &jntPos)
+void PlotWidget::getJointPositions(QVector<double> &jntPos)
 {
 
 }
 
-void PlotDialog::getCartPose(QVector<double> &pose)
+void PlotWidget::getCartPose(QVector<double> &pose)
 {
 
 }
 
-void PlotDialog::on_saveCheck_stateChanged(int arg1)
+void PlotWidget::on_saveCheck_stateChanged(int arg1)
 {
 
 }
 
-void PlotDialog::on_dirButton_clicked()
+void PlotWidget::on_dirButton_clicked()
 {
     saveDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "./", QFileDialog::ShowDirsOnly);
     ui->dataSavePathEdit->setText(saveDir);
 }
 
-void PlotDialog::on_exitButton_clicked()
+void PlotWidget::on_exitButton_clicked()
 {
     this->close();
 }

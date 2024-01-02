@@ -782,10 +782,10 @@ QPushButton:pressed, QPushButton:checked {
           </font>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
-         <widget class="SceneWidget" name="visualWidget" native="true"/>
-         <widget class="QWidget" name="plotWidget"/>
+         <widget class="SceneWidget" name="visualWidget"/>
+         <widget class="PlotWidget" name="plotWidget"/>
         </widget>
        </item>
       </layout>
@@ -1907,6 +1907,12 @@ QComboBox:drop-down {
    <class>CartesianPositionWidget</class>
    <extends>QWidget</extends>
    <header>CartesianPositionWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>PlotWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

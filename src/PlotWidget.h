@@ -1,7 +1,7 @@
 #ifndef PLOTDIALOG_H
 #define PLOTDIALOG_H
 
-#include <QDialog>
+#include <QWidget>
 #include <QMovie>
 #include <QTimer>
 #include <QTime>
@@ -15,16 +15,16 @@
 #define TYPE_CARTESIAN_SPACE 1
 
 namespace Ui {
-class PlotDialog;
+class PlotWidget;
 }
 
-class PlotDialog : public QDialog
+class PlotWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PlotDialog(QWidget *parent = nullptr);
-    ~PlotDialog();
+    explicit PlotWidget(QWidget *parent = nullptr);
+    ~PlotWidget();
 
     void init_joint_space();
     void init_cartesian_space();
@@ -59,7 +59,7 @@ private slots:
     void on_exitButton_clicked();
 
 private:
-    Ui::PlotDialog *ui;
+    Ui::PlotWidget *ui;
 
     QMovie* movie;
 

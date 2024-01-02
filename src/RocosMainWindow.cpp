@@ -43,7 +43,6 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 
     connectDlg = new ConnectDialog(this);
     scriptDlg = new ScriptDialog(this);
-    plotDlg = new PlotDialog(this);
     aboutDlg = new AboutDialog(this);
     modelLoaderDlg = new ModelLoaderDialog(this);
 
@@ -174,8 +173,8 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     connect(connectDlg, &ConnectDialog::showRobot, this, [=](QString path){
         ui->visualWidget->displayModelFromYaml(path.toStdString());
     });
-    connect(connectDlg, &ConnectDialog::jointPositions, plotDlg, &PlotDialog::getJointPositions); //关节位置更新
-    connect(connectDlg, &ConnectDialog::cartPose, plotDlg, &PlotDialog::getCartPose); //笛卡尔位置更新
+    connect(connectDlg, &ConnectDialog::jointPositions, ui->plotWidget, &PlotWidget::getJointPositions); //关节位置更新
+    connect(connectDlg, &ConnectDialog::cartPose, ui->plotWidget, &PlotWidget::getCartPose); //笛卡尔位置更新
 
 
     connect(connectDlg, &ConnectDialog::jointPositions, this, &RocosMainWindow::updateJointPos); //关节位置更新
@@ -296,7 +295,14 @@ void RocosMainWindow::on_actionScript_clicked() {
 }
 
 void RocosMainWindow::on_actionPlotter_clicked() {
-    plotDlg->show();
+//    plotDlg->show();
+    static int idx = 0;
+    if(idx == 0)
+        idx = 1;
+    else
+        idx = 0;
+
+    ui->stackedWidget->setCurrentIndex(idx);
 }
 
 void RocosMainWindow::on_actionAbout_clicked() {
