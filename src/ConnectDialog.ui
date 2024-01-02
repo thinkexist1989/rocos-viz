@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>405</width>
-    <height>76</height>
+    <width>479</width>
+    <height>107</height>
    </rect>
   </property>
   <property name="font">
    <font>
-    <family>Alibaba PuHuiTi 2.0</family>
+    <family>Alibaba PuHuiTi 3.0</family>
     <pointsize>11</pointsize>
     <italic>false</italic>
     <bold>false</bold>
@@ -22,7 +22,7 @@
    <string>Connect To Robot</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 11pt &quot;Alibaba PuHuiTi 2.0&quot;;
+   <string notr="true">font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
 background-color: rgb(255, 255, 255);</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">

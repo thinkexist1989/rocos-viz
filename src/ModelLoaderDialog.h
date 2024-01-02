@@ -24,6 +24,8 @@ private slots:
 
     void on_removeButton_clicked();
 
+    void on_exitButton_clicked();
+
 private:
     Ui::ModelLoaderDialog *ui;
     QString cfgFileName;

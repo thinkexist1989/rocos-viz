@@ -67,5 +67,13 @@
         <file>res/model.png</file>
         <file>res/file.png</file>
         <file>res/remove.png</file>
+        <file>res/model_loader_grey.png</file>
+        <file>res/model_loader_active.png</file>
+        <file>res/upload_app_white.png</file>
+        <file>res/upload_app_black.png</file>
+        <file>res/config_white.png</file>
+        <file>res/config_black.png</file>
+        <file>res/remove_white.png</file>
+        <file>res/remove_black.png</file>
     </qresource>
 </RCC>

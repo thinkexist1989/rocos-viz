@@ -6,167 +6,271 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>848</width>
-    <height>331</height>
+    <width>793</width>
+    <height>360</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Alibaba PuHuiTi 3.0</family>
+    <pointsize>11</pointsize>
+    <italic>false</italic>
+    <bold>false</bold>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Model Loader</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget {
-	font: 11pt &quot;Alibaba PuHuiTi 2.0&quot;;
+   <string notr="true">QDialog {
+	background-color: transparent;
+	border-radius: 60px;
+}
+
+QWidget {
+	font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
 }</string>
   </property>
   <property name="modal">
    <bool>false</bool>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
-    <widget class="QPushButton" name="uploadButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QWidget" name="widget" native="true">
      <property name="styleSheet">
-      <string notr="true">QPushButton {
-	background-image: url(:/res/file_upload.png);
-	background-origin: content;
-	background-position: top;
-	background-repeat: no-repeat;
+      <string notr="true">QWidget {
+	font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
+   background-color: white;
+   border-radius: 50px;
+}</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="1,5">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,10,1">
+        <property name="leftMargin">
+         <number>20</number>
+        </property>
+        <property name="rightMargin">
+         <number>20</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <family>Alibaba PuHuiTi 3.0</family>
+            <pointsize>15</pointsize>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel {
+    	font: 15pt &quot;Alibaba PuHuiTi 3.0&quot;;
+}</string>
+          </property>
+          <property name="text">
+           <string>Model Loader</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exitButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Alibaba PuHuiTi 3.0</family>
+            <pointsize>15</pointsize>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    font: 15pt &quot;Alibaba PuHuiTi 3.0&quot;;
 
-	text-align: bottom;
-	padding-bottom: 50px;
-	font-size: 25px;
-	color: #D8D8D8;
-
-	background-color: white;
-	border: 3px solid #D8D8D8;
-	border-radius: 25px;
-	color: #B3B4B5;
-	font-weight: bold;
+	border: 0px solid #D8D8D8;
+	border-radius: 40px;
+	color: #979797;
 }
 
 QPushButton:hover {
-	background-color: #D8D8D8;
-	color: #262626;
+	background-color: #496FFF;
+	color: white;
 }
 
 QPushButton:pressed, QPushButton:checked {
-	background-color: #DFF3FC;
-	color: #262626;
-	border: 0;
-}</string>
-     </property>
-     <property name="text">
-      <string>Upload from App</string>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>60</width>
-       <height>60</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="openFileButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-	background-image: url(:/res/file.png);
+	color: red;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>X</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QPushButton" name="uploadButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	background-image: url(:/res/upload_app_black.png) ;
 	background-origin: content;
-	background-position: top;
+	background-position: center;
 	background-repeat: no-repeat;
 
 	text-align: bottom;
-	padding-bottom: 50px;
-	font-size: 25px;
-	color: #D8D8D8;
+	padding-bottom: 30px;
+	font-size: 11pt;
 
-	background-color: white;
-	border: 3px solid #D8D8D8;
-	border-radius: 25px;
-	color: #B3B4B5;
-	font-weight: bold;
+	background-color: #F0F0F0;
+	border: 0px solid #D8D8D8;
+	border-radius: 40px;
+	color: #000000;
 }
 
 QPushButton:hover {
-	background-color: #D8D8D8;
-	color: #262626;
+	background-image: url(:/res/upload_app_white.png);
+	background-color: #496FFF;
+	color: white;
 }
 
 QPushButton:pressed, QPushButton:checked {
-	background-color: #DFF3FC;
-	color: #262626;
-	border: 0;
+	color: red;
 }</string>
-     </property>
-     <property name="text">
-      <string>Load Config File</string>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>60</width>
-       <height>60</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="removeButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-	background-image: url(:/res/remove.png);
+          </property>
+          <property name="text">
+           <string>Upload from App</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>60</width>
+            <height>60</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="openFileButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	background-image: url(:/res/config_black.png);
 	background-origin: content;
-	background-position: top;
+	background-position: center;
 	background-repeat: no-repeat;
 
 	text-align: bottom;
-	padding-bottom: 50px;
-	font-size: 25px;
-	color: #D8D8D8;
+	padding-bottom: 30px;
+	font-size: 11pt;
 
-	background-color: white;
-	border: 3px solid #D8D8D8;
-	border-radius: 25px;
-	color: #B3B4B5;
-	font-weight: bold;
+	background-color: #F0F0F0;
+	border: 0px solid #D8D8D8;
+	border-radius: 40px;
+	color: #000000;
 }
 
 QPushButton:hover {
-	background-color: #D8D8D8;
-	color: #262626;
+	background-image: url(:/res/config_white.png);
+	background-color: #496FFF;
+	color: white;
 }
 
 QPushButton:pressed, QPushButton:checked {
-	background-color: #DFF3FC;
-	color: #262626;
-	border: 0;
+	color: red;
 }</string>
-     </property>
-     <property name="text">
-      <string>Remove Model</string>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>60</width>
-       <height>60</height>
-      </size>
-     </property>
+          </property>
+          <property name="text">
+           <string>Load Config File</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>60</width>
+            <height>60</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="removeButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	background-image: url(:/res/remove_black.png);
+	background-origin: content;
+	background-position: center;
+	background-repeat: no-repeat;
+
+	text-align: bottom;
+	padding-bottom: 30px;
+	font-size: 11pt;
+
+	background-color: #F0F0F0;
+	border: 0px solid #D8D8D8;
+	border-radius: 40px;
+	color: #000000;
+}
+
+QPushButton:hover {
+	background-image: url(:/res/remove_white.png);
+	background-color: #496FFF;
+	color: white;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	color: red;
+}</string>
+          </property>
+          <property name="text">
+           <string>Remove Model</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>60</width>
+            <height>60</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

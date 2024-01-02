@@ -12,14 +12,17 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
+    <family>Alibaba PuHuiTi 3.0</family>
     <pointsize>11</pointsize>
-    <weight>75</weight>
-    <bold>true</bold>
+    <italic>false</italic>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
    <string>Scripts</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -46,10 +49,10 @@
       <widget class="QPushButton" name="runButton">
        <property name="font">
         <font>
-         <family>Arial</family>
+         <family>Alibaba PuHuiTi 3.0</family>
          <pointsize>11</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">

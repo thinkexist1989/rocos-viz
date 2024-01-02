@@ -8,6 +8,10 @@ ModelLoaderDialog::ModelLoaderDialog(QWidget *parent) :
     ui(new Ui::ModelLoaderDialog)
 {
     ui->setupUi(this);
+
+    setAttribute(Qt::WA_TranslucentBackground);
+//    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+    setWindowFlag(Qt::FramelessWindowHint);
 }
 
 ModelLoaderDialog::~ModelLoaderDialog()
@@ -45,5 +49,11 @@ void ModelLoaderDialog::on_removeButton_clicked()
 {
     emit removeRobotModel();
     this->reject();
+}
+
+
+void ModelLoaderDialog::on_exitButton_clicked()
+{
+    this->close();
 }
 

@@ -12,7 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Alibaba PuHuiTi 2.0</family>
+    <family>Alibaba PuHuiTi 3.0</family>
     <pointsize>11</pointsize>
     <italic>false</italic>
     <bold>false</bold>
@@ -23,7 +23,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
-	font: 11pt &quot;Alibaba PuHuiTi 2.0&quot;;
+	font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
 }
 
 QMainWindow {
@@ -33,7 +33,7 @@ QMainWindow {
   <widget class="QWidget" name="centralwidget">
    <property name="font">
     <font>
-     <family>Alibaba PuHuiTi 2.0</family>
+     <family>Alibaba PuHuiTi 3.0</family>
      <pointsize>11</pointsize>
      <italic>false</italic>
      <bold>false</bold>
@@ -102,7 +102,7 @@ QMainWindow {
      <widget class="QGroupBox" name="visualGroupBox">
       <property name="font">
        <font>
-        <family>Alibaba PuHuiTi 2.0</family>
+        <family>Alibaba PuHuiTi 3.0</family>
         <pointsize>11</pointsize>
         <italic>false</italic>
         <bold>false</bold>
@@ -122,7 +122,7 @@ QMainWindow {
         <widget class="SceneWidget" name="visualWidget" native="true">
          <property name="font">
           <font>
-           <family>Alibaba PuHuiTi 2.0</family>
+           <family>Alibaba PuHuiTi 3.0</family>
            <pointsize>11</pointsize>
            <italic>false</italic>
            <bold>false</bold>
@@ -398,7 +398,7 @@ QPushButton:pressed, QPushButton:checked {
             </property>
             <property name="icon">
              <iconset resource="../res.qrc">
-              <normaloff>:/res/model.png</normaloff>:/res/model.png</iconset>
+              <normaloff>:/res/model_loader_grey.png</normaloff>:/res/model_loader_grey.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1481,7 +1481,7 @@ QSlider::add-page:horizontal {
         </property>
         <property name="font">
          <font>
-          <family>Alibaba PuHuiTi 2.0</family>
+          <family>Alibaba PuHuiTi 3.0</family>
           <pointsize>11</pointsize>
           <italic>false</italic>
           <bold>true</bold>
