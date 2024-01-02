@@ -41,7 +41,8 @@ QWidget {
       <string notr="true">QWidget {
 	font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
    background-color: white;
-   border-radius: 50px;
+   border-radius: 30px;
+   border: 1px solid #496FFF;
 }</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout" stretch="1,5">
@@ -151,7 +152,7 @@ QPushButton:pressed, QPushButton:checked {
 
 	background-color: #F0F0F0;
 	border: 0px solid #D8D8D8;
-	border-radius: 40px;
+	border-radius: 20px;
 	color: #000000;
 }
 
@@ -197,7 +198,7 @@ QPushButton:pressed, QPushButton:checked {
 
 	background-color: #F0F0F0;
 	border: 0px solid #D8D8D8;
-	border-radius: 40px;
+	border-radius: 20px;
 	color: #000000;
 }
 
@@ -243,7 +244,7 @@ QPushButton:pressed, QPushButton:checked {
 
 	background-color: #F0F0F0;
 	border: 0px solid #D8D8D8;
-	border-radius: 40px;
+	border-radius: 20px;
 	color: #000000;
 }
 

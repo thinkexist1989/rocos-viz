@@ -295,18 +295,18 @@ void RocosMainWindow::on_meshCheckBox_toggled(bool checked) {
     }
 }
 
-void RocosMainWindow::on_actionScript_triggered() {
+void RocosMainWindow::on_actionScript_clicked() {
 //    isRobotEnabled = false;
 //    ui->actionEnabled->setIcon(QIcon(":/res/switchoff.png"));
 
     scriptDlg->show();
 }
 
-void RocosMainWindow::on_actionPlotter_triggered() {
+void RocosMainWindow::on_actionPlotter_clicked() {
     plotDlg->show();
 }
 
-void RocosMainWindow::on_actionAbout_triggered() {
+void RocosMainWindow::on_actionAbout_clicked() {
     aboutDlg->show();
 }
 
@@ -326,7 +326,7 @@ void RocosMainWindow::on_actionRightView_clicked() {
     ui->visualWidget->setYAxisView();
 }
 
-void RocosMainWindow::on_actionSetZero_triggered() {
+void RocosMainWindow::on_actionSetZero_clicked() {
     auto ret = QMessageBox::warning(this, tr("Zero Calibration"),
                                     tr("The current joint position will set as ZERO. Are you sure?"),
                                     QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Cancel);

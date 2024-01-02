@@ -118,17 +118,21 @@ QMainWindow {
        <string/>
       </property>
       <layout class="QGridLayout" name="gridLayout" rowstretch="1,30,1">
-       <item row="1" column="0" colspan="8">
-        <widget class="SceneWidget" name="visualWidget" native="true">
-         <property name="font">
-          <font>
-           <family>Alibaba PuHuiTi 3.0</family>
-           <pointsize>11</pointsize>
-           <italic>false</italic>
-           <bold>false</bold>
-          </font>
+       <item row="0" column="6">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
-        </widget>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>500</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item row="2" column="0">
         <widget class="QPushButton" name="axesCheckBox">
@@ -161,6 +165,16 @@ QPushButton:pressed, QPushButton:checked {
          </property>
          <property name="checkable">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="7" colspan="2">
+        <widget class="QLabel" name="timerLabel">
+         <property name="text">
+          <string>CURRENT TIME:2023.05.26 2:55 PM</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
@@ -232,72 +246,19 @@ QPushButton:pressed, QPushButton:checked {
          </property>
         </widget>
        </item>
-       <item row="2" column="3">
-        <widget class="QPushButton" name="TrajCheckBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-	background-color: white;
-	border: 0;
-	border-radius: 5px;
-	color: #B3B4B5;
-}
-
-QPushButton:hover {
-	background-color: #D8D8D8;
-	color: #262626;
-}
-
-QPushButton:pressed, QPushButton:checked {
-	background-color: #466AFF;
-	color: white;
-}</string>
-         </property>
-         <property name="text">
-          <string>Trajectory</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
+       <item row="1" column="0" colspan="9">
+        <widget class="SceneWidget" name="visualWidget" native="true">
+         <property name="font">
+          <font>
+           <family>Alibaba PuHuiTi 3.0</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
          </property>
         </widget>
        </item>
-       <item row="2" column="4">
-        <widget class="QPushButton" name="pushButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-	background-color: white;
-	border: 0;
-	border-radius: 5px;
-	color: #B3B4B5;
-}
-
-QPushButton:hover {
-	background-color: #D8D8D8;
-	color: #262626;
-}
-
-QPushButton:pressed, QPushButton:checked {
-	background-color: #466AFF;
-	color: white;
-}</string>
-         </property>
-         <property name="text">
-          <string>Random</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="5">
+       <item row="2" column="6">
         <spacer name="horizontalSpacer_4">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -309,16 +270,6 @@ QPushButton:pressed, QPushButton:checked {
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="2" column="6" colspan="2">
-        <widget class="QLabel" name="timerLabel">
-         <property name="text">
-          <string>CURRENT TIME:2023.05.26 2:55 PM</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
        </item>
        <item row="0" column="0" colspan="5">
         <widget class="QGroupBox" name="groupBox">
@@ -443,6 +394,22 @@ QPushButton:pressed, QPushButton:checked {
               <width>32</width>
               <height>32</height>
              </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
+            <property name="midLineWidth">
+             <number>0</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
            </widget>
           </item>
@@ -598,26 +565,99 @@ QPushButton:pressed, QPushButton:checked {
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="Line" name="line_2">
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="actionPlotter">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	background-color: white;
+	border: 0;
+	border-radius: 5px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../res.qrc">
+              <normaloff>:/res/plot.png</normaloff>:/res/plot.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="actionScript">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	background-color: white;
+	border: 0;
+	border-radius: 5px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../res.qrc">
+              <normaloff>:/res/script.png</normaloff>:/res/script.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
-       <item row="0" column="5">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>500</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="6" colspan="2">
+       <item row="0" column="7" colspan="2">
         <widget class="QLabel" name="runningLabel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -637,6 +677,71 @@ QPushButton:pressed, QPushButton:checked {
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QPushButton" name="TrajCheckBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	background-color: white;
+	border: 0;
+	border-radius: 5px;
+	color: #B3B4B5;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+	color: #262626;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
+	color: white;
+}</string>
+         </property>
+         <property name="text">
+          <string>Trajectory</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QPushButton" name="pushButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	background-color: white;
+	border: 0;
+	border-radius: 5px;
+	color: #B3B4B5;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+	color: #262626;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
+	color: white;
+}</string>
+         </property>
+         <property name="text">
+          <string>Random</string>
          </property>
         </widget>
        </item>
@@ -1694,33 +1799,6 @@ QComboBox:drop-down {
    </property>
    <property name="text">
     <string>Ground</string>
-   </property>
-  </action>
-  <action name="actionScript">
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/res/script.png</normaloff>:/res/script.png</iconset>
-   </property>
-   <property name="text">
-    <string>Script</string>
-   </property>
-   <property name="statusTip">
-    <string>Execute LUA scripts</string>
-   </property>
-  </action>
-  <action name="actionPlotter">
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/res/plot.png</normaloff>:/res/plot.png</iconset>
-   </property>
-   <property name="text">
-    <string>Plotter</string>
-   </property>
-   <property name="toolTip">
-    <string>Plot curve</string>
-   </property>
-   <property name="statusTip">
-    <string>Plot curves of robot</string>
    </property>
   </action>
   <action name="actionAbout">

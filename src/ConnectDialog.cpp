@@ -14,7 +14,8 @@ ConnectDialog::ConnectDialog(QWidget *parent) :
         ui(new Ui::ConnectDialog) {
     ui->setupUi(this);
 
-    this->setWindowFlag(Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground);
+    setWindowFlag(Qt::FramelessWindowHint);
 
     ui->ipAddressEdit->setText(ip_address_); //更新界面默认值
     ui->portEdit->setText(QString::number(port_)); //更新界面默认值
@@ -606,3 +607,9 @@ void ConnectDialog::moveL_FK(QVector<double> q) {
         std::cout << "Send command Error" << std::endl;
     }
 }
+
+void ConnectDialog::on_exitButton_clicked()
+{
+    this->close();
+}
+

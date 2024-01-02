@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>107</height>
+    <width>859</width>
+    <height>246</height>
    </rect>
   </property>
   <property name="font">
@@ -26,82 +26,226 @@
 background-color: rgb(255, 255, 255);</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>IP Address:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="2">
-    <widget class="QLineEdit" name="ipAddressEdit">
+   <item row="0" column="1">
+    <widget class="QWidget" name="widget" native="true">
      <property name="styleSheet">
-      <string notr="true">QLineEdit {
-	border-radius: 5px;
+      <string notr="true">.QWidget {
+	font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
+   background-color: white;
+   border-radius: 30px;
+   border: 1px solid #496FFF;
 }</string>
      </property>
-     <property name="text">
-      <string>192.168.0.194</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Port:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1" colspan="2">
-    <widget class="QLineEdit" name="portEdit">
-     <property name="styleSheet">
-      <string notr="true">QLineEdit {
-	border-radius: 5px;
+     <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,1,1,1" columnstretch="2,4,2">
+      <item row="0" column="0" colspan="3">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,10,1">
+        <property name="leftMargin">
+         <number>20</number>
+        </property>
+        <property name="rightMargin">
+         <number>20</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <family>Alibaba PuHuiTi 3.0</family>
+            <pointsize>15</pointsize>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel {
+    	font: 15pt &quot;Alibaba PuHuiTi 3.0&quot;;
 }</string>
-     </property>
-     <property name="text">
-      <string>30001</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3" rowspan="3">
-    <widget class="QPushButton" name="connectButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-	background-color: white;
-	border: 1px solid #D8D8D8;
-	border-radius: 5px;
-	color: #B3B4B5;
-	font-weight: bold;
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exitButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Alibaba PuHuiTi 3.0</family>
+            <pointsize>15</pointsize>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    font: 15pt &quot;Alibaba PuHuiTi 3.0&quot;;
+
+	border: 0px solid #D8D8D8;
+	border-radius: 40px;
+	color: #979797;
 }
 
 QPushButton:hover {
-	background-color: #D8D8D8;
-	color: #262626;
+	background-color: #496FFF;
+	color: white;
 }
 
 QPushButton:pressed, QPushButton:checked {
-	background-color: #DFF3FC;
-	color: #262626;
-	border: 0;
+	color: red;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>X</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>IP Address:</string>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="ipAddressEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
+	border-radius: 5px;
 }</string>
-     </property>
-     <property name="text">
-      <string>Connect</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="3">
-    <widget class="QCheckBox" name="autoLoadCheck">
-     <property name="text">
-      <string>Auto load robot model</string>
-     </property>
+        </property>
+        <property name="text">
+         <string>192.168.0.194</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2" rowspan="3">
+       <widget class="QPushButton" name="connectButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 20px;
+
+	background-color: #F0F0F0;
+	border: 0px solid #D8D8D8;
+	color: #000000;
+}
+
+QPushButton:hover {
+	background-color: #496FFF;
+	color: white;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	color: red;
+}</string>
+        </property>
+        <property name="text">
+         <string>Connect</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Port:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="portEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
+	border-radius: 5px;
+}</string>
+        </property>
+        <property name="text">
+         <string>30001</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>200</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="autoLoadCheck">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Auto load robot model</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

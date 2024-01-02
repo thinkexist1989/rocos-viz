@@ -328,6 +328,9 @@ signals:
 
     void showRobot(QString path);
 
+private slots:
+    void on_exitButton_clicked();
+
 private:
     bool event(QEvent *event) override; //!< 重写事件相应函数,窗口失去焦点自动关闭
 

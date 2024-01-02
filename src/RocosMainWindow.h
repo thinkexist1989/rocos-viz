@@ -46,11 +46,11 @@ private slots:
 
     void on_meshCheckBox_toggled(bool checked);
 
-    void on_actionScript_triggered();
+    void on_actionScript_clicked();
 
-    void on_actionPlotter_triggered();
+    void on_actionPlotter_clicked();
 
-    void on_actionAbout_triggered();
+    void on_actionAbout_clicked();
 
     void on_actionAxoView_clicked();
 
@@ -60,7 +60,7 @@ private slots:
 
     void on_actionRightView_clicked();
 
-    void on_actionSetZero_triggered();
+    void on_actionSetZero_clicked();
 
     void on_baseFrame_clicked(bool checked);
 
