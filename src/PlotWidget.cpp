@@ -25,12 +25,6 @@ PlotWidget::PlotWidget(QWidget *parent) :
     init_joint_space();
 
 
-    QStringList fontFamilies = QFontDatabase::families();
-    foreach (const QString& fontFamily, fontFamilies) {
-        qDebug() << fontFamily;
-    }
-
-
     QLineSeries *series = new QLineSeries;
     series->setName("Test");
 //    series->append(0, 6);
@@ -38,23 +32,22 @@ PlotWidget::PlotWidget(QWidget *parent) :
 //    series->append(3, 8);
 //    series->append(7, 3);
 //    series->append(10, 5);
-    for(int i = 0; i < 1000; i++) {
+    for(int i = 0; i < 100; i++) {
         series->append(i, QRandomGenerator::global()->generateDouble());
     }
 
     series->setUseOpenGL(true);
 
-    QFont titleFont("Alibaba PuHuiTi", 14, QFont::Bold);
-    QFont axisFont("Alibaba PuHuiTi", 11);
+    QFont titleFont("Alibaba PuHuiTi 3.0", 11, QFont::Bold);
+    QFont axisFont("Alibaba PuHuiTi 3.0", 11);
 
     QChart *chart = new QChart;
     chart->setTheme(QChart::ChartThemeLight);
     chart->addSeries(series);
 
-    chart->setTitleFont(titleFont);
-    chart->setTitle("My Chart Test");
+//    chart->setTitleFont(titleFont);
+//    chart->setTitle("My Chart Test");
 
-    chart->addSeries(series);
     chart->createDefaultAxes();
 
 //    QValueAxis *axisX = new QValueAxis;

@@ -75,5 +75,6 @@
         <file>res/config_black.png</file>
         <file>res/remove_white.png</file>
         <file>res/remove_black.png</file>
+        <file>icon.ico</file>
     </qresource>
 </RCC>

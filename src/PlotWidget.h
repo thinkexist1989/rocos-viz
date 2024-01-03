@@ -11,7 +11,7 @@
 #include <QFile>
 #include <QtCharts>
 
-#define TYPE_JOINT_SPACE 0
+#define TYPE_JOINT_SPACE 0 // Joint Space
 #define TYPE_CARTESIAN_SPACE 1
 
 namespace Ui {
