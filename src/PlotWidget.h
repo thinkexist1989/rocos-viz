@@ -56,8 +56,6 @@ private slots:
 
     void on_dirButton_clicked();
 
-    void on_exitButton_clicked();
-
 private:
     Ui::PlotWidget *ui;
 

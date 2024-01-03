@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QtMath>
 #include <QFileDialog>
+#include <QLegendMarker>
 
 PlotWidget::PlotWidget(QWidget *parent) :
     QWidget(parent),
@@ -22,6 +23,67 @@ PlotWidget::PlotWidget(QWidget *parent) :
     connect(movie, &QMovie::frameChanged, [=](){ui->recordButton->setIcon(movie->currentPixmap());});
 
     init_joint_space();
+
+
+    QStringList fontFamilies = QFontDatabase::families();
+    foreach (const QString& fontFamily, fontFamilies) {
+        qDebug() << fontFamily;
+    }
+
+
+    QLineSeries *series = new QLineSeries;
+    series->setName("Test");
+//    series->append(0, 6);
+//    series->append(2, 4);
+//    series->append(3, 8);
+//    series->append(7, 3);
+//    series->append(10, 5);
+    for(int i = 0; i < 1000; i++) {
+        series->append(i, QRandomGenerator::global()->generateDouble());
+    }
+
+    series->setUseOpenGL(true);
+
+    QFont titleFont("Alibaba PuHuiTi", 14, QFont::Bold);
+    QFont axisFont("Alibaba PuHuiTi", 11);
+
+    QChart *chart = new QChart;
+    chart->setTheme(QChart::ChartThemeLight);
+    chart->addSeries(series);
+
+    chart->setTitleFont(titleFont);
+    chart->setTitle("My Chart Test");
+
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+
+//    QValueAxis *axisX = new QValueAxis;
+//    axisX->setTitleText("X Axis");
+//    axisX->setLabelsFont(axisFont);
+//    chart->addAxis(axisX, Qt::AlignBottom);
+//    series->attachAxis(axisX);
+
+//    QValueAxis *axisY = new QValueAxis;
+//    axisY->setTitleText("Y Axis");
+//    axisY->setLabelsFont(axisFont);
+//    chart->addAxis(axisY, Qt::AlignLeft);
+//    series->attachAxis(axisY);
+
+    QLegend* legend = chart->legend();
+    legend->setVisible(true);
+    legend->setAlignment(Qt::AlignTop);
+
+    QList<QLegendMarker*> markers = legend->markers();
+    markers[0]->setLabel("Great!!");
+
+
+
+    ui->plotWidget->setRenderHint(QPainter::Antialiasing);
+//    ui->plotWidget->setDragMode(QChartView::ScrollHandDrag);
+//    ui->plotWidget->setInteractive(true);
+    ui->plotWidget->setRubberBand(QChartView::RectangleRubberBand);
+    ui->plotWidget->setChart(chart);
+
 
 
 }
@@ -161,10 +223,5 @@ void PlotWidget::on_dirButton_clicked()
 {
     saveDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "./", QFileDialog::ShowDirsOnly);
     ui->dataSavePathEdit->setText(saveDir);
-}
-
-void PlotWidget::on_exitButton_clicked()
-{
-    this->close();
 }
 

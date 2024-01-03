@@ -28,6 +28,23 @@
 	font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
    background-color: white;
    /*border-radius: 30px; */
+}
+
+QCheckBox::indicator {
+    background-color: white;
+	border: 2px solid gray;
+    border-radius: 5px;
+    width: 15px;
+    height: 15px;
+}
+
+QCheckBox::indicator:checked {
+	border: 2px solid gray;
+    background-color:  rgb(73, 111, 255);
+}
+
+QCheckBox::indicator:unchecked {
+   
 }</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,0" columnstretch="7,0">
@@ -140,6 +157,12 @@ QComboBox:drop-down {
            </property>
            <item row="0" column="0">
             <widget class="QCheckBox" name="posCheck">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Pos</string>
              </property>
@@ -152,6 +175,12 @@ QComboBox:drop-down {
             <widget class="QCheckBox" name="velCheck">
              <property name="enabled">
               <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
              <property name="text">
               <string>Vel</string>
@@ -166,6 +195,12 @@ QComboBox:drop-down {
              <property name="enabled">
               <bool>false</bool>
              </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Acc</string>
              </property>
@@ -178,6 +213,12 @@ QComboBox:drop-down {
             <widget class="QCheckBox" name="jerkCheck">
              <property name="enabled">
               <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
              <property name="text">
               <string>Jerk</string>
