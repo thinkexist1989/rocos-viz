@@ -25,7 +25,7 @@ option java_outer_classname = "RobotStateProto";
 
 import "header.proto"; // Standard header of gRPC
 import "geometry.proto";
-import "google/protobuf/wrappers.proto";
+// import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 
 // Proto containing the state of a joint on the robot. This can be used with the robot skeleton to

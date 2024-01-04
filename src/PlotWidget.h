@@ -31,20 +31,19 @@ public:
 
     void update_charts(); //配置显示什么曲线
 
+
+    QChartView* addPlot();
+    void removePlot(int index); // remove one plot (chartview)
+    void removePlot(QChartView* plot); // remove one plot (chartview)
+
+    void addSeries(QChartView* plot, QXYSeries* series); // add one curve
+    void addSeries(int index, QXYSeries* series); // add one curve
+
+
 public slots:
     void on_recordButton_clicked();
 
-    void on_typeComboBox_currentIndexChanged(int index);
-
     void on_fitButton_clicked();
-
-    void on_posCheck_stateChanged(int);
-
-    void on_velCheck_stateChanged(int);
-
-    void on_accCheck_stateChanged(int);
-
-    void on_jerkCheck_stateChanged(int);
 
     void on_scaleCheck_stateChanged(int arg1);
 
@@ -55,6 +54,11 @@ private slots:
     void on_saveCheck_stateChanged(int arg1);
 
     void on_dirButton_clicked();
+
+    void on_addChart_clicked();
+    void on_removeChart_clicked();
+
+    void handleMarkerClicked();
 
 private:
     Ui::PlotWidget *ui;
@@ -79,12 +83,19 @@ private:
     QFile* jntPosFile;
     QFile* cartPoseFile;
 
-    //TODO: Just for test
-    double t = 0;
+    bool is2x2 {true};
+
+    QList<QChartView* > plots; // chartviews, max 4
+
+    QFont titleFont {"Alibaba PuHuiTi 3.0", 11, QFont::Bold};
+    QFont labelFont {"Alibaba PuHuiTi 3.0", 11};
 
 
 //    void mousePressEvent(QMouseEvent* event) override;
 //    void mouseMoveEvent(QMouseEvent* event) override;
+    void mouseDoubleClickEvent(QMouseEvent* event) override;
+
+    void connectMarkers(QChart *chart);
 
 
 

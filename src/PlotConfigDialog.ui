@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlotConfigDialog</class>
+ <widget class="QDialog" name="PlotConfigDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>791</width>
+    <height>725</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>660</y>
+     <width>341</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QTreeWidget" name="treeWidget">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>20</y>
+     <width>201</width>
+     <height>391</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Data</string>
+    </property>
+   </column>
+   <item>
+    <property name="text">
+     <string>Joints</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Position</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Velocity</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Current</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Torque</string>
+     </property>
+    </item>
+   </item>
+   <item>
+    <property name="text">
+     <string>End Effector</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Pose</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>x</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>y</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>z</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>rx</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ry</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>rz</string>
+      </property>
+     </item>
+    </item>
+    <item>
+     <property name="text">
+      <string>Wrench</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>fx</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>fy</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>fz</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>mx</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>my</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>mz</string>
+      </property>
+     </item>
+    </item>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>170</y>
+     <width>101</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;-</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>240</y>
+     <width>101</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>X</string>
+   </property>
+  </widget>
+  <widget class="QTreeWidget" name="treeWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>30</y>
+     <width>201</width>
+     <height>391</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Charts</string>
+    </property>
+   </column>
+   <item>
+    <property name="text">
+     <string>Chart #1</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>110</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>PlotConfigDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>PlotConfigDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
