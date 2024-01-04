@@ -4,7 +4,6 @@
         <file>res/play.svg</file>
         <file>res/leftarrow.png</file>
         <file>res/rightarrow.png</file>
-        <file>res/about.ico</file>
         <file>res/coordinates.ico</file>
         <file>res/cube_solid.svg</file>
         <file>res/cube_wire.svg</file>
@@ -75,5 +74,6 @@
         <file>res/config_black.png</file>
         <file>res/remove_white.png</file>
         <file>res/remove_black.png</file>
+        <file>res/about.png</file>
     </qresource>
 </RCC>
