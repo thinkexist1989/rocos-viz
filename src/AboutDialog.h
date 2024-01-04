@@ -15,6 +15,9 @@ public:
     explicit AboutDialog(QWidget *parent = nullptr);
     ~AboutDialog();
 
+private slots:
+    void on_exitButton_clicked();
+
 private:
     Ui::AboutDialog *ui;
 };

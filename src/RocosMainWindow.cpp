@@ -45,6 +45,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     scriptDlg = new ScriptDialog(this);
     aboutDlg = new AboutDialog(this);
     modelLoaderDlg = new ModelLoaderDialog(this);
+    plotConfigDlg = new PlotConfigDialog(this);
 
     connect(modelLoaderDlg, &ModelLoaderDialog::getRobotModel, connectDlg, &ConnectDialog::getRobotModel);
     connect(modelLoaderDlg, &ModelLoaderDialog::removeRobotModel, this, [=](){ui->visualWidget->removeRobotModel();});
@@ -549,5 +550,11 @@ void RocosMainWindow::on_actionDispModel_clicked()
 
 
 
+}
+
+
+void RocosMainWindow::on_actionPlotterConfig_clicked()
+{
+    plotConfigDlg->exec();
 }
 

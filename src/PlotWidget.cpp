@@ -2,7 +2,6 @@
 #include "ui_PlotWidget.h"
 #include <QDebug>
 #include <QtMath>
-#include <QFileDialog>
 #include <QLegendMarker>
 
 PlotWidget::PlotWidget(QWidget *parent) :
@@ -14,6 +13,9 @@ PlotWidget::PlotWidget(QWidget *parent) :
 
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlag(Qt::FramelessWindowHint);
+
+//    ui->gridPlot->setColumnStretch(0, 1);
+//    ui->gridPlot->setRowStretch(0, 1);
 
     time = new QElapsedTimer;
 
@@ -122,50 +124,36 @@ void PlotWidget::update_charts()
 
 void PlotWidget::on_recordButton_clicked()
 {
-    if(isRecording) { //正在记录，要停止
-        ui->recordButton->setText(tr("Start Recording"));
-        movie->stop();
+//    if(isRecording) { //正在记录，要停止
+//        ui->recordButton->setText(tr("Start Recording"));
+//        movie->stop();
 
-        if(isSaveData) { // 是否保存数据
-            jntPosFile->close();
-            cartPoseFile->close();
-        }
-    }
-    else { //还未记录，要开始记录
-        ui->recordButton->setText(tr("Stop Recording"));
-        movie->start();
+//        if(isSaveData) { // 是否保存数据
+//            jntPosFile->close();
+//            cartPoseFile->close();
+//        }
+//    }
+//    else { //还未记录，要开始记录
+//        ui->recordButton->setText(tr("Stop Recording"));
+//        movie->start();
 
-        timestamp = QDateTime::currentDateTime().toString("yyyyMMddTHHmmss");
+//        timestamp = QDateTime::currentDateTime().toString("yyyyMMddTHHmmss");
 
-        if(isSaveData) { // 是否保存数据
-            jntPosFile = new QFile(saveDir + "/" + "jntPos" + timestamp + ".csv");
-            jntPosFile->open(QIODevice::ReadWrite | QIODevice::Text);
-            jntPosFile->write("t , j1 , j2 , j3 , j4 , j5 , j6 , j7\n");
+//        if(isSaveData) { // 是否保存数据
+//            jntPosFile = new QFile(saveDir + "/" + "jntPos" + timestamp + ".csv");
+//            jntPosFile->open(QIODevice::ReadWrite | QIODevice::Text);
+//            jntPosFile->write("t , j1 , j2 , j3 , j4 , j5 , j6 , j7\n");
 
-            cartPoseFile = new QFile(saveDir + "/" + "cartPose" + timestamp + ".csv");
-            cartPoseFile->open(QIODevice::ReadWrite | QIODevice::Text);
-            cartPoseFile->write("t , X , Y , Z , r , p , y\n");
-        }
+//            cartPoseFile = new QFile(saveDir + "/" + "cartPose" + timestamp + ".csv");
+//            cartPoseFile->open(QIODevice::ReadWrite | QIODevice::Text);
+//            cartPoseFile->write("t , X , Y , Z , r , p , y\n");
+//        }
 
-    }
+//    }
 
     isRecording = !isRecording;
 }
 
-void PlotWidget::on_fitButton_clicked()
-{
-
-}
-
-void PlotWidget::on_scaleCheck_stateChanged(int arg1)
-{
-    if(arg1 > 0) { // checked值为2
-        isAutoScale = true;
-    }
-    else{
-        isAutoScale = false;
-    }
-}
 
 void PlotWidget::getJointPositions(QVector<double> &jntPos)
 {
@@ -175,17 +163,6 @@ void PlotWidget::getJointPositions(QVector<double> &jntPos)
 void PlotWidget::getCartPose(QVector<double> &pose)
 {
 
-}
-
-void PlotWidget::on_saveCheck_stateChanged(int arg1)
-{
-
-}
-
-void PlotWidget::on_dirButton_clicked()
-{
-    saveDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "./", QFileDialog::ShowDirsOnly);
-    ui->dataSavePathEdit->setText(saveDir);
 }
 
 void PlotWidget::handleMarkerClicked()
@@ -276,6 +253,8 @@ QChartView *PlotWidget::addPlot()
     QChartView* plot = new QChartView;
     plots.append(plot);
     ui->gridPlot->addWidget(plot, (plots.size() - 1) / 2, (plots.size()-1) % 2);
+//    ui->gridPlot->setColumnStretch((plots.size()-1) % 2, 1);
+//    ui->gridPlot->setColumnStretch((plots.size() - 1) / 2, 1);
 
     plot->setRenderHint(QPainter::Antialiasing);
     plot->setChart(chart);

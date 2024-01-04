@@ -43,17 +43,10 @@ public:
 public slots:
     void on_recordButton_clicked();
 
-    void on_fitButton_clicked();
-
-    void on_scaleCheck_stateChanged(int arg1);
-
     void getJointPositions(QVector<double>& jntPos); // 处理关节位置
     void getCartPose(QVector<double>& pose); // 处理笛卡尔空间位置
 
 private slots:
-    void on_saveCheck_stateChanged(int arg1);
-
-    void on_dirButton_clicked();
 
     void on_addChart_clicked();
     void on_removeChart_clicked();
@@ -73,12 +66,10 @@ private:
     bool isSaveData = false;
     bool isAutoScale = true;
 
-    int dispType = TYPE_JOINT_SPACE;
 
     QElapsedTimer* time;
 
     QString timestamp; //用于记录保存文件时间的时间戳
-    QString saveDir = "./";  //保存记录文件的路径
 
     QFile* jntPosFile;
     QFile* cartPoseFile;

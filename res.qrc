@@ -75,5 +75,10 @@
         <file>res/remove_white.png</file>
         <file>res/remove_black.png</file>
         <file>res/about.png</file>
+        <file>res/left-arrow2.png</file>
+        <file>res/trash.png</file>
+        <file>res/plot_config.png</file>
+        <file>res/landau-big.png</file>
+        <file>rocos-viz.png</file>
     </qresource>
 </RCC>

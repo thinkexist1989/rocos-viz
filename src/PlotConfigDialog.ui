@@ -24,209 +24,578 @@
    border: 1px solid #496FFF;
 }</string>
      </property>
-     <widget class="QTreeWidget" name="treeWidget">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>20</y>
-        <width>261</width>
-        <height>611</height>
-       </rect>
-      </property>
-      <column>
-       <property name="text">
-        <string>Data</string>
-       </property>
-      </column>
-      <item>
-       <property name="text">
-        <string>Joints</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Position</string>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0" colspan="3">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,10,1">
+        <property name="leftMargin">
+         <number>20</number>
         </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Velocity</string>
+        <property name="rightMargin">
+         <number>20</number>
         </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Current</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Torque</string>
-        </property>
-       </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <family>Alibaba PuHuiTi 3.0</family>
+            <pointsize>15</pointsize>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel {
+    	font: 15pt &quot;Alibaba PuHuiTi 3.0&quot;;
+}</string>
+          </property>
+          <property name="text">
+           <string>Plotter Configuration</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exitButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Alibaba PuHuiTi 3.0</family>
+            <pointsize>15</pointsize>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    font: 15pt &quot;Alibaba PuHuiTi 3.0&quot;;
+
+	border: 0px solid #D8D8D8;
+	border-radius: 40px;
+	color: #979797;
+}
+
+QPushButton:hover {
+	background-color: #496FFF;
+	color: white;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	color: red;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>X</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
-      <item>
-       <property name="text">
-        <string>End Effector</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Pose</string>
+      <item row="1" column="0" rowspan="4">
+       <widget class="QTreeWidget" name="plotTree">
+        <property name="styleSheet">
+         <string notr="true">QTreeWidget {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #cdcdcd;
+}
+
+
+QHeaderView {
+    background-color: rgb(73, 111, 255);
+    color: white;
+    font-weight: bold;
+}
+
+QTreeWidget::item{
+    background: white;
+}
+
+QTreeView::item:hover {
+    background: rgb(69, 187, 217);
+}
+
+QTreeView::item:selected:active{
+    background: rgb(63, 147, 168);
+}
+
+QTreeView::item:selected:!active {
+    background: rgb(63, 147, 168);
+}
+</string>
         </property>
-        <item>
-         <property name="text">
-          <string>x</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>y</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>z</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>rx</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>ry</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>rz</string>
-         </property>
-        </item>
-       </item>
-       <item>
-        <property name="text">
-         <string>Wrench</string>
+        <property name="animated">
+         <bool>true</bool>
         </property>
+        <column>
+         <property name="text">
+          <string>Charts</string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
+         </property>
+        </column>
         <item>
          <property name="text">
-          <string>fx</string>
+          <string>Chart #1</string>
+         </property>
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>fy</string>
+          <string>Chart #2</string>
+         </property>
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>fz</string>
+          <string>Chart #3</string>
+         </property>
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>mx</string>
+          <string>Chart #4</string>
+         </property>
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
          </property>
         </item>
-        <item>
-         <property name="text">
-          <string>my</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>mz</string>
-         </property>
-        </item>
-       </item>
+       </widget>
       </item>
-     </widget>
-     <widget class="QPushButton" name="pushButton_3">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>220</y>
-        <width>101</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>+</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>340</y>
-        <width>101</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>X</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>280</y>
-        <width>101</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;-</string>
-      </property>
-     </widget>
-     <widget class="QTreeWidget" name="treeWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>281</width>
-        <height>591</height>
-       </rect>
-      </property>
-      <column>
-       <property name="text">
-        <string>Charts</string>
-       </property>
-      </column>
-      <item>
-       <property name="text">
-        <string>Chart #1</string>
-       </property>
+      <item row="1" column="1">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>247</height>
+         </size>
+        </property>
+       </spacer>
       </item>
-     </widget>
-     <widget class="QDialogButtonBox" name="buttonBox">
-      <property name="geometry">
-       <rect>
-        <x>400</x>
-        <y>640</y>
-        <width>341</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="standardButtons">
-       <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel</set>
-      </property>
-      <property name="centerButtons">
-       <bool>false</bool>
-      </property>
-     </widget>
+      <item row="1" column="2" rowspan="4">
+       <widget class="QTreeWidget" name="dataTree">
+        <property name="styleSheet">
+         <string notr="true">QTreeWidget {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #cdcdcd;
+}
+
+
+QHeaderView {
+    background-color:  #B3B4B5;
+    color: white;
+    font-weight: bold;
+}
+
+QTreeWidget::item{
+    background: white;
+}
+
+QTreeView::item:hover {
+    background: rgb(69, 187, 217);
+}
+
+QTreeView::item:selected:active{
+    background: rgb(63, 147, 168);
+}
+
+QTreeView::item:selected:!active {
+    background: rgb(63, 147, 168);
+}
+</string>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::MultiSelection</enum>
+        </property>
+        <property name="animated">
+         <bool>true</bool>
+        </property>
+        <column>
+         <property name="text">
+          <string>Data</string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
+         </property>
+        </column>
+        <item>
+         <property name="text">
+          <string>Joints</string>
+         </property>
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="background">
+          <brush brushstyle="NoBrush">
+           <color alpha="255">
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </brush>
+         </property>
+         <property name="flags">
+          <set>ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+         <item>
+          <property name="text">
+           <string>Position</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Velocity</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Current</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Torque</string>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>End Effector</string>
+         </property>
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="flags">
+          <set>ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+         <item>
+          <property name="text">
+           <string>Pose</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="flags">
+           <set>ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+          <item>
+           <property name="text">
+            <string>x</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>y</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>z</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>rx</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>ry</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>rz</string>
+           </property>
+          </item>
+         </item>
+         <item>
+          <property name="text">
+           <string>Wrench</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="flags">
+           <set>ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+          </property>
+          <item>
+           <property name="text">
+            <string>fx</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>fy</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>fz</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>mx</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>my</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>mz</string>
+           </property>
+          </item>
+         </item>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="addBtn">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../res.qrc">
+          <normaloff>:/res/left-arrow2.png</normaloff>:/res/left-arrow2.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="removeBtn">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../res.qrc">
+          <normaloff>:/res/trash.png</normaloff>:/res/trash.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>282</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="5" column="0" colspan="3">
+       <widget class="QGroupBox" name="groupBox">
+        <property name="styleSheet">
+         <string notr="true">QGroupBox {
+	font: 700 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
+	font-weight: bold;
+	background-color: white;
+	border-radius: 10px;
+}</string>
+        </property>
+        <property name="title">
+         <string>Save Data</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="18,2,2">
+         <property name="topMargin">
+          <number>30</number>
+         </property>
+         <item>
+          <widget class="QLineEdit" name="dataSavePathEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+	background-color: white;
+	border-radius: 5px;
+	border: 2px solid #cdcdcd;
+}</string>
+           </property>
+           <property name="text">
+            <string>./</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="dirButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="saveCheck">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QCheckBox {
+   font: 11pt &quot;Alibaba PuHuiTi 3.0&quot;;
+}
+
+QCheckBox::indicator {
+    background-color: white;
+	border: 2px solid gray;
+    border-radius: 5px;
+    width: 15px;
+    height: 15px;
+}
+
+QCheckBox::indicator:checked {
+	border: 2px solid gray;
+    background-color:  rgb(73, 111, 255);
+}
+
+QCheckBox::indicator:unchecked {
+   
+}</string>
+           </property>
+           <property name="text">
+            <string>Save</string>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>16</width>
+             <height>16</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="3">
+       <widget class="QDialogButtonBox" name="buttonBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QDialogButtonBox {
+   margin-right: 20px;
+}
+
+QPushButton {
+	background-color: white;
+	border: 1px solid #D8D8D8;
+	border-radius: 5px;
+	color: #B3B4B5;
+	font-weight: bold;
+   width: 100px;
+   height: 30px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+	color: #262626;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #DFF3FC;
+	color: #262626;
+	border: 0;
+}</string>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="standardButtons">
+         <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel</set>
+        </property>
+        <property name="centerButtons">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../res.qrc"/>
+ </resources>
  <connections/>
 </ui>

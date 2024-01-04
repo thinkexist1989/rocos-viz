@@ -12,6 +12,7 @@
 #include <PlotWidget.h>    //曲线绘制对话框
 #include <AboutDialog.h>  // 关于对话框
 #include <ModelLoaderDialog.h> // 模型加载对话框
+#include <PlotConfigDialog.h>  //
 
 #include <JointPositionWidget.h>
 #include <CartesianPositionWidget.h>
@@ -86,6 +87,8 @@ private slots:
 
     void on_actionDispModel_clicked();
 
+    void on_actionPlotterConfig_clicked();
+
 private:
     Ui::RocosMainWindow *ui;
 
@@ -97,6 +100,7 @@ private:
     ScriptDialog*  scriptDlg  = Q_NULLPTR;
     AboutDialog*   aboutDlg   = Q_NULLPTR;
     ModelLoaderDialog* modelLoaderDlg = Q_NULLPTR;
+    PlotConfigDialog* plotConfigDlg = Q_NULLPTR;
 
     QVector<JointPositionWidget*> jpWdgs;
     QVector<CartesianPositionWidget*> cpWdgs;

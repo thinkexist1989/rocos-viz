@@ -387,6 +387,9 @@ QPushButton:pressed, QPushButton:checked {
           </item>
           <item>
            <widget class="Line" name="line">
+            <property name="styleSheet">
+             <string notr="true">color: #cdcdcd;</string>
+            </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
             </property>
@@ -555,6 +558,9 @@ QPushButton:pressed, QPushButton:checked {
           </item>
           <item>
            <widget class="Line" name="line_2">
+            <property name="styleSheet">
+             <string notr="true">color: #cdcdcd;</string>
+            </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
             </property>
@@ -601,6 +607,60 @@ QPushButton:pressed, QPushButton:checked {
               <width>32</width>
               <height>32</height>
              </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="actionPlotterConfig">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	background-color: white;
+	border: 0;
+	border-radius: 5px;
+}
+
+QPushButton:hover {
+	background-color: #D8D8D8;
+}
+
+QPushButton:pressed, QPushButton:checked {
+	background-color: #466AFF;
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../res.qrc">
+              <normaloff>:/res/plot_config.png</normaloff>:/res/plot_config.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_3">
+            <property name="styleSheet">
+             <string notr="true">color: #cdcdcd;</string>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
            </widget>
           </item>
