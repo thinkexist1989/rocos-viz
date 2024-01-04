@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=ROCOS-Viz
+Exec="/opt/rocos/viz/bin/rocos-viz"
+Terminal=false
+Type=Application
+Icon=/opt/rocos/viz/icon.png
+StartupWMClass=ROCOS-Viz
+Comment=ROCOS Visualization
+Categories=Utility;

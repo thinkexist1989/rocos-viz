@@ -302,3 +302,11 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/rocos_viz-config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/rocos_viz-config-version.cmake"
         DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
         )
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/icon.png"
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
+        )
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/rocos-viz.desktop"
+        DESTINATION /usr/share/applications/
+        )
