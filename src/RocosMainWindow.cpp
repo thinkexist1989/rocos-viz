@@ -174,9 +174,6 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     connect(connectDlg, &ConnectDialog::showRobot, this, [=](QString path){
         ui->visualWidget->displayModelFromYaml(path.toStdString());
     });
-    connect(connectDlg, &ConnectDialog::jointPositions, ui->plotWidget, &PlotWidget::getJointPositions); //关节位置更新
-    connect(connectDlg, &ConnectDialog::cartPose, ui->plotWidget, &PlotWidget::getCartPose); //笛卡尔位置更新
-
 
     connect(connectDlg, &ConnectDialog::jointPositions, this, &RocosMainWindow::updateJointPos); //关节位置更新
     connect(connectDlg, &ConnectDialog::cartPose, this, &RocosMainWindow::updateCartPose); //笛卡尔位置更新
@@ -192,18 +189,17 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     /********connect信号处理********/
     connect(connectDlg, &ConnectDialog::connectState, this, [=](bool isConnected) {
         if (isConnected) {
-//            ui->actionConnected->setText(tr("Disconnect"));
             ui->actionConnected->setIcon(QIcon(":/res/connected.png"));
-//            _isConnected = true;
         } else {
-//            ui->actionConnected->setText(tr("Connect"));
             ui->actionConnected->setIcon(QIcon(":/res/disconnected.png"));
-//            _isConnected = false;
         }
     });
 
     /*********RobotState数据处理******/
     connect(connectDlg, &ConnectDialog::newStateComming, this, &RocosMainWindow::updateRobotState);
+
+    ui->plotWidget->setConnectPtr(connectDlg); //保存指针
+    connect(connectDlg, &ConnectDialog::newStateComming, ui->plotWidget, &PlotWidget::handleNewState);
 
     ///////////////////////////////////////////////////////
 
@@ -555,6 +551,8 @@ void RocosMainWindow::on_actionDispModel_clicked()
 
 void RocosMainWindow::on_actionPlotterConfig_clicked()
 {
-    plotConfigDlg->exec();
+    if(plotConfigDlg->exec() == QDialog::Accepted) {
+        ui->plotWidget->processTree(plotConfigDlg->tree);
+    }
 }
 

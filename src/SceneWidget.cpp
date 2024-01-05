@@ -20,6 +20,14 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 */
 
 #include <SceneWidget.h>
+#include <vtkPNGReader.h>
+#include <vtkImageCast.h>
+#include <vtkImageActor.h>
+
+#include <QFile>
+
+
+#define LANDAU_LOGO "landau-logo.png"
 
 /*
  * @brief 构造函数中，初始化各种默认组件
@@ -59,10 +67,6 @@ SceneWidget::SceneWidget(QWidget *parent) :
 //   axesActor->SetScale(0.5);
 //    axesActor->SetCylinderRadius(0.01);
 //    axesActor->SetConeRadius(0.05);
-
-
-
-
 
 
 
@@ -121,6 +125,28 @@ SceneWidget::SceneWidget(QWidget *parent) :
 
 //    renderer->AddActor(axesActor); // 画坐标系
     renderer->AddActor(groundActor); // 画平面
+
+    bool isExist = QFile::exists(LANDAU_LOGO);
+
+    if(isExist) {
+        vtkNew<vtkPNGReader> pngReader;
+        pngReader->SetFileName(LANDAU_LOGO);
+        pngReader->Update();
+
+        vtkNew<vtkImageCast> castFilter;
+        castFilter->SetInputConnection(pngReader->GetOutputPort());
+        castFilter->SetOutputScalarTypeToUnsignedChar();
+        castFilter->Update();
+
+        vtkNew<vtkImageActor> imageActor;
+        imageActor->SetInputData(castFilter->GetOutput());
+        imageActor->SetPosition(1.1,-1,0);
+        imageActor->RotateZ(90.0);
+        imageActor->SetScale(0.0005);
+
+        renderer->AddActor(imageActor);  // 画Logo
+    }
+
 
 //    renderer->AddActor(link0Actor); // link0
 //    renderer->AddActor(link1Actor); // link1

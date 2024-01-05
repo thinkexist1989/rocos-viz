@@ -19,95 +19,36 @@ PlotWidget::PlotWidget(QWidget *parent) :
 
     time = new QElapsedTimer;
 
-    //设置Record按钮动画
-    movie = new QMovie(this);
-    movie->setFileName("://res/skinny.gif");
-    connect(movie, &QMovie::frameChanged, [=](){ui->recordButton->setIcon(movie->currentPixmap());});
+    addPlot(); // Chart #1
+    addPlot(); // Chart #2
+    addPlot(); // Chart #3
+    addPlot(); // Chart #4
 
+    funcs.resize(4); // 初始化funcs外层，4个chart用. by think
 
-    addPlot();
+    //==========设置初始布局1x1==========
 
+//    plots[0]->setVisible(true);
+//    plots[1]->setVisible(false);
+//    plots[2]->setVisible(false);
+//    plots[3]->setVisible(false);
 
-    QList<QLineSeries* > data;
+//    is2x2 = false;
+    //===================================
 
-    for(int num = 0; num < 7; num++) {
-        QLineSeries *series = new QLineSeries;
-        series->setName("J"+ QString::number(num));
-        series->setUseOpenGL(true);
-        for(int i = 0; i < 100; i++) {
-            series->append(i, QRandomGenerator::global()->generateDouble());
-        }
+//    QList<QLineSeries* > data;
 
-        data.push_back(series);
-        addSeries(0, series);
-    }
+//    for(int num = 0; num < 7; num++) {
+//        QLineSeries *series = new QLineSeries;
+//        series->setName("J"+ QString::number(num));
+//        series->setUseOpenGL(true);
+//        for(int i = 0; i < 100; i++) {
+//            series->append(i, QRandomGenerator::global()->generateDouble());
+//        }
 
-
-
-
-
-//    QValueAxis *axisX = new QValueAxis;
-//    axisX->setTitleText("Time");
-//    axisX->setLabelsFont(axisFont);
-//    chart->addAxis(axisX, Qt::AlignBottom);
-//    series->attachAxis(axisX);
-
-//    QValueAxis *axisY = new QValueAxis;
-//    axisY->setTitleText("Value");
-//    axisY->setLabelsFont(axisFont);
-//    chart->addAxis(axisY, Qt::AlignLeft);
-//    series->attachAxis(axisY);
-
-//    QChart *jntPosChart = new QChart;
-//    jntPosChart->setTheme(QChart::ChartThemeLight);
-//    for(auto& series : data)
-//        jntPosChart->addSeries(series);
-
-//    jntPosChart->setTitleFont(titleFont);
-//    jntPosChart->setTitle("Joint Position");
-
-
-
-//    QChart *endPosChart = new QChart;
-//    endPosChart->setTheme(QChart::ChartThemeLight);
-////    endPosChart->addSeries(series);
-
-//    endPosChart->setTitleFont(titleFont);
-//    endPosChart->setTitle("End Position");
-
-//    endPosChart->createDefaultAxes();
-
-//    ui->endPosPlot->setRenderHint(QPainter::Antialiasing);
-//    ui->endPosPlot->setChart(endPosChart);
-
-
-
-//    QChart *jntTorChart = new QChart;
-//    jntTorChart->setTheme(QChart::ChartThemeLight);
-////    jntTorChart->addSeries(series);
-
-//    jntTorChart->setTitleFont(titleFont);
-//    jntTorChart->setTitle("Joint Torque");
-
-//    jntTorChart->createDefaultAxes();
-
-//    ui->jntTorPlot->setRenderHint(QPainter::Antialiasing);
-//    ui->jntTorPlot->setChart(jntTorChart);
-
-
-
-//    QChart *endTorChart = new QChart;
-//    endTorChart->setTheme(QChart::ChartThemeLight);
-////    endTorChart->addSeries(series);
-
-//    endTorChart->setTitleFont(titleFont);
-//    endTorChart->setTitle("End Torque");
-
-//    endTorChart->createDefaultAxes();
-
-//    ui->endTorPlot->setRenderHint(QPainter::Antialiasing);
-//    ui->endTorPlot->setChart(endTorChart);
-
+//        data.push_back(series);
+//        addSeries(0, series);
+//    }
 
 }
 
@@ -116,52 +57,114 @@ PlotWidget::~PlotWidget()
     delete ui;
 }
 
-
-void PlotWidget::update_charts()
+void PlotWidget::handleNewState()
 {
-
+    for(int i = 0; i < plots.size(); i++) {
+        for(int j = 0; j < plots[i]->chart()->series().size(); j++) {
+            auto series = plots[i]->chart()->series()[j];
+            ((QLineSeries*)series)->append(time->elapsed(), funcs[i][j]());
+            plots[i]->chart()->axisX()->setRange(time->elapsed() - 10000, time->elapsed());
+        }
+    }
 }
 
-void PlotWidget::on_recordButton_clicked()
+void PlotWidget::processTree(QTreeWidget *tree)
 {
-//    if(isRecording) { //正在记录，要停止
-//        ui->recordButton->setText(tr("Start Recording"));
-//        movie->stop();
+    for(int i = 0; i < tree->topLevelItemCount(); i++) {
+        auto chart = tree->topLevelItem(i);
+        int chart_num = chart->text(0).right(1).toInt() - 1;
+        clearSeries(chart_num); //清除之前的数据关联
 
-//        if(isSaveData) { // 是否保存数据
-//            jntPosFile->close();
-//            cartPoseFile->close();
-//        }
-//    }
-//    else { //还未记录，要开始记录
-//        ui->recordButton->setText(tr("Stop Recording"));
-//        movie->start();
+        if(chart->childCount() != 0) {  // 如果没有子节点，说明是一个chart. by think
+            qDebug() << "Chart #" << chart_num << " : ";
+            funcs[chart_num].clear(); // 清除之前关联的函数指针. by think
+            for(int j = 0; j < chart->childCount(); j++) {
+                qDebug() << "-- " << chart->child(j)->text(0);
 
-//        timestamp = QDateTime::currentDateTime().toString("yyyyMMddTHHmmss");
+                processItem(chart_num, chart->child(j)->text(0));
+            }
 
-//        if(isSaveData) { // 是否保存数据
-//            jntPosFile = new QFile(saveDir + "/" + "jntPos" + timestamp + ".csv");
-//            jntPosFile->open(QIODevice::ReadWrite | QIODevice::Text);
-//            jntPosFile->write("t , j1 , j2 , j3 , j4 , j5 , j6 , j7\n");
+        }
 
-//            cartPoseFile = new QFile(saveDir + "/" + "cartPose" + timestamp + ".csv");
-//            cartPoseFile->open(QIODevice::ReadWrite | QIODevice::Text);
-//            cartPoseFile->write("t , X , Y , Z , r , p , y\n");
-//        }
+    }
 
-//    }
-
-    isRecording = !isRecording;
+    time->restart();
 }
 
-
-void PlotWidget::getJointPositions(QVector<double> &jntPos)
+void PlotWidget::processItem(int chart_num, const QString &name)
 {
 
-}
+    if(name == "Position") {
+        qDebug() << "===> Joint Position";
+        for(int i = 0; i < connect_ptr_->getJointNum(); i++) {
+            auto* series = new QLineSeries; // 为每一个关节数据新增一个series. by think
+            series->setName("jnt pos "+ QString::number(i + 1)); // 关节从0开始，显示时候+1. by think
+            series->setUseOpenGL(true);
+            addSeries(chart_num, series);
+            funcs[chart_num].push_back([=](){return connect_ptr_->getJointPosition(i);}); // by think
+            plots[chart_num]->chart()->axisY()->setRange(-3.14, 3.14);
+        }
+    } else if(name == "Velocity") {
+        qDebug() << "===> Joint Velocity";
+        for(int i = 0; i < connect_ptr_->getJointNum(); i++) {
+            auto* series = new QLineSeries; // 为每一个关节数据新增一个series. by think
+            series->setName("jnt vel "+ QString::number(i + 1)); // 关节从0开始，显示时候+1. by think
+            series->setUseOpenGL(true);
+            addSeries(chart_num, series);
+            funcs[chart_num].push_back([=](){return connect_ptr_->getJointVelocity(i);}); // by think
+            plots[chart_num]->chart()->axisY()->setRange(-10, 10);
+        }
 
-void PlotWidget::getCartPose(QVector<double> &pose)
-{
+    } else if(name == "Current") {
+        qDebug() << "===> Joint Current";
+        for(int i = 0; i < connect_ptr_->getJointNum(); i++) {
+            auto* series = new QLineSeries; // 为每一个关节数据新增一个series. by think
+            series->setName("jnt cur "+ QString::number(i + 1)); // 关节从0开始，显示时候+1. by think
+            series->setUseOpenGL(true);
+            addSeries(chart_num, series);
+            funcs[chart_num].push_back([=](){return connect_ptr_->getJointTorque(i);}); // by think
+        }
+
+    } else if(name == "Torque") {
+        qDebug() << "===> Joint Torque";
+        for(int i = 0; i < connect_ptr_->getJointNum(); i++) {
+            auto* series = new QLineSeries; // 为每一个关节数据新增一个series. by think
+            series->setName("jnt tor "+ QString::number(i + 1)); // 关节从0开始，显示时候+1. by think
+            series->setUseOpenGL(true);
+            addSeries(chart_num, series);
+            funcs[chart_num].push_back([=](){return connect_ptr_->getJointLoad(i);}); // by think
+        }
+    } else if(name == "x") {
+
+    } else if (name == "y") {
+
+    } else if(name == "z") {
+
+    } else if(name == "rx") {
+
+    } else if(name == "ry") {
+
+    } else if(name == "rz") {
+
+    } else if(name == "fx") {
+
+    } else if(name == "fy") {
+
+    } else if(name == "fz") {
+
+    } else if(name == "mx") {
+
+    } else if(name == "my") {
+
+    } else if(name == "mz") {
+
+    } else {
+        qCritical() << "Item Name Wrong!";
+        return;
+    }
+
+
+
 
 }
 
@@ -237,6 +240,16 @@ void PlotWidget::connectMarkers(QChart *chart)
 
 }
 
+void PlotWidget::disconnectMarkers(QChart *chart)
+{
+    const auto& markers = chart->legend()->markers();
+    for (QLegendMarker *marker : markers) {
+        QObject::disconnect(marker, &QLegendMarker::clicked,
+                            this, &PlotWidget::handleMarkerClicked);
+    }
+}
+
+
 QChartView *PlotWidget::addPlot()
 {
     if(plots.size() >= 4) {
@@ -247,8 +260,23 @@ QChartView *PlotWidget::addPlot()
     QChart* chart = new QChart;
     chart->setTheme(QChart::ChartThemeBlueIcy);
     chart->setTitleFont(titleFont);
-    chart->setTitle("Chart " + QString::number(plots.size() + 1));
+    chart->setTitle("Chart #" + QString::number(plots.size() + 1));
 
+//    QValueAxis *axisX = new QValueAxis;
+//    QValueAxis *axisY = new QValueAxis;;
+//    axisX->setLabelsFont(labelFont);
+//    axisY->setLabelsFont(labelFont);
+//    chart->addAxis(axisX, Qt::AlignBottom);
+//    chart->addAxis(axisY, Qt::AlignLeft);
+
+//    QLineSeries *series = new QLineSeries;
+//    chart->addSeries(series);
+//    chart->createDefaultAxes();
+//    for(auto axis : chart->axes()) {
+//        axis->setLabelsFont(labelFont);
+//    }
+
+//    chartData.append(QList<QLineSeries* >() << series); // 相当于是插入一个空的QList<QLineSeries* >， 然后把series插入这个QList<QLineSeries* >. by think
 
     QChartView* plot = new QChartView;
     plots.append(plot);
@@ -268,19 +296,14 @@ void PlotWidget::addSeries(QChartView *plot, QXYSeries *series)
     plot->chart()->addSeries(series);
     connectMarkers(plot->chart());
     plot->chart()->createDefaultAxes();
+    for(auto axis : plot->chart()->axes()) {
+        axis->setLabelsFont(labelFont);
+    }
 }
 
 void PlotWidget::addSeries(int index, QXYSeries *series)
 {
     addSeries(plots[index], series);
-}
-
-void PlotWidget::on_addChart_clicked() {
-    addPlot();
-}
-
-void PlotWidget::on_removeChart_clicked() {
-    removePlot(plots.size() - 1);
 }
 
 void PlotWidget::removePlot(int index) {
@@ -292,3 +315,10 @@ void PlotWidget::removePlot(QChartView *plot) {
     plot->deleteLater();
 }
 
+void PlotWidget::clearSeries(QChartView *plot) {
+    plot->chart()->removeAllSeries(); // 清除所有的series. 注意，不能用 series().clear()，没有效果。 by think
+}
+
+void PlotWidget::clearSeries(int index) {
+    clearSeries(plots[index]);
+}

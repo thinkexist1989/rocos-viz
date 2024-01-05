@@ -7,7 +7,7 @@
 #include <fstream>
 #include <filesystem>
 
-const int POLLING_INTERVAL_MS = 100; // 轮询间隔 100ms
+const int POLLING_INTERVAL_MS = 20; // 轮询间隔 100ms
 
 ConnectDialog::ConnectDialog(QWidget *parent) :
         QDialog(parent),

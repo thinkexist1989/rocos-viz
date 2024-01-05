@@ -27,7 +27,8 @@ void MouseInteractorChooseActor::OnLeftButtonDown() {
     if(this->lastPickedActor_) {
         this->lastPickedProperty_->DeepCopy(this->lastPickedActor_->GetProperty());
         //高亮显示选中的actor
-        this->lastPickedActor_->GetProperty()->SetColor(colors->GetColor3d("blue_violet").GetData());
+//        this->lastPickedActor_->GetProperty()->SetColor(colors->GetColor3d("blue_violet").GetData());
+        this->lastPickedActor_->GetProperty()->SetColor(73/255.0, 111/255.0, 255/255.0);
         this->lastPickedActor_->GetProperty()->SetDiffuse(1.0);
         this->lastPickedActor_->GetProperty()->SetSpecular(0.0);
 //        this->lastPickedActor_->GetProperty()->EdgeVisibilityOn();

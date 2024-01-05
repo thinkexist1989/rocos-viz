@@ -185,6 +185,39 @@ public slots:
         return Frame{rot, pos};
     }
 
+    inline double getFlangeX() const {
+        return robot_state_response_.robot_state().flange_state().pose().position().x();
+    }
+    inline double getFlangeY() const {
+        return robot_state_response_.robot_state().flange_state().pose().position().y();
+    }
+    inline double getFlangeZ() const {
+        return robot_state_response_.robot_state().flange_state().pose().position().z();
+    }
+    inline double getFlangeRX() const {
+        double rx, ry, rz;
+        auto pose = robot_state_response_.robot_state().flange_state().pose();
+        Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
+                             pose.rotation().w()).GetRPY(rx, ry, rz);
+        return rx;
+    }
+
+    inline double getFlangeRY() const {
+        double rx, ry, rz;
+        auto pose = robot_state_response_.robot_state().flange_state().pose();
+        Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
+                             pose.rotation().w()).GetRPY(rx, ry, rz);
+        return ry;
+    }
+
+    inline double getFlangeRZ() const {
+        double rx, ry, rz;
+        auto pose = robot_state_response_.robot_state().flange_state().pose();
+        Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
+                             pose.rotation().w()).GetRPY(rx, ry, rz);
+        return rz;
+    }
+
     //! 获取Flange空间位姿
     inline Frame getToolPose() const {
         return Frame();

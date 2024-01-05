@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     // needed to ensure appropriate OpenGL context is created for VTK rendering.
     QSurfaceFormat::setDefaultFormat(QVTKOpenGLNativeWidget::defaultFormat());
 
-//    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
 
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/icon.png"));
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     }
 
     RocosMainWindow w;
-    w.setWindowFlags(Qt::FramelessWindowHint);
+    w.setWindowFlag(Qt::FramelessWindowHint);
     // w.show();
     w.showFullScreen();
 

@@ -2,6 +2,7 @@
 #define PLOTCONFIGDIALOG_H
 
 #include <QDialog>
+#include <QTreeWidget>
 
 namespace Ui {
 class PlotConfigDialog;
@@ -15,21 +16,20 @@ public:
     explicit PlotConfigDialog(QWidget *parent = nullptr);
     ~PlotConfigDialog();
 
+    QTreeWidget* tree;
+
 private slots:
     void on_exitButton_clicked();
-
-    void on_buttonBox_accepted();
-
-    void on_buttonBox_rejected();
-
 
     void on_addBtn_clicked();
 
     void on_removeBtn_clicked();
 
-    void on_toolButton_clicked();
-
     void on_dirButton_clicked();
+
+    void on_applyBtn_clicked();
+
+    void on_cancelBtn_clicked();
 
 private:
     Ui::PlotConfigDialog *ui;

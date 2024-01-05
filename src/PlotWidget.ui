@@ -47,86 +47,8 @@ QCheckBox::indicator:unchecked {
    
 }</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_4" rowstretch="15,1" columnstretch="6,1">
-      <item row="0" column="1" rowspan="2">
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,1">
-        <property name="spacing">
-         <number>10</number>
-        </property>
-        <item>
-         <widget class="QPushButton" name="addChart">
-          <property name="text">
-           <string>Add Chart</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="removeChart">
-          <property name="text">
-           <string>Remove Chart</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="recordButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 20px;
-
-	background-color: #F0F0F0;
-	border: 0px solid #D8D8D8;
-	color: #000000;
-}
-
-QPushButton:hover {
-	background-color: #496FFF;
-	color: white;
-}
-
-QPushButton:pressed, QPushButton:checked {
-	color: red;
-}</string>
-          </property>
-          <property name="text">
-           <string>Start Recording</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../res.qrc">
-            <normaloff>:/res/skinny.gif</normaloff>:/res/skinny.gif</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="0" rowspan="2">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
        <layout class="QGridLayout" name="gridPlot" rowstretch="0" columnstretch="0"/>
       </item>
      </layout>
@@ -134,8 +56,6 @@ QPushButton:pressed, QPushButton:checked {
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

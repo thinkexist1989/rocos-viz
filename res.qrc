@@ -80,5 +80,6 @@
         <file>res/plot_config.png</file>
         <file>res/landau-big.png</file>
         <file>rocos-viz.png</file>
+        <file>res/landau.png</file>
     </qresource>
 </RCC>
