@@ -61,7 +61,7 @@ QPushButton:pressed, QPushButton:checked {
       </size>
      </property>
      <property name="autoRepeat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="autoRepeatDelay">
       <number>10</number>
@@ -123,7 +123,7 @@ QPushButton:pressed, QPushButton:checked {
       </size>
      </property>
      <property name="autoRepeat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="autoRepeatDelay">
       <number>10</number>

@@ -55,6 +55,9 @@ private:
     int     id;
     QString name;
 
+    QTimer* timerPlus;
+    QTimer* timerMinus;
+
 
 
 };

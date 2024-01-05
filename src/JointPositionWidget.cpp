@@ -2,6 +2,7 @@
 #include "ui_JointPositionWidget.h"
 
 #include <iostream>
+#include <QTimer>
 
 JointPositionWidget::JointPositionWidget(QWidget *parent) :
     QWidget(parent),
@@ -11,6 +12,16 @@ JointPositionWidget::JointPositionWidget(QWidget *parent) :
 
     ui->jointPosValBar->setRange(-M_PI*r2d, M_PI*r2d);
     updateJointPosition(jointPos);
+
+    timerPlus = new QTimer(this);
+    connect(timerPlus, &QTimer::timeout, this, [=](){
+        emit jointPositionJogging(id, 1);
+    });
+
+    timerMinus = new QTimer(this);
+    connect(timerMinus, &QTimer::timeout, this, [=](){
+        emit jointPositionJogging(id, -1);
+    });
 
 }
 
@@ -51,7 +62,7 @@ void JointPositionWidget::on_jointPosValBar_valueChanged(double value)
 
 void JointPositionWidget::on_jointPosPlusButton_pressed()
 {
-    emit jointPositionJogging(id, 1);
+    timerPlus->start(20);
 }
 
 void JointPositionWidget::on_jointPosPlusButton_released()
@@ -59,11 +70,12 @@ void JointPositionWidget::on_jointPosPlusButton_released()
 // TODO: 使用了QButton的AutoRepeat，相当于每隔一段时间自动按下并抬起按键，导致released也一直调用，所以屏蔽了
 //    std::cout << "Joint Pos Minus Released" << std::endl;
 //    emit jointPositionJogging(id, 0);
+    timerPlus->stop();
 }
 
 void JointPositionWidget::on_jointPosMinusButton_pressed()
 {
-    emit jointPositionJogging(id, -1);
+    timerMinus->start(20);
 }
 
 
@@ -71,5 +83,5 @@ void JointPositionWidget::on_jointPosMinusButton_released()
 {
 // TODO: 使用了QButton的AutoRepeat，相当于每隔一段时间自动按下并抬起按键，导致released也一直调用，所以屏蔽了
 //    std::cout << "Joint Pos Minus Released" << std::endl;
-//    emit jointPositionJogging(id, 0);
+    timerMinus->stop();
 }
