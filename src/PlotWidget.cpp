@@ -112,7 +112,7 @@ void PlotWidget::processItem(int chart_num, const QString &name)
             series->setUseOpenGL(true);
             addSeries(chart_num, series);
             funcs[chart_num].push_back([=](){return connect_ptr_->getJointVelocity(i);}); // by think
-            plots[chart_num]->chart()->axisY()->setRange(-10, 10);
+            plots[chart_num]->chart()->axisY()->setRange(-3.14, 3.14);
         }
 
     } else if(name == "Current") {

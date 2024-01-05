@@ -264,6 +264,7 @@ vtk_module_autoinit(
 
 #configure_file(${MODELS} ./ COPYONLY)
 #file(COPY models/ DESTINATION bin/models/)
+file(COPY res/landau.png DESTINATION bin/)
 
 #############
 ## Install ##
@@ -312,4 +313,8 @@ install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/icon.png"
 
 install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/rocos-viz.desktop"
         DESTINATION /usr/share/applications/
+        )
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/res/landau.png"
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
         )

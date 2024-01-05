@@ -27,7 +27,7 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 #include <QFile>
 
 
-#define LANDAU_LOGO "landau-logo.png"
+#define LANDAU_LOGO "landau.png"
 
 /*
  * @brief 构造函数中，初始化各种默认组件
