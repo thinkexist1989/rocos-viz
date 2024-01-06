@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=ROCOS-Viz
 Exec="/opt/rocos/viz/bin/rocos-viz"
+Path=/opt/rocos/viz/bin
 Terminal=false
 Type=Application
 Icon=/opt/rocos/viz/icon.png
