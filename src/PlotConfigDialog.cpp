@@ -32,6 +32,10 @@ void PlotConfigDialog::on_addBtn_clicked()
     auto chart = ui->plotTree->currentItem();
     if(chart == nullptr)
         return;
+
+    if(chart->parent())
+        return;
+
 //    qDebug() << "Selected chart:" << chart->text(0);
 
     auto items = ui->dataTree->selectedItems();
