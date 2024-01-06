@@ -76,6 +76,9 @@ private:
     std::shared_ptr<Model> model;
 
     vtkSmartPointer<MouseInteractorChooseActor> style;
+
+    QTimer* updateTimer; // Use to Update renderer
+    bool updatePos {false};
 };
 
 #endif // SCENEWIDGET_H

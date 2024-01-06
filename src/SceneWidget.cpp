@@ -25,9 +25,11 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 #include <vtkImageActor.h>
 
 #include <QFile>
+#include <QTimer>
 
 
 #define LANDAU_LOGO "landau.png"
+#define FRAME_RATE 20 // 20 frames per second, 50ms
 
 /*
  * @brief 构造函数中，初始化各种默认组件
@@ -172,6 +174,19 @@ SceneWidget::SceneWidget(QWidget *parent) :
     style->SetDefaultRenderer(renderer);
     this->interactor()->SetInteractorStyle(style);
 
+
+    updateTimer = new QTimer(this);
+
+    connect(updateTimer, &QTimer::timeout, this, [=](){
+        if(updatePos) {
+            renderWindow->Render();
+            updatePos = false;
+        }
+    });
+    updateTimer->setInterval(1000.0 / FRAME_RATE);
+
+    updateTimer->start();
+
 }
 
 SceneWidget::~SceneWidget()
@@ -182,7 +197,9 @@ SceneWidget::~SceneWidget()
 void SceneWidget::setJointPos(std::vector<double>& jntRads)
 {
     model->updateModel(jntRads);
-    renderWindow->Render();
+
+    updatePos = true;
+//    renderWindow->Render();
 }
 
 void SceneWidget::setJointPos(QVector<double> &jntRads)
