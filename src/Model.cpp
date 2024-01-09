@@ -66,6 +66,20 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
         _linkGrp[j].setName(info[j]["name"].as<std::string>()); //set name
         _linkGrp[j].setOrder(info[j]["order"].as<int>()); // set order
 
+        if(info[j]["type"].as<std::string>() == "unknown") {
+            _linkGrp[j].setType(Link::UNKNOWN); // set type
+        } else if(info[j]["type"].as<std::string>() == "continuous") {
+            _linkGrp[j].setType(Link::CONTINUOUS); // set type
+        } else if(info[j]["type"].as<std::string>() == "prismatic") {
+            _linkGrp[j].setType(Link::PRISMATIC); // set type
+        } else if(info[j]["type"].as<std::string>() == "floating") {
+            _linkGrp[j].setType(Link::FLOATING); // set type
+        } else if(info[j]["type"].as<std::string>() == "planar") {
+            _linkGrp[j].setType(Link::PLANAR); // set type
+        } else if(info[j]["type"].as<std::string>() == "fixed") {
+            _linkGrp[j].setType(Link::FIXED); // set type
+        }
+
         if(info[j]["translate"].IsDefined())
             _linkGrp[j].setTranslate(info[j]["translate"][0].as<double>(),
                                  info[j]["translate"][1].as<double>(),
@@ -91,7 +105,9 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
                                      info[j]["rotateLink"][1].as<double>(),
                                       info[j]["rotateLink"][2].as<double>());
 
-        _linkGrp[j].setMesh(dir+'/'+info[j]["mesh"].as<std::string>());
+        if(info[j]["mesh"].IsDefined() && info[j]["mesh"].as<std::string>().find('.') != std::string::npos) {
+            _linkGrp[j].setMesh(dir+'/'+info[j]["mesh"].as<std::string>());
+        }
 
         std::cout << " - ";
         std::cout << "\t name: " << info[j]["name"] << std::endl;
@@ -124,14 +140,21 @@ void Model::removeRobotModel()
 
 void Model::updateModel(std::vector<double> &jointRads)
 {
-    if(jointRads.size() != static_cast<size_t>(_freedom)) {
-        std::cerr << "The joints number is not equal to the freedom." << std::endl;
-        return;
-    }
+//    if(jointRads.size() != static_cast<size_t>(_freedom)) {
+//        std::cerr << "The joints number is not equal to the freedom." << std::endl;
+//        return;
+//    }
 
-    _linkGrp[0].setAngle(0);
-    for(size_t i = 0; i < jointRads.size(); i++) {
-        _linkGrp[i + 1].setAngle(jointRads[i]);
+//    _linkGrp[0].setAngle(0);
+    int jnt_id = 0;
+    for(size_t i = 0; i < _linkGrp.size(); i++) {
+        if(_linkGrp[i].getType() == Link::UNKNOWN || _linkGrp[i].getType() == Link::FIXED){
+
+        } else if(_linkGrp[i].getType() == Link::CONTINUOUS || _linkGrp[i].getType() == Link::REVOLUTE) {
+            _linkGrp[i].setAngle(jointRads[jnt_id++]);
+        } else if(_linkGrp[i].getType() == Link::PRISMATIC) {
+
+        }
     }
 
     for(int i = 0; i <= _freedom; i++) {

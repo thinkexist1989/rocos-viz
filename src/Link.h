@@ -44,6 +44,8 @@ private:
 
     int _order = 0; //the _order of the link
 
+    int _type = 0; // joint type
+
     std::string _name; // the name of the link
 
     Eigen::Vector3d translate; //translate relative to previous joint
@@ -58,6 +60,17 @@ private:
     double angle = 0.0;        //关节转动角度（rad）
 
 public:
+    enum
+    {
+        UNKNOWN = 0,
+        REVOLUTE = 1,
+        CONTINUOUS = 2,
+        PRISMATIC = 3,
+        FLOATING = 4,
+        PLANAR = 5,
+        FIXED = 6
+    };
+
     vtkSmartPointer<vtkActor>     actor;    // 用于显示
 
     vtkSmartPointer<vtkAxesActor> axesActor; //关节坐标系
@@ -79,6 +92,9 @@ public:
 
     inline void setOrder(int order) {_order = order;}
     inline int getOrder() {return _order;}
+
+    inline void setType(int type) { _type = type;}
+    inline int getType() {return _type;}
 
     inline void setTranslate(double x, double y, double z) {translate << x, y, z; }
     inline Eigen::Vector3d getTranslate() {return translate;}
