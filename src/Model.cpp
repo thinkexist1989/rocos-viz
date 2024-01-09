@@ -56,9 +56,8 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
     assert(info.Type() == YAML::NodeType::Sequence);
 
     std::cout << "info size is: " << info.size() << std::endl;
-    std::cout << "robot freedom is " << info.size() - 1 << std::endl;
 
-    _freedom = info.size() - 1; // The robot's freedom
+    _freedom = info.size(); // The robot's freedom
     _linkGrp.resize(_freedom + 1); // the link is _freedom + 1, because of the base link4
 //    _jntRads.resize(_freedom + 1); // _jntRads[0] is always 0
 
@@ -68,6 +67,7 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
 
         if(info[j]["type"].as<std::string>() == "unknown") {
             _linkGrp[j].setType(Link::UNKNOWN); // set type
+            _freedom--;
         } else if(info[j]["type"].as<std::string>() == "continuous") {
             _linkGrp[j].setType(Link::CONTINUOUS); // set type
         } else if(info[j]["type"].as<std::string>() == "prismatic") {
@@ -78,6 +78,7 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
             _linkGrp[j].setType(Link::PLANAR); // set type
         } else if(info[j]["type"].as<std::string>() == "fixed") {
             _linkGrp[j].setType(Link::FIXED); // set type
+            _freedom--;
         }
 
         if(info[j]["translate"].IsDefined())
@@ -105,7 +106,7 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
                                      info[j]["rotateLink"][1].as<double>(),
                                       info[j]["rotateLink"][2].as<double>());
 
-        if(info[j]["mesh"].IsDefined() && info[j]["mesh"].as<std::string>().find('.') != std::string::npos) {
+        if(info[j]["mesh"].IsDefined() && !info[j]["mesh"].IsNull()) {
             _linkGrp[j].setMesh(dir+'/'+info[j]["mesh"].as<std::string>());
         }
 
@@ -122,6 +123,8 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
                       << ", " << info[j]["angleAxis"][2].as<int>() << std::endl;
 //        std::cout << "\t mesh: " << info[j]["mesh"]  << " size: " << _linkGrp[j].getPointCloudCount() << std::endl;
     }
+
+    std::cout << "robot freedom is " << _freedom << std::endl;
 
     std::vector<double> temp(_freedom, 0);
     updateModel(temp);
@@ -157,7 +160,7 @@ void Model::updateModel(std::vector<double> &jointRads)
         }
     }
 
-    for(int i = 0; i <= _freedom; i++) {
+    for(int i = 0; i < _linkGrp.size(); i++) {
         Eigen::Transform<double, 3, Eigen::Affine> t(Eigen::Scaling(1.0));
         for(int j = 0; j <= i; j++) {
             t *= Eigen::Translation3d(_linkGrp[j].getTranslate());
