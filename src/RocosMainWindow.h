@@ -89,6 +89,8 @@ private slots:
 
     void on_actionPlotterConfig_clicked();
 
+    void on_TrajCheckBox_toggled(bool checked);
+
 private:
     Ui::RocosMainWindow *ui;
 

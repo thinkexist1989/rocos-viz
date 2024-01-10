@@ -211,7 +211,7 @@ void ConnectDialog::getRobotState() {
 }
 
 void ConnectDialog::jointJogging(int id, int dir) {
-    std::cout << "Joint " << id << " is jogging..." << std::endl;
+//    std::cout << "Joint " << id << " is jogging..." << std::endl;
 
     RobotCommandRequest request;
     RobotCommandResponse response;

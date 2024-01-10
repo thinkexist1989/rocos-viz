@@ -126,8 +126,16 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
 
     std::cout << "robot freedom is " << _freedom << std::endl;
 
-    std::vector<double> temp(_freedom, 0);
-    updateModel(temp);
+    _points = vtkPoints::New();
+    _traj = vtkActor::New();
+
+    _traj->GetProperty()->SetColor(73/255.0, 111/255.0, 255/255.0);
+    _traj->GetProperty()->SetLineWidth(3);
+
+    _renderer->AddActor(_traj);
+
+//    std::vector<double> temp(_freedom, 0);
+//    updateModel(temp);
 
     std::cout << "Model is loaded." << std::endl;
     addToRenderer(_renderer); //add model to renderer and the model will be seen
@@ -139,6 +147,8 @@ void Model::removeRobotModel()
         _renderer->RemoveActor(_linkGrp[i].actor);
         _renderer->RemoveActor(_linkGrp[i].axesActor);
     }
+
+    _renderer->RemoveActor(_traj);
 }
 
 void Model::updateModel(std::vector<double> &jointRads)
@@ -160,20 +170,20 @@ void Model::updateModel(std::vector<double> &jointRads)
         }
     }
 
+    Eigen::Transform<double, 3, Eigen::Affine> t_j(Eigen::Scaling(1.0)); // joint transform
+    Eigen::Transform<double, 3, Eigen::Affine> t_l(Eigen::Scaling(1.0)); // link transform
+
     for(int i = 0; i < _linkGrp.size(); i++) {
-        Eigen::Transform<double, 3, Eigen::Affine> t(Eigen::Scaling(1.0));
-        for(int j = 0; j <= i; j++) {
-            t *= Eigen::Translation3d(_linkGrp[j].getTranslate());
 
-            t *= Eigen::AngleAxisd(_linkGrp[j].getRotate()[2], Eigen::Vector3d::UnitZ());
-            t *= Eigen::AngleAxisd(_linkGrp[j].getRotate()[1], Eigen::Vector3d::UnitY());
-            t *= Eigen::AngleAxisd(_linkGrp[j].getRotate()[0], Eigen::Vector3d::UnitX());
+        t_j *= Eigen::Translation3d(_linkGrp[i].getTranslate());
 
-            t *= Eigen::AngleAxisd( _linkGrp[j].getAngle(),_linkGrp[j].getAngleAxis());
+        t_j *= Eigen::AngleAxisd(_linkGrp[i].getRotate()[2], Eigen::Vector3d::UnitZ());
+        t_j *= Eigen::AngleAxisd(_linkGrp[i].getRotate()[1], Eigen::Vector3d::UnitY());
+        t_j *= Eigen::AngleAxisd(_linkGrp[i].getRotate()[0], Eigen::Vector3d::UnitX());
+        t_j *= Eigen::AngleAxisd( _linkGrp[i].getAngle(),_linkGrp[i].getAngleAxis());
 
-        }
 
-        auto mat = t.matrix();
+        auto mat = t_j.matrix();
         vtkNew<vtkMatrix4x4> vm;
         for(size_t i = 0; i < 4; i++) {
             for(size_t j = 0; j < 4; j++) {
@@ -181,18 +191,18 @@ void Model::updateModel(std::vector<double> &jointRads)
             }
         }
 
-        vtkNew<vtkTransform> vt1;
+        vtkNew<vtkTransform> vt1; //Axes Tranform
         vt1->SetMatrix(vm);
 
-        _linkGrp[i].setAxesActorTransform(vt1);
+        _linkGrp[i].setAxesActorTransform(vt1);  // Axes on Joint
 
-        t *= Eigen::Translation3d(_linkGrp[i].getTranslateLink());
+        t_l = t_j * Eigen::Translation3d(_linkGrp[i].getTranslateLink());
 
-        t *= Eigen::AngleAxisd(_linkGrp[i].getRotateLink()[2], Eigen::Vector3d::UnitZ());
-        t *= Eigen::AngleAxisd(_linkGrp[i].getRotateLink()[1], Eigen::Vector3d::UnitY());
-        t *= Eigen::AngleAxisd(_linkGrp[i].getRotateLink()[0], Eigen::Vector3d::UnitX());
+        t_l *= Eigen::AngleAxisd(_linkGrp[i].getRotateLink()[2], Eigen::Vector3d::UnitZ());
+        t_l *= Eigen::AngleAxisd(_linkGrp[i].getRotateLink()[1], Eigen::Vector3d::UnitY());
+        t_l *= Eigen::AngleAxisd(_linkGrp[i].getRotateLink()[0], Eigen::Vector3d::UnitX());
 
-        mat = t.matrix();
+        mat = t_l.matrix();
 
         for(size_t i = 0; i < 4; i++) {
             for(size_t j = 0; j < 4; j++) {
@@ -200,11 +210,53 @@ void Model::updateModel(std::vector<double> &jointRads)
             }
         }
 
-//        vt->Identity();
-        vtkNew<vtkTransform> vt2;
+        vtkNew<vtkTransform> vt2; //Link Transform
         vt2->SetMatrix(vm);
-        _linkGrp[i].setLinkActorTransform(vt2);
+        _linkGrp[i].setLinkActorTransform(vt2); //vt2 will change with actor
     }
+
+    //trajectory
+
+    if(_isTrajVisible) {
+        auto transform = _linkGrp[_linkGrp.size() - 1].axesActor->GetUserTransform();
+        // 获取变换矩阵
+        vtkSmartPointer<vtkMatrix4x4> matrix = transform->GetMatrix();
+
+        // 获取平移部分
+        double p[3];
+        if(_points->GetNumberOfPoints() > 0)
+            _points->GetPoint(_points->GetNumberOfPoints() - 1, p);
+        if(fabs(matrix->GetElement(0, 3) - p[0]) < 1e-6 && fabs(matrix->GetElement(1, 3) - p[1]) < 1e-6 && fabs(matrix->GetElement(1, 3) - p[1]) < 1e-6) {
+
+        } else {
+            _points->InsertNextPoint( matrix->GetElement(0, 3), matrix->GetElement(1, 3),  matrix->GetElement(2, 3));
+        }
+
+        if(_points->GetNumberOfPoints() > 500) {
+            deleteFirstPoint();
+        }
+        vtkNew<vtkPolyLine> _line;
+        _line->GetPointIds()->SetNumberOfIds(_points->GetNumberOfPoints());
+        for (vtkIdType i = 0; i < _points->GetNumberOfPoints(); i++) {
+            _line->GetPointIds()->SetId(i, i);
+        }
+
+        vtkNew<vtkCellArray> _lines;
+        _lines->InsertNextCell(_line);
+
+        vtkNew<vtkPolyData> polyData;
+        polyData->SetPoints(_points);
+        polyData->SetLines(_lines);
+
+        vtkNew<vtkPolyDataMapper> mapper;
+        mapper->SetInputData(polyData);
+
+        _traj->SetMapper(mapper);
+    }
+    else {
+        _points->SetNumberOfPoints(0);
+    }
+
 }
 
 void Model::addToRenderer(vtkRenderer *renderer)
@@ -213,6 +265,8 @@ void Model::addToRenderer(vtkRenderer *renderer)
         renderer->AddActor(_linkGrp[i].actor);
         renderer->AddActor(_linkGrp[i].axesActor);
     }
+
+//    renderer->AddActor(_traj);
 }
 
 void Model::setAxesVisiblity(bool isVisible)
@@ -227,6 +281,24 @@ void Model::setMeshVisibility(bool isMesh)
     for(size_t i = 0; i < _linkGrp.size(); i++) {
         _linkGrp[i].setMeshVisibility(isMesh);
     }
+}
+
+void Model::setTrajVisiblity(bool isVisible)
+{
+    _isTrajVisible = isVisible;
+}
+
+void Model::deleteFirstPoint()
+{
+    vtkSmartPointer<vtkPoints> newPoints = vtkSmartPointer<vtkPoints>::New();
+    for(vtkIdType i = 1; i < _points->GetNumberOfPoints(); i++)
+    {
+        double p[3];
+        _points->GetPoint(i,p);
+        newPoints->InsertNextPoint(p);
+    }
+
+    _points->ShallowCopy(newPoints);
 }
 
 void Model::setRenderer(vtkRenderer *renderer) {

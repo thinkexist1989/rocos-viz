@@ -27,6 +27,11 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 #include <yaml-cpp/yaml.h>
 
 #include <vtkRenderer.h>
+#include <vtkActor.h>    // actor
+#include <vtkPoints.h>   // store the points
+#include <vtkPolyLine.h> // line
+#include <vtkProperty.h>
+#include <vtkLinearTransform.h>
 
 class Model {
 
@@ -63,6 +68,10 @@ public:
 
     void setMeshVisibility(bool isMesh);            //是否以Mesh形式显示
 
+    void setTrajVisiblity(bool isVisible);
+
+    void deleteFirstPoint();
+
 private:
     /* data */
     std::vector<Link> _linkGrp; //Save all the links of manipulator
@@ -70,6 +79,11 @@ private:
     int _freedom = 0;
 
     vtkRenderer* _renderer = nullptr;
+
+    vtkSmartPointer<vtkActor> _traj; // Trajectory
+    vtkSmartPointer<vtkPoints> _points; // points on trajectory
+    bool _isTrajVisible {false};
+
 
 };
 

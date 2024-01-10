@@ -182,6 +182,9 @@ SceneWidget::SceneWidget(QWidget *parent) :
             renderWindow->Render();
             updatePos = false;
         }
+
+//        model->deleteFirstPoint(); // delete trajactory point
+
     });
     updateTimer->setInterval(1000.0 / FRAME_RATE);
 
@@ -227,7 +230,8 @@ void SceneWidget::setGroundVisibility(bool isVisible)
 
 void SceneWidget::setTrajVisibility(bool isVisible)
 {
-
+    model->setTrajVisiblity(isVisible);
+    renderWindow->Render();
 }
 
 void SceneWidget::setZAxisView()

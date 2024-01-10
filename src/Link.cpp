@@ -87,12 +87,15 @@ void Link::setLinkActorTransform(vtkTransform *t)
 
 void Link::setAxesVisibility(bool isVisible)
 {
-    if(isVisible) {
-        axesActor->SetVisibility(1);
-    }
-    else {
-        axesActor->SetVisibility(0);
-    }
+//    if(isVisible) {
+//        axesActor->SetVisibility(isVisible);
+//    }
+//    else {
+//        axesActor->SetVisibility(0);
+//    }
+
+    axesActor->SetVisibility(isVisible);
+
 
 }
 
@@ -104,6 +107,11 @@ void Link::setMeshVisibility(bool isMesh)
     else {
         actor->GetProperty()->SetRepresentationToSurface();
     }
+}
+
+void Link::setAxesLabelVisibility(bool isVisible)
+{
+        axesActor->SetAxisLabels(isAxesLableShow);
 }
 
 

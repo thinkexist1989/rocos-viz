@@ -277,11 +277,7 @@ void RocosMainWindow::on_actionConnected_clicked() {
 }
 
 void RocosMainWindow::on_meshCheckBox_toggled(bool checked) {
-    if (checked) {
-        this->ui->visualWidget->setMeshVisibility(true);
-    } else {
-        this->ui->visualWidget->setMeshVisibility(false);
-    }
+    this->ui->visualWidget->setMeshVisibility(true);
 }
 
 void RocosMainWindow::on_actionScript_clicked() {
@@ -554,5 +550,11 @@ void RocosMainWindow::on_actionPlotterConfig_clicked()
     if(plotConfigDlg->exec() == QDialog::Accepted) {
         ui->plotWidget->processTree(plotConfigDlg->tree);
     }
+}
+
+
+void RocosMainWindow::on_TrajCheckBox_toggled(bool checked)
+{
+    this->ui->visualWidget->setTrajVisibility(checked);
 }
 
