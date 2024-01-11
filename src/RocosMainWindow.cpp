@@ -318,35 +318,6 @@ void RocosMainWindow::on_actionRightView_clicked() {
     ui->visualWidget->setYAxisView();
 }
 
-void RocosMainWindow::on_baseFrame_clicked(bool checked) {
-    if (checked) {
-        currentFrame = FRAME_BASE;
-        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>BASE</font>)</body></html>"));
-    }
-}
-
-void RocosMainWindow::on_flangeFrame_clicked(bool checked) {
-    if (checked) {
-        currentFrame = FRAME_FLANGE;
-        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>FLANGE</font>)</body></html>"));
-    }
-}
-
-void RocosMainWindow::on_toolFrame_clicked(bool checked) {
-    if (checked) {
-        currentFrame = FRAME_TOOL;
-        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>TOOL</font>)</body></html>"));
-    }
-}
-
-void RocosMainWindow::on_objectFrame_clicked(bool checked) {
-    if (checked) {
-        currentFrame = FRAME_OBJECT;
-        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>OBJECT</font>)</body></html>"));
-    }
-}
-
-
 void RocosMainWindow::on_actionAngleRep_triggered() {
     isAngleDegree = !isAngleDegree;
 
@@ -540,8 +511,6 @@ void RocosMainWindow::on_actionDispModel_clicked()
         ui->visualWidget->displayModelFromYaml(modelLoaderDlg->getCfgFileName().toStdString());
     }
 
-
-
 }
 
 
@@ -556,5 +525,28 @@ void RocosMainWindow::on_actionPlotterConfig_clicked()
 void RocosMainWindow::on_TrajCheckBox_toggled(bool checked)
 {
     this->ui->visualWidget->setTrajVisibility(checked);
+}
+
+
+void RocosMainWindow::on_frameBox_currentIndexChanged(int index)
+{
+    switch(index) {
+    case 0:
+        currentFrame = FRAME_BASE;
+        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>BASE</font>)</body></html>"));
+        break;
+    case 1:
+        currentFrame = FRAME_FLANGE;
+        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>FLANGE</font>)</body></html>"));
+        break;
+    case 2:
+        currentFrame = FRAME_TOOL;
+        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>TOOL</font>)</body></html>"));
+        break;
+    case 3:
+        currentFrame = FRAME_OBJECT;
+        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>OBJECT</font>)</body></html>"));
+        break;
+    }
 }
 

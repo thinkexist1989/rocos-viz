@@ -61,14 +61,6 @@ private slots:
 
     void on_actionRightView_clicked();
 
-    void on_baseFrame_clicked(bool checked);
-
-    void on_flangeFrame_clicked(bool checked);
-
-    void on_toolFrame_clicked(bool checked);
-
-    void on_objectFrame_clicked(bool checked);
-
     void on_actionAngleRep_triggered();
 
     void on_actionPosRep_triggered();
@@ -90,6 +82,8 @@ private slots:
     void on_actionPlotterConfig_clicked();
 
     void on_TrajCheckBox_toggled(bool checked);
+
+    void on_frameBox_currentIndexChanged(int index);
 
 private:
     Ui::RocosMainWindow *ui;
