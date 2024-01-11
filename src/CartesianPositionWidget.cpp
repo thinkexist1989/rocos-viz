@@ -34,12 +34,13 @@ CartesianPositionWidget::~CartesianPositionWidget()
 
 void CartesianPositionWidget::updateDisp()
 {
-    this->ui->cartesianValBar->setFormat(tr(" %1 : %2").arg(name).arg(cartesianVal * r2d, 0 ,'f', 3));
+    this->ui->cartesianValBar->setFormat(tr("%1").arg(cartesianVal * r2d, 0 ,'f', 3));
 }
 
 void CartesianPositionWidget::setName(const QString &s)
 {
     name = s;
+    ui->name->setText(name);
     updateDisp();
 }
 

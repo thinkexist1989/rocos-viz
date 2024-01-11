@@ -56,7 +56,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
 
 
     /********Joint Position Widgets********/
-    ui->Joint1PosWidget->setName("#1 ");
+    ui->Joint1PosWidget->setName("J-1");
     ui->Joint1PosWidget->setId(0);
     connect(ui->Joint1PosWidget, &JointPositionWidget::jointPositionJogging,
             this, [=](int id, int dir) {
@@ -64,7 +64,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     jpWdgs.push_back(ui->Joint1PosWidget);
 
-    ui->Joint2PosWidget->setName("#2 ");
+    ui->Joint2PosWidget->setName("J-2");
     ui->Joint2PosWidget->setId(1);
     connect(ui->Joint2PosWidget, &JointPositionWidget::jointPositionJogging,
             this, [=](int id, int dir) {
@@ -72,7 +72,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     jpWdgs.push_back(ui->Joint2PosWidget);
 
-    ui->Joint3PosWidget->setName("#3 ");
+    ui->Joint3PosWidget->setName("J-3");
     ui->Joint3PosWidget->setId(2);
     connect(ui->Joint3PosWidget, &JointPositionWidget::jointPositionJogging,
             this, [=](int id, int dir) {
@@ -80,7 +80,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     jpWdgs.push_back(ui->Joint3PosWidget);
 
-    ui->Joint4PosWidget->setName("#4 ");
+    ui->Joint4PosWidget->setName("J-4");
     ui->Joint4PosWidget->setId(3);
     connect(ui->Joint4PosWidget, &JointPositionWidget::jointPositionJogging,
             this, [=](int id, int dir) {
@@ -88,7 +88,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     jpWdgs.push_back(ui->Joint4PosWidget);
 
-    ui->Joint5PosWidget->setName("#5 ");
+    ui->Joint5PosWidget->setName("J-5");
     ui->Joint5PosWidget->setId(4);
     connect(ui->Joint5PosWidget, &JointPositionWidget::jointPositionJogging,
             this, [=](int id, int dir) {
@@ -96,7 +96,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     jpWdgs.push_back(ui->Joint5PosWidget);
 
-    ui->Joint6PosWidget->setName("#6 ");
+    ui->Joint6PosWidget->setName("J-6");
     ui->Joint6PosWidget->setId(5);
     connect(ui->Joint6PosWidget, &JointPositionWidget::jointPositionJogging,
             this, [=](int id, int dir) {
@@ -104,7 +104,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     jpWdgs.push_back(ui->Joint6PosWidget);
 
-    ui->Joint7PosWidget->setName("#7 ");
+    ui->Joint7PosWidget->setName("J-7");
     ui->Joint7PosWidget->setId(6);
     connect(ui->Joint7PosWidget, &JointPositionWidget::jointPositionJogging,
             this, [=](int id, int dir) {
@@ -137,7 +137,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     cpWdgs.push_back(ui->cartesianZWidget);
 
-    ui->cartesianRollWidget->setName("r");
+    ui->cartesianRollWidget->setName("R");
     ui->cartesianRollWidget->setAngleRep(ANGLE_DEGREE);
     ui->cartesianRollWidget->setId(3);
     connect(ui->cartesianRollWidget, &CartesianPositionWidget::cartesianJogging,
@@ -146,7 +146,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     cpWdgs.push_back(ui->cartesianRollWidget);
 
-    ui->cartesianPitchWidget->setName("p");
+    ui->cartesianPitchWidget->setName("P");
     ui->cartesianPitchWidget->setAngleRep(ANGLE_DEGREE);
     ui->cartesianPitchWidget->setId(4);
     connect(ui->cartesianPitchWidget, &CartesianPositionWidget::cartesianJogging,
@@ -155,7 +155,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
             });
     cpWdgs.push_back(ui->cartesianPitchWidget);
 
-    ui->cartesianYawWidget->setName("y");
+    ui->cartesianYawWidget->setName("Y");
     ui->cartesianYawWidget->setAngleRep(ANGLE_DEGREE);
     ui->cartesianYawWidget->setId(5);
     connect(ui->cartesianYawWidget, &CartesianPositionWidget::cartesianJogging,
@@ -321,28 +321,28 @@ void RocosMainWindow::on_actionRightView_clicked() {
 void RocosMainWindow::on_baseFrame_clicked(bool checked) {
     if (checked) {
         currentFrame = FRAME_BASE;
-        ui->cartesianGroupBox->setTitle(tr("Cartesian Space (BASE)"));
+        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>BASE</font>)</body></html>"));
     }
 }
 
 void RocosMainWindow::on_flangeFrame_clicked(bool checked) {
     if (checked) {
         currentFrame = FRAME_FLANGE;
-        ui->cartesianGroupBox->setTitle(tr("Cartesian Space (FLANGE)"));
+        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>FLANGE</font>)</body></html>"));
     }
 }
 
 void RocosMainWindow::on_toolFrame_clicked(bool checked) {
     if (checked) {
         currentFrame = FRAME_TOOL;
-        ui->cartesianGroupBox->setTitle(tr("Cartesian Space (TOOL)"));
+        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>TOOL</font>)</body></html>"));
     }
 }
 
 void RocosMainWindow::on_objectFrame_clicked(bool checked) {
     if (checked) {
         currentFrame = FRAME_OBJECT;
-        ui->cartesianGroupBox->setTitle(tr("Cartesian Space (OBJECT)"));
+        ui->cartSpaceTitle->setText(tr("<html><body>CARTESIAN SPACE (<font color=#EF1288>OBJECT</font>)</body></html>"));
     }
 }
 

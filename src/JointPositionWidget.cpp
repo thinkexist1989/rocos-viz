@@ -33,7 +33,8 @@ JointPositionWidget::~JointPositionWidget()
 void JointPositionWidget::setName(const QString &s)
 {
     name = s;
-    this->ui->jointPosValBar->setName(name);
+//    this->ui->jointPosValBar->setName(name);
+    ui->name->setText(name);
 }
 
 void JointPositionWidget::setFactor(double f)

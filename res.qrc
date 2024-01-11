@@ -81,5 +81,7 @@
         <file>res/landau-big.png</file>
         <file>rocos-viz.png</file>
         <file>res/landau.png</file>
+        <file>res/arrow-up-bold.png</file>
+        <file>res/arrow-down-bold.png</file>
     </qresource>
 </RCC>
