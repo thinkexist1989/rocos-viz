@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=ROCOS-Viz
-Exec="/opt/rocos/viz/bin/rocos-viz"
+Exec=pkexec env DISPLAY=:1 XAUTHORITY=/run/user/1000/gdm/Xauthority /opt/rocos/viz/bin/rocos-viz
 Path=/opt/rocos/viz/bin
 Terminal=false
 Type=Application

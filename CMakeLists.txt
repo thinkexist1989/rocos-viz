@@ -46,7 +46,7 @@ set(${PROJECT_NAME}_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAM
 
 if (UNIX AND NOT APPLE)
     list(APPEND CMAKE_PREFIX_PATH "/opt/grpc")
-    list(APPEND CMAKE_PREFIX_PATH "/home/think/Qt/6.2.4/gcc_64")
+    list(APPEND CMAKE_PREFIX_PATH "/opt/Qt/6.2.4/gcc_64")
 endif ()
 
 include(cmake/common.cmake) # gRPC
