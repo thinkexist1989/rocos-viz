@@ -64,6 +64,8 @@ void JointPositionWidget::on_jointPosValBar_valueChanged(double value)
 void JointPositionWidget::on_jointPosPlusButton_pressed()
 {
     // timerPlus->start(20);
+    emit jointPositionJogging(id, 1);
+
 }
 
 void JointPositionWidget::on_jointPosPlusButton_released()
@@ -77,6 +79,8 @@ void JointPositionWidget::on_jointPosPlusButton_released()
 void JointPositionWidget::on_jointPosMinusButton_pressed()
 {
     // timerMinus->start(20);
+    emit jointPositionJogging(id, -1);
+
 }
 
 

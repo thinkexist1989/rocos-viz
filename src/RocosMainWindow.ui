@@ -992,17 +992,15 @@ padding-top: 5px;
 QComboBox QAbstractItemView {
   outline: 0;/*选中项外边框*/
   border: 0px;/* 整个下拉窗体的边框 */
-  border-radius: 10px;
+
   color: #B3B4B5;
   background-color: #FFFFFF; /* 整个下拉窗体的背景色 */
   selection-color: #ED0B84;/*下拉框选中项字体颜色*/
-  selection-background-color:transparent;/* 下拉框选中项的背景色 */
+  selection-background-color:#DFF3FC;/* 下拉框选中项的背景色 */
 }
 
 /* 选中每一项高度 */
 QComboBox QAbstractItemView::item {
-  background-color: transparent;
-  border-radius: 10px;
   height: 25px;
 }
 
@@ -1015,13 +1013,8 @@ QComboBox QAbstractItemView::item:selected {
 
 QComboBox:drop-down {
 	background: transparent;/* 下拉箭头的的背景色 */
-  	border-radius: 10px;
-	
 	image: url(:/res/round-down-arrow.png);
-
 	width:25px;
-
-	 
 }
 </string>
              </property>

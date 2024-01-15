@@ -48,7 +48,11 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     plotConfigDlg = new PlotConfigDialog(this);
 
     connect(modelLoaderDlg, &ModelLoaderDialog::getRobotModel, connectDlg, &ConnectDialog::getRobotModel);
-    connect(modelLoaderDlg, &ModelLoaderDialog::removeRobotModel, this, [=](){ui->visualWidget->removeRobotModel();});
+    connect(modelLoaderDlg, &ModelLoaderDialog::removeRobotModel, this, [=](){
+        ui->visualWidget->removeRobotModel();
+        ui->actionDispModel->setIcon(QIcon("://res/model_loader_grey.png"));
+
+    });
 
 
 
@@ -173,6 +177,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     /////////////////////////////////////////////////////
     connect(connectDlg, &ConnectDialog::showRobot, this, [=](QString path){
         ui->visualWidget->displayModelFromYaml(path.toStdString());
+        ui->actionDispModel->setIcon(QIcon("://res/model_loader_active.png"));
     });
 
     connect(connectDlg, &ConnectDialog::jointPositions, this, &RocosMainWindow::updateJointPos); //关节位置更新
@@ -509,6 +514,7 @@ void RocosMainWindow::on_actionDispModel_clicked()
 
     if(modelLoaderDlg->exec() == QDialog::Accepted) {
         ui->visualWidget->displayModelFromYaml(modelLoaderDlg->getCfgFileName().toStdString());
+        ui->actionDispModel->setIcon(QIcon("://res/model_loader_active.png"));
     }
 
 }

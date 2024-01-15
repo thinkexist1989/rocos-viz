@@ -60,6 +60,7 @@ void CartesianPositionWidget::on_cartesianPlusButton_pressed()
 {
 //    std::cout << "pressed+++" << std::endl;
     // timerPlus->start(10);
+    emit cartesianJogging(id, 1);
 }
 
 void CartesianPositionWidget::on_cartesianPlusButton_released()
@@ -73,6 +74,7 @@ void CartesianPositionWidget::on_cartesianMinusButton_pressed()
 {
 //    std::cout << "pressed---" << std::endl;
     // timerMinus->start(20);
+    emit cartesianJogging(id, -1);
 
 }
 
