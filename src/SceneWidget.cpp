@@ -115,10 +115,11 @@ SceneWidget::SceneWidget(QWidget *parent) :
 
 
     /* ======== 渲染器 ========== */
-//    renderer->GradientBackgroundOn(); //开启渐变
-//    renderer->SetBackground(colors->GetColor3d("LightSkyBlue").GetData());
-//    renderer->SetBackground2(colors->GetColor3d("MidnightBlue").GetData());
-      renderer->SetBackground(colors->GetColor3d("White").GetData());
+   renderer->GradientBackgroundOn(); //开启渐变
+
+   renderer->SetBackground(colors->GetColor3d("White").GetData()); // 下
+   renderer->SetBackground2(82.0/255,  121.0/255, 254.0/255); //#5279fe 上
+      // renderer->SetBackground(colors->GetColor3d("White").GetData());
     /* ======== 渲染窗口 ========== */
     renderWindow->AddRenderer(renderer);
     /* ======== 关联渲染窗口 ========== */

@@ -66,8 +66,8 @@ private:
 
     double r2d = 1000.0; // 由于笛卡尔位置只有rpy需要转换角度，默认为1000, 单位mm
 
-    QTimer* timerPlus;
-    QTimer* timerMinus;
+    // QTimer* timerPlus;
+    // QTimer* timerMinus;
 
     int     id;
 

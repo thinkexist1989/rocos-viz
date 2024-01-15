@@ -10,16 +10,16 @@ CartesianPositionWidget::CartesianPositionWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    timerPlus = new QTimer(this);
-    connect(timerPlus, &QTimer::timeout, this, [=](){
-        emit cartesianJogging(id, 1);
-    });
+    // timerPlus = new QTimer(this);
+    // connect(timerPlus, &QTimer::timeout, this, [=](){
+    //     emit cartesianJogging(id, 1);
+    // });
 
-    timerMinus = new QTimer(this);
-    connect(timerMinus, &QTimer::timeout, this, [=](){
-        emit cartesianJogging(id, -1);
+    // timerMinus = new QTimer(this);
+    // connect(timerMinus, &QTimer::timeout, this, [=](){
+    //     emit cartesianJogging(id, -1);
 
-    });
+    // });
 
     this->ui->cartesianValBar->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
@@ -59,26 +59,26 @@ void CartesianPositionWidget::updateVal(double val)
 void CartesianPositionWidget::on_cartesianPlusButton_pressed()
 {
 //    std::cout << "pressed+++" << std::endl;
-    timerPlus->start(10);
+    // timerPlus->start(10);
 }
 
 void CartesianPositionWidget::on_cartesianPlusButton_released()
 {
 //    std::cout << "release+++" << std::endl;
-    timerPlus->stop();
+    // timerPlus->stop();
 
 }
 
 void CartesianPositionWidget::on_cartesianMinusButton_pressed()
 {
 //    std::cout << "pressed---" << std::endl;
-    timerMinus->start(20);
+    // timerMinus->start(20);
 
 }
 
 void CartesianPositionWidget::on_cartesianMinusButton_released()
 {
 //    std::cout << "release---" << std::endl;
-    timerMinus->stop();
+    // timerMinus->stop();
 
 }

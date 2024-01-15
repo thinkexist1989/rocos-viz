@@ -960,13 +960,13 @@ padding-top: 5px;
           </property>
           <layout class="QGridLayout" name="gridLayout_6">
            <property name="leftMargin">
-            <number>20</number>
+            <number>0</number>
            </property>
            <property name="topMargin">
             <number>35</number>
            </property>
            <property name="rightMargin">
-            <number>20</number>
+            <number>0</number>
            </property>
            <item row="0" column="0">
             <widget class="QComboBox" name="workingModeBox">
@@ -984,20 +984,25 @@ padding-top: 5px;
 	border: 0;
 	font-weight: bold;
 	color: #B3B4B5;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 
 /* 下拉展开后，整个下拉窗体样式 */
 QComboBox QAbstractItemView {
   outline: 0;/*选中项外边框*/
-  border: 0;/* 整个下拉窗体的边框 */
-  color: #262626;
+  border: 0px;/* 整个下拉窗体的边框 */
+  border-radius: 10px;
+  color: #B3B4B5;
   background-color: #FFFFFF; /* 整个下拉窗体的背景色 */
   selection-color: #ED0B84;/*下拉框选中项字体颜色*/
-  selection-background-color:#DFF3FC;/* 下拉框选中项的背景色 */
+  selection-background-color:transparent;/* 下拉框选中项的背景色 */
 }
 
 /* 选中每一项高度 */
 QComboBox QAbstractItemView::item {
+  background-color: transparent;
+  border-radius: 10px;
   height: 25px;
 }
 
@@ -1008,9 +1013,14 @@ QComboBox QAbstractItemView::item:selected {
   font-weight: bold;
 }
 
-
 QComboBox:drop-down {
-	  background: transparent;/* 下拉箭头的的背景色 */
+	background: transparent;/* 下拉箭头的的背景色 */
+  	border-radius: 10px;
+	
+	image: url(:/res/round-down-arrow.png);
+
+	width:25px;
+
 	 
 }
 </string>
@@ -1235,13 +1245,13 @@ padding-top: 5px;
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
            <property name="leftMargin">
-            <number>20</number>
+            <number>0</number>
            </property>
            <property name="topMargin">
             <number>35</number>
            </property>
            <property name="rightMargin">
-            <number>20</number>
+            <number>0</number>
            </property>
            <item row="0" column="0">
             <widget class="QComboBox" name="frameBox">
@@ -1259,12 +1269,16 @@ padding-top: 5px;
 	border: 0;
    color: #ED0B84;
 	font-weight: bold;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 
 /* 下拉展开后，整个下拉窗体样式 */
 QComboBox QAbstractItemView {
   outline: 0;/*选中项外边框*/
   border: 0;/* 整个下拉窗体的边框 */
+  border-radius: 10px;
+
   color: #262626;
   background-color: #FFFFFF; /* 整个下拉窗体的背景色 */
   selection-color: #ED0B84;/*下拉框选中项字体颜色*/
@@ -1286,7 +1300,8 @@ QComboBox QAbstractItemView::item:selected {
 
 QComboBox:drop-down {
 	  background: transparent;/* 下拉箭头的的背景色 */
-	 
+	  image: url(:/res/round-down-arrow.png);
+	  width:25px;
 }
 </string>
              </property>
