@@ -21,7 +21,9 @@ syntax = "proto3";
 
 package rocos;
 
-option java_outer_classname = "RobotStateProto";
+option java_multiple_files = true;
+option java_package = "com.landau.rocos";
+option java_outer_classname = "RobotCommandProto";
 
 import "header.proto"; // Standard header of gRPC
 import "geometry.proto";
