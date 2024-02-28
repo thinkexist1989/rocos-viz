@@ -412,6 +412,13 @@ void RocosMainWindow::updateRobotState() {
 
     //更新Flange系
     auto flange = connectDlg->getFlangePose();
+    if(currentFrame ==FRAME_TOOL)
+        flange = connectDlg->getToolPose();
+    else if(currentFrame == FRAME_OBJECT)
+        flange = connectDlg->getObjectPose();
+
+
+
     cpWdgs[0]->updateVal(flange.p.x());
     cpWdgs[1]->updateVal(flange.p.y());
     cpWdgs[2]->updateVal(flange.p.z());

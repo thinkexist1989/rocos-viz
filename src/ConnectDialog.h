@@ -220,12 +220,22 @@ public slots:
 
     //! 获取Flange空间位姿
     inline Frame getToolPose() const {
-        return Frame();
+         auto pose = robot_state_response_.robot_state().tool_state().pose();
+        auto rot = Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
+                                        pose.rotation().w());
+        auto pos = Vector(pose.position().x(), pose.position().y(), pose.position().z());
+
+        return Frame{rot, pos};
     }
 
     //! 获取Object空间位姿
     inline Frame getObjectPose() const {
-        return Frame();
+         auto pose = robot_state_response_.robot_state().obj_state().pose();
+        auto rot = Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
+                                        pose.rotation().w());
+        auto pos = Vector(pose.position().x(), pose.position().y(), pose.position().z());
+
+        return Frame{rot, pos};
     }
 
     //! 获取Base空间位姿(倒置安装或者装载在移动平台上,Base会变化)
