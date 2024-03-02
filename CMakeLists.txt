@@ -106,6 +106,7 @@ add_library(protocol
         ${PROTO_HDRS}
         ${GRPC_SRCS}
         ${GRPC_HRDS}
+        
         )
 target_link_libraries(protocol
         PUBLIC
@@ -196,6 +197,7 @@ set(SRC_FILES
         src/ModelLoaderDialog.cpp
         src/PlotConfigDialog.cpp
         src/CalibrationDialog.cpp
+        src/Caldialog.cpp
         )
 set(HRD_FILES
         src/RocosMainWindow.h
@@ -214,6 +216,7 @@ set(HRD_FILES
         src/ModelLoaderDialog.h
         src/PlotConfigDialog.h
         src/CalibrationDialog.h
+        src/Caldialog.h
         )
 set(UI_FILES
         src/RocosMainWindow.ui
@@ -226,6 +229,7 @@ set(UI_FILES
         src/ModelLoaderDialog.ui
         src/PlotConfigDialog.ui
         src/CalibrationDialog.ui
+        src/Caldialog.ui
         )
 
 set(RC_FILES
@@ -238,8 +242,9 @@ add_executable(${PROJECT_NAME} WIN32
         ${RC_FILES}
         ${TS_FILES}
         app_win.rc
-        src/CalibrationDialog.h src/CalibrationDialog.cpp src/CalibrationDialog.ui
+
         )
+
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC

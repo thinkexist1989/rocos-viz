@@ -13,6 +13,8 @@
 #include <AboutDialog.h>  // 关于对话框
 #include <ModelLoaderDialog.h> // 模型加载对话框
 #include <PlotConfigDialog.h>  //
+#include<CalibrationDialog.h>
+
 
 #include <JointPositionWidget.h>
 #include <CartesianPositionWidget.h>
@@ -52,6 +54,7 @@ private slots:
     void on_actionPlotter_clicked();
 
     void on_actionAbout_clicked();
+    void on_actionCalibration_clicked();
 
     void on_actionAxoView_clicked();
 
@@ -95,6 +98,7 @@ private:
     ConnectDialog* connectDlg = Q_NULLPTR;
     ScriptDialog*  scriptDlg  = Q_NULLPTR;
     AboutDialog*   aboutDlg   = Q_NULLPTR;
+    CalibrationDialog* calDlg=Q_NULLPTR;
     ModelLoaderDialog* modelLoaderDlg = Q_NULLPTR;
     PlotConfigDialog* plotConfigDlg = Q_NULLPTR;
 

@@ -333,6 +333,7 @@ public slots:
     void moveJ_IK(QVector<double> pose);
 
     void moveL(QVector<double> pose);
+    void setpose(int id,QVector<double> pose);
     void moveL_FK(QVector<double> q);
 
 public:

@@ -6,7 +6,7 @@
 #include <Protocol.h> //通讯协议
 #include <fstream>
 #include <filesystem>
-
+#include<iostream>
 const int POLLING_INTERVAL_MS = 20; // 轮询间隔 100ms
 
 ConnectDialog::ConnectDialog(QWidget *parent) :
@@ -540,7 +540,33 @@ void ConnectDialog::moveL(QVector<double> pose) {
         std::cout << "Send command Error" << std::endl;
     }
 }
-
+void ConnectDialog::setpose(int id,QVector<double> pose)
+{
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+    auto set_pose_frame = request.mutable_command()->mutable_calibration_command()->mutable_set_pose_frame();
+    set_pose_frame->set_id(id);
+    set_pose_frame->mutable_pose()->mutable_position()->set_x(pose[0]);
+    set_pose_frame->mutable_pose()->mutable_position()->set_y(pose[1]);
+    set_pose_frame->mutable_pose()->mutable_position()->set_z(pose[2]);
+    auto rotation = Rotation::RPY(pose[3],pose[4],pose[5]);
+    double x,y,z,w;
+    rotation.GetQuaternion(x,y,z,w);
+    set_pose_frame->mutable_pose()->mutable_rotation()->set_x(x);
+    set_pose_frame->mutable_pose()->mutable_rotation()->set_y(y);
+    set_pose_frame->mutable_pose()->mutable_rotation()->set_z(z);
+    set_pose_frame->mutable_pose()->mutable_rotation()->set_w(w);
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    std::cout<<"1"<<std::endl;
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+    std::cout<<"1"<<std::endl;
+    if (status.ok()) {
+        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
+    }
+     std::cout<<"1"<<std::endl;
+}
 void ConnectDialog::moveJ_IK(QVector<double> pose) {
     RobotCommandRequest request;
     RobotCommandResponse response;
@@ -603,6 +629,7 @@ void ConnectDialog::moveL_FK(QVector<double> q) {
         std::cout << "Send command Error" << std::endl;
     }
 }
+
 
 void ConnectDialog::on_exitButton_clicked()
 {

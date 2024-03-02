@@ -44,6 +44,7 @@ RocosMainWindow::RocosMainWindow(QWidget *parent)
     connectDlg = new ConnectDialog(this);
     scriptDlg = new ScriptDialog(this);
     aboutDlg = new AboutDialog(this);
+    calDlg=new CalibrationDialog(connectDlg,this);
     modelLoaderDlg = new ModelLoaderDialog(this);
     plotConfigDlg = new PlotConfigDialog(this);
 
@@ -305,6 +306,9 @@ void RocosMainWindow::on_actionPlotter_clicked() {
 
 void RocosMainWindow::on_actionAbout_clicked() {
     aboutDlg->exec();
+}
+void RocosMainWindow::on_actionCalibration_clicked() {
+    calDlg->exec();
 }
 
 void RocosMainWindow::on_actionAxoView_clicked() {
