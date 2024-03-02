@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 
 #include <ConnectDialog.h> //机器人控制链接
+#include<Caldialog.h>
 #include <QLabel>
 #include <QTimer>
 #include <QTime>
@@ -31,11 +32,14 @@ private slots:
     void on_Setpose4Button_clicked();
     void on_Setpose5Button_clicked();
     void on_Setpose6Button_clicked();
-    // void on_SetToolButton_clicked();
-    // void on_CalButton_clicked();
+    void on_autoButton_clicked();
+    void on_manualButton_clicked();
+    void on_CalButton_clicked();
+
 private:
     Ui::CalibrationDialog *ui;
     ConnectDialog* connectDlg = Q_NULLPTR;
+    CalDialog* calDlg = Q_NULLPTR;
     double r2d = 180.0/M_PI; // 默认是角度显示
     double m2mm = 1000.0;    // 默认是mm显示
 };

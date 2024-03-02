@@ -237,6 +237,14 @@ public slots:
 
         return Frame{rot, pos};
     }
+    inline Frame getPoseOut() const {
+        auto pose = robot_state_response_.robot_state().pose_out().pose();
+        auto rot = Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
+                                        pose.rotation().w());
+        auto pos = Vector(pose.position().x(), pose.position().y(), pose.position().z());
+
+        return Frame{rot, pos};
+    }
 
     //! 获取Base空间位姿(倒置安装或者装载在移动平台上,Base会变化)
     inline Frame getBasePose() const {
@@ -334,6 +342,8 @@ public slots:
 
     void moveL(QVector<double> pose);
     void setpose(int id,QVector<double> pose);
+    void calibration();
+    void setToolPose();
     void moveL_FK(QVector<double> q);
 
 public:

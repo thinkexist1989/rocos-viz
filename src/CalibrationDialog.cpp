@@ -5,15 +5,15 @@
 #include <QMessageBox>
 #include <QDateTime>
 #include <QStyledItemDelegate>
-CalibrationDialog::CalibrationDialog( ConnectDialog* ConnectDlg , QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::CalibrationDialog)
+CalibrationDialog::CalibrationDialog(ConnectDialog *ConnectDlg, QWidget *parent) : QDialog(parent),
+                                                                                   ui(new Ui::CalibrationDialog)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlag(Qt::FramelessWindowHint);
 
     connectDlg = ConnectDlg;
+    calDlg=new CalDialog(connectDlg,this);
 }
 
 CalibrationDialog::~CalibrationDialog()
@@ -27,118 +27,229 @@ void CalibrationDialog::on_exitButton_clicked()
 
 void CalibrationDialog::on_Setpose1Button_clicked()
 {
-    // ui->pose1X->setText(QString::number(0));
-    // ui->pose1Y->setText(QString::number(0));
-    // ui->pose1Z->setText(QString::number(0));
-    // ui->pose1RX->setText(QString::number(0));
-    // ui->pose1RY->setText(QString::number(0));
-    // ui->pose1RZ->setText(QString::number(0));
+
     qDebug() << "set_pose_frame";
     QVector<double> pose;
-     int id=1;
-    pose.push_back(ui->spinBox1_x->value() / m2mm);
-    pose.push_back(ui->spinBox1_y->value() / m2mm);
-    pose.push_back(ui->spinBox1_z->value() / m2mm);
-    pose.push_back(ui->spinBox1_rx->value() / r2d);
-    pose.push_back(ui->spinBox1_ry->value() / r2d);
-    pose.push_back(ui->spinBox1_rz->value() / r2d);
-    std::cout<<"x: "<<ui->spinBox1_x->value()<<"y:"<<ui->spinBox1_y->value()<<"z:"<<ui->spinBox1_z->value()<<std::endl;
-    std::cout<<"rx: "<<ui->spinBox1_rx->value()<<"ry:"<<ui->spinBox1_ry->value()<<"rz:"<<ui->spinBox1_rz->value()<<std::endl;
+    int id = 1;
+    if (!ui->autoButton->isEnabled())
+    {
+        auto flange_ = connectDlg->getFlangePose();
+        pose.push_back(flange_.p.x());
+        pose.push_back(flange_.p.y());
+        pose.push_back(flange_.p.z());
+        double roll, pitch, yaw;
+        flange_.M.GetRPY(roll, pitch, yaw);
+        pose.push_back(roll);
+        pose.push_back(pitch);
+        pose.push_back(yaw);
+        ui->doubleSpinBox1_x->setValue(flange_.p.x() * m2mm);
+        ui->doubleSpinBox1_y->setValue(flange_.p.y() * m2mm);
+        ui->doubleSpinBox1_z->setValue(flange_.p.z() * m2mm);
+        ui->doubleSpinBox1_rx->setValue(roll * r2d);
+        ui->doubleSpinBox1_ry->setValue(pitch * r2d);
+        ui->doubleSpinBox1_rz->setValue(yaw * r2d);
+        // std::cout<<flange_.p.x()*m2mm<<","<<flange_.p.y()*m2mm<<","<<flange_.p.z()*m2mm<<","<<roll*r2d<<","<<pitch*r2d<<","<<yaw*r2d<<std::endl;
+    }
+    else
+    {
+        pose.push_back(ui->doubleSpinBox1_x->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox1_y->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox1_z->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox1_rx->value() / r2d);
+        pose.push_back(ui->doubleSpinBox1_ry->value() / r2d);
+        pose.push_back(ui->doubleSpinBox1_rz->value() / r2d);
+    }
 
-    std::cout<<"pose1 set"<<std::endl;
-
-    connectDlg->moveJ_IK(pose);
-   
+    connectDlg->setpose(id, pose);
 }
 void CalibrationDialog::on_Setpose2Button_clicked()
 {
-    
+
     qDebug() << "set_pose_frame";
     QVector<double> pose;
-    int id=2;
-    pose.push_back(ui->spinBox2_x->value() / m2mm);
-    pose.push_back(ui->spinBox2_y->value() / m2mm);
-    pose.push_back(ui->spinBox2_z->value() / m2mm);
-    pose.push_back(ui->spinBox2_rx->value() / r2d);
-    pose.push_back(ui->spinBox2_ry->value() / r2d);
-    pose.push_back(ui->spinBox2_rz->value() / r2d);
-    std::cout<<"x: "<<ui->spinBox2_x->value()<<"y:"<<ui->spinBox2_y->value()<<"z:"<<ui->spinBox2_z->value()<<std::endl;
-    std::cout<<"rx: "<<ui->spinBox2_rx->value()<<"ry:"<<ui->spinBox2_ry->value()<<"rz:"<<ui->spinBox2_rz->value()<<std::endl;
-
-    std::cout<<"pose2 set"<<std::endl;
-
-    connectDlg->setpose(id,pose);
-
+    int id = 2;
+    if (!ui->autoButton->isEnabled())
+    {
+        auto flange_ = connectDlg->getFlangePose();
+        pose.push_back(flange_.p.x());
+        pose.push_back(flange_.p.y());
+        pose.push_back(flange_.p.z());
+        double roll, pitch, yaw;
+        flange_.M.GetRPY(roll, pitch, yaw);
+        pose.push_back(roll);
+        pose.push_back(pitch);
+        pose.push_back(yaw);
+        ui->doubleSpinBox2_x->setValue(flange_.p.x() * m2mm);
+        ui->doubleSpinBox2_y->setValue(flange_.p.y() * m2mm);
+        ui->doubleSpinBox2_z->setValue(flange_.p.z() * m2mm);
+        ui->doubleSpinBox2_rx->setValue(roll * r2d);
+        ui->doubleSpinBox2_ry->setValue(pitch * r2d);
+        ui->doubleSpinBox2_rz->setValue(yaw * r2d);
+    }
+    else
+    {
+        pose.push_back(ui->doubleSpinBox2_x->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox2_y->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox2_z->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox2_rx->value() / r2d);
+        pose.push_back(ui->doubleSpinBox2_ry->value() / r2d);
+        pose.push_back(ui->doubleSpinBox2_rz->value() / r2d);
+    }
+    connectDlg->setpose(id, pose);
 }
 void CalibrationDialog::on_Setpose3Button_clicked()
 {
     qDebug() << "set_pose_frame";
     QVector<double> pose;
-    int id=3;
-    pose.push_back(ui->spinBox3_x->value() / m2mm);
-    pose.push_back(ui->spinBox3_y->value() / m2mm);
-    pose.push_back(ui->spinBox3_z->value() / m2mm);
-    pose.push_back(ui->spinBox3_rx->value() / r2d);
-    pose.push_back(ui->spinBox3_ry->value() / r2d);
-    pose.push_back(ui->spinBox3_rz->value() / r2d);
-    std::cout<<"x: "<<ui->spinBox3_x->value()<<"y:"<<ui->spinBox3_y->value()<<"z:"<<ui->spinBox3_z->value()<<std::endl;
-    std::cout<<"rx: "<<ui->spinBox3_rx->value()<<"ry:"<<ui->spinBox3_ry->value()<<"rz:"<<ui->spinBox3_rz->value()<<std::endl;
-
-    std::cout<<"pose3 set"<<std::endl;
-
-    connectDlg->setpose(id,pose);
+    int id = 3;
+    if (!ui->autoButton->isEnabled())
+    {
+        auto flange_ = connectDlg->getFlangePose();
+        pose.push_back(flange_.p.x());
+        pose.push_back(flange_.p.y());
+        pose.push_back(flange_.p.z());
+        double roll, pitch, yaw;
+        flange_.M.GetRPY(roll, pitch, yaw);
+        pose.push_back(roll);
+        pose.push_back(pitch);
+        pose.push_back(yaw);
+        ui->doubleSpinBox3_x->setValue(flange_.p.x() * m2mm);
+        ui->doubleSpinBox3_y->setValue(flange_.p.y() * m2mm);
+        ui->doubleSpinBox3_z->setValue(flange_.p.z() * m2mm);
+        ui->doubleSpinBox3_rx->setValue(roll * r2d);
+        ui->doubleSpinBox3_ry->setValue(pitch * r2d);
+        ui->doubleSpinBox3_rz->setValue(yaw * r2d);
+    }
+    else
+    {
+        pose.push_back(ui->doubleSpinBox3_x->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox3_y->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox3_z->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox3_rx->value() / r2d);
+        pose.push_back(ui->doubleSpinBox3_ry->value() / r2d);
+        pose.push_back(ui->doubleSpinBox3_rz->value() / r2d);
+    }
+    connectDlg->setpose(id, pose);
 }
 void CalibrationDialog::on_Setpose4Button_clicked()
 {
     qDebug() << "set_pose_frame";
     QVector<double> pose;
-    int id=4;
-    pose.push_back(ui->spinBox4_x->value() / m2mm);
-    pose.push_back(ui->spinBox4_y->value() / m2mm);
-    pose.push_back(ui->spinBox4_z->value() / m2mm);
-    pose.push_back(ui->spinBox4_rx->value() / r2d);
-    pose.push_back(ui->spinBox4_ry->value() / r2d);
-    pose.push_back(ui->spinBox4_rz->value() / r2d);
-    std::cout<<"x: "<<ui->spinBox4_x->value()<<"y:"<<ui->spinBox4_y->value()<<"z:"<<ui->spinBox4_z->value()<<std::endl;
-    std::cout<<"rx: "<<ui->spinBox4_rx->value()<<"ry:"<<ui->spinBox4_ry->value()<<"rz:"<<ui->spinBox4_rz->value()<<std::endl;
-
-    std::cout<<"pose4 set"<<std::endl;
-
-    connectDlg->setpose(id,pose);
+    int id = 4;
+    if (!ui->autoButton->isEnabled())
+    {
+        auto flange_ = connectDlg->getFlangePose();
+        pose.push_back(flange_.p.x());
+        pose.push_back(flange_.p.y());
+        pose.push_back(flange_.p.z());
+        double roll, pitch, yaw;
+        flange_.M.GetRPY(roll, pitch, yaw);
+        pose.push_back(roll);
+        pose.push_back(pitch);
+        pose.push_back(yaw);
+        ui->doubleSpinBox4_x->setValue(flange_.p.x() * m2mm);
+        ui->doubleSpinBox4_y->setValue(flange_.p.y() * m2mm);
+        ui->doubleSpinBox4_z->setValue(flange_.p.z() * m2mm);
+        ui->doubleSpinBox4_rx->setValue(roll * r2d);
+        ui->doubleSpinBox4_ry->setValue(pitch * r2d);
+        ui->doubleSpinBox4_rz->setValue(yaw * r2d);
+    }
+    else
+    {
+        pose.push_back(ui->doubleSpinBox4_x->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox4_y->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox4_z->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox4_rx->value() / r2d);
+        pose.push_back(ui->doubleSpinBox4_ry->value() / r2d);
+        pose.push_back(ui->doubleSpinBox4_rz->value() / r2d);
+    }
+    connectDlg->setpose(id, pose);
 }
 void CalibrationDialog::on_Setpose5Button_clicked()
 {
     qDebug() << "set_pose_frame";
     QVector<double> pose;
-    int id=5;
-    pose.push_back(ui->spinBox5_x->value() / m2mm);
-    pose.push_back(ui->spinBox5_y->value() / m2mm);
-    pose.push_back(ui->spinBox5_z->value() / m2mm);
-    pose.push_back(ui->spinBox5_rx->value() / r2d);
-    pose.push_back(ui->spinBox5_ry->value() / r2d);
-    pose.push_back(ui->spinBox5_rz->value() / r2d);
-    std::cout<<"x: "<<ui->spinBox5_x->value()<<"y:"<<ui->spinBox5_y->value()<<"z:"<<ui->spinBox5_z->value()<<std::endl;
-    std::cout<<"rx: "<<ui->spinBox5_rx->value()<<"ry:"<<ui->spinBox5_ry->value()<<"rz:"<<ui->spinBox5_rz->value()<<std::endl;
-
-    std::cout<<"pose5 set"<<std::endl;
-
-    connectDlg->setpose(id,pose);
+    int id = 5;
+    if (!ui->autoButton->isEnabled())
+    {
+        auto flange_ = connectDlg->getFlangePose();
+        pose.push_back(flange_.p.x());
+        pose.push_back(flange_.p.y());
+        pose.push_back(flange_.p.z());
+        double roll, pitch, yaw;
+        flange_.M.GetRPY(roll, pitch, yaw);
+        pose.push_back(roll);
+        pose.push_back(pitch);
+        pose.push_back(yaw);
+        ui->doubleSpinBox5_x->setValue(flange_.p.x() * m2mm);
+        ui->doubleSpinBox5_y->setValue(flange_.p.y() * m2mm);
+        ui->doubleSpinBox5_z->setValue(flange_.p.z() * m2mm);
+        ui->doubleSpinBox5_rx->setValue(roll * r2d);
+        ui->doubleSpinBox5_ry->setValue(pitch * r2d);
+        ui->doubleSpinBox5_rz->setValue(yaw * r2d);
+    }
+    else
+    {
+        pose.push_back(ui->doubleSpinBox5_x->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox5_y->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox5_z->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox5_rx->value() / r2d);
+        pose.push_back(ui->doubleSpinBox5_ry->value() / r2d);
+        pose.push_back(ui->doubleSpinBox5_rz->value() / r2d);
+    }
+    connectDlg->setpose(id, pose);
 }
 void CalibrationDialog::on_Setpose6Button_clicked()
 {
     qDebug() << "set_pose_frame";
     QVector<double> pose;
-    int id=6;
-    pose.push_back(ui->spinBox6_x->value() / m2mm);
-    pose.push_back(ui->spinBox6_y->value() / m2mm);
-    pose.push_back(ui->spinBox6_z->value() / m2mm);
-    pose.push_back(ui->spinBox6_rx->value() / r2d);
-    pose.push_back(ui->spinBox6_ry->value() / r2d);
-    pose.push_back(ui->spinBox6_rz->value() / r2d);
-    std::cout<<"x: "<<ui->spinBox6_x->value()<<"y:"<<ui->spinBox6_y->value()<<"z:"<<ui->spinBox6_z->value()<<std::endl;
-    std::cout<<"rx: "<<ui->spinBox6_rx->value()<<"ry:"<<ui->spinBox6_ry->value()<<"rz:"<<ui->spinBox6_rz->value()<<std::endl;
+    int id = 6;
+    if (!ui->autoButton->isEnabled())
+    {
+        auto flange_ = connectDlg->getFlangePose();
+        pose.push_back(flange_.p.x());
 
-    std::cout<<"pose6 set"<<std::endl;
+        pose.push_back(flange_.p.y());
+        pose.push_back(flange_.p.z());
+        double roll, pitch, yaw;
+        flange_.M.GetRPY(roll, pitch, yaw);
+        pose.push_back(roll);
+        pose.push_back(pitch);
+        pose.push_back(yaw);
+        ui->doubleSpinBox6_x->setValue(flange_.p.x() * m2mm);
+        ui->doubleSpinBox6_y->setValue(flange_.p.y() * m2mm);
+        ui->doubleSpinBox6_z->setValue(flange_.p.z() * m2mm);
+        ui->doubleSpinBox6_rx->setValue(roll * r2d);
+        ui->doubleSpinBox6_ry->setValue(pitch * r2d);
+        ui->doubleSpinBox6_rz->setValue(yaw * r2d);
+    }
+    else
+    {
+        pose.push_back(ui->doubleSpinBox6_x->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox6_y->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox6_z->value() / m2mm);
+        pose.push_back(ui->doubleSpinBox6_rx->value() / r2d);
+        pose.push_back(ui->doubleSpinBox6_ry->value() / r2d);
+        pose.push_back(ui->doubleSpinBox6_rz->value() / r2d);
+    }
+    connectDlg->setpose(id, pose);
+}
+void CalibrationDialog::on_CalButton_clicked()
+{
+    qDebug() << "calibration";
+    connectDlg->calibration();
+    calDlg->exec();
+}
+void CalibrationDialog::on_autoButton_clicked()
+{
+    qDebug() << "auto_calibration";
 
-    connectDlg->setpose(id,pose);
+    ui->autoButton->setDisabled(true);
+    ui->manualButton->setEnabled(true);
+}
+void CalibrationDialog::on_manualButton_clicked()
+{
+    qDebug() << "manual_calibration";
+    ui->autoButton->setEnabled(true);
+    ui->manualButton->setDisabled(true);
 }

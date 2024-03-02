@@ -557,15 +557,52 @@ void ConnectDialog::setpose(int id,QVector<double> pose)
     set_pose_frame->mutable_pose()->mutable_rotation()->set_z(z);
     set_pose_frame->mutable_pose()->mutable_rotation()->set_w(w);
     ClientContext context; //这个只能使用一次，每次请求都需要重新创建
-    std::cout<<"1"<<std::endl;
+    
     Status status = stub_->WriteRobotCommmand(&context, request, &response);
-    std::cout<<"1"<<std::endl;
+   
     if (status.ok()) {
         std::cout << "Send command Ok" << std::endl;
     } else {
         std::cout << "Send command Error" << std::endl;
     }
-     std::cout<<"1"<<std::endl;
+     
+}
+void ConnectDialog::calibration()
+{
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+    auto calibration = request.mutable_command()->mutable_calibration_command()->mutable_tool_calibration();
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+    if (status.ok()) {
+//        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
+    }
+}
+void ConnectDialog::setToolPose()
+{
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+    auto poseout_ = getPoseOut();
+    double x,y,z,w;
+    poseout_.M.GetQuaternion(x,y,z,w);
+    
+    auto set_tool_pose = request.mutable_command()->mutable_calibration_command()->mutable_set_tool_frame();
+    set_tool_pose->mutable_pose()->mutable_position()->set_x(poseout_.p.x());
+    set_tool_pose->mutable_pose()->mutable_position()->set_y(poseout_.p.y());
+    set_tool_pose->mutable_pose()->mutable_position()->set_z(poseout_.p.z());
+    set_tool_pose->mutable_pose()->mutable_rotation()->set_x(x);
+    set_tool_pose->mutable_pose()->mutable_rotation()->set_y(y);
+    set_tool_pose->mutable_pose()->mutable_rotation()->set_z(z);
+    set_tool_pose->mutable_pose()->mutable_rotation()->set_w(w);
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+    if (status.ok()) {
+        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
+    }
 }
 void ConnectDialog::moveJ_IK(QVector<double> pose) {
     RobotCommandRequest request;

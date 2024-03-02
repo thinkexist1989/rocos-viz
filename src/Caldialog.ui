@@ -6,25 +6,45 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>641</width>
-    <height>299</height>
+    <width>1004</width>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>10</y>
-     <width>89</width>
-     <height>25</height>
+     <x>230</x>
+     <y>210</y>
+     <width>651</width>
+     <height>241</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Esc</string>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTextEdit" name="textEdit"/>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="acceptButton">
+        <property name="text">
+         <string>Yes</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="exitButton">
+        <property name="text">
+         <string>No</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
