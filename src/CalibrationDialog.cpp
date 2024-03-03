@@ -238,7 +238,7 @@ void CalibrationDialog::on_CalButton_clicked()
 {
     qDebug() << "calibration";
     connectDlg->calibration();
-    sleep(0.1);
+    sleep(0.5);
     bool ErrorState=connectDlg->getCalibrationFeedback();
     std::cout<<"ErrorState:"<<ErrorState<<std::endl;
     if (ErrorState)
@@ -258,15 +258,17 @@ void CalibrationDialog::on_CalButton_clicked()
 void CalibrationDialog::on_autoButton_clicked()
 {
     qDebug() << "auto_calibration";
-
+    
     ui->autoButton->setDisabled(true);
     ui->manualButton->setEnabled(true);
+    QMessageBox::information(this, "提示", "自动模式切换成功！");
 }
 void CalibrationDialog::on_manualButton_clicked()
 {
     qDebug() << "manual_calibration";
     ui->autoButton->setEnabled(true);
     ui->manualButton->setDisabled(true);
+    QMessageBox::information(this, "提示", "手动模式切换成功！");
 }
 void  CalibrationDialog::on_getTool2flangeButton_clicked()
 {
