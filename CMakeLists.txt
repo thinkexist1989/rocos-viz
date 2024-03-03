@@ -217,6 +217,7 @@ set(HRD_FILES
         src/PlotConfigDialog.h
         src/CalibrationDialog.h
         src/Caldialog.h
+        
         )
 set(UI_FILES
         src/RocosMainWindow.ui
@@ -230,6 +231,7 @@ set(UI_FILES
         src/PlotConfigDialog.ui
         src/CalibrationDialog.ui
         src/Caldialog.ui
+        
         )
 
 set(RC_FILES
@@ -242,6 +244,7 @@ add_executable(${PROJECT_NAME} WIN32
         ${RC_FILES}
         ${TS_FILES}
         app_win.rc
+
 
         )
 

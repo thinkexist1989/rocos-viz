@@ -35,6 +35,7 @@ private slots:
     void on_autoButton_clicked();
     void on_manualButton_clicked();
     void on_CalButton_clicked();
+    void on_getTool2flangeButton_clicked();
 
 private:
     Ui::CalibrationDialog *ui;

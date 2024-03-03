@@ -245,6 +245,18 @@ public slots:
 
         return Frame{rot, pos};
     }
+    inline Frame getTool2Falange() const {
+        auto pose = robot_state_response_.robot_state().t_tool().pose();
+        auto rot = Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
+                                        pose.rotation().w());
+        auto pos = Vector(pose.position().x(), pose.position().y(), pose.position().z());
+
+        return Frame{rot, pos};
+    }
+    inline bool getCalibrationFeedback()const{
+        return robot_state_response_.robot_state().calibration_feedback().errorstate();
+    }
+
 
     //! 获取Base空间位姿(倒置安装或者装载在移动平台上,Base会变化)
     inline Frame getBasePose() const {

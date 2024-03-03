@@ -238,7 +238,22 @@ void CalibrationDialog::on_CalButton_clicked()
 {
     qDebug() << "calibration";
     connectDlg->calibration();
-    calDlg->exec();
+    sleep(0.1);
+    bool ErrorState=connectDlg->getCalibrationFeedback();
+    std::cout<<"ErrorState:"<<ErrorState<<std::endl;
+    if (ErrorState)
+    {
+    
+        QMessageBox::warning(this, "警告", "计算失败，请检查机器人标定点！");
+
+    }
+    else
+    {
+        
+        QMessageBox::information(this, "提示", "计算成功！");
+        calDlg->exec();
+    }
+    
 }
 void CalibrationDialog::on_autoButton_clicked()
 {
@@ -252,4 +267,17 @@ void CalibrationDialog::on_manualButton_clicked()
     qDebug() << "manual_calibration";
     ui->autoButton->setEnabled(true);
     ui->manualButton->setDisabled(true);
+}
+void  CalibrationDialog::on_getTool2flangeButton_clicked()
+{
+    qDebug() << "getTool2flange";
+    auto tool_ = connectDlg->getTool2Falange();
+    ui->t_tool_x->setValue(tool_.p.x() * m2mm);
+    ui->t_tool_y->setValue(tool_.p.y() * m2mm);
+    ui->t_tool_z->setValue(tool_.p.z() * m2mm);
+    double roll, pitch, yaw;
+    tool_.M.GetRPY(roll, pitch, yaw);
+    ui->t_tool_rx->setValue(roll * r2d);
+    ui->t_tool_ry->setValue(pitch * r2d);
+    ui->t_tool_rz->setValue(yaw * r2d);
 }
