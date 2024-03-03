@@ -567,11 +567,12 @@ void ConnectDialog::setpose(int id,QVector<double> pose)
     }
      
 }
-void ConnectDialog::calibration()
+void ConnectDialog::calibration(std::string frame)
 {
     RobotCommandRequest request;
     RobotCommandResponse response;
     auto calibration = request.mutable_command()->mutable_calibration_command()->mutable_tool_calibration();
+    calibration->set_frame(frame);
     ClientContext context; //这个只能使用一次，每次请求都需要重新创建
     Status status = stub_->WriteRobotCommmand(&context, request, &response);
     if (status.ok()) {
@@ -596,6 +597,29 @@ void ConnectDialog::setToolPose()
     set_tool_pose->mutable_pose()->mutable_rotation()->set_y(y);
     set_tool_pose->mutable_pose()->mutable_rotation()->set_z(z);
     set_tool_pose->mutable_pose()->mutable_rotation()->set_w(w);
+    ClientContext context; //这个只能使用一次，每次请求都需要重新创建
+    Status status = stub_->WriteRobotCommmand(&context, request, &response);
+    if (status.ok()) {
+        std::cout << "Send command Ok" << std::endl;
+    } else {
+        std::cout << "Send command Error" << std::endl;
+    }
+}
+void ConnectDialog::setObjectPose()
+{
+    RobotCommandRequest request;
+    RobotCommandResponse response;
+    auto poseout_ = getPoseOut();
+    double x,y,z,w;
+    poseout_.M.GetQuaternion(x,y,z,w);
+    auto set_object_pose = request.mutable_command()->mutable_calibration_command()->mutable_set_object_frame();
+    set_object_pose->mutable_pose()->mutable_position()->set_x(poseout_.p.x());
+    set_object_pose->mutable_pose()->mutable_position()->set_y(poseout_.p.y());
+    set_object_pose->mutable_pose()->mutable_position()->set_z(poseout_.p.z());
+    set_object_pose->mutable_pose()->mutable_rotation()->set_x(x);
+    set_object_pose->mutable_pose()->mutable_rotation()->set_y(y);
+    set_object_pose->mutable_pose()->mutable_rotation()->set_z(z);
+    set_object_pose->mutable_pose()->mutable_rotation()->set_w(w);
     ClientContext context; //这个只能使用一次，每次请求都需要重新创建
     Status status = stub_->WriteRobotCommmand(&context, request, &response);
     if (status.ok()) {

@@ -36,7 +36,14 @@ private slots:
     void on_manualButton_clicked();
     void on_CalButton_clicked();
     void on_getTool2flangeButton_clicked();
-
+    void on_SetObjectButton1_clicked();
+    void on_SetObjectButton2_clicked();
+    void on_SetObjectButton3_clicked();
+    void on_autoButton_object_clicked();
+    void on_manualButton_object_clicked();
+    void on_CalButton_object_clicked();
+    void on_getObject2flangeButton_clicked();
+    
 private:
     Ui::CalibrationDialog *ui;
     ConnectDialog* connectDlg = Q_NULLPTR;
@@ -44,5 +51,6 @@ private:
     double r2d = 180.0/M_PI; // 默认是角度显示
     double m2mm = 1000.0;    // 默认是mm显示
 };
+
 
 #endif // CALIBRATIONDIALOG_H

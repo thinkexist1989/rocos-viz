@@ -44,13 +44,33 @@ void CalDialog::updatePoseOut()
     arrayString += QString::number(pitch);
     arrayString += ",";
     arrayString += QString::number(yaw);
-    arrayString += "]为工具坐标系？\n";
+    if(refenceframe == "tool")
+    {
+        arrayString += "]为工具坐标系相对于变换矩阵？\n";
+    }
+    else if(refenceframe=="object")
+    {
+        arrayString += "]为工件坐标系相对于变换矩阵？\n";
+    }
+    
 
     // 将字符串写入 QTextEdit
     ui->textEdit->setText(arrayString);
 }
 void CalDialog::on_acceptButton_clicked()
 {
-    connectDlg->setToolPose();
+    if(refenceframe == "tool")
+    {
+        connectDlg->setToolPose();
+    }
+    else if(refenceframe=="object")
+    {
+        connectDlg->setObjectPose();
+    }
+    
     this->close();
+}
+void CalDialog::setRefenceFrame(std::string frame)
+{
+    refenceframe = frame;
 }
