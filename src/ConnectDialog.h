@@ -245,7 +245,7 @@ public slots:
 
         return Frame{rot, pos};
     }
-    inline Frame getTool2Falange() const {
+    inline Frame getTool2Flange() const {
         auto pose = robot_state_response_.robot_state().t_tool().pose();
         auto rot = Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
                                         pose.rotation().w());
@@ -253,7 +253,7 @@ public slots:
 
         return Frame{rot, pos};
     }
-    inline Frame getObject2Falange() const {
+    inline Frame getObject2base() const {
         auto pose = robot_state_response_.robot_state().t_object().pose();
         auto rot = Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
                                         pose.rotation().w());
@@ -365,6 +365,8 @@ public slots:
     void calibration(std::string frame);
     void setToolPose();
     void setObjectPose();
+    void setTool2flange(QVector<double> pose);
+    void setObject2base(QVector<double> pose);
     void moveL_FK(QVector<double> q);
 
 public:

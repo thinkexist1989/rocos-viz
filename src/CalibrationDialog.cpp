@@ -262,7 +262,7 @@ void CalibrationDialog::on_CalButton_clicked()
         timer->deleteLater();
     });
 
-    // 启动定时器，设置延时时间为300毫秒（即1秒）
+    // 启动定时器，设置延时时间为300毫秒（即秒）
     timer->start(300);
     
 }
@@ -284,7 +284,7 @@ void CalibrationDialog::on_manualButton_clicked()
 void  CalibrationDialog::on_getTool2flangeButton_clicked()
 {
     qDebug() << "getTool2flange";
-    auto tool_ = connectDlg->getTool2Falange();
+    auto tool_ = connectDlg->getTool2Flange();
     ui->t_tool_x->setValue(tool_.p.x() * m2mm);
     ui->t_tool_y->setValue(tool_.p.y() * m2mm);
     ui->t_tool_z->setValue(tool_.p.z() * m2mm);
@@ -293,6 +293,8 @@ void  CalibrationDialog::on_getTool2flangeButton_clicked()
     ui->t_tool_rx->setValue(roll * r2d);
     ui->t_tool_ry->setValue(pitch * r2d);
     ui->t_tool_rz->setValue(yaw * r2d);
+    QMessageBox::information(this, "提示", "读取工具坐标系成功！");
+
 }
 void CalibrationDialog::on_SetObjectButton1_clicked()
 {
@@ -301,7 +303,7 @@ void CalibrationDialog::on_SetObjectButton1_clicked()
     int id = 7;
     if (!ui->autoButton_object->isEnabled())
     {
-        auto flange_ = connectDlg->getFlangePose();
+        auto flange_ = connectDlg->getToolPose();
         pose.push_back(flange_.p.x());
         pose.push_back(flange_.p.y());
         pose.push_back(flange_.p.z());
@@ -335,7 +337,7 @@ void CalibrationDialog::on_SetObjectButton2_clicked()
     int id = 8;
     if (!ui->autoButton_object->isEnabled())
     {
-        auto flange_ = connectDlg->getFlangePose();
+        auto flange_ = connectDlg->getToolPose();
         pose.push_back(flange_.p.x());
         pose.push_back(flange_.p.y());
         pose.push_back(flange_.p.z());
@@ -369,7 +371,7 @@ void CalibrationDialog::on_SetObjectButton3_clicked()
     int id = 9;
     if (!ui->autoButton_object->isEnabled())
     {
-        auto flange_ = connectDlg->getFlangePose();
+        auto flange_ = connectDlg->getToolPose();
         pose.push_back(flange_.p.x());
         pose.push_back(flange_.p.y());
         pose.push_back(flange_.p.z());
@@ -415,8 +417,9 @@ void CalibrationDialog::on_CalButton_object_clicked()
 {
     qDebug() << "calibration";
     QTimer *timer = new QTimer(this);
+    
     connectDlg->calibration("object");
-      connect(timer, &QTimer::timeout, this, [=]() {
+    connect(timer, &QTimer::timeout, this, [=]() {
         // 停止定时器
         timer->stop();
     bool ErrorState=connectDlg->getCalibrationFeedback();
@@ -441,16 +444,43 @@ void CalibrationDialog::on_CalButton_object_clicked()
     timer->start(300);
 
 }
-void CalibrationDialog::on_getObject2flangeButton_clicked()
+void CalibrationDialog::on_getObject2baseButton_clicked()
 {
-    qDebug() << "getTool2flange";
-    auto tool_ = connectDlg->getObject2Falange();
-    ui->object4_x->setValue(tool_.p.x() * m2mm);
-    ui->object4_y->setValue(tool_.p.y() * m2mm);
-    ui->object4_z->setValue(tool_.p.z() * m2mm);
+    qDebug() << "getObject2base";
+    auto object_ = connectDlg->getObject2base();
+    ui->object4_x->setValue(object_.p.x() * m2mm);
+    ui->object4_y->setValue(object_.p.y() * m2mm);
+    ui->object4_z->setValue(object_.p.z() * m2mm);
     double roll, pitch, yaw;
-    tool_.M.GetRPY(roll, pitch, yaw);
+    object_.M.GetRPY(roll, pitch, yaw);
     ui->object4_rx->setValue(roll * r2d);
     ui->object4_ry->setValue(pitch * r2d);
     ui->object4_rz->setValue(yaw * r2d);
+    QMessageBox::information(this, "提示", "读取工件坐标系成功！");
+}
+void CalibrationDialog::on_setTool2flangeButton_clicked()
+{
+    qDebug() << "setTool2flange";
+    QVector<double> pose;
+    pose.push_back(ui->tool_flange_x->value() / m2mm);
+    pose.push_back(ui->tool_flange_y->value() / m2mm);
+    pose.push_back(ui->tool_flange_z->value() / m2mm);
+    pose.push_back(ui->tool_flange_rx->value() / r2d);
+    pose.push_back(ui->tool_flange_ry->value() / r2d);
+    pose.push_back(ui->tool_flange_rz->value() / r2d);
+    connectDlg->setTool2flange(pose);
+    QMessageBox::information(this, "提示", "设置工具坐标系成功！");
+}
+void CalibrationDialog::on_setObject2baseButton_clicked()
+{
+    qDebug() << "setObject2base";
+    QVector<double> pose;
+    pose.push_back(ui->object_base_x->value() / m2mm);
+    pose.push_back(ui->object_base_y->value() / m2mm);
+    pose.push_back(ui->object_base_z->value() / m2mm);
+    pose.push_back(ui->object_base_rx->value() / r2d);
+    pose.push_back(ui->object_base_ry->value() / r2d);
+    pose.push_back(ui->object_base_rz->value() / r2d);
+    connectDlg->setObject2base(pose);
+    QMessageBox::information(this, "提示", "设置工件坐标系成功！");
 }

@@ -419,7 +419,7 @@ void RocosMainWindow::updateRobotState() {
     if(currentFrame ==FRAME_TOOL)
         flange = connectDlg->getToolPose();
     else if(currentFrame == FRAME_OBJECT)
-        flange = connectDlg->getObjectPose();
+        flange = connectDlg->getToolPose();
 
 
 
