@@ -84,5 +84,6 @@
         <file>res/arrow-up-bold.png</file>
         <file>res/arrow-down-bold.png</file>
         <file>res/round-down-arrow.png</file>
+        <file>res/logo.jpg</file>
     </qresource>
 </RCC>
