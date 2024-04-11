@@ -86,17 +86,56 @@ QMainWindow {
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <family>Alibaba PuHuiTi 3.0</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-	border: 0px
+	border: 0px;
+	font-weight: bold;
+	color: #FFFFFF;
 }</string>
          </property>
          <property name="text">
-          <string/>
+          <string>SJTU_5G</string>
          </property>
-         <property name="icon">
-          <iconset resource="../res.qrc">
-           <normaloff>:/res/landau-rocos-viz.png</normaloff>:/res/landau-rocos-viz.png</iconset>
+         <property name="iconSize">
+          <size>
+           <width>150</width>
+           <height>40</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Alibaba PuHuiTi 3.0</family>
+           <pointsize>11</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	border: 0px;
+	color: #FFFFFF;
+}</string>
+         </property>
+         <property name="text">
+          <string>/ ROCOS-Viz</string>
          </property>
          <property name="iconSize">
           <size>

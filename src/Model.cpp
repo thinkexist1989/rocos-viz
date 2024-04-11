@@ -254,7 +254,9 @@ void Model::updateModel(std::vector<double> &jointRads)
         _traj->SetMapper(mapper);
     }
     else {
-        _points->SetNumberOfPoints(0);
+        // _points->SetNumberOfPoints(0);
+        if(_points)
+            _points->SetNumberOfPoints(0);
     }
 
 }
