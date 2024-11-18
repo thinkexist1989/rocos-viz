@@ -304,7 +304,7 @@ void RocosMainWindow::on_actionPlotter_clicked() {
 }
 
 void RocosMainWindow::on_actionAbout_clicked() {
-    aboutDlg->exec();
+    // aboutDlg->exec();
 }
 
 void RocosMainWindow::on_actionAxoView_clicked() {
