@@ -3,6 +3,7 @@
 #include "ui_PlotConfigDialog.h"
 
 #include <QFileDialog>
+#include <QDebug>
 
 
 PlotConfigDialog::PlotConfigDialog(QWidget *parent) :

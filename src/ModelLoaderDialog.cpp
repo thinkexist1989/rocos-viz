@@ -2,6 +2,7 @@
 #include "ui_ModelLoaderDialog.h"
 
 #include <QFileDialog>
+#include <QDebug>
 
 ModelLoaderDialog::ModelLoaderDialog(QWidget *parent) :
     QDialog(parent),
