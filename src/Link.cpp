@@ -23,6 +23,7 @@ Shenyang Institute of Automation, Chinese Academy of Sciences.
 
 #include <iostream>
 #include <string>
+#include <vtkPolyData.h>
 #include <vtkProperty.h>
 
 Link::Link() {
@@ -63,6 +64,19 @@ void Link::setMesh(const std::string &fileName)
 {
     reader->SetFileName(fileName.c_str());
     reader->Update();
+
+    vtkPolyData *output = reader->GetOutput();
+    const vtkIdType point_count = output ? output->GetNumberOfPoints() : 0;
+    const vtkIdType cell_count = output ? output->GetNumberOfCells() : 0;
+    if (point_count <= 0 || cell_count <= 0) {
+        std::cerr << "Failed to load mesh: " << fileName
+                  << " points=" << point_count
+                  << " cells=" << cell_count << std::endl;
+    } else {
+        std::cout << "Loaded mesh: " << fileName
+                  << " points=" << point_count
+                  << " cells=" << cell_count << std::endl;
+    }
 
     vtkNew<vtkPolyDataMapper> mappper;
     mappper->SetInputConnection(reader->GetOutputPort());

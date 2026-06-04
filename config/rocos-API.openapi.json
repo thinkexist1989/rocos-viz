@@ -1,0 +1,1294 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "rocos-API",
+    "description": "HTTP REST API Server for ROCOS-App Robot Controller.",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "机器人状态与信息"
+    },
+    {
+      "name": "基础控制"
+    },
+    {
+      "name": "空间运动控制 (Motion)"
+    },
+    {
+      "name": "单轴/多轴控制"
+    },
+    {
+      "name": "拖拽示教"
+    },
+    {
+      "name": "标定与坐标系"
+    }
+  ],
+  "paths": {
+    "/api/robot/state": {
+      "get": {
+        "summary": "获取机器人实时状态",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "机器人状态与信息"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/robot/info": {
+      "get": {
+        "summary": "获取机器人配置信息",
+        "deprecated": false,
+        "description": "获取关节传动比、脉冲数、零点偏移等参数",
+        "tags": [
+          "机器人状态与信息"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/robot/model": {
+      "get": {
+        "summary": "获取机器人 URDF 模型结构",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "机器人状态与信息"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/robot/model/mesh": {
+      "get": {
+        "summary": "获取连杆 3D Mesh 文件 (STL)",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "机器人状态与信息"
+        ],
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "description": "STL文件的相对路径，例如: link1.stl",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "二进制文件流",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/robot/enabled": {
+      "get": {
+        "summary": "查询使能状态",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "基础控制"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/robot/enable": {
+      "post": {
+        "summary": "全局使能机器人",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "基础控制"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/robot/disable": {
+      "post": {
+        "summary": "全局下电/关闭使能",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "基础控制"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/robot/workmode": {
+      "post": {
+        "summary": "设置工作模式",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "基础控制"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "mode"
+                ],
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "position",
+                      "ee_admit_teach",
+                      "jnt_admit_teach",
+                      "jnt_imp",
+                      "cart_imp"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/move/joint": {
+      "post": {
+        "summary": "关节空间运动 (MoveJ)",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "空间运动控制 (Motion)"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "joints"
+                ],
+                "properties": {
+                  "joints": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "目标关节角度数组"
+                  },
+                  "speed": {
+                    "type": "number",
+                    "default": 1.05
+                  },
+                  "acceleration": {
+                    "type": "number",
+                    "default": 1.4
+                  },
+                  "time": {
+                    "type": "number",
+                    "default": 0
+                  },
+                  "radius": {
+                    "type": "number",
+                    "default": 0
+                  },
+                  "asynchronous": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/move/joint_ik": {
+      "post": {
+        "summary": "基于逆解的关节运动 (MoveJ_IK)",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "空间运动控制 (Motion)"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "pose"
+                ],
+                "properties": {
+                  "pose": {
+                    "$ref": "#/components/schemas/Pose"
+                  },
+                  "speed": {
+                    "type": "number",
+                    "default": 1.05
+                  },
+                  "acceleration": {
+                    "type": "number",
+                    "default": 1.4
+                  },
+                  "asynchronous": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/move/linear": {
+      "post": {
+        "summary": "笛卡尔直线运动 (MoveL)",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "空间运动控制 (Motion)"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "pose"
+                ],
+                "properties": {
+                  "pose": {
+                    "$ref": "#/components/schemas/Pose"
+                  },
+                  "speed": {
+                    "type": "number",
+                    "default": 1.05
+                  },
+                  "acceleration": {
+                    "type": "number",
+                    "default": 1.4
+                  },
+                  "asynchronous": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/move/linear_fk": {
+      "post": {
+        "summary": "基于正解的直线运动 (MoveL_FK)",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "空间运动控制 (Motion)"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "joints"
+                ],
+                "properties": {
+                  "joints": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "speed": {
+                    "type": "number",
+                    "default": 1.05
+                  },
+                  "acceleration": {
+                    "type": "number",
+                    "default": 1.4
+                  },
+                  "asynchronous": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/move/circle": {
+      "post": {
+        "summary": "笛卡尔圆弧运动 (MoveC)",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "空间运动控制 (Motion)"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "pose_via",
+                  "pose_to"
+                ],
+                "properties": {
+                  "pose_via": {
+                    "$ref": "#/components/schemas/Pose"
+                  },
+                  "pose_to": {
+                    "$ref": "#/components/schemas/Pose"
+                  },
+                  "speed": {
+                    "type": "number",
+                    "default": 0.25
+                  },
+                  "acceleration": {
+                    "type": "number",
+                    "default": 1.2
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "UNCONSTRAINED",
+                      "FIXED"
+                    ],
+                    "default": "UNCONSTRAINED"
+                  },
+                  "asynchronous": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/move/path": {
+      "post": {
+        "summary": "路径点运动 (MoveP)",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "空间运动控制 (Motion)"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "pose"
+                ],
+                "properties": {
+                  "pose": {
+                    "$ref": "#/components/schemas/Pose"
+                  },
+                  "speed": {
+                    "type": "number",
+                    "default": 1.05
+                  },
+                  "asynchronous": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/move/pathway": {
+      "post": {
+        "summary": "多点轨迹插补 (MovePath)",
+        "deprecated": false,
+        "description": "注意 - 当前版本尚未完全实现此接口。",
+        "tags": [
+          "空间运动控制 (Motion)"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "waypoints"
+                ],
+                "properties": {
+                  "waypoints": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "501": {
+            "description": "Not Implemented",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/move/stop": {
+      "post": {
+        "summary": "停止当前运动",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "空间运动控制 (Motion)"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/move/status": {
+      "get": {
+        "summary": "查询异步任务状态",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "空间运动控制 (Motion)"
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "返回任务详情",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/axis/single/enable": {
+      "post": {
+        "summary": "单轴使能",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "单轴/多轴控制"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "关节序号(从0开始)"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/axis/single/disable": {
+      "post": {
+        "summary": "单轴下电",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "单轴/多轴控制"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/axis/single/move": {
+      "post": {
+        "summary": "单轴运动",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "单轴/多轴控制"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "pos"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "pos": {
+                    "type": "number"
+                  },
+                  "max_vel": {
+                    "type": "number",
+                    "default": -1
+                  },
+                  "max_acc": {
+                    "type": "number",
+                    "default": -1
+                  },
+                  "max_jerk": {
+                    "type": "number",
+                    "default": -1
+                  },
+                  "least_time": {
+                    "type": "number",
+                    "default": -1
+                  },
+                  "raw_data": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/axis/single/stop": {
+      "post": {
+        "summary": "单轴停止",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "单轴/多轴控制"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/axis/multi/enable": {
+      "post": {
+        "summary": "多轴统一使能",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "单轴/多轴控制"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/axis/multi/disable": {
+      "post": {
+        "summary": "多轴统一下电",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "单轴/多轴控制"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/axis/multi/move": {
+      "post": {
+        "summary": "多轴底层控制运动",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "单轴/多轴控制"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "target_pos",
+                  "max_vel",
+                  "max_acc",
+                  "max_jerk"
+                ],
+                "properties": {
+                  "target_pos": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "max_vel": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "max_acc": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "max_jerk": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "least_time": {
+                    "type": "number",
+                    "default": -1
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/axis/multi/stop": {
+      "post": {
+        "summary": "多轴统一停止",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "单轴/多轴控制"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/axis/multi/sync": {
+      "post": {
+        "summary": "设置多轴同步模式",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "单轴/多轴控制"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "sync"
+                ],
+                "properties": {
+                  "sync": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "time",
+                      "phase"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/drag/start": {
+      "post": {
+        "summary": "开启拖拽",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "拖拽示教"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "flag",
+                  "direction"
+                ],
+                "properties": {
+                  "flag": {
+                    "type": "string",
+                    "enum": [
+                      "J0",
+                      "J1",
+                      "J2",
+                      "J3",
+                      "J4",
+                      "J5",
+                      "J6",
+                      "TOOL_X",
+                      "TOOL_Y",
+                      "TOOL_Z",
+                      "TOOL_ROLL",
+                      "TOOL_PITCH",
+                      "TOOL_YAW",
+                      "FLANGE_X",
+                      "FLANGE_Y",
+                      "FLANGE_Z",
+                      "FLANGE_ROLL",
+                      "FLANGE_PITCH",
+                      "FLANGE_YAW",
+                      "OBJECT_X",
+                      "OBJECT_Y",
+                      "OBJECT_Z",
+                      "OBJECT_ROLL",
+                      "OBJECT_PITCH",
+                      "OBJECT_YAW",
+                      "BASE_X",
+                      "BASE_Y",
+                      "BASE_Z",
+                      "BASE_ROLL",
+                      "BASE_PITCH",
+                      "BASE_YAW",
+                      "NULLSPACE"
+                    ]
+                  },
+                  "direction": {
+                    "type": "string",
+                    "enum": [
+                      "POSITIVE",
+                      "NEGATIVE",
+                      "NONE"
+                    ]
+                  },
+                  "max_speed": {
+                    "type": "number",
+                    "default": 1
+                  },
+                  "max_acceleration": {
+                    "type": "number",
+                    "default": 1
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/drag/stop": {
+      "post": {
+        "summary": "停止拖拽",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "拖拽示教"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/calibration/pose": {
+      "post": {
+        "summary": "录入标定点位 (Set Pose Frame)",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "标定与坐标系"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "pose"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "点位序号"
+                  },
+                  "pose": {
+                    "$ref": "#/components/schemas/Pose"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/calibration/tool": {
+      "post": {
+        "summary": "手动设置工具坐标系",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "标定与坐标系"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "pose"
+                ],
+                "properties": {
+                  "pose": {
+                    "$ref": "#/components/schemas/Pose"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/calibration/object": {
+      "post": {
+        "summary": "手动设置工件坐标系",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "标定与坐标系"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "pose"
+                ],
+                "properties": {
+                  "pose": {
+                    "$ref": "#/components/schemas/Pose"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/calibration/run": {
+      "post": {
+        "summary": "执行标定计算",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "标定与坐标系"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "frame"
+                ],
+                "properties": {
+                  "frame": {
+                    "type": "string",
+                    "enum": [
+                      "tool",
+                      "object"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "标定成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/calibration/result": {
+      "get": {
+        "summary": "获取标定结果",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "标定与坐标系"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StandardResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "Pose": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number",
+                "default": 0
+              },
+              "y": {
+                "type": "number",
+                "default": 0
+              },
+              "z": {
+                "type": "number",
+                "default": 0
+              }
+            }
+          },
+          "orientation": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number",
+                "default": 0
+              },
+              "y": {
+                "type": "number",
+                "default": 0
+              },
+              "z": {
+                "type": "number",
+                "default": 0
+              },
+              "w": {
+                "type": "number",
+                "default": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {},
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": []
+}

@@ -107,7 +107,9 @@ void Model::getModelFromYamlFile(const std::string &fileName) {
                                       info[j]["rotateLink"][2].as<double>());
 
         if(info[j]["mesh"].IsDefined() && !info[j]["mesh"].IsNull()) {
-            _linkGrp[j].setMesh(dir+'/'+info[j]["mesh"].as<std::string>());
+            const std::string mesh_path = dir + '/' + info[j]["mesh"].as<std::string>();
+            std::cout << "\t mesh: " << mesh_path << std::endl;
+            _linkGrp[j].setMesh(mesh_path);
         }
 
         std::cout << " - ";
@@ -305,7 +307,6 @@ void Model::deleteFirstPoint()
 void Model::setRenderer(vtkRenderer *renderer) {
     _renderer = renderer;
 }
-
 
 
 

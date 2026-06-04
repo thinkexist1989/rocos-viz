@@ -1,14 +1,16 @@
 #ifndef CONNECTDIALOG_H
 #define CONNECTDIALOG_H
 
+#include <cstdint>
+#include <memory>
+
+#include <QByteArray>
 #include <QDialog>
-#include <QTcpSocket>
+#include <QJsonObject>
 #include <QTimer>
+#include <QVector>
 
 #include <Eigen/Dense>
-
-#include <grpcpp/grpcpp.h>
-#include "robot_service.grpc.pb.h"
 
 #include <kdl/frames.hpp>
 #include <kdl/frames_io.hpp>
@@ -19,24 +21,7 @@
 #define JNT_IMP_MODE 3
 #define CART_IMP_MODE 4
 
-using grpc::Channel;
-using grpc::ClientContext;
-using grpc::Status;
-
-using rocos::RobotService;
-using rocos::RobotStateRequest;
-using rocos::RobotStateResponse;
-
-using rocos::RobotCommand;
-using rocos::RobotCommandRequest;
-using rocos::RobotCommandResponse;
-
-using rocos::RobotInfoRequest;
-using rocos::RobotInfoResponse;
-
-using rocos::RobotModel;
-using rocos::LinkMeshFile;
-using rocos::LinkMeshPath;
+class HttpRobotClient;
 
 using KDL::Frame;
 using KDL::JntArray;
@@ -74,19 +59,20 @@ public slots:
 
     //! \brief 获取最短循环周期
     //! \return 最短循环时间[ms]
-    inline double getMinCyclicTime() const { return robot_state_response_.robot_state().hw_state().min_cycle_time(); }
+    inline double getMinCyclicTime() const { return robot_state_cache_.hardware.cycle_time_min; }
 
     //! \brief 获取最大循环周期
     //! \return 最大循环时间[ms]
-    inline double getMaxCyclicTime() const { return robot_state_response_.robot_state().hw_state().max_cycle_time(); }
+    inline double getMaxCyclicTime() const { return robot_state_cache_.hardware.cycle_time_max; }
 
     //! \brief 获取当前循环周期
     //! \return 当前循环时间[ms]
-    inline double
-    getCurrCyclicTime() const { return robot_state_response_.robot_state().hw_state().current_cycle_time(); }
+    inline double getCurrCyclicTime() const { return robot_state_cache_.hardware.cycle_time_avg; }
 
     inline int getJointNum() {
-        jnt_num_ = robot_state_response_.robot_state().joint_states_size();
+        jnt_num_ = robot_state_cache_.joint_states.size() > 0
+                   ? robot_state_cache_.joint_states.size()
+                   : joint_info_cache_.size();
         return jnt_num_;
     }
 
@@ -103,34 +89,36 @@ public slots:
     /// \param id
     /// \return
     inline QString getJointName(int id) const {
-        return QString{robot_state_response_.robot_state().joint_states(id).name().c_str()};
+        return isValidJointState(id) ? robot_state_cache_.joint_states[id].name : QString();
     }
 
     ///
     /// \param id
     /// \return
     inline double getJointPosition(int id) const {
-        return robot_state_response_.robot_state().joint_states(id).position();
+        return isValidJointState(id) ? robot_state_cache_.joint_states[id].position : 0.0;
     }
 
     ///
     /// \param id
     /// \return
     inline double getJointVelocity(int id) const {
-        return robot_state_response_.robot_state().joint_states(id).velocity();
+        return isValidJointState(id) ? robot_state_cache_.joint_states[id].velocity : 0.0;
     }
 
     ///
     /// \param id
     /// \return
     inline double getJointTorque(int id) const {
-        return robot_state_response_.robot_state().joint_states(id).acceleration();
+        return isValidJointState(id) ? robot_state_cache_.joint_states[id].torque : 0.0;
     }
 
     ///
     /// \param id
     /// \return
-    inline double getJointLoad(int id) const { return robot_state_response_.robot_state().joint_states(id).load(); }
+    inline double getJointLoad(int id) const {
+        return isValidJointState(id) ? robot_state_cache_.joint_states[id].load : 0.0;
+    }
 
     /////////////////////////////////////////////////////////
     ///////////////     获取关节信息       ///////////////////
@@ -140,35 +128,35 @@ public slots:
     //! \param id 关节ID（From 0）
     //! \return  cnt_per_unit
     inline double getJointCntPerUnit(int id) const {
-        return robot_info_response_.robot_info().joint_infos().at(id).cnt_per_unit();
+        return isValidJointInfo(id) ? joint_info_cache_[id].cnt_per_unit : 0.0;
     }
 
     //!
     //! \param id
     //! \return
     inline double getJointTorquePerUnit(int id) const {
-        return robot_info_response_.robot_info().joint_infos().at(id).torque_per_unit();
+        return isValidJointInfo(id) ? joint_info_cache_[id].torque_per_unit : 0.0;
     }
 
     //!
     //! \param id
     //! \return
     inline double getJointRatio(int id) const {
-        return robot_info_response_.robot_info().joint_infos().at(id).ratio();
+        return isValidJointInfo(id) ? joint_info_cache_[id].ratio : 0.0;
     }
 
     //!
     //! \param id
     //! \return
     inline int32_t getJointPosZeroOffset(int id) const {
-        return robot_info_response_.robot_info().joint_infos().at(id).pos_zero_offset();
+        return isValidJointInfo(id) ? joint_info_cache_[id].pos_zero_offset : 0;
     }
 
     //!
     //! \param id
     //! \return
     inline QString getJointUserUnitName(int id) const {
-        return QString{robot_info_response_.robot_info().joint_infos().at(id).user_unit_name().c_str()};
+        return isValidJointInfo(id) ? joint_info_cache_[id].user_unit_name : QString();
     }
 
     /////////////////////////////////////////////////////////
@@ -177,55 +165,44 @@ public slots:
 
     //! 获取Flange空间位姿
     inline Frame getFlangePose() const {
-        auto pose = robot_state_response_.robot_state().flange_state().pose();
-        auto rot = Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
-                                        pose.rotation().w());
-        auto pos = Vector(pose.position().x(), pose.position().y(), pose.position().z());
-
-        return Frame{rot, pos};
+        return poseToFrame(robot_state_cache_.flange_pose);
     }
 
     inline double getFlangeX() const {
-        return robot_state_response_.robot_state().flange_state().pose().position().x();
+        return robot_state_cache_.flange_pose.x;
     }
     inline double getFlangeY() const {
-        return robot_state_response_.robot_state().flange_state().pose().position().y();
+        return robot_state_cache_.flange_pose.y;
     }
     inline double getFlangeZ() const {
-        return robot_state_response_.robot_state().flange_state().pose().position().z();
+        return robot_state_cache_.flange_pose.z;
     }
     inline double getFlangeRX() const {
         double rx, ry, rz;
-        auto pose = robot_state_response_.robot_state().flange_state().pose();
-        Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
-                             pose.rotation().w()).GetRPY(rx, ry, rz);
+        poseToFrame(robot_state_cache_.flange_pose).M.GetRPY(rx, ry, rz);
         return rx;
     }
 
     inline double getFlangeRY() const {
         double rx, ry, rz;
-        auto pose = robot_state_response_.robot_state().flange_state().pose();
-        Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
-                             pose.rotation().w()).GetRPY(rx, ry, rz);
+        poseToFrame(robot_state_cache_.flange_pose).M.GetRPY(rx, ry, rz);
         return ry;
     }
 
     inline double getFlangeRZ() const {
         double rx, ry, rz;
-        auto pose = robot_state_response_.robot_state().flange_state().pose();
-        Rotation::Quaternion(pose.rotation().x(), pose.rotation().y(), pose.rotation().z(),
-                             pose.rotation().w()).GetRPY(rx, ry, rz);
+        poseToFrame(robot_state_cache_.flange_pose).M.GetRPY(rx, ry, rz);
         return rz;
     }
 
     //! 获取Flange空间位姿
     inline Frame getToolPose() const {
-        return Frame();
+        return poseToFrame(robot_state_cache_.tool_pose);
     }
 
     //! 获取Object空间位姿
     inline Frame getObjectPose() const {
-        return Frame();
+        return poseToFrame(robot_state_cache_.object_pose);
     }
 
     //! 获取Base空间位姿(倒置安装或者装载在移动平台上,Base会变化)
@@ -362,7 +339,86 @@ private slots:
     void on_exitButton_clicked();
 
 private:
+    struct JointInfoCache {
+        QString name;
+        double cnt_per_unit = 0.0;
+        double torque_per_unit = 0.0;
+        double ratio = 0.0;
+        int pos_zero_offset = 0;
+        QString user_unit_name;
+    };
+
+    struct JointStateCache {
+        QString name;
+        double position = 0.0;
+        double velocity = 0.0;
+        double acceleration = 0.0;
+        double torque = 0.0;
+        double load = 0.0;
+        QString status;
+    };
+
+    struct PoseCache {
+        double x = 0.0;
+        double y = 0.0;
+        double z = 0.0;
+        double qx = 0.0;
+        double qy = 0.0;
+        double qz = 0.0;
+        double qw = 1.0;
+    };
+
+    struct HardwareCache {
+        QString type;
+        double cycle_time_min = 0.0;
+        double cycle_time_avg = 0.0;
+        double cycle_time_max = 0.0;
+        int slave_count = 0;
+    };
+
+    struct RobotStateCache {
+        QVector<JointStateCache> joint_states;
+        PoseCache flange_pose;
+        PoseCache tool_pose;
+        PoseCache object_pose;
+        HardwareCache hardware;
+    };
+
+    struct ModelLinkDownload {
+        QJsonObject link;
+        QString mesh_path;
+        QString saved_mesh_name;
+        QString temp_file_path;
+    };
+
+    struct ModelDownloadContext {
+        QString cfg_file_path;
+        QString robot_dir_path;
+        QVector<ModelLinkDownload> links;
+        int pending = 0;
+        bool failed = false;
+        QString error;
+    };
+
+    struct ModelWriteResult {
+        ModelWriteResult(bool success, const QString &message) : ok(success), error(message) {}
+        bool ok;
+        QString error;
+    };
+
     bool event(QEvent *event) override; //!< 重写事件相应函数,窗口失去焦点自动关闭
+    bool postEmpty(const QString &path);
+    bool postJsonCommand(const QString &path, const QJsonObject &body);
+    void handleCommandResponse(const QString &path, const QJsonObject &data);
+    bool parseMoveResponse(const QJsonObject &data, QString *error);
+    void queryMoveStatus();
+    bool parseTaskStatus(const QJsonObject &data, QString *error);
+    bool parseRobotInfo(const QJsonObject &data, QString *error);
+    bool parseRobotState(const QJsonObject &data, QString *error);
+    bool isValidJointInfo(int id) const;
+    bool isValidJointState(int id) const;
+    static Frame poseToFrame(const PoseCache &pose);
+    static ModelWriteResult writeModelFiles(const ModelDownloadContext &context);
 
     Ui::ConnectDialog *ui;
 
@@ -373,12 +429,11 @@ private:
     bool is_connected_{false}; //!<　是否连接标志位
 
     QTimer *timer_state_; //!<　定时器，用于定期获取机器人状态信息
+    QTimer *timer_move_status_; //!< 定时查询异步运动任务状态
+    std::unique_ptr<HttpRobotClient> http_client_;
 
-    std::unique_ptr<RobotService::Stub> stub_; //!< grpc存根
-    std::shared_ptr<Channel> channel_;  //!< gRPC Channel
-
-    RobotInfoResponse robot_info_response_;   //!< 机器人信息回复
-    RobotStateResponse robot_state_response_; //!< 机器人状态回复
+    QVector<JointInfoCache> joint_info_cache_;
+    RobotStateCache robot_state_cache_;
 
     double factor_ {0.25}; //!< 机器人运行速度缩放比例
     double max_jnt_speed_ {1}; //!< 关节空间运动最大速度
@@ -392,16 +447,14 @@ private:
     double  ac_ {1.4};
 
     bool use_raw_data_{false};         //!< 是否使用原始类型数据
-
-    QVector<double> cnt_per_unit_;     //!< 用户单位对应脉冲数
-    QVector<double> torque_per_unit_;  //!< 力矩单位对应脉冲数
-    QVector<double> load_per_unit_;    //!< 力矩传感器单位对应脉冲数
-    QVector<int32_t> pos_zero_offset_; //!< 位置零位偏移
-    QVector<double> ratio_;            //!< 减速比
-    QVector<QString> user_unit_name_;  //!< 用户单位名称字符串
-    QVector<QString> torque_unit_name_;//!< 力矩单位名称字符串
-    QVector<QString> load_unit_name_;  //!< 力矩传感器单位名称字符串
-
+    bool is_polling_state_{false};
+    bool is_loading_model_{false};
+    bool is_polling_move_status_{false};
+    int state_failure_count_{0};
+    QString last_move_task_id_;
+    QString last_move_status_;
+    QString last_move_message_;
+    int last_move_result_{0};
 };
 
 #endif // CONNECTDIALOG_H

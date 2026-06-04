@@ -40,80 +40,23 @@ set(${PROJECT_NAME}_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAM
 #    endif()
 #endif()
 
-################
-##    gRPC    ##
-################
-
 if (UNIX AND NOT APPLE)
-    list(APPEND CMAKE_PREFIX_PATH "/opt/grpc")
-    list(APPEND CMAKE_PREFIX_PATH "/opt/Qt/6.2.4/gcc_64")
+    set(ROCOS_VIZ_QT_PREFIX_CANDIDATES
+            "/opt/Qt/6.6.2/gcc_64"
+            "/opt/Qt/6.2.4/gcc_64"
+            )
+    file(GLOB ROCOS_VIZ_QT_PREFIX_GLOB "/opt/Qt/*/gcc_64")
+    list(APPEND ROCOS_VIZ_QT_PREFIX_CANDIDATES ${ROCOS_VIZ_QT_PREFIX_GLOB})
+    list(REMOVE_DUPLICATES ROCOS_VIZ_QT_PREFIX_CANDIDATES)
+
+    foreach(ROCOS_VIZ_QT_PREFIX IN LISTS ROCOS_VIZ_QT_PREFIX_CANDIDATES)
+        if (EXISTS "${ROCOS_VIZ_QT_PREFIX}/lib/cmake/Qt6/Qt6Config.cmake"
+                AND EXISTS "${ROCOS_VIZ_QT_PREFIX}/lib/cmake/Qt6Charts/Qt6ChartsConfig.cmake")
+            list(APPEND CMAKE_PREFIX_PATH "${ROCOS_VIZ_QT_PREFIX}")
+            message(STATUS "Using Qt prefix candidate: ${ROCOS_VIZ_QT_PREFIX}")
+        endif ()
+    endforeach()
 endif ()
-
-include(cmake/common.cmake) # gRPC
-
-file(GLOB PROTO_FILES protos/*.proto) # protobuf
-file(GLOB GRPC_FILES protos/*_service.proto) # gRPC
-
-foreach (PFIL ${PROTO_FILES}) #protobuf gen
-    # Proto file
-    get_filename_component(PROTO_ABS ${PFIL} ABSOLUTE)
-    get_filename_component(PROTO_PATH ${PFIL} PATH)
-    get_filename_component(PROTO_NAME ${PFIL} NAME_WE)
-
-    # Generated sources
-    set(PROTO_SRC "${CMAKE_BINARY_DIR}/${PROTO_NAME}.pb.cc")
-    set(PROTO_HDR "${CMAKE_BINARY_DIR}/${PROTO_NAME}.pb.h")
-    add_custom_command(
-            OUTPUT "${PROTO_SRC}" "${PROTO_HDR}"
-            COMMAND ${_PROTOBUF_PROTOC}
-            ARGS --cpp_out "${CMAKE_BINARY_DIR}"
-            -I "${PROTO_PATH}"
-            "${PROTO_ABS}"
-            DEPENDS "${PROTO_ABS}"
-    )
-    list(APPEND PROTO_SRCS ${PROTO_SRC})
-    list(APPEND PROTO_HDRS ${PROTO_HDR})
-endforeach ()
-
-foreach (GFIL ${GRPC_FILES}) #grpc gen
-    # Proto file
-    get_filename_component(GRPC_ABS ${GFIL} ABSOLUTE)
-    get_filename_component(GRPC_PATH ${GFIL} PATH)
-    get_filename_component(GRPC_NAME ${GFIL} NAME_WE)
-
-    # Generated sources
-    set(GRPC_SRC "${CMAKE_BINARY_DIR}/${GRPC_NAME}.grpc.pb.cc")
-    set(GRPC_HDR "${CMAKE_BINARY_DIR}/${GRPC_NAME}.grpc.pb.h")
-    add_custom_command(
-            OUTPUT "${GRPC_SRC}" "${GRPC_HDR}"
-            COMMAND ${_PROTOBUF_PROTOC}
-            ARGS --grpc_out "${CMAKE_BINARY_DIR}"
-            -I "${GRPC_PATH}"
-            --plugin=protoc-gen-grpc="${_GRPC_CPP_PLUGIN_EXECUTABLE}"
-            "${GRPC_ABS}"
-            DEPENDS "${GRPC_ABS}"
-    )
-    list(APPEND GRPC_SRCS ${GRPC_SRC})
-    list(APPEND GRPC_HDRS ${GRPC_HDR})
-endforeach ()
-
-# Include generated *.pb.h files
-include_directories("${CMAKE_CURRENT_BINARY_DIR}")
-
-add_library(protocol
-        STATIC
-        ${PROTO_SRCS}
-        ${PROTO_HDRS}
-        ${GRPC_SRCS}
-        ${GRPC_HRDS}
-        )
-target_link_libraries(protocol
-        PUBLIC
-        ${_REFLECTION}
-        ${_GRPC_GRPCPP}
-        ${_PROTOBUF_LIBPROTOBUF}
-        )
-add_library(rocos::protocol ALIAS protocol)
 
 # Qt
 #find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets LinguistTools Network OpenGLWidgets REQUIRED)
@@ -196,6 +139,7 @@ set(SRC_FILES
         src/PositionBar.cpp
         src/JointPositionWidget.cpp
         src/CartesianPositionWidget.cpp
+        src/HttpRobotClient.cpp
         src/ConnectDialog.cpp
         src/ScriptDialog.cpp
         src/PlotWidget.cpp
@@ -213,6 +157,7 @@ set(HRD_FILES
         src/PositionBar.h
         src/JointPositionWidget.h
         src/CartesianPositionWidget.h
+        src/HttpRobotClient.h
         src/ConnectDialog.h
         src/ScriptDialog.h
         src/PlotWidget.h
@@ -238,7 +183,7 @@ set(RC_FILES
 
 add_executable(${PROJECT_NAME} WIN32
         ${SRC_FILES}
-        ${HDR_FILES}
+        ${HRD_FILES}
         ${UI_FILES}
         ${RC_FILES}
         ${TS_FILES}
@@ -260,7 +205,6 @@ target_link_libraries(${PROJECT_NAME}
         Eigen3::Eigen
         yaml-cpp
         ${orocos_kdl_LIBRARIES}
-        rocos::protocol
         )
 
 vtk_module_autoinit(
