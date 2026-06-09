@@ -28,7 +28,7 @@ function LineObject({ geometry, visible, points }: { geometry: THREE.BufferGeome
   if (!visible || points.length < 2) return null;
 
   return (
-    <primitive ref={lineRef} object={new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0x496fff, linewidth: 2 }))} />
+    <primitive ref={lineRef} object={new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0x3b82f6, linewidth: 2 }))} />
   );
 }
 

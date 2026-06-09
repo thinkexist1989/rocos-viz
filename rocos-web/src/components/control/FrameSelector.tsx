@@ -19,7 +19,7 @@ export function FrameSelector() {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-      <Text style={{ fontSize: 12, color: '#a0aec0' }}>Frame:</Text>
+      <Text style={{ fontSize: 12, color: '#858585' }}>Frame:</Text>
       <Select
         value={currentFrame}
         onChange={setFrame}

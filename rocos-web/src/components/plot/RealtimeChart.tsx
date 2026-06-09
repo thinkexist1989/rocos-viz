@@ -25,12 +25,12 @@ export function RealtimeChart({ config, data, onClick }: RealtimeChartProps) {
     },
     xAxis: {
       type: 'time' as const,
-      axisLabel: { fontSize: 10, color: '#a0aec0' },
+      axisLabel: { fontSize: 10, color: '#858585' },
     },
     yAxis: {
       type: 'value' as const,
       scale: true,
-      axisLabel: { fontSize: 10, color: '#a0aec0' },
+      axisLabel: { fontSize: 10, color: '#858585' },
     },
     series: [
       {
@@ -40,8 +40,8 @@ export function RealtimeChart({ config, data, onClick }: RealtimeChartProps) {
         large: true,
         sampling: 'lttb' as const,
         animation: false,
-        lineStyle: { width: 1.5, color: '#496FFF' },
-        areaStyle: { color: 'rgba(73, 111, 255, 0.1)' },
+        lineStyle: { width: 1.5, color: '#3b82f6' },
+        areaStyle: { color: 'rgba(59, 130, 246, 0.1)' },
       },
     ],
     dataZoom: [

@@ -27,7 +27,7 @@ export function PlotPanel() {
         return (
           <div
             key={chart.id}
-            style={{ background: '#1a1a2e', borderRadius: 4, overflow: 'hidden' }}
+            style={{ background: '#1a1d24', borderRadius: 4, overflow: 'hidden' }}
           >
             <RealtimeChart
               config={chart}

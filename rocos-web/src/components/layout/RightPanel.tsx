@@ -5,25 +5,37 @@ import { FrameSelector } from '@/components/control/FrameSelector';
 import { WorkModeSelector } from '@/components/control/WorkModeSelector';
 import { EnableButton } from '@/components/control/EnableButton';
 import { MotionCommandPanel } from '@/components/control/MotionCommandPanel';
-import { DisplayToggles } from '@/components/common/DisplayToggles';
-import { useControlStore } from '@/stores/controlStore';
 
 export function RightPanel() {
   return (
-    <div>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 12, alignItems: 'center' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {/* Top toolbar row */}
+      <div className="panel-card" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
         <WorkModeSelector />
         <FrameSelector />
+        <div style={{ flex: 1 }} />
         <EnableButton />
       </div>
 
-      <SpeedSlider />
+      {/* Speed */}
+      <div className="panel-card">
+        <SpeedSlider />
+      </div>
 
-      <CartesianJogPanel />
+      {/* Joint Space */}
+      <div className="panel-card">
+        <JointJogPanel />
+      </div>
 
-      <JointJogPanel />
+      {/* Cartesian Space */}
+      <div className="panel-card">
+        <CartesianJogPanel />
+      </div>
 
-      <MotionCommandPanel />
+      {/* Precise Control */}
+      <div className="panel-card">
+        <MotionCommandPanel />
+      </div>
     </div>
   );
 }

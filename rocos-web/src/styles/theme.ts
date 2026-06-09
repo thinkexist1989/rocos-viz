@@ -1,37 +1,50 @@
 import type { ThemeConfig } from 'antd';
+import { theme } from 'antd';
 
 export const themeConfig: ThemeConfig = {
+  algorithm: theme.darkAlgorithm,
   token: {
-    colorPrimary: '#496FFF',
-    colorBgContainer: '#1a1a2e',
-    colorBgLayout: '#0f0f1a',
-    colorBgElevated: '#16213e',
-    colorText: '#e2e8f0',
-    colorTextSecondary: '#a0aec0',
-    colorBorder: '#2d3748',
-    borderRadius: 6,
+    colorPrimary: '#3b82f6',
+    colorBgContainer: '#1a1d24',
+    colorBgLayout: '#111318',
+    colorBgElevated: '#21242d',
+    colorText: '#e0e0e0',
+    colorTextSecondary: '#858585',
+    colorBorder: '#262930',
+    borderRadius: 4,
+    fontSize: 13,
     fontFamily: '"Alibaba PuHuiTi 3.0", "PingFang SC", "Microsoft YaHei", sans-serif',
   },
   components: {
     Layout: {
-      siderBg: '#1a1a2e',
-      headerBg: '#0f0f1a',
-      bodyBg: '#0f0f1a',
+      siderBg: '#1a1d24',
+      headerBg: '#111318',
+      bodyBg: '#111318',
     },
     Button: {
-      colorPrimary: '#496FFF',
+      colorPrimary: '#3b82f6',
+      algorithm: true,
     },
     Slider: {
-      colorPrimaryBorder: '#496FFF',
+      railSize: 4,
+      handleSize: 10,
+      handleSizeHover: 12,
+      colorPrimaryBorder: '#3b82f6',
+      colorPrimaryHover: '#60a5fa',
     },
     Select: {
-      colorBgContainer: '#16213e',
+      colorBgContainer: '#21242d',
     },
     Input: {
-      colorBgContainer: '#16213e',
+      colorBgContainer: '#21242d',
     },
     InputNumber: {
-      colorBgContainer: '#16213e',
+      colorBgContainer: '#21242d',
+      controlWidth: 80,
+      handleWidth: 18,
+    },
+    Tooltip: {
+      colorBgSpotlight: '#262930',
     },
   },
 };

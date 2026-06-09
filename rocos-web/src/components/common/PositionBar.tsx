@@ -5,7 +5,7 @@ interface PositionBarProps {
   color?: string;
 }
 
-export function PositionBar({ value, min, max, color = '#496FFF' }: PositionBarProps) {
+export function PositionBar({ value, min, max, color = '#3b82f6' }: PositionBarProps) {
   const range = max - min;
   const percentage = Math.max(0, Math.min(100, ((value - min) / range) * 100));
 

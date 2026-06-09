@@ -8,8 +8,8 @@ html, body, #root {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #0f0f1a;
-  color: #e2e8f0;
+  background: #111318;
+  color: #e0e0e0;
 }
 
 ::-webkit-scrollbar {
@@ -18,16 +18,16 @@ html, body, #root {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a2e;
+  background: #1a1d24;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4a5568;
+  background: #3c3f47;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #718096;
+  background: #555860;
 }
 
 .app-layout {
@@ -42,17 +42,18 @@ html, body, #root {
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  background: #0f0f1a;
-  border-bottom: 1px solid #2d3748;
+  background: #1a1d24;
+  border-bottom: 1px solid #262930;
   flex-shrink: 0;
 }
 
 .app-toolbar .logo {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  color: #496FFF;
-  margin-right: 16px;
+  color: #3b82f6;
+  margin-right: 12px;
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 .app-toolbar .toolbar-spacer {
@@ -66,17 +67,19 @@ html, body, #root {
 }
 
 .app-left-panel {
-  flex: 4;
+  flex: 7;
   position: relative;
   overflow: hidden;
-  border-right: 1px solid #2d3748;
+  border-right: 1px solid #262930;
 }
 
 .app-right-panel {
-  flex: 6;
+  flex: 3;
+  max-width: 480px;
+  min-width: 320px;
   overflow-y: auto;
   padding: 12px;
-  background: #0f0f1a;
+  background: #111318;
 }
 
 .app-statusbar {
@@ -84,10 +87,10 @@ html, body, #root {
   align-items: center;
   gap: 16px;
   padding: 4px 12px;
-  background: #0f0f1a;
-  border-top: 1px solid #2d3748;
+  background: #1a1d24;
+  border-top: 1px solid #262930;
   font-size: 12px;
-  color: #a0aec0;
+  color: #858585;
   flex-shrink: 0;
 }
 
@@ -100,97 +103,113 @@ html, body, #root {
 }
 
 .status-dot.connected {
-  background: #48bb78;
+  background: #22c55e;
 }
 
 .status-dot.disconnected {
-  background: #f56565;
+  background: #ef4444;
 }
 
 .status-dot.enabled {
-  background: #496FFF;
+  background: #3b82f6;
 }
 
-/* Right panel section headers */
+/* ---- Right panel section cards ---- */
 .panel-section {
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .panel-section-header {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
-  color: #a0aec0;
+  color: #858585;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   margin-bottom: 8px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #2d3748;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .panel-section-header .frame-highlight {
-  color: #496FFF;
+  color: #3b82f6;
   font-weight: 700;
 }
 
-/* Jog item row */
+/* Card wrapper used by RightPanel */
+.panel-card {
+  background: #1a1d24;
+  border: 1px solid #262930;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+/* ---- Jog item row ---- */
 .jog-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
+  gap: 6px;
+  margin-bottom: 4px;
 }
 
 .jog-item .jog-label {
-  width: 32px;
-  font-size: 13px;
+  width: 28px;
+  font-size: 12px;
   font-weight: 600;
-  color: #e2e8f0;
-  text-align: right;
-}
-
-.jog-item .jog-value {
-  width: 80px;
-  font-size: 13px;
-  color: #e2e8f0;
+  color: #a0a0a0;
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
+.jog-item .jog-value {
+  width: 78px;
+  font-size: 12px;
+  color: #d4d4d4;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Position bar — slim 4px track with floating indicator */
 .jog-item .position-bar {
   flex: 1;
-  height: 20px;
-  background: #2d3748;
-  border-radius: 4px;
-  overflow: hidden;
+  height: 4px;
+  background: #262930;
+  border-radius: 2px;
+  overflow: visible;
   position: relative;
+  margin: 0 2px;
 }
 
 .jog-item .position-bar .bar-fill {
   height: 100%;
-  background: #496FFF;
-  border-radius: 4px;
+  background: #3b82f6;
+  border-radius: 2px;
   transition: width 50ms linear;
+  opacity: 0.5;
 }
 
 .jog-item .position-bar .bar-indicator {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: -5px;
+  bottom: -5px;
   width: 2px;
-  background: #fff;
-  opacity: 0.8;
+  background: #e0e0e0;
+  border-radius: 1px;
+  opacity: 0.9;
 }
 
+/* Jog +/− buttons */
 .jog-btn {
-  width: 28px !important;
-  height: 28px !important;
+  width: 26px !important;
+  height: 26px !important;
   padding: 0 !important;
-  font-size: 16px !important;
+  font-size: 15px !important;
   font-weight: 700;
   line-height: 1 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  border-radius: 4px !important;
 }
 
 /* Display toggle buttons */
@@ -202,14 +221,13 @@ html, body, #root {
 
 /* Precise control section */
 .precise-control {
-  background: #16213e;
-  border-radius: 6px;
-  padding: 12px;
+  background: transparent;
+  padding: 0;
 }
 
 .precise-control .input-row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   margin-bottom: 8px;
   flex-wrap: wrap;
 }
@@ -219,24 +237,26 @@ html, body, #root {
   flex-direction: column;
   gap: 2px;
   flex: 1;
-  min-width: 80px;
+  min-width: 70px;
 }
 
 .precise-control .input-group label {
-  font-size: 11px;
-  color: #a0aec0;
+  font-size: 10px;
+  color: #858585;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .precise-control .btn-row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 /* Connect dialog */
 .connect-dialog .ant-modal-content {
-  background: #1a1a2e;
-  border: 1px solid #496FFF;
-  border-radius: 12px;
+  background: #1a1d24;
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
 }
 
 /* Scene toggle buttons at bottom of left panel */
@@ -244,9 +264,9 @@ html, body, #root {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  padding: 8px 12px;
-  background: #0f0f1a;
-  border-top: 1px solid #2d3748;
+  padding: 4px 12px;
+  background: #1a1d24;
+  border-top: 1px solid #262930;
 }
 
 .scene-toggles .ant-btn {
@@ -263,10 +283,11 @@ html, body, #root {
     flex: none;
     height: 50%;
     border-right: none;
-    border-bottom: 1px solid #2d3748;
+    border-bottom: 1px solid #262930;
   }
   .app-right-panel {
     flex: none;
     height: 50%;
+    max-width: none;
   }
 }

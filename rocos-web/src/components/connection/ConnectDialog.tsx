@@ -55,7 +55,7 @@ export function ConnectDialog({ open, onClose }: ConnectDialogProps) {
       <div style={{ padding: '16px 0' }}>
         <Space direction="vertical" style={{ width: '100%' }} size="middle">
           <div>
-            <Text style={{ display: 'block', marginBottom: 4, color: '#a0aec0' }}>IP Address</Text>
+            <Text style={{ display: 'block', marginBottom: 4, color: '#858585' }}>IP Address</Text>
             <Input
               value={host}
               onChange={(e) => setHost(e.target.value)}
@@ -65,7 +65,7 @@ export function ConnectDialog({ open, onClose }: ConnectDialogProps) {
           </div>
 
           <div>
-            <Text style={{ display: 'block', marginBottom: 4, color: '#a0aec0' }}>Port</Text>
+            <Text style={{ display: 'block', marginBottom: 4, color: '#858585' }}>Port</Text>
             <Input
               value={port}
               onChange={(e) => setPort(e.target.value)}

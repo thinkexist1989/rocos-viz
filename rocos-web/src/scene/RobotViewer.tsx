@@ -21,8 +21,12 @@ export function RobotViewer({ children }: RobotViewerProps) {
         far: 1000,
         up: [0, 0, 1],
       }}
-      gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
-      style={{ width: '100%', height: '100%', background: 'linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)' }}
+      gl={{
+        antialias: true,
+        toneMapping: THREE.ACESFilmicToneMapping,
+        toneMappingExposure: 1.2,
+      }}
+      style={{ width: '100%', height: '100%', background: '#111318' }}
     >
       <SceneHelpers showGround={showGround} />
       <OrbitControls

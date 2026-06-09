@@ -287,12 +287,12 @@ export function AppLayout() {
         width={400}
       >
         <div style={{ textAlign: 'center', padding: '20px 0' }}>
-          <h2 style={{ color: '#496FFF', marginBottom: 8 }}>ROCOS-Viz Web</h2>
-          <p style={{ color: '#a0aec0' }}>Version 0.1.0</p>
-          <p style={{ color: '#a0aec0', marginTop: 8 }}>
+          <h2 style={{ color: '#3b82f6', marginBottom: 8 }}>ROCOS-Viz Web</h2>
+          <p style={{ color: '#858585' }}>Version 0.1.0</p>
+          <p style={{ color: '#858585', marginTop: 8 }}>
             React + Three.js + ECharts
           </p>
-          <p style={{ color: '#a0aec0', fontSize: 12, marginTop: 16 }}>
+          <p style={{ color: '#858585', fontSize: 12, marginTop: 16 }}>
             Shenyang Institute of Automation<br />
             Chinese Academy of Sciences
           </p>
