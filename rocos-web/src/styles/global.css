@@ -1,0 +1,272 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0f0f1a;
+  color: #e2e8f0;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.app-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #0f0f1a;
+  border-bottom: 1px solid #2d3748;
+  flex-shrink: 0;
+}
+
+.app-toolbar .logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #496FFF;
+  margin-right: 16px;
+  white-space: nowrap;
+}
+
+.app-toolbar .toolbar-spacer {
+  flex: 1;
+}
+
+.app-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.app-left-panel {
+  flex: 4;
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid #2d3748;
+}
+
+.app-right-panel {
+  flex: 6;
+  overflow-y: auto;
+  padding: 12px;
+  background: #0f0f1a;
+}
+
+.app-statusbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 12px;
+  background: #0f0f1a;
+  border-top: 1px solid #2d3748;
+  font-size: 12px;
+  color: #a0aec0;
+  flex-shrink: 0;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.status-dot.connected {
+  background: #48bb78;
+}
+
+.status-dot.disconnected {
+  background: #f56565;
+}
+
+.status-dot.enabled {
+  background: #496FFF;
+}
+
+/* Right panel section headers */
+.panel-section {
+  margin-bottom: 16px;
+}
+
+.panel-section-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2d3748;
+}
+
+.panel-section-header .frame-highlight {
+  color: #496FFF;
+  font-weight: 700;
+}
+
+/* Jog item row */
+.jog-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.jog-item .jog-label {
+  width: 32px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  text-align: right;
+}
+
+.jog-item .jog-value {
+  width: 80px;
+  font-size: 13px;
+  color: #e2e8f0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.jog-item .position-bar {
+  flex: 1;
+  height: 20px;
+  background: #2d3748;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.jog-item .position-bar .bar-fill {
+  height: 100%;
+  background: #496FFF;
+  border-radius: 4px;
+  transition: width 50ms linear;
+}
+
+.jog-item .position-bar .bar-indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #fff;
+  opacity: 0.8;
+}
+
+.jog-btn {
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  font-size: 16px !important;
+  font-weight: 700;
+  line-height: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Display toggle buttons */
+.display-toggle {
+  display: flex;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+/* Precise control section */
+.precise-control {
+  background: #16213e;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.precise-control .input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.precise-control .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 80px;
+}
+
+.precise-control .input-group label {
+  font-size: 11px;
+  color: #a0aec0;
+}
+
+.precise-control .btn-row {
+  display: flex;
+  gap: 8px;
+}
+
+/* Connect dialog */
+.connect-dialog .ant-modal-content {
+  background: #1a1a2e;
+  border: 1px solid #496FFF;
+  border-radius: 12px;
+}
+
+/* Scene toggle buttons at bottom of left panel */
+.scene-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 12px;
+  background: #0f0f1a;
+  border-top: 1px solid #2d3748;
+}
+
+.scene-toggles .ant-btn {
+  font-size: 11px;
+  padding: 2px 8px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .app-main {
+    flex-direction: column;
+  }
+  .app-left-panel {
+    flex: none;
+    height: 50%;
+    border-right: none;
+    border-bottom: 1px solid #2d3748;
+  }
+  .app-right-panel {
+    flex: none;
+    height: 50%;
+  }
+}
