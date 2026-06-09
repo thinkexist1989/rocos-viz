@@ -113,7 +113,7 @@ export function MotionCommandPanel() {
 
       {/* Cartesian Control */}
       <div className="precise-control" style={{ marginBottom: 12 }}>
-        <Text style={{ fontSize: 12, color: '#858585', marginBottom: 8, display: 'block' }}>
+        <Text style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8, display: 'block' }}>
           Cartesian Space
         </Text>
         <div className="input-row">
@@ -142,7 +142,7 @@ export function MotionCommandPanel() {
 
       {/* Joint Control */}
       <div className="precise-control">
-        <Text style={{ fontSize: 12, color: '#858585', marginBottom: 8, display: 'block' }}>
+        <Text style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8, display: 'block' }}>
           Joint Space
         </Text>
         <div className="input-row" style={{ flexWrap: 'wrap' }}>

@@ -24,7 +24,7 @@ export function WorkModeSelector() {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-      <span style={{ fontSize: 12, color: '#858585' }}>Mode:</span>
+      <span style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>Mode:</span>
       <Select
         defaultValue="position"
         onChange={handleChange}

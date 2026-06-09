@@ -14,9 +14,9 @@ export function Toolbar({ onShowConnect, onShowAbout }: ToolbarProps) {
       <button
         onClick={onShowConnect}
         style={{
-          background: isConnected ? '#3b82f6' : 'transparent',
-          color: '#e0e0e0',
-          border: '1px solid #3b82f6',
+          background: isConnected ? 'var(--color-primary, #3b82f6)' : 'transparent',
+          color: 'var(--color-text)',
+          border: '1px solid var(--color-primary, #3b82f6)',
           borderRadius: 4,
           padding: '4px 12px',
           cursor: 'pointer',
@@ -30,8 +30,8 @@ export function Toolbar({ onShowConnect, onShowAbout }: ToolbarProps) {
         onClick={onShowAbout}
         style={{
           background: 'transparent',
-          color: '#858585',
-          border: '1px solid #3c3f47',
+          color: 'var(--color-text-secondary)',
+          border: '1px solid var(--color-border)',
           borderRadius: 4,
           padding: '4px 8px',
           cursor: 'pointer',

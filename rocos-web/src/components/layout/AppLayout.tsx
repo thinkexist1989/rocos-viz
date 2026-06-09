@@ -36,6 +36,7 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined,
   GlobalOutlined,
+  BulbOutlined,
 } from '@ant-design/icons';
 
 /** Convert the API JSON RobotModelConfig to YAML matching C++ writeModelFiles format */
@@ -208,6 +209,13 @@ export function AppLayout() {
         <Tooltip title="设置">
           <Button size="small" icon={<SettingOutlined />} />
         </Tooltip>
+        <Tooltip title={useUIStore.getState().themeMode === 'dark' ? '切换为浅色模式' : '切换为深色模式'}>
+          <Button
+            size="small"
+            icon={<BulbOutlined />}
+            onClick={() => useUIStore.getState().toggleTheme()}
+          />
+        </Tooltip>
         <Tooltip title="关于">
           <Button size="small" icon={<QuestionCircleOutlined />} onClick={() => setShowAbout(true)} />
         </Tooltip>
@@ -288,11 +296,11 @@ export function AppLayout() {
       >
         <div style={{ textAlign: 'center', padding: '20px 0' }}>
           <h2 style={{ color: '#3b82f6', marginBottom: 8 }}>ROCOS-Viz Web</h2>
-          <p style={{ color: '#858585' }}>Version 0.1.0</p>
-          <p style={{ color: '#858585', marginTop: 8 }}>
+          <p style={{ color: 'var(--color-text-secondary)' }}>Version 0.1.0</p>
+          <p style={{ color: 'var(--color-text-secondary)', marginTop: 8 }}>
             React + Three.js + ECharts
           </p>
-          <p style={{ color: '#858585', fontSize: 12, marginTop: 16 }}>
+          <p style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginTop: 16 }}>
             Shenyang Institute of Automation<br />
             Chinese Academy of Sciences
           </p>

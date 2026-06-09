@@ -131,7 +131,7 @@ export function ScriptEditor() {
             width: '100%',
             height: '100%',
             minHeight: 300,
-            background: '#1a1d24',
+            background: 'var(--color-bg-surface)',
             color: '#e0e0e0',
             border: 'none',
             padding: 12,

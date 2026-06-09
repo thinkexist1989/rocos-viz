@@ -11,6 +11,7 @@ interface RobotViewerProps {
 
 export function RobotViewer({ children }: RobotViewerProps) {
   const showGround = useUIStore((s) => s.showGround);
+  const isLight = useUIStore((s) => s.themeMode === 'light');
 
   return (
     <Canvas
@@ -24,10 +25,16 @@ export function RobotViewer({ children }: RobotViewerProps) {
       gl={{
         antialias: true,
         toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 1.2,
+        toneMappingExposure: isLight ? 1.0 : 1.2,
       }}
-      style={{ width: '100%', height: '100%', background: '#111318' }}
+      shadows={isLight ? { type: THREE.PCFSoftShadowMap } : undefined}
+      style={{
+        width: '100%',
+        height: '100%',
+        background: isLight ? '#f8f9fa' : '#111318',
+      }}
     >
+      <color attach="background" args={[isLight ? '#f8f9fa' : '#111318']} />
       <SceneHelpers showGround={showGround} />
       <OrbitControls
         target={[0, 0, 0.5]}

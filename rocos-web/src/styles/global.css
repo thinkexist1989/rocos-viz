@@ -4,12 +4,67 @@
   box-sizing: border-box;
 }
 
+/* ========== Dark Theme (default) ========== */
+:root,
+[data-theme='dark'] {
+  --color-bg-base: #111318;
+  --color-bg-surface: #1a1d24;
+  --color-bg-elevated: #21242d;
+  --color-border: #262930;
+  --color-text: #e0e0e0;
+  --color-text-secondary: #858585;
+  --color-scrollbar-thumb: #3c3f47;
+  --color-scrollbar-hover: #555860;
+  --color-status-bar-bg: #1a1d24;
+  --color-toolbar-bg: #1a1d24;
+  --color-toggles-bg: #1a1d24;
+
+  /* 3D scene */
+  --scene-bg: #111318;
+  --grid-cell: #3c3f47;
+  --grid-section: #555860;
+  --env-preset: city;
+
+  /* Position bar */
+  --bar-track: #262930;
+  --bar-fill: #3b82f6;
+  --bar-fill-opacity: 0.5;
+  --bar-indicator: #e0e0e0;
+}
+
+/* ========== Light Theme ========== */
+[data-theme='light'] {
+  --color-bg-base: #ffffff;
+  --color-bg-surface: #fbfcfd;
+  --color-bg-elevated: #f3f4f6;
+  --color-border: #e5e7eb;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #6b7280;
+  --color-scrollbar-thumb: #d1d5db;
+  --color-scrollbar-hover: #9ca3af;
+  --color-status-bar-bg: #f9fafb;
+  --color-toolbar-bg: #f9fafb;
+  --color-toggles-bg: #f9fafb;
+
+  /* 3D scene */
+  --scene-bg: #f8f9fa;
+  --grid-cell: #d1d5db;
+  --grid-section: #9ca3af;
+  --env-preset: studio;
+
+  /* Position bar */
+  --bar-track: #e5e7eb;
+  --bar-fill: #1e4ed8;
+  --bar-fill-opacity: 0.35;
+  --bar-indicator: #1a1a1a;
+}
+
 html, body, #root {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #111318;
-  color: #e0e0e0;
+  background: var(--color-bg-base);
+  color: var(--color-text);
 }
 
 ::-webkit-scrollbar {
@@ -18,16 +73,16 @@ html, body, #root {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1d24;
+  background: var(--color-bg-surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3c3f47;
+  background: var(--color-scrollbar-thumb);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555860;
+  background: var(--color-scrollbar-hover);
 }
 
 .app-layout {
@@ -42,8 +97,8 @@ html, body, #root {
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  background: #1a1d24;
-  border-bottom: 1px solid #262930;
+  background: var(--color-toolbar-bg);
+  border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
 }
 
@@ -54,6 +109,10 @@ html, body, #root {
   margin-right: 12px;
   white-space: nowrap;
   letter-spacing: 0.02em;
+}
+
+[data-theme='light'] .app-toolbar .logo {
+  color: #1e4ed8;
 }
 
 .app-toolbar .toolbar-spacer {
@@ -70,7 +129,7 @@ html, body, #root {
   flex: 7;
   position: relative;
   overflow: hidden;
-  border-right: 1px solid #262930;
+  border-right: 1px solid var(--color-border);
 }
 
 .app-right-panel {
@@ -79,7 +138,7 @@ html, body, #root {
   min-width: 320px;
   overflow-y: auto;
   padding: 12px;
-  background: #111318;
+  background: var(--color-bg-base);
 }
 
 .app-statusbar {
@@ -87,10 +146,10 @@ html, body, #root {
   align-items: center;
   gap: 16px;
   padding: 4px 12px;
-  background: #1a1d24;
-  border-top: 1px solid #262930;
+  background: var(--color-status-bar-bg);
+  border-top: 1px solid var(--color-border);
   font-size: 12px;
-  color: #858585;
+  color: var(--color-text-secondary);
   flex-shrink: 0;
 }
 
@@ -114,6 +173,10 @@ html, body, #root {
   background: #3b82f6;
 }
 
+[data-theme='light'] .status-dot.enabled {
+  background: #1e4ed8;
+}
+
 /* ---- Right panel section cards ---- */
 .panel-section {
   margin-bottom: 0;
@@ -122,7 +185,7 @@ html, body, #root {
 .panel-section-header {
   font-size: 10px;
   font-weight: 600;
-  color: #858585;
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 8px;
@@ -135,10 +198,14 @@ html, body, #root {
   font-weight: 700;
 }
 
+[data-theme='light'] .panel-section-header .frame-highlight {
+  color: #1e4ed8;
+}
+
 /* Card wrapper used by RightPanel */
 .panel-card {
-  background: #1a1d24;
-  border: 1px solid #262930;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 10px 12px;
 }
@@ -155,7 +222,7 @@ html, body, #root {
   width: 28px;
   font-size: 12px;
   font-weight: 600;
-  color: #a0a0a0;
+  color: var(--color-text-secondary);
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
@@ -163,17 +230,17 @@ html, body, #root {
 .jog-item .jog-value {
   width: 78px;
   font-size: 12px;
-  color: #d4d4d4;
+  color: var(--color-text);
   text-align: right;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
-/* Position bar — slim 4px track with floating indicator */
+/* Position bar */
 .jog-item .position-bar {
   flex: 1;
   height: 4px;
-  background: #262930;
+  background: var(--bar-track);
   border-radius: 2px;
   overflow: visible;
   position: relative;
@@ -182,10 +249,10 @@ html, body, #root {
 
 .jog-item .position-bar .bar-fill {
   height: 100%;
-  background: #3b82f6;
+  background: var(--bar-fill);
   border-radius: 2px;
   transition: width 50ms linear;
-  opacity: 0.5;
+  opacity: var(--bar-fill-opacity);
 }
 
 .jog-item .position-bar .bar-indicator {
@@ -193,7 +260,7 @@ html, body, #root {
   top: -5px;
   bottom: -5px;
   width: 2px;
-  background: #e0e0e0;
+  background: var(--bar-indicator);
   border-radius: 1px;
   opacity: 0.9;
 }
@@ -242,7 +309,7 @@ html, body, #root {
 
 .precise-control .input-group label {
   font-size: 10px;
-  color: #858585;
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -254,9 +321,15 @@ html, body, #root {
 
 /* Connect dialog */
 .connect-dialog .ant-modal-content {
-  background: #1a1d24;
-  border: 1px solid #3b82f6;
   border-radius: 8px;
+}
+
+[data-theme='dark'] .connect-dialog .ant-modal-content {
+  border: 1px solid #3b82f6;
+}
+
+[data-theme='light'] .connect-dialog .ant-modal-content {
+  border: 1px solid #1e4ed8;
 }
 
 /* Scene toggle buttons at bottom of left panel */
@@ -265,8 +338,8 @@ html, body, #root {
   flex-wrap: wrap;
   gap: 4px;
   padding: 4px 12px;
-  background: #1a1d24;
-  border-top: 1px solid #262930;
+  background: var(--color-toggles-bg);
+  border-top: 1px solid var(--color-border);
 }
 
 .scene-toggles .ant-btn {
@@ -283,7 +356,7 @@ html, body, #root {
     flex: none;
     height: 50%;
     border-right: none;
-    border-bottom: 1px solid #262930;
+    border-bottom: 1px solid var(--color-border);
   }
   .app-right-panel {
     flex: none;

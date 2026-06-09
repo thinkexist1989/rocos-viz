@@ -14,7 +14,7 @@ export function JointJogPanel() {
           <JointJogItem key={`joint_${i}`} index={i} joint={joint} />
         ))}
         {joints.length === 0 && (
-          <div style={{ padding: '8px 0', color: '#858585', fontSize: 12, textAlign: 'center' }}>
+          <div style={{ padding: '8px 0', color: 'var(--color-text-secondary)', fontSize: 12, textAlign: 'center' }}>
             连接机器人后显示关节数据
           </div>
         )}

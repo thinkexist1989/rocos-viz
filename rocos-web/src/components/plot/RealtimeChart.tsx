@@ -12,7 +12,7 @@ export function RealtimeChart({ config, data, onClick }: RealtimeChartProps) {
     title: {
       text: config.title,
       left: 'center',
-      textStyle: { fontSize: 12, color: '#e0e0e0' },
+      textStyle: { fontSize: 12, color: 'var(--color-text)' },
     },
     tooltip: {
       trigger: 'axis' as const,
@@ -25,12 +25,12 @@ export function RealtimeChart({ config, data, onClick }: RealtimeChartProps) {
     },
     xAxis: {
       type: 'time' as const,
-      axisLabel: { fontSize: 10, color: '#858585' },
+      axisLabel: { fontSize: 10, color: 'var(--color-text-secondary)' },
     },
     yAxis: {
       type: 'value' as const,
       scale: true,
-      axisLabel: { fontSize: 10, color: '#858585' },
+      axisLabel: { fontSize: 10, color: 'var(--color-text-secondary)' },
     },
     series: [
       {

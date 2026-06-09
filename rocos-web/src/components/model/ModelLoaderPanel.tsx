@@ -64,7 +64,7 @@ export function ModelLoaderPanel() {
     <div style={{ padding: 16 }}>
       <Card title="远程模型下载" size="small">
         <div style={{ marginBottom: 16 }}>
-          <p style={{ color: '#858585', marginBottom: 12 }}>
+          <p style={{ color: 'var(--color-text-secondary)', marginBottom: 12 }}>
             从控制器 {host}:{port} 下载机器人模型和网格文件
           </p>
           <Button
@@ -87,7 +87,7 @@ export function ModelLoaderPanel() {
         {downloading && progress && (
           <div>
             <Progress percent={percent} size="small" />
-            <p style={{ color: '#858585', fontSize: 12, marginTop: 8 }}>
+            <p style={{ color: 'var(--color-text-secondary)', fontSize: 12, marginTop: 8 }}>
               {progress.loaded}/{progress.total} - {progress.currentFile}
             </p>
           </div>
