@@ -42,6 +42,10 @@ export function RobotViewer({ children }: RobotViewerProps) {
         far: 1000,
         up: [0, 0, 1],
       }}
+      // Track container size with no debounce so the canvas re-syncs its drawing
+      // buffer and camera aspect immediately while the right panel is dragged.
+      // The default debounce leaves the scene stretched until the drag settles.
+      resize={{ scroll: false, debounce: 0 }}
       gl={{
         antialias: true,
         toneMapping: THREE.ACESFilmicToneMapping,

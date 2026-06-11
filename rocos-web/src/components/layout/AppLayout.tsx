@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useConnectionStore } from '@/stores/connectionStore';
-import { useUIStore } from '@/stores/uiStore';
+import { useUIStore, RIGHT_PANEL_MIN_WIDTH, RIGHT_PANEL_MAX_WIDTH } from '@/stores/uiStore';
 import { useRobotStateStore } from '@/stores/robotStateStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { RobotViewer } from '@/scene/RobotViewer';
@@ -179,12 +179,26 @@ export function AppLayout() {
   } as const;
 
   // --- Right panel resize via left-edge drag handle (mouse + touch) ---
+  // The panel width is driven directly via DOM during the drag — we do NOT write
+  // to the (persisted) store on every mousemove. Writing per-frame serialized the
+  // whole store to localStorage synchronously on each move, stalling the main
+  // thread and starving the 3D render loop (canvas blanked until the drag ended).
+  // We commit the final width to the store once, on drag-end.
+  const rightPanelRef = useRef<HTMLDivElement>(null);
+
   const beginResize = useCallback(
     (startX: number) => {
       const startWidth = useUIStore.getState().rightPanelWidth;
+      let latestWidth = startWidth;
+
+      const clamp = (w: number) =>
+        Math.min(RIGHT_PANEL_MAX_WIDTH, Math.max(RIGHT_PANEL_MIN_WIDTH, w));
 
       // Panel is anchored to the right edge, so dragging left widens it.
-      const apply = (clientX: number) => setRightPanelWidth(startWidth + (startX - clientX));
+      const apply = (clientX: number) => {
+        latestWidth = clamp(startWidth + (startX - clientX));
+        if (rightPanelRef.current) rightPanelRef.current.style.width = `${latestWidth}px`;
+      };
 
       const onMouseMove = (ev: MouseEvent) => apply(ev.clientX);
       const onTouchMove = (ev: TouchEvent) => {
@@ -196,6 +210,8 @@ export function AppLayout() {
         window.removeEventListener('touchmove', onTouchMove);
         window.removeEventListener('touchend', onEnd);
         document.body.style.userSelect = '';
+        // Commit once — triggers the single re-render / persist write.
+        setRightPanelWidth(latestWidth);
       };
       document.body.style.userSelect = 'none';
       window.addEventListener('mousemove', onMouseMove);
@@ -443,6 +459,7 @@ export function AppLayout() {
 
         {/* Right Panel - Overlay Controls */}
         <div
+          ref={rightPanelRef}
           className={`app-right-panel${rightPanelCollapsed ? ' collapsed' : ''}`}
           style={{ width: rightPanelWidth }}
         >
