@@ -127,9 +127,17 @@ html, body, #root {
 
 .app-left-panel {
   flex: 7;
+  display: flex;
+  flex-direction: column;
   position: relative;
   overflow: hidden;
   border-right: 1px solid var(--color-border);
+}
+
+.app-left-panel .scene-viewport {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
 }
 
 .app-right-panel {

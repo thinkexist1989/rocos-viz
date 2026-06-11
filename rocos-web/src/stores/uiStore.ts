@@ -4,14 +4,14 @@ import { persist } from 'zustand/middleware';
 export type ThemeMode = 'dark' | 'light';
 
 interface UIState {
-  showAxes: boolean;
+  showJointFrames: boolean;
   showWireframe: boolean;
   showGround: boolean;
   showTrajectory: boolean;
   currentView: 'scene' | 'plot';
   themeMode: ThemeMode;
 
-  toggleAxes: () => void;
+  toggleJointFrames: () => void;
   toggleWireframe: () => void;
   toggleGround: () => void;
   toggleTrajectory: () => void;
@@ -22,14 +22,14 @@ interface UIState {
 export const useUIStore = create<UIState>()(
   persist(
     (set) => ({
-      showAxes: true,
+      showJointFrames: false,
       showWireframe: false,
       showGround: true,
       showTrajectory: false,
       currentView: 'scene',
       themeMode: 'dark',
 
-      toggleAxes: () => set((state) => ({ showAxes: !state.showAxes })),
+      toggleJointFrames: () => set((state) => ({ showJointFrames: !state.showJointFrames })),
       toggleWireframe: () => set((state) => ({ showWireframe: !state.showWireframe })),
       toggleGround: () => set((state) => ({ showGround: !state.showGround })),
       toggleTrajectory: () => set((state) => ({ showTrajectory: !state.showTrajectory })),

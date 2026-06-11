@@ -1,5 +1,6 @@
 import { Grid, Environment } from '@react-three/drei';
 import { useUIStore } from '@/stores/uiStore';
+import * as THREE from 'three';
 
 interface SceneHelpersProps {
   showGround: boolean;
@@ -38,6 +39,7 @@ export function SceneHelpers({ showGround }: SceneHelpersProps) {
         <Grid
           position={[0, 0, 0]}
           rotation={[-Math.PI / 2, 0, 0]}
+          side={THREE.DoubleSide}
           args={[20, 20]}
           cellSize={0.1}
           cellThickness={0.5}

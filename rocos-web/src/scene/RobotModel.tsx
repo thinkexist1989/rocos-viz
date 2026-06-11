@@ -16,9 +16,11 @@ export function RobotModel({ yamlContent, meshBaseUrl }: RobotModelProps) {
   const parserRef = useRef<YamlModelParser>(new YamlModelParser());
   const fkRef = useRef<ForwardKinematics>(new ForwardKinematics());
   const linksRef = useRef<ParsedLink[]>([]);
+  const jointFrameHelpersRef = useRef<THREE.AxesHelper[]>([]);
 
   const robotState = useRobotStateStore((s) => s.robotState);
   const showWireframe = useUIStore((s) => s.showWireframe);
+  const showJointFrames = useUIStore((s) => s.showJointFrames);
 
   useEffect(() => {
     let cancelled = false;
@@ -42,6 +44,14 @@ export function RobotModel({ yamlContent, meshBaseUrl }: RobotModelProps) {
           groupRef.current.add(robotGroup);
           linksRef.current = parser.getLinks();
           fkRef.current.setLinks(linksRef.current);
+
+          jointFrameHelpersRef.current = [];
+          for (const link of linksRef.current) {
+            const helper = new THREE.AxesHelper(0.08);
+            helper.visible = showJointFrames;
+            link.jointNode.add(helper);
+            jointFrameHelpersRef.current.push(helper);
+          }
         }
       } catch (error) {
         console.error('Failed to load robot model:', error);
@@ -57,15 +67,29 @@ export function RobotModel({ yamlContent, meshBaseUrl }: RobotModelProps) {
   }, [yamlContent, meshBaseUrl]);
 
   useFrame(() => {
-    if (!robotState || robotState.joint_states.length === 0) return;
-
-    const jointAngles = robotState.joint_states.map((js) => js.position);
-    fkRef.current.update(jointAngles);
+    if (robotState && robotState.joint_states.length > 0) {
+      const jointAngles = robotState.joint_states.map((js) => js.position);
+      fkRef.current.update(jointAngles);
+    }
 
     for (const link of linksRef.current) {
       if (link.mesh) {
-        (link.mesh.material as THREE.MeshStandardMaterial).wireframe = showWireframe;
+        const materials = Array.isArray(link.mesh.material)
+          ? link.mesh.material
+          : [link.mesh.material];
+        for (const material of materials) {
+          const m = material as THREE.MeshStandardMaterial;
+          m.wireframe = showWireframe;
+          m.transparent = showJointFrames;
+          m.opacity = showJointFrames ? 0.35 : 1.0;
+          m.depthWrite = !showJointFrames;
+          m.needsUpdate = true;
+        }
       }
+    }
+
+    for (const helper of jointFrameHelpersRef.current) {
+      helper.visible = showJointFrames;
     }
   });
 

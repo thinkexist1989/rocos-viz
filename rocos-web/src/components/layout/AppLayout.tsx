@@ -88,6 +88,35 @@ function modelConfigToYaml(model: RobotModelConfig): string {
   return lines.join('\n');
 }
 
+/** Reactive scene-toggle buttons – uses hooks so state changes are reflected immediately */
+function SceneToggles() {
+  const showJointFrames = useUIStore((s) => s.showJointFrames);
+  const showWireframe = useUIStore((s) => s.showWireframe);
+  const showGround = useUIStore((s) => s.showGround);
+  const showTrajectory = useUIStore((s) => s.showTrajectory);
+  const toggleJointFrames = useUIStore((s) => s.toggleJointFrames);
+  const toggleWireframe = useUIStore((s) => s.toggleWireframe);
+  const toggleGround = useUIStore((s) => s.toggleGround);
+  const toggleTrajectory = useUIStore((s) => s.toggleTrajectory);
+
+  return (
+    <div className="scene-toggles">
+      <Button size="small" type={showJointFrames ? 'primary' : 'default'} onClick={toggleJointFrames}>
+        Axes
+      </Button>
+      <Button size="small" type={showWireframe ? 'primary' : 'default'} onClick={toggleWireframe}>
+        Mesh
+      </Button>
+      <Button size="small" type={showGround ? 'primary' : 'default'} onClick={toggleGround}>
+        Ground
+      </Button>
+      <Button size="small" type={showTrajectory ? 'primary' : 'default'} onClick={toggleTrajectory}>
+        Trajectory
+      </Button>
+    </div>
+  );
+}
+
 function TrajectoryLineWrapper() {
   const showTrajectory = useUIStore((s) => s.showTrajectory);
   const robotState = useRobotStateStore((s) => s.robotState);
@@ -225,6 +254,7 @@ export function AppLayout() {
       <div className="app-main">
         {/* Left Panel - 3D Viewport */}
         <div className="app-left-panel">
+          <div className="scene-viewport">
           {currentView === 'scene' ? (
             <RobotViewer>
               {isConnected && (
@@ -238,38 +268,10 @@ export function AppLayout() {
           ) : (
             <PlotPanel />
           )}
+          </div>
 
           {/* Bottom toggles */}
-          <div className="scene-toggles">
-            <Button
-              size="small"
-              type={useUIStore.getState().showAxes ? 'primary' : 'default'}
-              onClick={() => useUIStore.getState().toggleAxes()}
-            >
-              Axes
-            </Button>
-            <Button
-              size="small"
-              type={useUIStore.getState().showWireframe ? 'primary' : 'default'}
-              onClick={() => useUIStore.getState().toggleWireframe()}
-            >
-              Mesh
-            </Button>
-            <Button
-              size="small"
-              type={useUIStore.getState().showGround ? 'primary' : 'default'}
-              onClick={() => useUIStore.getState().toggleGround()}
-            >
-              Ground
-            </Button>
-            <Button
-              size="small"
-              type={useUIStore.getState().showTrajectory ? 'primary' : 'default'}
-              onClick={() => useUIStore.getState().toggleTrajectory()}
-            >
-              Trajectory
-            </Button>
-          </div>
+          <SceneToggles />
         </div>
 
         {/* Right Panel - Controls */}
