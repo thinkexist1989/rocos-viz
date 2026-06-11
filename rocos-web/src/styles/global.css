@@ -96,17 +96,18 @@ html, body, #root {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   background: var(--color-toolbar-bg);
   border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
+  position: relative;
 }
 
 .app-toolbar .logo {
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 700;
   color: #3b82f6;
-  margin-right: 12px;
+  margin-right: 16px;
   white-space: nowrap;
   letter-spacing: 0.02em;
 }
@@ -117,6 +118,103 @@ html, body, #root {
 
 .app-toolbar .toolbar-spacer {
   flex: 1;
+}
+
+.toolbar-cameras {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.toolbar-center > * {
+  pointer-events: auto;
+}
+
+/* Connection status pill (toolbar center) */
+.conn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+
+.conn-pill .conn-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.conn-pill .conn-icon {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.conn-pill .conn-action {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-left: 2px;
+}
+
+.conn-pill.connected {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+}
+
+.conn-pill.connected .conn-dot {
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+.conn-pill.connected:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #ef4444;
+}
+
+.conn-pill.connected:hover .conn-dot {
+  background: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.conn-pill.disconnected {
+  background: rgba(148, 163, 184, 0.1);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.conn-pill.disconnected .conn-dot {
+  background: #ef4444;
+}
+
+.conn-pill.disconnected:hover {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.45);
+  color: #3b82f6;
+}
+
+[data-theme='light'] .conn-pill.disconnected:hover {
+  background: rgba(30, 78, 216, 0.1);
+  border-color: rgba(30, 78, 216, 0.4);
+  color: #1e4ed8;
 }
 
 .app-main {
@@ -225,10 +323,10 @@ html, body, #root {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 4px 12px;
+  padding: 5px 14px;
   background: var(--color-status-bar-bg);
   border-top: 1px solid var(--color-border);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--color-text-secondary);
   flex-shrink: 0;
 }
@@ -263,7 +361,7 @@ html, body, #root {
 }
 
 .panel-section-header {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--color-text-secondary);
   text-transform: uppercase;
@@ -300,7 +398,7 @@ html, body, #root {
 
 .jog-item .jog-label {
   width: 28px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--color-text-secondary);
   text-align: right;
@@ -309,7 +407,7 @@ html, body, #root {
 
 .jog-item .jog-value {
   width: 78px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--color-text);
   text-align: right;
   font-variant-numeric: tabular-nums;
@@ -412,19 +510,79 @@ html, body, #root {
   border: 1px solid #1e4ed8;
 }
 
-/* Scene toggle buttons at bottom of left panel */
+/* Scene toggle buttons – floating pill bar at bottom-center of viewport */
 .scene-toggles {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 4px 12px;
-  background: var(--color-toggles-bg);
-  border-top: 1px solid var(--color-border);
+  flex-wrap: nowrap;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 22px;
+  background: rgba(17, 19, 24, 0.55);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  z-index: 30;
+  max-width: calc(100% - 32px);
+  overflow: hidden;
 }
 
-.scene-toggles .ant-btn {
-  font-size: 11px;
-  padding: 2px 8px;
+[data-theme='light'] .scene-toggles {
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+.scene-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+
+.scene-toggle-pill .pill-icon {
+  display: inline-flex;
+  font-size: 15px;
+}
+
+.scene-toggle-pill:hover {
+  background: rgba(148, 163, 184, 0.14);
+  color: var(--color-text);
+}
+
+.scene-toggle-pill.active {
+  background: rgba(59, 130, 246, 0.18);
+  border-color: rgba(59, 130, 246, 0.5);
+  color: #60a5fa;
+}
+
+[data-theme='light'] .scene-toggle-pill.active {
+  background: rgba(30, 78, 216, 0.12);
+  border-color: rgba(30, 78, 216, 0.45);
+  color: #1e4ed8;
+}
+
+/* Collapse labels to icon-only when the bar gets tight */
+@media (max-width: 900px) {
+  .scene-toggle-pill {
+    padding: 0 12px;
+  }
+  .scene-toggle-pill .pill-label {
+    display: none;
+  }
 }
 
 /* Floating plot window */

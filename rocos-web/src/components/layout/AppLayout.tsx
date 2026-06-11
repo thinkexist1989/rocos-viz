@@ -21,24 +21,28 @@ import * as yaml from 'js-yaml';
 import type { RobotModelConfig } from '@/core/types';
 import {
   Button,
-  Space,
   Tooltip,
   Modal,
+  Popconfirm,
   message,
 } from 'antd';
 import {
-  ApiOutlined,
-  AppstoreOutlined,
   LineChartOutlined,
   SettingOutlined,
   QuestionCircleOutlined,
-  PauseCircleOutlined,
-  ZoomInOutlined,
-  ZoomOutOutlined,
-  GlobalOutlined,
   BulbOutlined,
   LeftOutlined,
   RightOutlined,
+  CodepenOutlined,
+  BorderTopOutlined,
+  BorderOutlined,
+  BorderRightOutlined,
+  BorderBottomOutlined,
+  BlockOutlined,
+  DeploymentUnitOutlined,
+  NodeIndexOutlined,
+  ApiOutlined,
+  DisconnectOutlined,
 } from '@ant-design/icons';
 
 /** Convert the API JSON RobotModelConfig to YAML matching C++ writeModelFiles format */
@@ -101,20 +105,26 @@ function SceneToggles() {
   const toggleGround = useUIStore((s) => s.toggleGround);
   const toggleTrajectory = useUIStore((s) => s.toggleTrajectory);
 
+  const toggles = [
+    { key: 'axes', label: 'Axes', icon: <DeploymentUnitOutlined />, active: showJointFrames, onClick: toggleJointFrames },
+    { key: 'mesh', label: 'Mesh', icon: <BlockOutlined />, active: showWireframe, onClick: toggleWireframe },
+    { key: 'ground', label: 'Ground', icon: <BorderBottomOutlined />, active: showGround, onClick: toggleGround },
+    { key: 'traj', label: 'Trajectory', icon: <NodeIndexOutlined />, active: showTrajectory, onClick: toggleTrajectory },
+  ];
+
   return (
     <div className="scene-toggles">
-      <Button size="small" type={showJointFrames ? 'primary' : 'default'} onClick={toggleJointFrames}>
-        Axes
-      </Button>
-      <Button size="small" type={showWireframe ? 'primary' : 'default'} onClick={toggleWireframe}>
-        Mesh
-      </Button>
-      <Button size="small" type={showGround ? 'primary' : 'default'} onClick={toggleGround}>
-        Ground
-      </Button>
-      <Button size="small" type={showTrajectory ? 'primary' : 'default'} onClick={toggleTrajectory}>
-        Trajectory
-      </Button>
+      {toggles.map((t) => (
+        <Tooltip key={t.key} title={t.label}>
+          <button
+            className={`scene-toggle-pill${t.active ? ' active' : ''}`}
+            onClick={t.onClick}
+          >
+            <span className="pill-icon">{t.icon}</span>
+            <span className="pill-label">{t.label}</span>
+          </button>
+        </Tooltip>
+      ))}
     </div>
   );
 }
@@ -259,51 +269,74 @@ export function AppLayout() {
       <div className="app-toolbar">
         <div className="logo">ROCOS-Viz</div>
 
-        <Tooltip title={isConnected ? '已连接' : '未连接'}>
-          <Button
-            type={isConnected ? 'primary' : 'default'}
-            size="small"
-            icon={<ApiOutlined />}
-            onClick={() => setShowConnectDialog(true)}
-          >
-            {isConnected ? 'Connected' : 'Connect'}
-          </Button>
-        </Tooltip>
+        <div className="toolbar-cameras">
+          <Tooltip title="轴测图">
+            <Button size="middle" icon={<CodepenOutlined />} onClick={() => setCameraPreset('axonometric')} />
+          </Tooltip>
+          <Tooltip title="俯视图">
+            <Button size="middle" icon={<BorderTopOutlined />} onClick={() => setCameraPreset('top')} />
+          </Tooltip>
+          <Tooltip title="前视图">
+            <Button size="middle" icon={<BorderOutlined />} onClick={() => setCameraPreset('front')} />
+          </Tooltip>
+          <Tooltip title="右视图">
+            <Button size="middle" icon={<BorderRightOutlined />} onClick={() => setCameraPreset('right')} />
+          </Tooltip>
+        </div>
 
-        <Tooltip title="轴测图">
-          <Button size="small" icon={<AppstoreOutlined />} onClick={() => setCameraPreset('axonometric')} />
-        </Tooltip>
-        <Tooltip title="俯视图">
-          <Button size="small" icon={<ZoomInOutlined />} onClick={() => setCameraPreset('top')} />
-        </Tooltip>
-        <Tooltip title="前视图">
-          <Button size="small" icon={<GlobalOutlined />} onClick={() => setCameraPreset('front')} />
-        </Tooltip>
-        <Tooltip title="右视图">
-          <Button size="small" icon={<PauseCircleOutlined />} onClick={() => setCameraPreset('right')} />
-        </Tooltip>
+        {/* Centered connection status pill */}
+        <div className="toolbar-center">
+          {isConnected ? (
+            <Popconfirm
+              title="断开连接"
+              description={`确定要断开 ${host}:${port} 吗？`}
+              okText="断开"
+              cancelText="取消"
+              okButtonProps={{ danger: true }}
+              onConfirm={() => useConnectionStore.getState().reset()}
+            >
+              <button className="conn-pill connected" title="点击断开连接">
+                <span className="conn-dot" />
+                <ApiOutlined className="conn-icon" />
+                <span className="conn-text">{host}:{port}</span>
+                <DisconnectOutlined className="conn-action" />
+              </button>
+            </Popconfirm>
+          ) : (
+            <button
+              className="conn-pill disconnected"
+              title="点击打开连接窗口"
+              onClick={() => setShowConnectDialog(true)}
+            >
+              <span className="conn-dot" />
+              <ApiOutlined className="conn-icon" />
+              <span className="conn-text">未连接 · 点击连接</span>
+            </button>
+          )}
+        </div>
 
         <div className="toolbar-spacer" />
 
         <Tooltip title="图表">
           <Button
-            size="small"
+            size="middle"
+            type={currentView === 'plot' ? 'primary' : 'default'}
             icon={<LineChartOutlined />}
             onClick={() => useUIStore.getState().setView(currentView === 'scene' ? 'plot' : 'scene')}
           />
         </Tooltip>
         <Tooltip title="设置">
-          <Button size="small" icon={<SettingOutlined />} />
+          <Button size="middle" icon={<SettingOutlined />} />
         </Tooltip>
         <Tooltip title={useUIStore.getState().themeMode === 'dark' ? '切换为浅色模式' : '切换为深色模式'}>
           <Button
-            size="small"
+            size="middle"
             icon={<BulbOutlined />}
             onClick={() => useUIStore.getState().toggleTheme()}
           />
         </Tooltip>
         <Tooltip title="关于">
-          <Button size="small" icon={<QuestionCircleOutlined />} onClick={() => setShowAbout(true)} />
+          <Button size="middle" icon={<QuestionCircleOutlined />} onClick={() => setShowAbout(true)} />
         </Tooltip>
       </div>
 
@@ -340,10 +373,10 @@ export function AppLayout() {
                 </div>
               </div>
             )}
-          </div>
 
-          {/* Bottom toggles */}
-          <SceneToggles />
+            {/* Floating scene toggles (bottom-center overlay) */}
+            <SceneToggles />
+          </div>
         </div>
 
         {/* Right Panel - Overlay Controls */}

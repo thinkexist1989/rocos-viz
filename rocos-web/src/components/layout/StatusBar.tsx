@@ -26,10 +26,6 @@ export function StatusBar() {
 
   return (
     <div className="app-statusbar">
-      <span>
-        <span className={`status-dot ${isConnected ? 'connected' : 'disconnected'}`} />
-        {isConnected ? 'Connected' : 'Disconnected'}
-      </span>
       {isConnected && (
         <span>
           <span className={`status-dot ${isRobotEnabled ? 'enabled' : ''}`} />

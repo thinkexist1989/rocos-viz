@@ -12,7 +12,7 @@ export const darkThemeConfig: ThemeConfig = {
     colorTextSecondary: '#858585',
     colorBorder: '#262930',
     borderRadius: 4,
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: '"Alibaba PuHuiTi 3.0", "PingFang SC", "Microsoft YaHei", sans-serif',
   },
   components: {
@@ -61,7 +61,7 @@ export const lightThemeConfig: ThemeConfig = {
     colorTextSecondary: '#6b7280',
     colorBorder: '#e5e7eb',
     borderRadius: 2,
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: '"Alibaba PuHuiTi 3.0", "PingFang SC", "Microsoft YaHei", sans-serif',
   },
   components: {
