@@ -10,6 +10,9 @@ interface UIState {
   showTrajectory: boolean;
   currentView: 'scene' | 'plot';
   themeMode: ThemeMode;
+  rightPanelCollapsed: boolean;
+  rightPanelWidth: number;
+  plotFloatPos: { x: number; y: number } | null;
 
   toggleJointFrames: () => void;
   toggleWireframe: () => void;
@@ -17,7 +20,13 @@ interface UIState {
   toggleTrajectory: () => void;
   setView: (view: 'scene' | 'plot') => void;
   toggleTheme: () => void;
+  toggleRightPanel: () => void;
+  setRightPanelWidth: (width: number) => void;
+  setPlotFloatPos: (pos: { x: number; y: number }) => void;
 }
+
+export const RIGHT_PANEL_MIN_WIDTH = 280;
+export const RIGHT_PANEL_MAX_WIDTH = 640;
 
 export const useUIStore = create<UIState>()(
   persist(
@@ -28,6 +37,9 @@ export const useUIStore = create<UIState>()(
       showTrajectory: false,
       currentView: 'scene',
       themeMode: 'dark',
+      rightPanelCollapsed: false,
+      rightPanelWidth: 360,
+      plotFloatPos: null,
 
       toggleJointFrames: () => set((state) => ({ showJointFrames: !state.showJointFrames })),
       toggleWireframe: () => set((state) => ({ showWireframe: !state.showWireframe })),
@@ -36,6 +48,16 @@ export const useUIStore = create<UIState>()(
       setView: (view) => set({ currentView: view }),
       toggleTheme: () =>
         set((state) => ({ themeMode: state.themeMode === 'dark' ? 'light' : 'dark' })),
+      toggleRightPanel: () =>
+        set((state) => ({ rightPanelCollapsed: !state.rightPanelCollapsed })),
+      setRightPanelWidth: (width) =>
+        set({
+          rightPanelWidth: Math.min(
+            RIGHT_PANEL_MAX_WIDTH,
+            Math.max(RIGHT_PANEL_MIN_WIDTH, width),
+          ),
+        }),
+      setPlotFloatPos: (pos) => set({ plotFloatPos: pos }),
     }),
     { name: 'rocos-ui' },
   ),

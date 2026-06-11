@@ -37,6 +37,8 @@ import {
   ZoomOutOutlined,
   GlobalOutlined,
   BulbOutlined,
+  LeftOutlined,
+  RightOutlined,
 } from '@ant-design/icons';
 
 /** Convert the API JSON RobotModelConfig to YAML matching C++ writeModelFiles format */
@@ -144,8 +146,63 @@ export function AppLayout() {
 
   const isConnected = useConnectionStore((s) => s.isConnected);
   const currentView = useUIStore((s) => s.currentView);
+  const rightPanelCollapsed = useUIStore((s) => s.rightPanelCollapsed);
+  const toggleRightPanel = useUIStore((s) => s.toggleRightPanel);
+  const rightPanelWidth = useUIStore((s) => s.rightPanelWidth);
+  const setRightPanelWidth = useUIStore((s) => s.setRightPanelWidth);
+  const plotFloatPos = useUIStore((s) => s.plotFloatPos);
+  const setPlotFloatPos = useUIStore((s) => s.setPlotFloatPos);
   const host = useConnectionStore((s) => s.host);
   const port = useConnectionStore((s) => s.port);
+
+  // --- Right panel resize via left-edge drag handle ---
+  const handleResizeStart = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      const startX = e.clientX;
+      const startWidth = useUIStore.getState().rightPanelWidth;
+
+      const onMove = (ev: MouseEvent) => {
+        // Panel is anchored to the right edge, so dragging left widens it.
+        setRightPanelWidth(startWidth + (startX - ev.clientX));
+      };
+      const onUp = () => {
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+        document.body.style.userSelect = '';
+      };
+      document.body.style.userSelect = 'none';
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+    },
+    [setRightPanelWidth],
+  );
+
+  // --- Floating plot window drag via its header ---
+  const handlePlotDragStart = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      const startX = e.clientX;
+      const startY = e.clientY;
+      const start = useUIStore.getState().plotFloatPos ?? { x: 8, y: 8 };
+
+      const onMove = (ev: MouseEvent) => {
+        setPlotFloatPos({
+          x: Math.max(0, start.x + (ev.clientX - startX)),
+          y: Math.max(0, start.y + (ev.clientY - startY)),
+        });
+      };
+      const onUp = () => {
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+        document.body.style.userSelect = '';
+      };
+      document.body.style.userSelect = 'none';
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+    },
+    [setPlotFloatPos],
+  );
 
   // Mount the connection hook so polling / WebSocket starts when isConnected changes
   useRobotConnection();
@@ -252,10 +309,9 @@ export function AppLayout() {
 
       {/* Main Content */}
       <div className="app-main">
-        {/* Left Panel - 3D Viewport */}
+        {/* Full-width 3D Viewport */}
         <div className="app-left-panel">
           <div className="scene-viewport">
-          {currentView === 'scene' ? (
             <RobotViewer>
               {isConnected && (
                 <>
@@ -265,18 +321,55 @@ export function AppLayout() {
                 </>
               )}
             </RobotViewer>
-          ) : (
-            <PlotPanel />
-          )}
+
+            {/* Floating Plot Panel */}
+            {currentView === 'plot' && (
+              <div
+                className="plot-float"
+                style={
+                  plotFloatPos
+                    ? { left: plotFloatPos.x, top: plotFloatPos.y, bottom: 'auto' }
+                    : undefined
+                }
+              >
+                <div className="plot-float-header" onMouseDown={handlePlotDragStart}>
+                  <span className="plot-float-title">实时曲线</span>
+                </div>
+                <div className="plot-float-body">
+                  <PlotPanel />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Bottom toggles */}
           <SceneToggles />
         </div>
 
-        {/* Right Panel - Controls */}
-        <div className="app-right-panel">
-          <RightPanel />
+        {/* Right Panel - Overlay Controls */}
+        <div
+          className={`app-right-panel${rightPanelCollapsed ? ' collapsed' : ''}`}
+          style={{ width: rightPanelWidth }}
+        >
+          {/* Collapse toggle tab */}
+          <button
+            className="right-panel-toggle"
+            onClick={toggleRightPanel}
+            title={rightPanelCollapsed ? '展开控制面板' : '收起控制面板'}
+          >
+            {rightPanelCollapsed ? <LeftOutlined /> : <RightOutlined />}
+          </button>
+          {/* Resize handle — drag to change panel width */}
+          {!rightPanelCollapsed && (
+            <div
+              className="right-panel-resize"
+              onMouseDown={handleResizeStart}
+              title="拖动调节面板宽度"
+            />
+          )}
+          <div className="right-panel-content">
+            <RightPanel />
+          </div>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import ReactECharts from 'echarts-for-react';
 import { ChartConfig, ChartDataPoint } from '@/stores/plotStore';
+import { useUIStore } from '@/stores/uiStore';
 
 interface RealtimeChartProps {
   config: ChartConfig;
@@ -8,11 +9,19 @@ interface RealtimeChartProps {
 }
 
 export function RealtimeChart({ config, data, onClick }: RealtimeChartProps) {
+  // ECharts renders to canvas, which cannot resolve CSS variables — resolve
+  // theme-appropriate colors here so axis/title labels stay readable.
+  const themeMode = useUIStore((s) => s.themeMode);
+  const isDark = themeMode === 'dark';
+  const textColor = isDark ? '#e0e0e0' : '#1a1a1a';
+  const subTextColor = isDark ? '#858585' : '#6b7280';
+  const axisLineColor = isDark ? '#3a3d46' : '#d1d5db';
+
   const option = {
     title: {
       text: config.title,
       left: 'center',
-      textStyle: { fontSize: 12, color: 'var(--color-text)' },
+      textStyle: { fontSize: 12, color: textColor },
     },
     tooltip: {
       trigger: 'axis' as const,
@@ -25,12 +34,15 @@ export function RealtimeChart({ config, data, onClick }: RealtimeChartProps) {
     },
     xAxis: {
       type: 'time' as const,
-      axisLabel: { fontSize: 10, color: 'var(--color-text-secondary)' },
+      axisLabel: { fontSize: 10, color: subTextColor },
+      axisLine: { lineStyle: { color: axisLineColor } },
     },
     yAxis: {
       type: 'value' as const,
       scale: true,
-      axisLabel: { fontSize: 10, color: 'var(--color-text-secondary)' },
+      axisLabel: { fontSize: 10, color: subTextColor },
+      axisLine: { lineStyle: { color: axisLineColor } },
+      splitLine: { lineStyle: { color: axisLineColor, opacity: 0.4 } },
     },
     series: [
       {
