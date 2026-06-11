@@ -13,7 +13,7 @@ interface ConnectDialogProps {
 
 export function ConnectDialog({ open, onClose }: ConnectDialogProps) {
   const t = useT();
-  const [host, setHost] = useState(() => useConnectionStore.getState().host);
+  const [host, setHost] = useState(() => useConnectionStore.getState().host || window.location.hostname);
   const [port, setPort] = useState(() => useConnectionStore.getState().port);
   const [autoLoad, setAutoLoad] = useState(true);
   const [loading, setLoading] = useState(false);

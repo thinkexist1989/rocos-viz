@@ -51,7 +51,10 @@ export class RobotApiClient {
   private baseUrl: string;
 
   constructor(host: string, port: number | string) {
-    this.baseUrl = `http://${host}:${port}`;
+    // If a host is provided, dial the controller directly at host:port.
+    // Otherwise fall back to same-origin (dev server proxies /api to the robot).
+    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+    this.baseUrl = host ? `${protocol}//${host}:${port}` : window.location.origin;
   }
 
   private async request<T>(
@@ -60,7 +63,7 @@ export class RobotApiClient {
     body?: any,
     params?: Record<string, string>,
   ): Promise<T> {
-    const url = new URL(path, window.location.origin);
+    const url = new URL(path, this.baseUrl);
     if (params) {
       Object.entries(params).forEach(([k, v]) => url.searchParams.append(k, v));
     }
@@ -199,7 +202,7 @@ export class RobotApiClient {
   }
 
   async downloadMesh(path: string): Promise<Blob> {
-    const url = new URL('/api/robot/model/mesh', window.location.origin);
+    const url = new URL('/api/robot/model/mesh', this.baseUrl);
     url.searchParams.append('path', path);
 
     console.log(`[RobotApiClient] downloadMesh: ${url.toString()}`);

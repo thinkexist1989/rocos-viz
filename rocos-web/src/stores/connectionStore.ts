@@ -16,7 +16,7 @@ interface ConnectionState {
 export const useConnectionStore = create<ConnectionState>()(
   persist(
     (set) => ({
-      host: '127.0.0.1',
+      host: window.location.hostname,
       port: '8080',
       isConnected: false,
       isRobotEnabled: false,

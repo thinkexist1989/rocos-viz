@@ -86,7 +86,10 @@ export class RobotWebSocket {
     this.onStatus?.('connecting');
 
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}${WS_STATE_PATH}`;
+    // If a host is provided, dial the controller directly at host:port.
+    // Otherwise fall back to same-origin (dev server proxies /ws to the robot).
+    const target = this.host ? `${this.host}:${this.port}` : window.location.host;
+    const wsUrl = `${protocol}//${target}${WS_STATE_PATH}`;
 
     try {
       this.ws = new WebSocket(wsUrl);
