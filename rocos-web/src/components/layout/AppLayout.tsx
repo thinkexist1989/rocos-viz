@@ -96,7 +96,7 @@ function modelConfigToYaml(model: RobotModelConfig): string {
 }
 
 /** Reactive scene-toggle buttons – uses hooks so state changes are reflected immediately */
-function SceneToggles() {
+function SceneToggles({ style }: { style?: React.CSSProperties }) {
   const t = useT();
   const showJointFrames = useUIStore((s) => s.showJointFrames);
   const showWireframe = useUIStore((s) => s.showWireframe);
@@ -115,7 +115,7 @@ function SceneToggles() {
   ];
 
   return (
-    <div className="scene-toggles">
+    <div className="scene-toggles" style={style}>
       {toggles.map((t) => (
         <Tooltip key={t.key} title={t.label}>
           <button
@@ -168,6 +168,15 @@ export function AppLayout() {
   const setPlotFloatPos = useUIStore((s) => s.setPlotFloatPos);
   const host = useConnectionStore((s) => s.host);
   const port = useConnectionStore((s) => s.port);
+
+  // The right panel is an absolute overlay over the viewport. Shift the
+  // top/bottom floating overlays left by half the panel's covered width so they
+  // stay centered within the *visible* 3D area, not the full viewport.
+  const COLLAPSED_PEEK = 32; // px the collapsed panel tab still covers
+  const coveredWidth = rightPanelCollapsed ? COLLAPSED_PEEK : rightPanelWidth;
+  const sceneOverlayStyle = {
+    transform: `translateX(calc(-50% - ${coveredWidth / 2}px))`,
+  } as const;
 
   // --- Right panel resize via left-edge drag handle (mouse + touch) ---
   const beginResize = useCallback(
@@ -398,8 +407,9 @@ export function AppLayout() {
               </RobotViewer>
             </SceneErrorBoundary>
 
-            {/* Enable pill — top-center of the 3D viewport */}
-            <div className="enable-float">
+            {/* Enable pill — top-center of the *visible* 3D area (shifts left
+                so it stays centered beside the expanded right panel). */}
+            <div className="enable-float" style={sceneOverlayStyle}>
               <EnableButton />
             </div>
 
@@ -426,8 +436,8 @@ export function AppLayout() {
               </div>
             )}
 
-            {/* Floating scene toggles (bottom-center overlay) */}
-            <SceneToggles />
+            {/* Floating scene toggles (bottom-center of the visible 3D area) */}
+            <SceneToggles style={sceneOverlayStyle} />
           </div>
         </div>
 

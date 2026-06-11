@@ -696,6 +696,7 @@ html, body, #root {
   left: 50%;
   transform: translateX(-50%);
   z-index: 30;
+  transition: transform 0.3s ease;
 }
 
 .enable-float .enable-pill {
@@ -760,6 +761,7 @@ html, body, #root {
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
+  transition: transform 0.3s ease;
   display: flex;
   flex-wrap: nowrap;
   gap: 8px;
