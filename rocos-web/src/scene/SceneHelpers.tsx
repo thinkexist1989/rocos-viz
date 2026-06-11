@@ -1,5 +1,6 @@
-import { Grid, Environment } from '@react-three/drei';
+import { Grid } from '@react-three/drei';
 import { useUIStore } from '@/stores/uiStore';
+import { LocalEnvironment } from './LocalEnvironment';
 import * as THREE from 'three';
 
 interface SceneHelpersProps {
@@ -33,7 +34,9 @@ export function SceneHelpers({ showGround }: SceneHelpersProps) {
         />
       )}
 
-      <Environment preset={isLight ? 'studio' : 'city'} background={false} />
+      {/* Procedural, network-free environment lighting (replaces drei's
+          CDN-fetched Environment preset, which fails on offline LAN devices). */}
+      <LocalEnvironment />
 
       {showGround && (
         <Grid

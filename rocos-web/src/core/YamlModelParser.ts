@@ -182,6 +182,7 @@ export class YamlModelParser {
       color: 0x808080,
       metalness: 0.3,
       roughness: 0.7,
+      envMapIntensity: 0.6,
     });
 
     return new THREE.Mesh(geometry, material);
@@ -248,6 +249,7 @@ export class YamlModelParser {
       color: 0x808080,
       metalness: 0.3,
       roughness: 0.7,
+      envMapIntensity: 0.6,
     });
 
     return new THREE.Mesh(geometry, material);
