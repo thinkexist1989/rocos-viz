@@ -370,6 +370,9 @@ export function AppLayout() {
               <span className="conn-text">{t('conn.clickToConnect')}</span>
             </button>
           )}
+
+          {/* Enable toggle — sits right beside the connect pill */}
+          <EnableButton />
         </div>
 
         <div className="toolbar-spacer" />
@@ -422,12 +425,6 @@ export function AppLayout() {
                 )}
               </RobotViewer>
             </SceneErrorBoundary>
-
-            {/* Enable pill — top-center of the *visible* 3D area (shifts left
-                so it stays centered beside the expanded right panel). */}
-            <div className="enable-float" style={sceneOverlayStyle}>
-              <EnableButton />
-            </div>
 
             {/* Floating Plot Panel */}
             {currentView === 'plot' && (
