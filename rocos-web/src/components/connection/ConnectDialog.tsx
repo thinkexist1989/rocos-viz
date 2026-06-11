@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { Modal, Input, Button, Checkbox, message, Space, Typography } from 'antd';
 import { useConnectionStore } from '@/stores/connectionStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
+import { useT } from '@/i18n/useT';
 
 const { Text } = Typography;
 
@@ -11,6 +12,7 @@ interface ConnectDialogProps {
 }
 
 export function ConnectDialog({ open, onClose }: ConnectDialogProps) {
+  const t = useT();
   const [host, setHost] = useState(() => useConnectionStore.getState().host);
   const [port, setPort] = useState(() => useConnectionStore.getState().port);
   const [autoLoad, setAutoLoad] = useState(true);
@@ -21,7 +23,7 @@ export function ConnectDialog({ open, onClose }: ConnectDialogProps) {
 
   const handleConnect = useCallback(async () => {
     if (!host || !port) {
-      message.error('请输入 IP 地址和端口号');
+      message.error(t('conn.needIpPort'));
       return;
     }
 
@@ -33,18 +35,18 @@ export function ConnectDialog({ open, onClose }: ConnectDialogProps) {
       setConnectionStore(host, port);
       setConnected(true);
 
-      message.success('连接成功');
+      message.success(t('conn.success'));
       onClose();
     } catch (error: any) {
-      message.error(`连接失败: ${error.message || '未知错误'}`);
+      message.error(t('conn.failed', { msg: error.message || '' }));
     } finally {
       setLoading(false);
     }
-  }, [host, port, setConnectionStore, setConnected, onClose]);
+  }, [host, port, setConnectionStore, setConnected, onClose, t]);
 
   return (
     <Modal
-      title="连接机器人控制器"
+      title={t('conn.dialogTitle')}
       open={open}
       onCancel={onClose}
       footer={null}
@@ -55,7 +57,7 @@ export function ConnectDialog({ open, onClose }: ConnectDialogProps) {
       <div style={{ padding: '16px 0' }}>
         <Space direction="vertical" style={{ width: '100%' }} size="middle">
           <div>
-            <Text style={{ display: 'block', marginBottom: 4, color: 'var(--color-text-secondary)' }}>IP Address</Text>
+            <Text style={{ display: 'block', marginBottom: 4, color: 'var(--color-text-secondary)' }}>{t('conn.ipAddress')}</Text>
             <Input
               value={host}
               onChange={(e) => setHost(e.target.value)}
@@ -65,7 +67,7 @@ export function ConnectDialog({ open, onClose }: ConnectDialogProps) {
           </div>
 
           <div>
-            <Text style={{ display: 'block', marginBottom: 4, color: 'var(--color-text-secondary)' }}>Port</Text>
+            <Text style={{ display: 'block', marginBottom: 4, color: 'var(--color-text-secondary)' }}>{t('conn.port')}</Text>
             <Input
               value={port}
               onChange={(e) => setPort(e.target.value)}
@@ -75,18 +77,18 @@ export function ConnectDialog({ open, onClose }: ConnectDialogProps) {
           </div>
 
           <Checkbox checked={autoLoad} onChange={(e) => setAutoLoad(e.target.checked)}>
-            自动加载机器人模型
+            {t('conn.autoLoadModel')}
           </Checkbox>
 
           <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-            <Button onClick={onClose}>取消</Button>
+            <Button onClick={onClose}>{t('conn.cancel')}</Button>
             <Button
               type="primary"
               onClick={handleConnect}
               loading={loading}
               icon={<span>🔗</span>}
             >
-              连接
+              {t('conn.connect')}
             </Button>
           </div>
         </Space>

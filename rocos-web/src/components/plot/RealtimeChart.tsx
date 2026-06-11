@@ -1,6 +1,7 @@
 import ReactECharts from 'echarts-for-react';
 import { ChartConfig, ChartDataPoint } from '@/stores/plotStore';
 import { useUIStore } from '@/stores/uiStore';
+import { useT } from '@/i18n/useT';
 
 interface RealtimeChartProps {
   config: ChartConfig;
@@ -9,6 +10,7 @@ interface RealtimeChartProps {
 }
 
 export function RealtimeChart({ config, data, onClick }: RealtimeChartProps) {
+  const t = useT();
   // ECharts renders to canvas, which cannot resolve CSS variables — resolve
   // theme-appropriate colors here so axis/title labels stay readable.
   const themeMode = useUIStore((s) => s.themeMode);
@@ -17,9 +19,11 @@ export function RealtimeChart({ config, data, onClick }: RealtimeChartProps) {
   const subTextColor = isDark ? '#858585' : '#6b7280';
   const axisLineColor = isDark ? '#3a3d46' : '#d1d5db';
 
+  const title = config.titleKey ? t(config.titleKey) : config.title;
+
   const option = {
     title: {
-      text: config.title,
+      text: title,
       left: 'center',
       textStyle: { fontSize: 12, color: textColor },
     },
@@ -46,7 +50,7 @@ export function RealtimeChart({ config, data, onClick }: RealtimeChartProps) {
     },
     series: [
       {
-        name: config.title,
+        name: title,
         type: 'line' as const,
         data: data.map((d) => [d.timestamp, d.value]),
         large: true,

@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useConnectionStore } from '@/stores/connectionStore';
-import { useControlStore } from '@/stores/controlStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useRobotStateStore } from '@/stores/robotStateStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
@@ -13,11 +12,11 @@ import { ConnectDialog } from '@/components/connection/ConnectDialog';
 import { RightPanel } from '@/components/layout/RightPanel';
 import { StatusBar } from '@/components/layout/StatusBar';
 import { PlotPanel } from '@/components/plot/PlotPanel';
+import { EnableButton } from '@/components/control/EnableButton';
 import { useRobotConnection } from '@/hooks/useRobotConnection';
-import { useModelStore } from '@/stores/modelStore';
+import { useT } from '@/i18n/useT';
 import * as THREE from 'three';
 import { MAX_TRAJECTORY_POINTS } from '@/core/constants';
-import * as yaml from 'js-yaml';
 import type { RobotModelConfig } from '@/core/types';
 import {
   Button,
@@ -31,6 +30,7 @@ import {
   SettingOutlined,
   QuestionCircleOutlined,
   BulbOutlined,
+  TranslationOutlined,
   LeftOutlined,
   RightOutlined,
   CodepenOutlined,
@@ -96,6 +96,7 @@ function modelConfigToYaml(model: RobotModelConfig): string {
 
 /** Reactive scene-toggle buttons – uses hooks so state changes are reflected immediately */
 function SceneToggles() {
+  const t = useT();
   const showJointFrames = useUIStore((s) => s.showJointFrames);
   const showWireframe = useUIStore((s) => s.showWireframe);
   const showGround = useUIStore((s) => s.showGround);
@@ -106,10 +107,10 @@ function SceneToggles() {
   const toggleTrajectory = useUIStore((s) => s.toggleTrajectory);
 
   const toggles = [
-    { key: 'axes', label: 'Axes', icon: <DeploymentUnitOutlined />, active: showJointFrames, onClick: toggleJointFrames },
-    { key: 'mesh', label: 'Mesh', icon: <BlockOutlined />, active: showWireframe, onClick: toggleWireframe },
-    { key: 'ground', label: 'Ground', icon: <BorderBottomOutlined />, active: showGround, onClick: toggleGround },
-    { key: 'traj', label: 'Trajectory', icon: <NodeIndexOutlined />, active: showTrajectory, onClick: toggleTrajectory },
+    { key: 'axes', label: t('scene.axes'), icon: <DeploymentUnitOutlined />, active: showJointFrames, onClick: toggleJointFrames },
+    { key: 'mesh', label: t('scene.mesh'), icon: <BlockOutlined />, active: showWireframe, onClick: toggleWireframe },
+    { key: 'ground', label: t('scene.ground'), icon: <BorderBottomOutlined />, active: showGround, onClick: toggleGround },
+    { key: 'traj', label: t('scene.trajectory'), icon: <NodeIndexOutlined />, active: showTrajectory, onClick: toggleTrajectory },
   ];
 
   return (
@@ -149,13 +150,15 @@ function TrajectoryLineWrapper() {
 }
 
 export function AppLayout() {
+  const t = useT();
   const [showConnectDialog, setShowConnectDialog] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
   const [yamlContent, setYamlContent] = useState<string | null>(null);
-  const [modelLoading, setModelLoading] = useState(false);
+  const [, setModelLoading] = useState(false);
 
   const isConnected = useConnectionStore((s) => s.isConnected);
   const currentView = useUIStore((s) => s.currentView);
+  const language = useUIStore((s) => s.language);
   const rightPanelCollapsed = useUIStore((s) => s.rightPanelCollapsed);
   const toggleRightPanel = useUIStore((s) => s.toggleRightPanel);
   const rightPanelWidth = useUIStore((s) => s.rightPanelWidth);
@@ -245,13 +248,13 @@ export function AppLayout() {
         } else {
           console.warn('[AppLayout] getRobotModel returned no links:', model);
           if (!cancelled) {
-            message.warning('机器人模型无 links，请检查控制器配置');
+            message.warning(t('model.noLinks'));
           }
         }
       } catch (error) {
         console.error('Failed to fetch robot model:', error);
         if (!cancelled) {
-          message.error('获取机器人模型失败: ' + (error instanceof Error ? error.message : String(error)));
+          message.error(t('model.fetchFailed', { msg: error instanceof Error ? error.message : String(error) }));
         }
       } finally {
         if (!cancelled) setModelLoading(false);
@@ -261,7 +264,7 @@ export function AppLayout() {
     fetchModel();
 
     return () => { cancelled = true; };
-  }, [isConnected, host, port]);
+  }, [isConnected, host, port, t]);
 
   return (
     <div className="app-layout">
@@ -270,16 +273,16 @@ export function AppLayout() {
         <div className="logo">ROCOS-Viz</div>
 
         <div className="toolbar-cameras">
-          <Tooltip title="轴测图">
+          <Tooltip title={t('view.axonometric')}>
             <Button size="middle" icon={<CodepenOutlined />} onClick={() => setCameraPreset('axonometric')} />
           </Tooltip>
-          <Tooltip title="俯视图">
+          <Tooltip title={t('view.top')}>
             <Button size="middle" icon={<BorderTopOutlined />} onClick={() => setCameraPreset('top')} />
           </Tooltip>
-          <Tooltip title="前视图">
+          <Tooltip title={t('view.front')}>
             <Button size="middle" icon={<BorderOutlined />} onClick={() => setCameraPreset('front')} />
           </Tooltip>
-          <Tooltip title="右视图">
+          <Tooltip title={t('view.right')}>
             <Button size="middle" icon={<BorderRightOutlined />} onClick={() => setCameraPreset('right')} />
           </Tooltip>
         </div>
@@ -288,14 +291,14 @@ export function AppLayout() {
         <div className="toolbar-center">
           {isConnected ? (
             <Popconfirm
-              title="断开连接"
-              description={`确定要断开 ${host}:${port} 吗？`}
-              okText="断开"
-              cancelText="取消"
+              title={t('conn.disconnectTitle')}
+              description={t('conn.disconnectConfirm', { target: `${host}:${port}` })}
+              okText={t('conn.disconnect')}
+              cancelText={t('conn.cancel')}
               okButtonProps={{ danger: true }}
               onConfirm={() => useConnectionStore.getState().reset()}
             >
-              <button className="conn-pill connected" title="点击断开连接">
+              <button className="conn-pill connected" title={t('conn.clickToDisconnect')}>
                 <span className="conn-dot" />
                 <ApiOutlined className="conn-icon" />
                 <span className="conn-text">{host}:{port}</span>
@@ -305,19 +308,19 @@ export function AppLayout() {
           ) : (
             <button
               className="conn-pill disconnected"
-              title="点击打开连接窗口"
+              title={t('conn.clickToOpen')}
               onClick={() => setShowConnectDialog(true)}
             >
               <span className="conn-dot" />
               <ApiOutlined className="conn-icon" />
-              <span className="conn-text">未连接 · 点击连接</span>
+              <span className="conn-text">{t('conn.clickToConnect')}</span>
             </button>
           )}
         </div>
 
         <div className="toolbar-spacer" />
 
-        <Tooltip title="图表">
+        <Tooltip title={t('app.chart')}>
           <Button
             size="middle"
             type={currentView === 'plot' ? 'primary' : 'default'}
@@ -325,17 +328,26 @@ export function AppLayout() {
             onClick={() => useUIStore.getState().setView(currentView === 'scene' ? 'plot' : 'scene')}
           />
         </Tooltip>
-        <Tooltip title="设置">
+        <Tooltip title={language === 'en' ? t('app.lang.toZh') : t('app.lang.toEn')}>
+          <Button
+            size="middle"
+            icon={<TranslationOutlined />}
+            onClick={() => useUIStore.getState().toggleLanguage()}
+          >
+            {language === 'en' ? '中' : 'EN'}
+          </Button>
+        </Tooltip>
+        <Tooltip title={t('app.settings')}>
           <Button size="middle" icon={<SettingOutlined />} />
         </Tooltip>
-        <Tooltip title={useUIStore.getState().themeMode === 'dark' ? '切换为浅色模式' : '切换为深色模式'}>
+        <Tooltip title={useUIStore.getState().themeMode === 'dark' ? t('app.theme.toLight') : t('app.theme.toDark')}>
           <Button
             size="middle"
             icon={<BulbOutlined />}
             onClick={() => useUIStore.getState().toggleTheme()}
           />
         </Tooltip>
-        <Tooltip title="关于">
+        <Tooltip title={t('app.about')}>
           <Button size="middle" icon={<QuestionCircleOutlined />} onClick={() => setShowAbout(true)} />
         </Tooltip>
       </div>
@@ -355,6 +367,11 @@ export function AppLayout() {
               )}
             </RobotViewer>
 
+            {/* Enable pill — top-center of the 3D viewport */}
+            <div className="enable-float">
+              <EnableButton />
+            </div>
+
             {/* Floating Plot Panel */}
             {currentView === 'plot' && (
               <div
@@ -366,7 +383,7 @@ export function AppLayout() {
                 }
               >
                 <div className="plot-float-header" onMouseDown={handlePlotDragStart}>
-                  <span className="plot-float-title">实时曲线</span>
+                  <span className="plot-float-title">{t('plot.realtimeCurves')}</span>
                 </div>
                 <div className="plot-float-body">
                   <PlotPanel />
@@ -388,7 +405,7 @@ export function AppLayout() {
           <button
             className="right-panel-toggle"
             onClick={toggleRightPanel}
-            title={rightPanelCollapsed ? '展开控制面板' : '收起控制面板'}
+            title={rightPanelCollapsed ? t('panel.expand') : t('panel.collapse')}
           >
             {rightPanelCollapsed ? <LeftOutlined /> : <RightOutlined />}
           </button>
@@ -397,7 +414,7 @@ export function AppLayout() {
             <div
               className="right-panel-resize"
               onMouseDown={handleResizeStart}
-              title="拖动调节面板宽度"
+              title={t('panel.resizeTip')}
             />
           )}
           <div className="right-panel-content">

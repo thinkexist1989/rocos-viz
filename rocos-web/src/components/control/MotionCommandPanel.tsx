@@ -1,13 +1,14 @@
 import { useState, useCallback } from 'react';
-import { Button, InputNumber, Space, Typography, message } from 'antd';
+import { Button, InputNumber, message } from 'antd';
+import { ThunderboltOutlined } from '@ant-design/icons';
 import { useControlStore } from '@/stores/controlStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { useConnectionStore } from '@/stores/connectionStore';
+import { useT } from '@/i18n/useT';
 import * as THREE from 'three';
 
-const { Text } = Typography;
-
 export function MotionCommandPanel() {
+  const t = useT();
   const speedFactor = useControlStore((s) => s.speedFactor);
   const isDegree = useControlStore((s) => s.isDegree);
   const isMM = useControlStore((s) => s.isMM);
@@ -18,7 +19,7 @@ export function MotionCommandPanel() {
   const [joints, setJoints] = useState([0, 0, 0, 0, 0, 0, 0]);
 
   const handleMoveJ_IK = useCallback(async () => {
-    if (!isConnected) { message.warning('请先连接机器人'); return; }
+    if (!isConnected) { message.warning(t('common.connectFirst')); return; }
 
     const x = cartesian.x / (isMM ? 1000 : 1);
     const y = cartesian.y / (isMM ? 1000 : 1);
@@ -36,14 +37,14 @@ export function MotionCommandPanel() {
         { position: { x, y, z }, orientation: { x: q.x, y: q.y, z: q.z, w: q.w } },
         speedFactor,
       );
-      message.success('MoveJ_IK 已发送');
+      message.success(t('common.sent', { cmd: 'MoveJ_IK' }));
     } catch (error: any) {
       message.error(error.message);
     }
-  }, [cartesian, speedFactor, isDegree, isMM, isConnected, host, port]);
+  }, [cartesian, speedFactor, isDegree, isMM, isConnected, host, port, t]);
 
   const handleMoveL = useCallback(async () => {
-    if (!isConnected) { message.warning('请先连接机器人'); return; }
+    if (!isConnected) { message.warning(t('common.connectFirst')); return; }
 
     const x = cartesian.x / (isMM ? 1000 : 1);
     const y = cartesian.y / (isMM ? 1000 : 1);
@@ -61,39 +62,39 @@ export function MotionCommandPanel() {
         { position: { x, y, z }, orientation: { x: q.x, y: q.y, z: q.z, w: q.w } },
         speedFactor,
       );
-      message.success('MoveL 已发送');
+      message.success(t('common.sent', { cmd: 'MoveL' }));
     } catch (error: any) {
       message.error(error.message);
     }
-  }, [cartesian, speedFactor, isDegree, isMM, isConnected, host, port]);
+  }, [cartesian, speedFactor, isDegree, isMM, isConnected, host, port, t]);
 
   const handleMoveJ = useCallback(async () => {
-    if (!isConnected) { message.warning('请先连接机器人'); return; }
+    if (!isConnected) { message.warning(t('common.connectFirst')); return; }
 
     const rads = joints.map((j) => (j * Math.PI) / (isDegree ? 180 : 1));
 
     try {
       const client = new RobotApiClient(host, port);
       await client.moveJ(rads, speedFactor);
-      message.success('MoveJ 已发送');
+      message.success(t('common.sent', { cmd: 'MoveJ' }));
     } catch (error: any) {
       message.error(error.message);
     }
-  }, [joints, speedFactor, isDegree, isConnected, host, port]);
+  }, [joints, speedFactor, isDegree, isConnected, host, port, t]);
 
   const handleMoveL_FK = useCallback(async () => {
-    if (!isConnected) { message.warning('请先连接机器人'); return; }
+    if (!isConnected) { message.warning(t('common.connectFirst')); return; }
 
     const rads = joints.map((j) => (j * Math.PI) / (isDegree ? 180 : 1));
 
     try {
       const client = new RobotApiClient(host, port);
       await client.moveL_FK(rads, speedFactor);
-      message.success('MoveL_FK 已发送');
+      message.success(t('common.sent', { cmd: 'MoveL_FK' }));
     } catch (error: any) {
       message.error(error.message);
     }
-  }, [joints, speedFactor, isDegree, isConnected, host, port]);
+  }, [joints, speedFactor, isDegree, isConnected, host, port, t]);
 
   const updateCartesian = (key: string, value: number | null) => {
     setCartesian((prev) => ({ ...prev, [key]: value || 0 }));
@@ -107,48 +108,59 @@ export function MotionCommandPanel() {
     });
   };
 
+  const posUnit = isMM ? 'mm' : 'm';
+  const angUnit = isDegree ? 'deg' : 'rad';
+
   return (
     <div className="panel-section">
-      <div className="panel-section-header">Precise Control</div>
+      <div className="panel-section-header">{t('precise.title')}</div>
 
-      {/* Cartesian Control */}
-      <div className="precise-control" style={{ marginBottom: 12 }}>
-        <Text style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8, display: 'block' }}>
-          Cartesian Space
-        </Text>
-        <div className="input-row">
-          {(['x', 'y', 'z', 'roll', 'pitch', 'yaw'] as const).map((key) => (
-            <div className="input-group" key={key}>
-              <label>{key.toUpperCase()}</label>
+      {/* Cartesian Space */}
+      <div className="precise-group">
+        <div className="precise-group-title">{t('precise.cartesianSpace')}</div>
+
+        <div className="precise-grid">
+          {([
+            { key: 'x', label: 'X', unit: posUnit },
+            { key: 'y', label: 'Y', unit: posUnit },
+            { key: 'z', label: 'Z', unit: posUnit },
+            { key: 'roll', label: 'RX', unit: angUnit },
+            { key: 'pitch', label: 'RY', unit: angUnit },
+            { key: 'yaw', label: 'RZ', unit: angUnit },
+          ] as const).map(({ key, label, unit }) => (
+            <div className="precise-field" key={key}>
+              <span className="precise-field-label">{label}</span>
               <InputNumber
                 size="small"
                 value={cartesian[key]}
                 onChange={(v) => updateCartesian(key, v)}
-                step={key === 'x' || key === 'y' || key === 'z' ? 1 : 1}
-                style={{ width: '100%' }}
+                step={1}
+                controls={false}
+                className="precise-input"
               />
+              <span className="precise-field-unit">{unit}</span>
             </div>
           ))}
         </div>
-        <div className="btn-row">
-          <Button size="small" type="primary" onClick={handleMoveJ_IK} disabled={!isConnected}>
+
+        <div className="precise-actions">
+          <Button size="small" type="primary" icon={<ThunderboltOutlined />} onClick={handleMoveJ_IK} disabled={!isConnected} block>
             MoveJ_IK
           </Button>
-          <Button size="small" type="primary" onClick={handleMoveL} disabled={!isConnected}>
+          <Button size="small" icon={<ThunderboltOutlined />} onClick={handleMoveL} disabled={!isConnected} block>
             MoveL
           </Button>
         </div>
       </div>
 
-      {/* Joint Control */}
-      <div className="precise-control">
-        <Text style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8, display: 'block' }}>
-          Joint Space
-        </Text>
-        <div className="input-row" style={{ flexWrap: 'wrap' }}>
+      {/* Joint Space */}
+      <div className="precise-group">
+        <div className="precise-group-title">{t('precise.jointSpace')}</div>
+
+        <div className="precise-grid">
           {joints.map((val, i) => (
-            <div className="input-group" key={i} style={{ minWidth: 60 }}>
-              <label>J{i + 1}</label>
+            <div className="precise-field" key={i}>
+              <span className="precise-field-label">J{i + 1}</span>
               <InputNumber
                 size="small"
                 value={val}
@@ -156,16 +168,19 @@ export function MotionCommandPanel() {
                 step={1}
                 min={-180}
                 max={180}
-                style={{ width: '100%' }}
+                controls={false}
+                className="precise-input"
               />
+              <span className="precise-field-unit">{angUnit}</span>
             </div>
           ))}
         </div>
-        <div className="btn-row">
-          <Button size="small" type="primary" onClick={handleMoveJ} disabled={!isConnected}>
+
+        <div className="precise-actions">
+          <Button size="small" type="primary" icon={<ThunderboltOutlined />} onClick={handleMoveJ} disabled={!isConnected} block>
             MoveJ
           </Button>
-          <Button size="small" type="primary" onClick={handleMoveL_FK} disabled={!isConnected}>
+          <Button size="small" icon={<ThunderboltOutlined />} onClick={handleMoveL_FK} disabled={!isConnected} block>
             MoveL_FK
           </Button>
         </div>

@@ -465,36 +465,100 @@ html, body, #root {
 }
 
 /* Precise control section */
-.precise-control {
-  background: transparent;
-  padding: 0;
+.precise-group {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
-.precise-control .input-row {
+.precise-group:last-child {
+  margin-bottom: 0;
+}
+
+.precise-group-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 10px;
   display: flex;
+  align-items: center;
   gap: 6px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
 }
 
-.precise-control .input-group {
+.precise-group-title::before {
+  content: '';
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+  background: #3b82f6;
+}
+
+[data-theme='light'] .precise-group-title::before {
+  background: #1e4ed8;
+}
+
+/* Two-column grid of labeled numeric fields */
+.precise-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.precise-field {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: 70px;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 2px 8px;
 }
 
-.precise-control .input-group label {
-  font-size: 10px;
+.precise-field-label {
+  font-size: 12px;
+  font-weight: 600;
   color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  width: 24px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
 }
 
-.precise-control .btn-row {
+.precise-field .precise-input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Strip the inner border of the InputNumber so the field row reads as one control */
+.precise-field .precise-input.ant-input-number {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.precise-field .precise-input .ant-input-number-input {
+  padding: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.precise-field-unit {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  width: 26px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.precise-actions {
   display: flex;
-  gap: 6px;
+  gap: 8px;
+}
+
+.precise-actions .ant-btn {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Connect dialog */
@@ -508,6 +572,71 @@ html, body, #root {
 
 [data-theme='light'] .connect-dialog .ant-modal-content {
   border: 1px solid #1e4ed8;
+}
+
+/* Enable button — floating pill, top-center of the 3D viewport */
+.enable-float {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+}
+
+.enable-float .enable-pill {
+  height: 36px;
+  padding: 0 22px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Status dot shown inside the Enable pill */
+.enable-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.enable-dot.off {
+  background: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+}
+
+.enable-dot.on {
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+}
+
+/* Both states are color-coded to match their status dot:
+   disabled → red theme, enabled → green theme. Hover deepens the same hue,
+   and the antd default/primary fills are overridden so the two stay consistent. */
+.enable-float .enable-pill.is-disabled:not(:disabled) {
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #ef4444;
+}
+
+.enable-float .enable-pill.is-disabled:not(:disabled):hover {
+  background: rgba(239, 68, 68, 0.24);
+  border-color: rgba(239, 68, 68, 0.7);
+  color: #ef4444;
+}
+
+.enable-float .enable-pill.is-enabled:not(:disabled) {
+  background: rgba(34, 197, 94, 0.14);
+  border-color: rgba(34, 197, 94, 0.5);
+  color: #16a34a;
+}
+
+.enable-float .enable-pill.is-enabled:not(:disabled):hover {
+  background: rgba(34, 197, 94, 0.24);
+  border-color: rgba(34, 197, 94, 0.7);
+  color: #16a34a;
 }
 
 /* Scene toggle buttons – floating pill bar at bottom-center of viewport */

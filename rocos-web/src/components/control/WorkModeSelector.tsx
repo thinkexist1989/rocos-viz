@@ -2,35 +2,40 @@ import { Select, message } from 'antd';
 import { useConnectionStore } from '@/stores/connectionStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { WORK_MODES } from '@/core/constants';
+import { useT } from '@/i18n/useT';
+import type { TranslationKey } from '@/i18n';
 
 export function WorkModeSelector() {
+  const t = useT();
   const isConnected = useConnectionStore((s) => s.isConnected);
   const { host, port } = useConnectionStore.getState();
 
+  const modeLabel = (value: string) => t(`mode.${value}` as TranslationKey);
+
   const handleChange = async (mode: string) => {
     if (!isConnected) {
-      message.warning('请先连接机器人');
+      message.warning(t('common.connectFirst'));
       return;
     }
 
     const client = new RobotApiClient(host, port);
     try {
       await client.setWorkMode(mode);
-      message.success(`工作模式已切换为: ${WORK_MODES.find((m) => m.value === mode)?.label}`);
+      message.success(t('mode.switched', { mode: modeLabel(mode) }));
     } catch (error: any) {
-      message.error(`切换失败: ${error.message}`);
+      message.error(t('mode.switchFailed', { msg: error.message }));
     }
   };
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-      <span style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>Mode:</span>
+      <span style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>{t('mode.label')}:</span>
       <Select
         defaultValue="position"
         onChange={handleChange}
-        options={WORK_MODES.map((m) => ({ value: m.value, label: m.label }))}
-        size="small"
-        style={{ width: 140 }}
+        options={WORK_MODES.map((m) => ({ value: m.value, label: modeLabel(m.value) }))}
+        size="middle"
+        style={{ width: 160 }}
         disabled={!isConnected}
       />
     </div>

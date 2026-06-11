@@ -1,7 +1,9 @@
 import { Button, Tooltip } from 'antd';
 import { useControlStore } from '@/stores/controlStore';
+import { useT } from '@/i18n/useT';
 
 export function UnitToggle() {
+  const t = useT();
   const isDegree = useControlStore((s) => s.isDegree);
   const isMM = useControlStore((s) => s.isMM);
   const toggleDegree = useControlStore((s) => s.toggleDegree);
@@ -9,12 +11,12 @@ export function UnitToggle() {
 
   return (
     <div style={{ display: 'flex', gap: 4 }}>
-      <Tooltip title={isDegree ? '当前：度 (点击切换为弧度)' : '当前：弧度 (点击切换为度)'}>
+      <Tooltip title={isDegree ? t('unit.degTip') : t('unit.radTip')}>
         <Button size="small" onClick={toggleDegree}>
           {isDegree ? 'deg' : 'rad'}
         </Button>
       </Tooltip>
-      <Tooltip title={isMM ? '当前：mm (点击切换为 m)' : '当前：m (点击切换为 mm)'}>
+      <Tooltip title={isMM ? t('unit.mmTip') : t('unit.mTip')}>
         <Button size="small" onClick={toggleMM}>
           {isMM ? 'mm' : 'm'}
         </Button>

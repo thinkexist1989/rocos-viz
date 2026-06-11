@@ -1,15 +1,17 @@
 import { Slider, Typography } from 'antd';
 import { useControlStore } from '@/stores/controlStore';
+import { useT } from '@/i18n/useT';
 
 const { Text } = Typography;
 
 export function SpeedSlider() {
+  const t = useT();
   const speedFactor = useControlStore((s) => s.speedFactor);
   const setSpeedFactor = useControlStore((s) => s.setSpeedFactor);
 
   return (
     <div className="panel-section">
-      <div className="panel-section-header">Speed Scaling</div>
+      <div className="panel-section-header">{t('speed.label')}</div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '0 4px' }}>
         <Slider
           min={1}

@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 import { Button, Tooltip, message } from 'antd';
-import { PoweroffOutlined } from '@ant-design/icons';
 import { useConnectionStore } from '@/stores/connectionStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
+import { useT } from '@/i18n/useT';
 
 export function EnableButton() {
+  const t = useT();
   const isConnected = useConnectionStore((s) => s.isConnected);
   const isEnabled = useConnectionStore((s) => s.isRobotEnabled);
   const setEnabled = useConnectionStore((s) => s.setEnabled);
@@ -12,7 +13,7 @@ export function EnableButton() {
 
   const handleToggle = useCallback(async () => {
     if (!isConnected) {
-      message.warning('请先连接机器人');
+      message.warning(t('common.connectFirst'));
       return;
     }
 
@@ -22,28 +23,28 @@ export function EnableButton() {
       if (isEnabled) {
         await client.disable();
         setEnabled(false);
-        message.success('已禁用');
+        message.success(t('enable.didDisable'));
       } else {
         await client.enable();
         setEnabled(true);
-        message.success('已使能');
+        message.success(t('enable.didEnable'));
       }
     } catch (error: any) {
-      message.error(`操作失败: ${error.message}`);
+      message.error(t('enable.opFailed', { msg: error.message }));
     }
-  }, [isConnected, isEnabled, host, port, setEnabled]);
+  }, [isConnected, isEnabled, host, port, setEnabled, t]);
 
   return (
-    <Tooltip title={isEnabled ? '禁用机器人' : '使能机器人'}>
+    <Tooltip title={isEnabled ? t('enable.disableTip') : t('enable.enableTip')}>
       <Button
-        type={isEnabled ? 'primary' : 'default'}
-        danger={isEnabled}
-        icon={<PoweroffOutlined />}
+        className={`enable-pill${isEnabled ? ' is-enabled' : ' is-disabled'}`}
+        icon={<span className={`enable-dot ${isEnabled ? 'on' : 'off'}`} />}
         onClick={handleToggle}
         disabled={!isConnected}
-        size="small"
+        shape="round"
+        size="middle"
       >
-        {isEnabled ? 'Enabled' : 'Enable'}
+        {isEnabled ? t('enable.enabled') : t('enable.disabled')}
       </Button>
     </Tooltip>
   );

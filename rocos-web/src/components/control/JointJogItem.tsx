@@ -4,6 +4,7 @@ import { useControlStore } from '@/stores/controlStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { useConnectionStore } from '@/stores/connectionStore';
 import { PositionBar } from '@/components/common/PositionBar';
+import { useT } from '@/i18n/useT';
 import type { JointState } from '@/core/types';
 import { DIRECTION } from '@/core/constants';
 
@@ -15,6 +16,7 @@ interface JointJogItemProps {
 }
 
 export function JointJogItem({ index, joint }: JointJogItemProps) {
+  const t = useT();
   const isDegree = useControlStore((s) => s.isDegree);
   const { host, port } = useConnectionStore.getState();
   const clientRef = useRef<RobotApiClient | null>(null);
@@ -61,7 +63,7 @@ export function JointJogItem({ index, joint }: JointJogItemProps) {
     <div className="jog-item">
       <span className="jog-label">J{index + 1}</span>
 
-      <Tooltip title={`负方向点动`}>
+      <Tooltip title={t('jog.negative')}>
         <Button
           className="jog-btn"
           size="small"
@@ -83,7 +85,7 @@ export function JointJogItem({ index, joint }: JointJogItemProps) {
         {displayValue} {unit}
       </span>
 
-      <Tooltip title={`正方向点动`}>
+      <Tooltip title={t('jog.positive')}>
         <Button
           className="jog-btn"
           size="small"

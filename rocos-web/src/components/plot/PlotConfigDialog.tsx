@@ -1,28 +1,7 @@
 import { useState } from 'react';
-import { Modal, Tree, Button, Space, InputNumber, Select } from 'antd';
+import { Modal, Tree, Space, InputNumber } from 'antd';
 import { usePlotStore, ChartConfig, DataSourceKey } from '@/stores/plotStore';
-
-const DATA_SOURCES = [
-  {
-    title: '关节数据',
-    key: 'joint_group',
-    children: [
-      { title: '位置 (J1-J7)', key: 'joint_position' },
-      { title: '速度 (J1-J7)', key: 'joint_velocity' },
-      { title: '力矩 (J1-J7)', key: 'joint_torque' },
-      { title: '负载 (J1-J7)', key: 'joint_load' },
-    ],
-  },
-  {
-    title: '末端位姿',
-    key: 'flange_group',
-    children: [
-      { title: 'X', key: 'flange_x' },
-      { title: 'Y', key: 'flange_y' },
-      { title: 'Z', key: 'flange_z' },
-    ],
-  },
-];
+import { useT } from '@/i18n/useT';
 
 interface PlotConfigDialogProps {
   open: boolean;
@@ -32,9 +11,34 @@ interface PlotConfigDialogProps {
 }
 
 export function PlotConfigDialog({ open, onClose, chartIndex, config }: PlotConfigDialogProps) {
+  const t = useT();
   const [selectedSource, setSelectedSource] = useState<DataSourceKey>(config.dataSource);
   const [jointIndex, setJointIndex] = useState(config.jointIndex ?? 0);
   const updateChart = usePlotStore((s) => s.updateChart);
+
+  const dataSources = [
+    {
+      title: t('plot.group.joint'),
+      key: 'joint_group',
+      selectable: false,
+      children: [
+        { title: t('plot.src.position'), key: 'joint_position' },
+        { title: t('plot.src.velocity'), key: 'joint_velocity' },
+        { title: t('plot.src.torque'), key: 'joint_torque' },
+        { title: t('plot.src.load'), key: 'joint_load' },
+      ],
+    },
+    {
+      title: t('plot.group.flange'),
+      key: 'flange_group',
+      selectable: false,
+      children: [
+        { title: 'X', key: 'flange_x' },
+        { title: 'Y', key: 'flange_y' },
+        { title: 'Z', key: 'flange_z' },
+      ],
+    },
+  ];
 
   const handleOk = () => {
     updateChart(chartIndex, { dataSource: selectedSource, jointIndex });
@@ -44,16 +48,16 @@ export function PlotConfigDialog({ open, onClose, chartIndex, config }: PlotConf
   return (
     <Modal
       open={open}
-      title={`图表 ${chartIndex + 1} 配置`}
+      title={t('plot.chartConfig', { n: chartIndex + 1 })}
       onOk={handleOk}
       onCancel={onClose}
       width={400}
     >
       <Space direction="vertical" style={{ width: '100%' }}>
         <div>
-          <div style={{ marginBottom: 8 }}>数据源：</div>
+          <div style={{ marginBottom: 8 }}>{t('plot.dataSource')}:</div>
           <Tree
-            treeData={DATA_SOURCES}
+            treeData={dataSources}
             defaultExpandAll
             onSelect={(keys) => {
               const key = keys[0] as DataSourceKey;
@@ -67,7 +71,7 @@ export function PlotConfigDialog({ open, onClose, chartIndex, config }: PlotConf
 
         {selectedSource.startsWith('joint_') && (
           <div>
-            <div style={{ marginBottom: 8 }}>关节索引：</div>
+            <div style={{ marginBottom: 8 }}>{t('plot.jointIndex')}:</div>
             <InputNumber
               min={0}
               max={6}

@@ -1,6 +1,7 @@
 import { useRobotStateStore } from '@/stores/robotStateStore';
 import { CartesianJogItem } from './CartesianJogItem';
 import { useControlStore } from '@/stores/controlStore';
+import { useT } from '@/i18n/useT';
 import { FRAME } from '@/core/constants';
 import * as THREE from 'three';
 
@@ -13,6 +14,7 @@ function quaternionToRPY(q: { x: number; y: number; z: number; w: number }) {
 }
 
 export function CartesianJogPanel() {
+  const t = useT();
   const robotState = useRobotStateStore((s) => s.robotState);
   const currentFrame = useControlStore((s) => s.currentFrame);
 
@@ -47,7 +49,7 @@ export function CartesianJogPanel() {
   return (
     <div className="panel-section">
       <div className="panel-section-header">
-        CARTESIAN SPACE (<span className="frame-highlight">{getFrameLabel()}</span>)
+        {t('jog.cartesianSpace')} (<span className="frame-highlight">{getFrameLabel()}</span>)
       </div>
       <div>
         <CartesianJogItem

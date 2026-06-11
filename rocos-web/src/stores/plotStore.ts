@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { TranslationKey } from '@/i18n';
 
 export interface ChartDataPoint {
   timestamp: number;
@@ -8,6 +9,8 @@ export interface ChartDataPoint {
 export interface ChartConfig {
   id: number;
   title: string;
+  /** i18n key resolved at render time; falls back to `title` when absent. */
+  titleKey?: TranslationKey;
   dataSource: DataSourceKey;
   jointIndex?: number;
 }
@@ -38,10 +41,10 @@ interface PlotStore {
 }
 
 const defaultCharts: ChartConfig[] = [
-  { id: 0, title: '关节位置', dataSource: 'joint_position', jointIndex: 0 },
-  { id: 1, title: '关节速度', dataSource: 'joint_velocity', jointIndex: 0 },
-  { id: 2, title: '关节力矩', dataSource: 'joint_torque', jointIndex: 0 },
-  { id: 3, title: '末端位置 X', dataSource: 'flange_x' },
+  { id: 0, title: 'Joint Position', titleKey: 'plot.title.jointPosition', dataSource: 'joint_position', jointIndex: 0 },
+  { id: 1, title: 'Joint Velocity', titleKey: 'plot.title.jointVelocity', dataSource: 'joint_velocity', jointIndex: 0 },
+  { id: 2, title: 'Joint Torque', titleKey: 'plot.title.jointTorque', dataSource: 'joint_torque', jointIndex: 0 },
+  { id: 3, title: 'End Position X', titleKey: 'plot.title.flangeX', dataSource: 'flange_x' },
 ];
 
 export const usePlotStore = create<PlotStore>((set, get) => ({

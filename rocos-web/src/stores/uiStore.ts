@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { Language } from '@/i18n';
 
 export type ThemeMode = 'dark' | 'light';
 
@@ -10,6 +11,7 @@ interface UIState {
   showTrajectory: boolean;
   currentView: 'scene' | 'plot';
   themeMode: ThemeMode;
+  language: Language;
   rightPanelCollapsed: boolean;
   rightPanelWidth: number;
   plotFloatPos: { x: number; y: number } | null;
@@ -20,6 +22,7 @@ interface UIState {
   toggleTrajectory: () => void;
   setView: (view: 'scene' | 'plot') => void;
   toggleTheme: () => void;
+  toggleLanguage: () => void;
   toggleRightPanel: () => void;
   setRightPanelWidth: (width: number) => void;
   setPlotFloatPos: (pos: { x: number; y: number }) => void;
@@ -37,6 +40,7 @@ export const useUIStore = create<UIState>()(
       showTrajectory: false,
       currentView: 'scene',
       themeMode: 'dark',
+      language: 'en',
       rightPanelCollapsed: false,
       rightPanelWidth: 360,
       plotFloatPos: null,
@@ -48,6 +52,8 @@ export const useUIStore = create<UIState>()(
       setView: (view) => set({ currentView: view }),
       toggleTheme: () =>
         set((state) => ({ themeMode: state.themeMode === 'dark' ? 'light' : 'dark' })),
+      toggleLanguage: () =>
+        set((state) => ({ language: state.language === 'en' ? 'zh' : 'en' })),
       toggleRightPanel: () =>
         set((state) => ({ rightPanelCollapsed: !state.rightPanelCollapsed })),
       setRightPanelWidth: (width) =>
