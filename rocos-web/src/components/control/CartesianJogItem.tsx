@@ -77,7 +77,6 @@ export function CartesianJogItem({ label, value, frame, freedom, unit, isPositio
 
       <Button
         className="jog-btn"
-        size="small"
         onMouseDown={(e) => { e.preventDefault(); startJogLoop('NEGATIVE'); }}
         onMouseUp={handleStopJog}
         onMouseLeave={handleStopJog}
@@ -97,7 +96,6 @@ export function CartesianJogItem({ label, value, frame, freedom, unit, isPositio
 
       <Button
         className="jog-btn"
-        size="small"
         onMouseDown={(e) => { e.preventDefault(); startJogLoop('POSITIVE'); }}
         onMouseUp={handleStopJog}
         onMouseLeave={handleStopJog}

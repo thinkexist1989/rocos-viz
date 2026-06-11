@@ -58,6 +58,13 @@ const DICT = {
   'scene.ground': { en: 'Ground', zh: '地面' },
   'scene.trajectory': { en: 'Trajectory', zh: '轨迹' },
 
+  // ---- 3D viewport error ----
+  'scene.error.title': { en: '3D viewport unavailable', zh: '3D 视图无法显示' },
+  'scene.error.hint': {
+    en: 'WebGL could not start. Enable hardware acceleration in the browser, update the GPU driver, or open the page in Chrome/Edge. The control panels still work.',
+    zh: 'WebGL 无法启动。请在浏览器中开启硬件加速、更新显卡驱动，或改用 Chrome/Edge 打开。控制面板仍可正常使用。',
+  },
+
   // ---- Enable ----
   'enable.enable': { en: 'Enable', zh: '使能' },
   'enable.enabled': { en: 'Enabled', zh: '已使能' },
@@ -87,6 +94,10 @@ const DICT = {
 
   // ---- Speed ----
   'speed.label': { en: 'Speed Scaling', zh: '速度比例' },
+
+  // ---- Control panel tabs ----
+  'tab.jog': { en: 'Jog', zh: '点动控制' },
+  'tab.precise': { en: 'Precise', zh: '精确控制' },
 
   // ---- Jog panels ----
   'jog.jointSpace': { en: 'JOINT SPACE', zh: '关节空间' },

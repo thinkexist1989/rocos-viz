@@ -65,6 +65,9 @@ html, body, #root {
   overflow: hidden;
   background: var(--color-bg-base);
   color: var(--color-text);
+  /* Kill the 300ms tap delay and double-tap zoom; elements that need pan/drag
+     opt back in with their own touch-action. */
+  touch-action: manipulation;
 }
 
 ::-webkit-scrollbar {
@@ -95,8 +98,8 @@ html, body, #root {
 .app-toolbar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
+  gap: 6px;
+  padding: 6px 12px;
   background: var(--color-toolbar-bg);
   border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
@@ -123,7 +126,7 @@ html, body, #root {
 .toolbar-cameras {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .toolbar-center {
@@ -144,12 +147,12 @@ html, body, #root {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 32px;
-  padding: 0 16px;
-  border-radius: 16px;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 20px;
   border: 1px solid var(--color-border);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.01em;
   transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
@@ -238,12 +241,59 @@ html, body, #root {
   position: relative;
 }
 
+/* Fallback shown when the 3D <Canvas> fails (e.g. no WebGL on the client) */
+.scene-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  background: var(--scene-bg);
+  color: var(--color-text);
+}
+
+.scene-error-icon {
+  font-size: 44px;
+  line-height: 1;
+  color: #f59e0b;
+}
+
+.scene-error-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.scene-error-hint {
+  max-width: 460px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.scene-error-detail {
+  max-width: 460px;
+  margin-top: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-family: monospace;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .app-right-panel {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 360px;
+  width: 400px;
   z-index: 50;
   display: flex;
   flex-direction: row;
@@ -252,12 +302,12 @@ html, body, #root {
 }
 
 .app-right-panel.collapsed {
-  transform: translateX(calc(100% - 24px));
+  transform: translateX(calc(100% - 32px));
 }
 
 .right-panel-toggle {
   flex-shrink: 0;
-  width: 24px;
+  width: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -265,10 +315,10 @@ html, body, #root {
   background: rgba(30, 33, 44, 0.75);
   border: 1px solid var(--color-border);
   border-right: none;
-  border-radius: 6px 0 0 6px;
+  border-radius: 8px 0 0 8px;
   color: var(--color-text-secondary);
   padding: 0;
-  font-size: 11px;
+  font-size: 14px;
   transition: color 0.2s, background 0.2s;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -287,18 +337,19 @@ html, body, #root {
   background: rgba(30, 78, 216, 0.15);
 }
 
-/* Drag-to-resize handle on the left edge of the right panel */
+/* Drag-to-resize handle on the left edge of the right panel (touch-friendly width) */
 .right-panel-resize {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 24px;
-  width: 6px;
-  margin-left: -3px;
+  left: 32px;
+  width: 16px;
+  margin-left: -8px;
   cursor: ew-resize;
   z-index: 51;
   background: transparent;
   transition: background 0.15s;
+  touch-action: none;
 }
 
 .right-panel-resize:hover {
@@ -388,17 +439,50 @@ html, body, #root {
   padding: 10px 12px;
 }
 
+/* ---- Control tabs (Jog / Precise) ---- */
+.control-tabs .ant-tabs-nav {
+  margin-bottom: 8px;
+}
+
+.control-tabs .ant-tabs-nav::before {
+  border-bottom-color: var(--color-border);
+}
+
+/* Full-width, evenly split tab headers for a clean touch target */
+.control-tabs .ant-tabs-nav-list {
+  width: 100%;
+}
+
+.control-tabs .ant-tabs-tab {
+  flex: 1;
+  justify-content: center;
+  margin: 0 !important;
+  padding: 10px 12px;
+}
+
+.control-tab-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.control-tabs .ant-tabs-content-holder {
+  overflow: visible;
+}
+
 /* ---- Jog item row ---- */
 .jog-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 4px;
+  gap: 8px;
+  margin-bottom: 6px;
 }
 
 .jog-item .jog-label {
   width: 28px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--color-text-secondary);
   text-align: right;
@@ -407,7 +491,7 @@ html, body, #root {
 
 .jog-item .jog-value {
   width: 78px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text);
   text-align: right;
   font-variant-numeric: tabular-nums;
@@ -443,18 +527,22 @@ html, body, #root {
   opacity: 0.9;
 }
 
-/* Jog +/− buttons */
+/* Jog +/− buttons (touch-friendly square targets) */
 .jog-btn {
-  width: 26px !important;
-  height: 26px !important;
+  width: 40px !important;
+  height: 40px !important;
   padding: 0 !important;
-  font-size: 15px !important;
+  font-size: 20px !important;
   font-weight: 700;
   line-height: 1 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border-radius: 4px !important;
+  border-radius: 8px !important;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 /* Display toggle buttons */
@@ -503,7 +591,7 @@ html, body, #root {
 .precise-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  gap: 8px;
   margin-bottom: 10px;
 }
 
@@ -513,15 +601,15 @@ html, body, #root {
   gap: 6px;
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border);
-  border-radius: 4px;
-  padding: 2px 8px;
+  border-radius: 6px;
+  padding: 0 10px;
 }
 
 .precise-field-label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--color-text-secondary);
-  width: 24px;
+  width: 26px;
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
 }
@@ -531,7 +619,7 @@ html, body, #root {
   min-width: 0;
 }
 
-/* Strip the inner border of the InputNumber so the field row reads as one control */
+/* Strip the inner border of the InputNumber so the field row reads as one tall, tappable control */
 .precise-field .precise-input.ant-input-number {
   border: none;
   background: transparent;
@@ -540,12 +628,13 @@ html, body, #root {
 
 .precise-field .precise-input .ant-input-number-input {
   padding: 0;
+  height: 38px;
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
 .precise-field-unit {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--color-text-secondary);
   width: 26px;
   flex-shrink: 0;
@@ -559,6 +648,32 @@ html, body, #root {
 
 .precise-actions .ant-btn {
   font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* Secondary run button (MoveL / MoveL_FK): outlined to read as a matched pair
+   with the filled primary, instead of antd's heavy default dark fill. */
+.precise-actions .ant-btn-default:not(:disabled) {
+  background: transparent;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.precise-actions .ant-btn-default:not(:disabled):hover {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: #60a5fa;
+  color: #60a5fa;
+}
+
+[data-theme='light'] .precise-actions .ant-btn-default:not(:disabled) {
+  border-color: #1e4ed8;
+  color: #1e4ed8;
+}
+
+[data-theme='light'] .precise-actions .ant-btn-default:not(:disabled):hover {
+  background: rgba(30, 78, 216, 0.1);
+  border-color: #2563eb;
+  color: #2563eb;
 }
 
 /* Connect dialog */
@@ -584,9 +699,9 @@ html, body, #root {
 }
 
 .enable-float .enable-pill {
-  height: 36px;
-  padding: 0 22px;
-  font-size: 14px;
+  height: 44px;
+  padding: 0 26px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.02em;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
@@ -649,7 +764,7 @@ html, body, #root {
   flex-wrap: nowrap;
   gap: 8px;
   padding: 6px;
-  border-radius: 22px;
+  border-radius: 28px;
   background: rgba(17, 19, 24, 0.55);
   border: 1px solid var(--color-border);
   backdrop-filter: blur(12px);
@@ -668,14 +783,14 @@ html, body, #root {
 .scene-toggle-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 16px;
-  border-radius: 16px;
+  gap: 8px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 22px;
   border: 1px solid transparent;
   background: transparent;
   color: var(--color-text-secondary);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
@@ -684,7 +799,7 @@ html, body, #root {
 
 .scene-toggle-pill .pill-icon {
   display: inline-flex;
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .scene-toggle-pill:hover {
@@ -738,18 +853,21 @@ html, body, #root {
 
 .plot-float-header {
   flex-shrink: 0;
-  height: 28px;
+  height: 40px;
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 14px;
   cursor: move;
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: none;
   background: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid var(--color-border);
 }
 
 .plot-float-title {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--color-text);
 }
@@ -770,9 +888,24 @@ html, body, #root {
 }
 
 /* Responsive */
+@media (max-width: 1100px) {
+  /* Reclaim toolbar width on narrower tablets so the centered conn-pill never
+     collides with the left/right button clusters. */
+  .app-toolbar {
+    gap: 4px;
+    padding: 6px 8px;
+  }
+  .conn-pill .conn-text {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 1024px) {
   .app-right-panel {
-    width: 300px;
+    width: 340px;
   }
   .plot-float {
     width: calc(100% - 16px);

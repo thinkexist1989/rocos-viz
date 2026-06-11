@@ -131,7 +131,6 @@ export function MotionCommandPanel() {
             <div className="precise-field" key={key}>
               <span className="precise-field-label">{label}</span>
               <InputNumber
-                size="small"
                 value={cartesian[key]}
                 onChange={(v) => updateCartesian(key, v)}
                 step={1}
@@ -144,10 +143,10 @@ export function MotionCommandPanel() {
         </div>
 
         <div className="precise-actions">
-          <Button size="small" type="primary" icon={<ThunderboltOutlined />} onClick={handleMoveJ_IK} disabled={!isConnected} block>
+          <Button size="large" type="primary" icon={<ThunderboltOutlined />} onClick={handleMoveJ_IK} disabled={!isConnected} block>
             MoveJ_IK
           </Button>
-          <Button size="small" icon={<ThunderboltOutlined />} onClick={handleMoveL} disabled={!isConnected} block>
+          <Button size="large" icon={<ThunderboltOutlined />} onClick={handleMoveL} disabled={!isConnected} block>
             MoveL
           </Button>
         </div>
@@ -162,7 +161,6 @@ export function MotionCommandPanel() {
             <div className="precise-field" key={i}>
               <span className="precise-field-label">J{i + 1}</span>
               <InputNumber
-                size="small"
                 value={val}
                 onChange={(v) => updateJoint(i, v)}
                 step={1}
@@ -177,10 +175,10 @@ export function MotionCommandPanel() {
         </div>
 
         <div className="precise-actions">
-          <Button size="small" type="primary" icon={<ThunderboltOutlined />} onClick={handleMoveJ} disabled={!isConnected} block>
+          <Button size="large" type="primary" icon={<ThunderboltOutlined />} onClick={handleMoveJ} disabled={!isConnected} block>
             MoveJ
           </Button>
-          <Button size="small" icon={<ThunderboltOutlined />} onClick={handleMoveL_FK} disabled={!isConnected} block>
+          <Button size="large" icon={<ThunderboltOutlined />} onClick={handleMoveL_FK} disabled={!isConnected} block>
             MoveL_FK
           </Button>
         </div>

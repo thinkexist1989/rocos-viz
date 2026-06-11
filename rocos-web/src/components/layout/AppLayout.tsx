@@ -4,6 +4,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useRobotStateStore } from '@/stores/robotStateStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { RobotViewer } from '@/scene/RobotViewer';
+import { SceneErrorBoundary } from '@/scene/SceneErrorBoundary';
 import { AxesIndicator } from '@/scene/AxesIndicator';
 import { RobotModel } from '@/scene/RobotModel';
 import { TrajectoryLine } from '@/scene/TrajectoryLine';
@@ -168,53 +169,81 @@ export function AppLayout() {
   const host = useConnectionStore((s) => s.host);
   const port = useConnectionStore((s) => s.port);
 
-  // --- Right panel resize via left-edge drag handle ---
-  const handleResizeStart = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      const startX = e.clientX;
+  // --- Right panel resize via left-edge drag handle (mouse + touch) ---
+  const beginResize = useCallback(
+    (startX: number) => {
       const startWidth = useUIStore.getState().rightPanelWidth;
 
-      const onMove = (ev: MouseEvent) => {
-        // Panel is anchored to the right edge, so dragging left widens it.
-        setRightPanelWidth(startWidth + (startX - ev.clientX));
+      // Panel is anchored to the right edge, so dragging left widens it.
+      const apply = (clientX: number) => setRightPanelWidth(startWidth + (startX - clientX));
+
+      const onMouseMove = (ev: MouseEvent) => apply(ev.clientX);
+      const onTouchMove = (ev: TouchEvent) => {
+        if (ev.touches[0]) { ev.preventDefault(); apply(ev.touches[0].clientX); }
       };
-      const onUp = () => {
-        window.removeEventListener('mousemove', onMove);
-        window.removeEventListener('mouseup', onUp);
+      const onEnd = () => {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onEnd);
+        window.removeEventListener('touchmove', onTouchMove);
+        window.removeEventListener('touchend', onEnd);
         document.body.style.userSelect = '';
       };
       document.body.style.userSelect = 'none';
-      window.addEventListener('mousemove', onMove);
-      window.addEventListener('mouseup', onUp);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onEnd);
+      window.addEventListener('touchmove', onTouchMove, { passive: false });
+      window.addEventListener('touchend', onEnd);
     },
     [setRightPanelWidth],
   );
 
-  // --- Floating plot window drag via its header ---
-  const handlePlotDragStart = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      const startX = e.clientX;
-      const startY = e.clientY;
+  const handleResizeMouseDown = useCallback(
+    (e: React.MouseEvent) => { e.preventDefault(); beginResize(e.clientX); },
+    [beginResize],
+  );
+  const handleResizeTouchStart = useCallback(
+    (e: React.TouchEvent) => { if (e.touches[0]) beginResize(e.touches[0].clientX); },
+    [beginResize],
+  );
+
+  // --- Floating plot window drag via its header (mouse + touch) ---
+  const beginPlotDrag = useCallback(
+    (startX: number, startY: number) => {
       const start = useUIStore.getState().plotFloatPos ?? { x: 8, y: 8 };
 
-      const onMove = (ev: MouseEvent) => {
+      const apply = (clientX: number, clientY: number) =>
         setPlotFloatPos({
-          x: Math.max(0, start.x + (ev.clientX - startX)),
-          y: Math.max(0, start.y + (ev.clientY - startY)),
+          x: Math.max(0, start.x + (clientX - startX)),
+          y: Math.max(0, start.y + (clientY - startY)),
         });
+
+      const onMouseMove = (ev: MouseEvent) => apply(ev.clientX, ev.clientY);
+      const onTouchMove = (ev: TouchEvent) => {
+        if (ev.touches[0]) { ev.preventDefault(); apply(ev.touches[0].clientX, ev.touches[0].clientY); }
       };
-      const onUp = () => {
-        window.removeEventListener('mousemove', onMove);
-        window.removeEventListener('mouseup', onUp);
+      const onEnd = () => {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onEnd);
+        window.removeEventListener('touchmove', onTouchMove);
+        window.removeEventListener('touchend', onEnd);
         document.body.style.userSelect = '';
       };
       document.body.style.userSelect = 'none';
-      window.addEventListener('mousemove', onMove);
-      window.addEventListener('mouseup', onUp);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onEnd);
+      window.addEventListener('touchmove', onTouchMove, { passive: false });
+      window.addEventListener('touchend', onEnd);
     },
     [setPlotFloatPos],
+  );
+
+  const handlePlotDragMouseDown = useCallback(
+    (e: React.MouseEvent) => { e.preventDefault(); beginPlotDrag(e.clientX, e.clientY); },
+    [beginPlotDrag],
+  );
+  const handlePlotDragTouchStart = useCallback(
+    (e: React.TouchEvent) => { if (e.touches[0]) beginPlotDrag(e.touches[0].clientX, e.touches[0].clientY); },
+    [beginPlotDrag],
   );
 
   // Mount the connection hook so polling / WebSocket starts when isConnected changes
@@ -357,15 +386,17 @@ export function AppLayout() {
         {/* Full-width 3D Viewport */}
         <div className="app-left-panel">
           <div className="scene-viewport">
-            <RobotViewer>
-              {isConnected && (
-                <>
-                  <RobotModel yamlContent={yamlContent} meshBaseUrl={`/api/robot/model/mesh`} />
-                  <AxesIndicator />
-                  <TrajectoryLineWrapper />
-                </>
-              )}
-            </RobotViewer>
+            <SceneErrorBoundary>
+              <RobotViewer>
+                {isConnected && (
+                  <>
+                    <RobotModel yamlContent={yamlContent} meshBaseUrl={`/api/robot/model/mesh`} />
+                    <AxesIndicator />
+                    <TrajectoryLineWrapper />
+                  </>
+                )}
+              </RobotViewer>
+            </SceneErrorBoundary>
 
             {/* Enable pill — top-center of the 3D viewport */}
             <div className="enable-float">
@@ -382,7 +413,11 @@ export function AppLayout() {
                     : undefined
                 }
               >
-                <div className="plot-float-header" onMouseDown={handlePlotDragStart}>
+                <div
+                  className="plot-float-header"
+                  onMouseDown={handlePlotDragMouseDown}
+                  onTouchStart={handlePlotDragTouchStart}
+                >
                   <span className="plot-float-title">{t('plot.realtimeCurves')}</span>
                 </div>
                 <div className="plot-float-body">
@@ -413,7 +448,8 @@ export function AppLayout() {
           {!rightPanelCollapsed && (
             <div
               className="right-panel-resize"
-              onMouseDown={handleResizeStart}
+              onMouseDown={handleResizeMouseDown}
+              onTouchStart={handleResizeTouchStart}
               title={t('panel.resizeTip')}
             />
           )}

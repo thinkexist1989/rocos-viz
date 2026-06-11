@@ -28,7 +28,7 @@ interface UIState {
   setPlotFloatPos: (pos: { x: number; y: number }) => void;
 }
 
-export const RIGHT_PANEL_MIN_WIDTH = 280;
+export const RIGHT_PANEL_MIN_WIDTH = 320;
 export const RIGHT_PANEL_MAX_WIDTH = 640;
 
 export const useUIStore = create<UIState>()(
@@ -42,7 +42,7 @@ export const useUIStore = create<UIState>()(
       themeMode: 'dark',
       language: 'en',
       rightPanelCollapsed: false,
-      rightPanelWidth: 360,
+      rightPanelWidth: 400,
       plotFloatPos: null,
 
       toggleJointFrames: () => set((state) => ({ showJointFrames: !state.showJointFrames })),

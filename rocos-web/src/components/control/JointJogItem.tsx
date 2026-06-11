@@ -66,7 +66,6 @@ export function JointJogItem({ index, joint }: JointJogItemProps) {
       <Tooltip title={t('jog.negative')}>
         <Button
           className="jog-btn"
-          size="small"
           onMouseDown={(e) => { e.preventDefault(); startJogLoop('NEGATIVE'); }}
           onMouseUp={handleStopJog}
           onMouseLeave={handleStopJog}
@@ -88,7 +87,6 @@ export function JointJogItem({ index, joint }: JointJogItemProps) {
       <Tooltip title={t('jog.positive')}>
         <Button
           className="jog-btn"
-          size="small"
           onMouseDown={(e) => { e.preventDefault(); startJogLoop('POSITIVE'); }}
           onMouseUp={handleStopJog}
           onMouseLeave={handleStopJog}
