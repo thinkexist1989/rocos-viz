@@ -1,60 +1,69 @@
 import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { YamlModelParser, type ParsedLink } from '@/core/YamlModelParser';
-import { ForwardKinematics } from '@/core/ForwardKinematics';
+import { parseUrdf } from '@/core/UrdfModelLoader';
 import { useRobotStateStore } from '@/stores/robotStateStore';
 import { useUIStore } from '@/stores/uiStore';
+import type { URDFRobot } from 'urdf-loader';
 
 interface RobotModelProps {
-  yamlContent: string | null;
-  meshBaseUrl: string;
+  /** URDF XML content. When null/empty the robot is cleared. */
+  urdfContent: string | null;
+  /** Base URL for mesh downloads (default: /api/robot/urdf/mesh) */
+  meshBasePath?: string;
 }
 
-export function RobotModel({ yamlContent, meshBaseUrl }: RobotModelProps) {
+export function RobotModel({ urdfContent, meshBasePath = '/api/robot/urdf/mesh' }: RobotModelProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const parserRef = useRef<YamlModelParser>(new YamlModelParser());
-  const fkRef = useRef<ForwardKinematics>(new ForwardKinematics());
-  const linksRef = useRef<ParsedLink[]>([]);
+  const robotRef = useRef<URDFRobot | null>(null);
   const jointFrameHelpersRef = useRef<THREE.AxesHelper[]>([]);
 
   const robotState = useRobotStateStore((s) => s.robotState);
   const showWireframe = useUIStore((s) => s.showWireframe);
   const showJointFrames = useUIStore((s) => s.showJointFrames);
 
+  // ── Load / reload the URDF model ──────────────────────────────
   useEffect(() => {
     let cancelled = false;
 
     async function loadModel() {
-      if (!yamlContent) return;
+      if (!urdfContent) return;
+
+      // Clear the previous robot
+      if (groupRef.current) {
+        while (groupRef.current.children.length > 0) {
+          groupRef.current.remove(groupRef.current.children[0]);
+        }
+      }
+      disposeRobot(robotRef.current);
+      robotRef.current = null;
+      jointFrameHelpersRef.current = [];
 
       try {
-        if (groupRef.current) {
-          while (groupRef.current.children.length > 0) {
-            groupRef.current.remove(groupRef.current.children[0]);
-          }
+        const { robot } = await parseUrdf(urdfContent, meshBasePath);
+
+        if (cancelled) {
+          disposeRobot(robot);
+          return;
         }
 
-        const parser = parserRef.current;
-        parser.dispose();
+        if (groupRef.current) {
+          groupRef.current.add(robot);
+          robotRef.current = robot;
 
-        const robotGroup = await parser.parse(yamlContent, meshBaseUrl);
-
-        if (!cancelled && groupRef.current) {
-          groupRef.current.add(robotGroup);
-          linksRef.current = parser.getLinks();
-          fkRef.current.setLinks(linksRef.current);
-
-          jointFrameHelpersRef.current = [];
-          for (const link of linksRef.current) {
+          // Create joint coordinate frame helpers
+          const helpers: THREE.AxesHelper[] = [];
+          for (const jointName of Object.keys(robot.joints)) {
+            const joint = robot.joints[jointName];
             const helper = new THREE.AxesHelper(0.08);
             helper.visible = showJointFrames;
-            link.jointNode.add(helper);
-            jointFrameHelpersRef.current.push(helper);
+            joint.add(helper);
+            helpers.push(helper);
           }
+          jointFrameHelpersRef.current = helpers;
         }
       } catch (error) {
-        console.error('Failed to load robot model:', error);
+        console.error('Failed to load URDF model:', error);
       }
     }
 
@@ -62,36 +71,72 @@ export function RobotModel({ yamlContent, meshBaseUrl }: RobotModelProps) {
 
     return () => {
       cancelled = true;
-      parserRef.current.dispose();
     };
-  }, [yamlContent, meshBaseUrl]);
+  }, [urdfContent, meshBasePath]);
 
+  // ── Per-frame joint update + visual toggles ───────────────────
   useFrame(() => {
-    if (robotState && robotState.joint_states.length > 0) {
-      const jointAngles = robotState.joint_states.map((js) => js.position);
-      fkRef.current.update(jointAngles);
-    }
+    const robot = robotRef.current;
+    if (!robot || !robotState) return;
 
-    for (const link of linksRef.current) {
-      if (link.mesh) {
-        const materials = Array.isArray(link.mesh.material)
-          ? link.mesh.material
-          : [link.mesh.material];
-        for (const material of materials) {
-          const m = material as THREE.MeshStandardMaterial;
-          m.wireframe = showWireframe;
-          m.transparent = showJointFrames;
-          m.opacity = showJointFrames ? 0.35 : 1.0;
-          m.depthWrite = !showJointFrames;
-          m.needsUpdate = true;
-        }
+    // Build a joint-name → angle map from the latest robot state
+    if (robotState.joint_states && robotState.joint_states.length > 0) {
+      const jointValues: Record<string, number> = {};
+      for (const js of robotState.joint_states) {
+        jointValues[js.name] = js.position;
       }
+      robot.setJointValues(jointValues);
     }
 
+    // Wireframe / opacity toggles on all visual meshes
+    for (const visName of Object.keys(robot.visual)) {
+      const vis = robot.visual[visName];
+      vis.traverse((child: THREE.Object3D) => {
+        if (child instanceof THREE.Mesh) {
+          const materials = Array.isArray(child.material)
+            ? child.material
+            : [child.material];
+          for (const material of materials) {
+            const m = material as THREE.MeshStandardMaterial;
+            m.wireframe = showWireframe;
+            m.transparent = showJointFrames;
+            m.opacity = showJointFrames ? 0.35 : 1.0;
+            m.depthWrite = !showJointFrames;
+            m.needsUpdate = true;
+          }
+        }
+      });
+    }
+
+    // Joint frame visibility
     for (const helper of jointFrameHelpersRef.current) {
       helper.visible = showJointFrames;
     }
   });
 
+  // ── Cleanup on unmount ───────────────────────────────────────
+  useEffect(() => {
+    return () => {
+      disposeRobot(robotRef.current);
+      robotRef.current = null;
+    };
+  }, []);
+
   return <group ref={groupRef} />;
+}
+
+/** Dispose geometries and materials for the entire robot tree. */
+function disposeRobot(robot: URDFRobot | null): void {
+  if (!robot) return;
+  robot.traverse((child: THREE.Object3D) => {
+    if (child instanceof THREE.Mesh) {
+      child.geometry?.dispose();
+      const materials = Array.isArray(child.material)
+        ? child.material
+        : [child.material];
+      for (const m of materials) {
+        m.dispose();
+      }
+    }
+  });
 }

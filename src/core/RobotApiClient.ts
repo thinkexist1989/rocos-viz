@@ -213,6 +213,55 @@ export class RobotApiClient {
     return response.blob();
   }
 
+  // ─── URDF endpoints ───────────────────────────────────────────
+
+  /** Upload a URDF file to the controller. Returns the stored path. */
+  async uploadUrdf(file: File): Promise<{ path: string }> {
+    const url = new URL('/api/robot/urdf', this.baseUrl);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    console.log(`[RobotApiClient] uploadUrdf: ${url.toString()} (${file.name})`);
+
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      body: formData,
+    });
+    const json: ApiResponse<{ path: string }> = await response.json();
+    if (!json.success) {
+      throw new Error(`API Error: ${json.message} (code: ${json.code})`);
+    }
+    return json.data;
+  }
+
+  /** Fetch the current URDF file content as an XML string. */
+  async getUrdf(): Promise<string> {
+    const url = new URL('/api/robot/urdf', this.baseUrl);
+
+    console.log(`[RobotApiClient] getUrdf: ${url.toString()}`);
+
+    const response = await fetch(url.toString(), {
+      headers: { Accept: 'application/xml, text/xml, */*' },
+    });
+    if (!response.ok) {
+      throw new Error(`URDF fetch failed: ${response.status}`);
+    }
+    return response.text();
+  }
+
+  /** Download a mesh file referenced by the URDF model. */
+  async downloadUrdfMesh(path: string): Promise<Blob> {
+    const url = new URL('/api/robot/urdf/mesh', this.baseUrl);
+    url.searchParams.append('path', path);
+
+    console.log(`[RobotApiClient] downloadUrdfMesh: ${url.toString()}`);
+
+    const response = await fetch(url.toString());
+    console.log(`[RobotApiClient] downloadUrdfMesh status: ${response.status}`);
+
+    return response.blob();
+  }
+
   async runScript(script: string): Promise<void> {
     return this.request('POST', '/api/script/run', { script });
   }

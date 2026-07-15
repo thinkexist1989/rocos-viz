@@ -3,11 +3,12 @@ import type * as THREE from 'three';
 import type { RobotModelConfig } from '@/core/types';
 
 interface ModelState {
-  model: THREE.Group | null;
+  /** The loaded robot model — can be a THREE.Group (legacy YAML) or URDFRobot (Object3D). */
+  model: THREE.Object3D | null;
   config: RobotModelConfig | null;
   isLoading: boolean;
 
-  setModel: (model: THREE.Group, config: RobotModelConfig) => void;
+  setModel: (model: THREE.Object3D, config: RobotModelConfig) => void;
   setLoading: (loading: boolean) => void;
   clear: () => void;
 }

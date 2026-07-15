@@ -154,8 +154,7 @@ export function AppLayout() {
   const t = useT();
   const [showConnectDialog, setShowConnectDialog] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
-  const [yamlContent, setYamlContent] = useState<string | null>(null);
-  const [, setModelLoading] = useState(false);
+  const [urdfContent, setUrdfContent] = useState<string | null>(null);
 
   const isConnected = useConnectionStore((s) => s.isConnected);
   const currentView = useUIStore((s) => s.currentView);
@@ -274,44 +273,52 @@ export function AppLayout() {
   // Mount the connection hook so polling / WebSocket starts when isConnected changes
   useRobotConnection();
 
-  // Fetch robot model from controller and convert to YAML for the parser
+  // Fetch URDF model from controller on connect
   useEffect(() => {
     if (!isConnected) {
-      setYamlContent(null);
+      setUrdfContent(null);
       return;
     }
 
     let cancelled = false;
 
     async function fetchModel() {
-      setModelLoading(true);
+      try {
+        const client = new RobotApiClient(host, port);
+
+        // Try URDF endpoint first, fall back to legacy JSON→YAML
+        const urdfXml = await client.getUrdf();
+
+        if (cancelled) return;
+
+        if (urdfXml && urdfXml.trim().startsWith('<')) {
+          console.log('[AppLayout] Loaded URDF from controller, length:', urdfXml.length);
+          setUrdfContent(urdfXml);
+          return;
+        }
+      } catch (_urdfError) {
+        console.log('[AppLayout] URDF endpoint unavailable, trying legacy model API');
+      }
+
+      // Fallback: legacy JSON model API
       try {
         const client = new RobotApiClient(host, port);
         const model = await client.getRobotModel();
 
-        console.log('[AppLayout] getRobotModel response:', JSON.stringify(model).slice(0, 200));
-
         if (cancelled) return;
 
-        // The API returns { name, links: [...] }
-        // We need to convert it to YAML for YamlModelParser
         if (model && model.links && model.links.length > 0) {
           const yamlStr = modelConfigToYaml(model);
-          console.log('[AppLayout] Converted model to YAML, links:', model.links.length);
-          if (!cancelled) setYamlContent(yamlStr);
-        } else {
-          console.warn('[AppLayout] getRobotModel returned no links:', model);
-          if (!cancelled) {
-            message.warning(t('model.noLinks'));
-          }
+          console.log('[AppLayout] Converted legacy model to YAML, links:', model.links.length);
+          // Legacy YAML models are no longer rendered — the RobotModel component
+          // now requires URDF. We display a warning instead.
+          message.warning('控制器返回的是旧版 YAML 模型，请升级控制器固件以支持 URDF。');
         }
       } catch (error) {
         console.error('Failed to fetch robot model:', error);
         if (!cancelled) {
           message.error(t('model.fetchFailed', { msg: error instanceof Error ? error.message : String(error) }));
         }
-      } finally {
-        if (!cancelled) setModelLoading(false);
       }
     }
 
@@ -418,7 +425,7 @@ export function AppLayout() {
               <RobotViewer>
                 {isConnected && (
                   <>
-                    <RobotModel yamlContent={yamlContent} meshBaseUrl={`/api/robot/model/mesh`} />
+                    <RobotModel urdfContent={urdfContent} />
                     <AxesIndicator />
                     <TrajectoryLineWrapper />
                   </>
