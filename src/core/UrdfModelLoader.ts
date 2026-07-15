@@ -53,18 +53,16 @@ export function parseUrdf(
     // would render duplicate geometry on top of the visual model.
     loader.parseCollision = false;
 
-    // Intercept mesh loading: extract the leaf filename and route through our API
+    // Intercept mesh loading: preserve the relative path structure so the
+    // server can resolve meshes relative to the URDF file's directory.
     loader.loadMeshCb = (meshPath: string, mgr, _material, onComplete) => {
-      // The path may include package:// resolution remnants — keep only the
-      // leaf filename for the API.
-      const cleaned = meshPath.split('?')[0];        // strip any ?query
-      const filename = cleaned.split('/').pop() || cleaned;
-
-      const apiUrl = `${meshBaseUrl}?path=${encodeURIComponent(filename)}`;
+      // Strip any ?query artifacts (left over from a package:// → URL prefix
+      // transformation) and keep the clean relative path.
+      const cleaned = meshPath.split('?')[0];
+      const apiUrl = `${meshBaseUrl}?path=${encodeURIComponent(cleaned)}`;
 
       console.log(`[UrdfModelLoader] Loading mesh: ${meshPath} → ${apiUrl}`);
 
-      // Use the instance method (NOT URDFLoader.defaultMeshLoader — it's not static)
       loader.defaultMeshLoader(apiUrl, mgr, _material, onComplete);
     };
 

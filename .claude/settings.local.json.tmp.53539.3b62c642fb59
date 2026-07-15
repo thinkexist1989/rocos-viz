@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m '修复 Baxter URDF 模型加载：支持相对路径 mesh 解析 *)"
+    ]
+  }
+}

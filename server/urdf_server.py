@@ -349,10 +349,24 @@ class UrdfRequestHandler(BaseHTTPRequestHandler):
             self._json_error(400, "Missing ?path= parameter")
             return
 
-        candidate = MODELS_DIR / mesh_path
-        if not candidate.exists():
+        # Resolve relative to the URDF file's directory first, then fall
+        # back to models/<path>, flat filename, and absolute path.
+        urdf_dir = store.path.parent if store else MODELS_DIR
+        candidates = [
+            urdf_dir / mesh_path,                         # relative to URDF dir
+            MODELS_DIR / mesh_path,                       # relative to models/
+            MODELS_DIR / Path(mesh_path).name,            # flat: just the filename (legacy)
+        ]
+        candidate = None
+        for c in candidates:
+            if c.exists():
+                candidate = c
+                break
+        # absolute path fallback
+        if candidate is None and Path(mesh_path).exists():
             candidate = Path(mesh_path)
-        if not candidate.exists():
+
+        if candidate is None:
             self._json_error(404, f"Mesh not found: {mesh_path}")
             return
 
