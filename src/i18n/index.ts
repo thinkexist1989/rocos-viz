@@ -106,6 +106,7 @@ const DICT = {
   // ---- Jog panels ----
   'jog.jointSpace': { en: 'JOINT SPACE', zh: '关节空间' },
   'jog.cartesianSpace': { en: 'CARTESIAN SPACE', zh: '笛卡尔空间' },
+  'jog.nullSpace': { en: 'NULL SPACE', zh: '零空间' },
   'jog.noJointData': { en: 'Connect the robot to see joint data', zh: '连接机器人后显示关节数据' },
   'jog.negative': { en: 'Jog negative', zh: '负方向点动' },
   'jog.positive': { en: 'Jog positive', zh: '正方向点动' },

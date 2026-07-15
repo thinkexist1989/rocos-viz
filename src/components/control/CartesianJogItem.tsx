@@ -15,9 +15,11 @@ interface CartesianJogItemProps {
   freedom: number;
   unit: 'mm' | 'deg';
   isPosition: boolean;
+  /** Optional custom flag name; when set, overrides the auto-built `${frame}_${freedom}` flag. */
+  customFlag?: string;
 }
 
-export function CartesianJogItem({ label, value, frame, freedom, unit, isPosition }: CartesianJogItemProps) {
+export function CartesianJogItem({ label, value, frame, freedom, unit, isPosition, customFlag }: CartesianJogItemProps) {
   const isMM = useControlStore((s) => s.isMM);
   const isDegree = useControlStore((s) => s.isDegree);
   const { host, port } = useConnectionStore.getState();
@@ -31,6 +33,7 @@ export function CartesianJogItem({ label, value, frame, freedom, unit, isPositio
   const displayUnit = isPosition ? (isMM ? 'mm' : 'm') : (isDegree ? 'deg' : 'rad');
 
   const getFlag = useCallback(() => {
+    if (customFlag) return customFlag;
     const framePrefix = {
       100: 'TOOL',
       200: 'FLANGE',
@@ -38,7 +41,7 @@ export function CartesianJogItem({ label, value, frame, freedom, unit, isPositio
       400: 'BASE',
     }[frame] || 'BASE';
     return `${framePrefix}_${FREEDOM_NAMES[freedom]}`;
-  }, [frame, freedom]);
+  }, [frame, freedom, customFlag]);
 
   const startJogLoop = useCallback((direction: 'POSITIVE' | 'NEGATIVE') => {
     const client = new RobotApiClient(host, port);

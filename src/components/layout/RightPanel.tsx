@@ -2,6 +2,7 @@ import { Tabs } from 'antd';
 import { AppstoreOutlined, AimOutlined } from '@ant-design/icons';
 import { JointJogPanel } from '@/components/control/JointJogPanel';
 import { CartesianJogPanel } from '@/components/control/CartesianJogPanel';
+import { NullSpacePanel } from '@/components/control/NullSpacePanel';
 import { SpeedSlider } from '@/components/control/SpeedSlider';
 import { FrameSelector } from '@/components/control/FrameSelector';
 import { WorkModeSelector } from '@/components/control/WorkModeSelector';
@@ -43,6 +44,9 @@ export function RightPanel() {
                 </div>
                 <div className="panel-card">
                   <CartesianJogPanel />
+                </div>
+                <div className="panel-card">
+                  <NullSpacePanel />
                 </div>
               </div>
             ),
