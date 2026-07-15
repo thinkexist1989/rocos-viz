@@ -91,6 +91,10 @@ const DICT = {
 
   // ---- Frame selector ----
   'frame.label': { en: 'Frame', zh: '坐标系' },
+  'frame.BASE': { en: 'BASE', zh: '基座坐标系' },
+  'frame.FLANGE': { en: 'FLANGE', zh: '法兰坐标系' },
+  'frame.TOOL': { en: 'TOOL', zh: '工具坐标系' },
+  'frame.OBJECT': { en: 'OBJECT', zh: '工件坐标系' },
 
   // ---- Speed ----
   'speed.label': { en: 'Speed Scaling', zh: '速度比例' },

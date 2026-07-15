@@ -38,11 +38,11 @@ export function CartesianJogPanel() {
 
   const getFrameLabel = () => {
     switch (currentFrame) {
-      case FRAME.BASE: return 'BASE';
-      case FRAME.FLANGE: return 'FLANGE';
-      case FRAME.TOOL: return 'TOOL';
-      case FRAME.OBJECT: return 'OBJECT';
-      default: return 'BASE';
+      case FRAME.BASE: return t('frame.BASE');
+      case FRAME.FLANGE: return t('frame.FLANGE');
+      case FRAME.TOOL: return t('frame.TOOL');
+      case FRAME.OBJECT: return t('frame.OBJECT');
+      default: return t('frame.BASE');
     }
   };
 

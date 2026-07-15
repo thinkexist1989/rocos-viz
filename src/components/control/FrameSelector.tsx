@@ -5,17 +5,17 @@ import { useT } from '@/i18n/useT';
 
 const { Text } = Typography;
 
-const FRAME_OPTIONS = [
-  { value: FRAME.BASE, label: 'BASE' },
-  { value: FRAME.FLANGE, label: 'FLANGE' },
-  { value: FRAME.TOOL, label: 'TOOL' },
-  { value: FRAME.OBJECT, label: 'OBJECT' },
-];
-
 export function FrameSelector() {
   const t = useT();
   const currentFrame = useControlStore((s) => s.currentFrame);
   const setFrame = useControlStore((s) => s.setFrame);
+
+  const frameOptions = [
+    { value: FRAME.BASE, label: t('frame.BASE') },
+    { value: FRAME.FLANGE, label: t('frame.FLANGE') },
+    { value: FRAME.TOOL, label: t('frame.TOOL') },
+    { value: FRAME.OBJECT, label: t('frame.OBJECT') },
+  ];
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -23,9 +23,9 @@ export function FrameSelector() {
       <Select
         value={currentFrame}
         onChange={setFrame}
-        options={FRAME_OPTIONS}
+        options={frameOptions}
         size="middle"
-        style={{ width: 110 }}
+        style={{ width: 130 }}
       />
     </div>
   );
