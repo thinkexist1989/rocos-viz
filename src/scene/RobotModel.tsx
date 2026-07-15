@@ -13,7 +13,40 @@ interface RobotModelProps {
   meshBasePath?: string;
 }
 
-export function RobotModel({ urdfContent, meshBasePath = '/api/robot/urdf/mesh' }: RobotModelProps) {
+/** Walk the robot tree and apply wireframe / transparency to every mesh. */
+function applyVisualToggles(
+  robot: URDFRobot,
+  showWireframe: boolean,
+  showJointFrames: boolean,
+  helpers: THREE.AxesHelper[],
+): void {
+  robot.traverse((child: THREE.Object3D) => {
+    if (!(child instanceof THREE.Mesh)) return;
+
+    const materials: THREE.Material[] = Array.isArray(child.material)
+      ? child.material
+      : [child.material];
+
+    for (const mat of materials) {
+      // wireframe is on mesh-material subtypes, not on the base Material class
+      const m = mat as THREE.Material & { wireframe?: boolean };
+      m.transparent = showJointFrames;
+      m.opacity = showJointFrames ? 0.3 : 1.0;
+      m.depthWrite = !showJointFrames;
+      m.wireframe = showWireframe;
+      m.needsUpdate = true;
+    }
+  });
+
+  for (const helper of helpers) {
+    helper.visible = showJointFrames;
+  }
+}
+
+export function RobotModel({
+  urdfContent,
+  meshBasePath = '/api/robot/urdf/mesh',
+}: RobotModelProps) {
   const groupRef = useRef<THREE.Group>(null);
   const robotRef = useRef<URDFRobot | null>(null);
   const jointFrameHelpersRef = useRef<THREE.AxesHelper[]>([]);
@@ -29,7 +62,6 @@ export function RobotModel({ urdfContent, meshBasePath = '/api/robot/urdf/mesh' 
     async function loadModel() {
       if (!urdfContent) return;
 
-      // Clear the previous robot
       if (groupRef.current) {
         while (groupRef.current.children.length > 0) {
           groupRef.current.remove(groupRef.current.children[0]);
@@ -51,7 +83,6 @@ export function RobotModel({ urdfContent, meshBasePath = '/api/robot/urdf/mesh' 
           groupRef.current.add(robot);
           robotRef.current = robot;
 
-          // Create joint coordinate frame helpers
           const helpers: THREE.AxesHelper[] = [];
           for (const jointName of Object.keys(robot.joints)) {
             const joint = robot.joints[jointName];
@@ -61,6 +92,9 @@ export function RobotModel({ urdfContent, meshBasePath = '/api/robot/urdf/mesh' 
             helpers.push(helper);
           }
           jointFrameHelpersRef.current = helpers;
+
+          // Apply current toggle state to the freshly loaded model
+          applyVisualToggles(robot, showWireframe, showJointFrames, helpers);
         }
       } catch (error) {
         console.error('Failed to load URDF model:', error);
@@ -74,43 +108,26 @@ export function RobotModel({ urdfContent, meshBasePath = '/api/robot/urdf/mesh' 
     };
   }, [urdfContent, meshBasePath]);
 
-  // ── Per-frame joint update + visual toggles ───────────────────
+  // ── Toggle visual effects on state change ────────────────────
+  const toggleRef = useRef({ showWireframe, showJointFrames });
+  useEffect(() => {
+    toggleRef.current = { showWireframe, showJointFrames };
+    const robot = robotRef.current;
+    if (!robot) return;
+    applyVisualToggles(robot, showWireframe, showJointFrames, jointFrameHelpersRef.current);
+  }, [showWireframe, showJointFrames]);
+
+  // ── Per-frame joint update ──────────────────────────────────
   useFrame(() => {
     const robot = robotRef.current;
     if (!robot || !robotState) return;
 
-    // Build a joint-name → angle map from the latest robot state
-    if (robotState.joint_states && robotState.joint_states.length > 0) {
+    if (robotState.joint_states?.length) {
       const jointValues: Record<string, number> = {};
       for (const js of robotState.joint_states) {
         jointValues[js.name] = js.position;
       }
       robot.setJointValues(jointValues);
-    }
-
-    // Wireframe / opacity toggles on all visual meshes
-    for (const visName of Object.keys(robot.visual)) {
-      const vis = robot.visual[visName];
-      vis.traverse((child: THREE.Object3D) => {
-        if (child instanceof THREE.Mesh) {
-          const materials = Array.isArray(child.material)
-            ? child.material
-            : [child.material];
-          for (const material of materials) {
-            const m = material as THREE.MeshStandardMaterial;
-            m.wireframe = showWireframe;
-            m.transparent = showJointFrames;
-            m.opacity = showJointFrames ? 0.35 : 1.0;
-            m.depthWrite = !showJointFrames;
-            m.needsUpdate = true;
-          }
-        }
-      });
-    }
-
-    // Joint frame visibility
-    for (const helper of jointFrameHelpersRef.current) {
-      helper.visible = showJointFrames;
     }
   });
 
@@ -125,7 +142,6 @@ export function RobotModel({ urdfContent, meshBasePath = '/api/robot/urdf/mesh' 
   return <group ref={groupRef} />;
 }
 
-/** Dispose geometries and materials for the entire robot tree. */
 function disposeRobot(robot: URDFRobot | null): void {
   if (!robot) return;
   robot.traverse((child: THREE.Object3D) => {

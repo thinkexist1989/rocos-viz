@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m '修复 Baxter URDF 模型加载：支持相对路径 mesh 解析 *)",
+      "Bash(npm run *)",
+      "Bash(python3 server/urdf_server.py --urdf server/models/baxter_rethink_robotics/baxter_description/baxter.urdf)",
+      "Bash(curl -s http://localhost:8080/api/robot/info)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(f'{len\\(d[\\\\\"data\\\\\"][\\\\\"joint_infos\\\\\"]\\)} joints'\\)\")",
+      "Bash(curl -s -X POST http://localhost:8080/api/robot/enable)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d['message']\\)\")",
+      "Bash(curl -s http://localhost:8080/api/robot/urdf)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{size_download}B\" \"http://localhost:8080/api/robot/urdf/mesh?path=meshes/head/H0.DAE\")",
+      "Bash(curl -s http://localhost:8080/api/robot/state)",
+      "Bash(python3 -c ' *)",
+      "Bash(kill %1)",
+      "Bash(pkill -f \"urdf_server.py\")",
+      "Bash(git commit -m '修复 Axes 按钮：mesh 半透明显示及视觉切换逻辑 *)"
+    ]
+  }
+}
