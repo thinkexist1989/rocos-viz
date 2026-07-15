@@ -349,22 +349,17 @@ class UrdfRequestHandler(BaseHTTPRequestHandler):
             self._json_error(400, "Missing ?path= parameter")
             return
 
-        # Resolve relative to the URDF file's directory first, then fall
-        # back to models/<path>, flat filename, and absolute path.
+        # Normalise: strip leading slashes so path joining works.
+        clean = mesh_path.lstrip("/")
+
+        # Search strategy (first match wins):
+        #   1. Relative to URDF directory
+        #   2. Flat filename in URDF directory
+        #   3. Recursive search in URDF directory
+        #   4. Recursive search in URDF parent directory
+        #   5. Recursive search in models/ directory
         urdf_dir = store.path.parent if store else MODELS_DIR
-        candidates = [
-            urdf_dir / mesh_path,                         # relative to URDF dir
-            MODELS_DIR / mesh_path,                       # relative to models/
-            MODELS_DIR / Path(mesh_path).name,            # flat: just the filename (legacy)
-        ]
-        candidate = None
-        for c in candidates:
-            if c.exists():
-                candidate = c
-                break
-        # absolute path fallback
-        if candidate is None and Path(mesh_path).exists():
-            candidate = Path(mesh_path)
+        candidate = self._find_mesh(clean, urdf_dir)
 
         if candidate is None:
             self._json_error(404, f"Mesh not found: {mesh_path}")
@@ -416,6 +411,51 @@ class UrdfRequestHandler(BaseHTTPRequestHandler):
         simulator.disable()
         print("[server] Robot disabled")
         self._json_response(None)
+
+    # ── Mesh file search ──────────────────────────────────────
+
+    @staticmethod
+    def _find_mesh(clean_path: str, urdf_dir: Path) -> Path | None:
+        """Try to locate a mesh file using a cascade of strategies."""
+        filename = Path(clean_path).name
+
+        # 1. Exact relative to URDF directory
+        candidate = urdf_dir / clean_path
+        if candidate.exists():
+            return candidate
+
+        # 2. Flat filename in URDF directory
+        candidate = urdf_dir / filename
+        if candidate.exists():
+            return candidate
+
+        # 3. Recursive search in URDF directory tree
+        candidate = UrdfRequestHandler._search_by_name(urdf_dir, filename)
+        if candidate:
+            return candidate
+
+        # 4. Recursive search in URDF parent directory tree
+        candidate = UrdfRequestHandler._search_by_name(urdf_dir.parent, filename)
+        if candidate:
+            return candidate
+
+        # 5. Recursive search in models/ directory
+        candidate = UrdfRequestHandler._search_by_name(MODELS_DIR, filename)
+        if candidate:
+            return candidate
+
+        return None
+
+    @staticmethod
+    def _search_by_name(root: Path, filename: str) -> Path | None:
+        """Recursively search for a file by name under root (case-insensitive)."""
+        if not root.exists():
+            return None
+        pattern = filename.lower()
+        for entry in root.rglob("*"):
+            if entry.is_file() and entry.name.lower() == pattern:
+                return entry
+        return None
 
     # ── Helpers ───────────────────────────────────────────────
 

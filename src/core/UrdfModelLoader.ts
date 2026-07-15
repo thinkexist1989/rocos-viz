@@ -53,12 +53,21 @@ export function parseUrdf(
     // would render duplicate geometry on top of the visual model.
     loader.parseCollision = false;
 
-    // Intercept mesh loading: preserve the relative path structure so the
-    // server can resolve meshes relative to the URDF file's directory.
+    // Intercept mesh loading: strip package:// artifacts and send a clean
+    // relative path so the server can fuzzy-search for the mesh file.
     loader.loadMeshCb = (meshPath: string, mgr, _material, onComplete) => {
-      // Strip any ?query artifacts (left over from a package:// → URL prefix
-      // transformation) and keep the clean relative path.
-      const cleaned = meshPath.split('?')[0];
+      // Remove any ?query cruft and leading slashes / api prefixes left over
+      // from a package:// → URL transformation.
+      let cleaned = meshPath.split('?')[0];
+      // If the packages function returned an API URL, extract just the
+      // relative path portion (everything after the last "/mesh/" segment).
+      const meshIdx = cleaned.lastIndexOf('/mesh/');
+      if (meshIdx !== -1) {
+        cleaned = cleaned.slice(meshIdx + 6); // after "/mesh/"
+      }
+      // Normalise: strip leading slash so it's a relative path.
+      cleaned = cleaned.replace(/^\/+/, '');
+
       const apiUrl = `${meshBaseUrl}?path=${encodeURIComponent(cleaned)}`;
 
       console.log(`[UrdfModelLoader] Loading mesh: ${meshPath} → ${apiUrl}`);
@@ -66,11 +75,11 @@ export function parseUrdf(
       loader.defaultMeshLoader(apiUrl, mgr, _material, onComplete);
     };
 
-    // Resolve ROS package:// paths — map to the mesh base URL.
-    // The package name becomes a query hint; the leaf filename is extracted in
-    // loadMeshCb anyway, so this just needs to produce a resolvable path.
-    loader.packages = (pkgName: string): string => {
-      return `${meshBaseUrl}/${encodeURIComponent(pkgName)}`;
+    // Strip package:// prefix — the server will search by filename.
+    // Returning '' causes resolvePath to produce just "/relPath" which
+    // loadMeshCb normalises into a clean relative path.
+    loader.packages = (_pkgName: string): string => {
+      return '';
     };
 
     try {
