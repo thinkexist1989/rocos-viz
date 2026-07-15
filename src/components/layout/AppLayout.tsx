@@ -324,7 +324,7 @@ export function AppLayout() {
     <div className="app-layout">
       {/* Toolbar */}
       <div className="app-toolbar">
-        <div className="logo">ROCOS-Viz</div>
+        <img className="logo" src="/icons/rocos.png" alt="ROCOS-Viz" />
 
         <div className="toolbar-cameras">
           <Tooltip title={t('view.axonometric')}>
