@@ -18,7 +18,6 @@ import { useRobotConnection } from '@/hooks/useRobotConnection';
 import { useT } from '@/i18n/useT';
 import * as THREE from 'three';
 import { MAX_TRAJECTORY_POINTS } from '@/core/constants';
-import type { RobotModelConfig } from '@/core/types';
 import {
   Button,
   Tooltip,
@@ -45,55 +44,6 @@ import {
   ApiOutlined,
   DisconnectOutlined,
 } from '@ant-design/icons';
-
-/** Convert the API JSON RobotModelConfig to YAML matching C++ writeModelFiles format */
-function modelConfigToYaml(model: RobotModelConfig): string {
-  const lines: string[] = ['robot:'];
-  for (const link of model.links) {
-    lines.push(`  - name: ${link.name}`);
-    lines.push(`    order: ${link.order}`);
-    lines.push(`    type: ${(link.type ?? 'unknown').toLowerCase()}`);
-    if (link.translate) {
-      const t = link.translate;
-      const x = Array.isArray(t) ? t[0] : (t as any).x ?? 0;
-      const y = Array.isArray(t) ? t[1] : (t as any).y ?? 0;
-      const z = Array.isArray(t) ? t[2] : (t as any).z ?? 0;
-      lines.push(`    translate: [${x}, ${y}, ${z}]`);
-    }
-    if (link.rotate) {
-      const r = link.rotate;
-      const x = Array.isArray(r) ? r[0] : (r as any).x ?? 0;
-      const y = Array.isArray(r) ? r[1] : (r as any).y ?? 0;
-      const z = Array.isArray(r) ? r[2] : (r as any).z ?? 0;
-      lines.push(`    rotate: [${x}, ${y}, ${z}]`);
-    }
-    if (link.axis) {
-      const a = link.axis;
-      const x = Array.isArray(a) ? a[0] : (a as any).x ?? 0;
-      const y = Array.isArray(a) ? a[1] : (a as any).y ?? 0;
-      const z = Array.isArray(a) ? a[2] : (a as any).z ?? 0;
-      lines.push(`    angleAxis: [${x}, ${y}, ${z}]`);
-    }
-    if (link.translateLink) {
-      const t = link.translateLink;
-      const x = Array.isArray(t) ? t[0] : (t as any).x ?? 0;
-      const y = Array.isArray(t) ? t[1] : (t as any).y ?? 0;
-      const z = Array.isArray(t) ? t[2] : (t as any).z ?? 0;
-      lines.push(`    translateLink: [${x}, ${y}, ${z}]`);
-    }
-    if (link.rotateLink) {
-      const r = link.rotateLink;
-      const x = Array.isArray(r) ? r[0] : (r as any).x ?? 0;
-      const y = Array.isArray(r) ? r[1] : (r as any).y ?? 0;
-      const z = Array.isArray(r) ? r[2] : (r as any).z ?? 0;
-      lines.push(`    rotateLink: [${x}, ${y}, ${z}]`);
-    }
-    if (link.mesh) {
-      lines.push(`    mesh: ${link.mesh}`);
-    }
-  }
-  return lines.join('\n');
-}
 
 /** Reactive scene-toggle buttons – uses hooks so state changes are reflected immediately */
 function SceneToggles({ style }: { style?: React.CSSProperties }) {
@@ -285,8 +235,6 @@ export function AppLayout() {
     async function fetchModel() {
       try {
         const client = new RobotApiClient(host, port);
-
-        // Try URDF endpoint first, fall back to legacy JSON→YAML
         const urdfXml = await client.getUrdf();
 
         if (cancelled) return;
@@ -294,25 +242,6 @@ export function AppLayout() {
         if (urdfXml && urdfXml.trim().startsWith('<')) {
           console.log('[AppLayout] Loaded URDF from controller, length:', urdfXml.length);
           setUrdfContent(urdfXml);
-          return;
-        }
-      } catch (_urdfError) {
-        console.log('[AppLayout] URDF endpoint unavailable, trying legacy model API');
-      }
-
-      // Fallback: legacy JSON model API
-      try {
-        const client = new RobotApiClient(host, port);
-        const model = await client.getRobotModel();
-
-        if (cancelled) return;
-
-        if (model && model.links && model.links.length > 0) {
-          const yamlStr = modelConfigToYaml(model);
-          console.log('[AppLayout] Converted legacy model to YAML, links:', model.links.length);
-          // Legacy YAML models are no longer rendered — the RobotModel component
-          // now requires URDF. We display a warning instead.
-          message.warning('控制器返回的是旧版 YAML 模型，请升级控制器固件以支持 URDF。');
         }
       } catch (error) {
         console.error('Failed to fetch robot model:', error);

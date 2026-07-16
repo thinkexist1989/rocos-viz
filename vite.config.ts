@@ -17,6 +17,9 @@ export default defineConfig({
     host: '0.0.0.0',
     port: VITE_PORT,
     open: true,
+    watch: {
+      usePolling: true,
+    },
     proxy: {
       '/api': {
         target: `http://${ROBOT_HOST}:${ROBOT_PORT}`,

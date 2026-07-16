@@ -5,7 +5,6 @@ import type {
   Pose,
   MoveResult,
   TaskStatus,
-  RobotModelConfig,
   CalibrationResult,
 } from './types';
 import { DIRECTION } from './constants';
@@ -195,22 +194,6 @@ export class RobotApiClient {
 
   async dragStop(): Promise<void> {
     return this.request('POST', '/api/drag/stop');
-  }
-
-  async getRobotModel(): Promise<RobotModelConfig> {
-    return this.request<RobotModelConfig>('GET', '/api/robot/model');
-  }
-
-  async downloadMesh(path: string): Promise<Blob> {
-    const url = new URL('/api/robot/model/mesh', this.baseUrl);
-    url.searchParams.append('path', path);
-
-    console.log(`[RobotApiClient] downloadMesh: ${url.toString()}`);
-
-    const response = await fetch(url.toString());
-    console.log(`[RobotApiClient] downloadMesh status: ${response.status}`);
-
-    return response.blob();
   }
 
   // ─── URDF endpoints ───────────────────────────────────────────
