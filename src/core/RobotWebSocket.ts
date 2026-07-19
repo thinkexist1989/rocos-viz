@@ -43,6 +43,8 @@ function mapState(raw: any): RobotState {
     tool,
     object: objectPose,
     hw_state: hw,
+    is_enabled: raw.is_enabled,
+    robot_state: raw.robot_state,
   } as RobotState;
 }
 

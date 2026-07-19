@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useConnectionStore } from '@/stores/connectionStore';
+import { useRobotStateStore } from '@/stores/robotStateStore';
 import { useT } from '@/i18n/useT';
 
 export function StatusBar() {
   const t = useT();
   const isConnected = useConnectionStore((s) => s.isConnected);
-  const isRobotEnabled = useConnectionStore((s) => s.isRobotEnabled);
+  const robotState = useRobotStateStore((s) => s.robotState);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [startTime] = useState(() => Date.now());
 
@@ -27,12 +28,10 @@ export function StatusBar() {
 
   return (
     <div className="app-statusbar">
-      {isConnected && (
-        <span>
-          <span className={`status-dot ${isRobotEnabled ? 'enabled' : ''}`} />
-          {isRobotEnabled ? t('status.enabled') : t('status.disabled')}
-        </span>
-      )}
+      <span>
+        <span className={`status-dot ${isConnected ? 'enabled' : 'disconnected'}`} />
+        {isConnected ? (robotState?.robot_state ?? t('conn.connected')) : t('conn.disconnected')}
+      </span>
       <span className="toolbar-spacer" />
       <span>{t('status.time')}: {formatTime(currentTime)}</span>
       <span>{t('status.running')}: {formatElapsed(Date.now() - startTime)}</span>

@@ -4,6 +4,7 @@ import { useRobotStateStore } from '@/stores/robotStateStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { RobotWebSocket } from '@/core/RobotWebSocket';
 import { POLLING_INTERVAL_MS, MAX_STATE_FAILURES } from '@/core/constants';
+import type { RobotState } from '@/core/types';
 
 export function useRobotConnection() {
   const timerRef = useRef<number | null>(null);
@@ -17,6 +18,17 @@ export function useRobotConnection() {
   const updateState = useRobotStateStore((s) => s.updateState);
   const clearState = useRobotStateStore((s) => s.clear);
 
+  // Wraps robotStateStore.updateState to also sync is_enabled into connectionStore
+  const syncState = useCallback(
+    (state: RobotState) => {
+      updateState(state);
+      if (state.is_enabled !== undefined) {
+        setEnabled(state.is_enabled);
+      }
+    },
+    [updateState, setEnabled],
+  );
+
   const startPolling = useCallback(() => {
     if (timerRef.current) return;
 
@@ -26,7 +38,7 @@ export function useRobotConnection() {
 
       try {
         const state = await client.getRobotState();
-        updateState(state);
+        syncState(state);
         failureCountRef.current = 0;
       } catch (error) {
         failureCountRef.current++;
@@ -41,7 +53,7 @@ export function useRobotConnection() {
     };
 
     timerRef.current = window.setInterval(poll, POLLING_INTERVAL_MS);
-  }, [updateState, setConnected, setEnabled, clearState]);
+  }, [syncState, setConnected, setEnabled, clearState]);
 
   const stopPolling = useCallback(() => {
     if (timerRef.current) {
@@ -59,7 +71,7 @@ export function useRobotConnection() {
 
     const { host, port } = useConnectionStore.getState();
 
-    ws.connect(host, parseInt(port), updateState, (status) => {
+    ws.connect(host, parseInt(port), syncState, (status) => {
       if (status === 'disconnected' && !fallbackRef.current) {
         fallbackRef.current = true;
         console.warn('WebSocket disconnected, falling back to HTTP polling');
@@ -77,7 +89,7 @@ export function useRobotConnection() {
     }, 3000);
 
     return () => clearTimeout(fallbackTimeout);
-  }, [updateState, startPolling]);
+  }, [syncState, startPolling]);
 
   useEffect(() => {
     if (isConnected) {

@@ -45,6 +45,8 @@ export interface RobotState {
   object_pose?: Pose;
   hw_state?: HardwareInfo;
   hardware?: HardwareInfo;
+  is_enabled?: boolean;
+  robot_state?: string;
 }
 
 export interface JointInfo {
