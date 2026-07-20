@@ -874,61 +874,61 @@ html, body, #root {
   background: rgba(0, 0, 0, 0.04);
 }
 
-/* Motion control circular buttons */
-.motion-btn.ant-btn-circle.ant-btn-lg {
-  width: 52px !important;
-  height: 52px !important;
-  min-width: 52px !important;
-  font-size: 22px;
-  display: flex;
+/* Motion control circular buttons (inline beside slider) */
+.motion-btn.ant-btn-circle {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  font-size: 16px;
+  display: inline-flex !important;
   align-items: center;
   justify-content: center;
   border-width: 2px !important;
 }
 
-.motion-btn.ant-btn-circle.ant-btn-lg:not(:disabled) {
+.motion-btn.ant-btn-circle:not(:disabled) {
   background: rgba(59, 130, 246, 0.12);
   border-color: rgba(59, 130, 246, 0.5);
   color: #3b82f6;
 }
 
-.motion-btn.ant-btn-circle.ant-btn-lg:not(:disabled):hover {
+.motion-btn.ant-btn-circle:not(:disabled):hover {
   background: rgba(59, 130, 246, 0.24) !important;
   border-color: rgba(59, 130, 246, 0.7) !important;
   color: #60a5fa !important;
 }
 
-.motion-btn-stop.ant-btn-circle.ant-btn-lg:not(:disabled) {
+.motion-btn-stop.ant-btn-circle:not(:disabled) {
   background: rgba(239, 68, 68, 0.12);
   border-color: rgba(239, 68, 68, 0.5);
   color: #ef4444;
 }
 
-.motion-btn-stop.ant-btn-circle.ant-btn-lg:not(:disabled):hover {
+.motion-btn-stop.ant-btn-circle:not(:disabled):hover {
   background: rgba(239, 68, 68, 0.24) !important;
   border-color: rgba(239, 68, 68, 0.7) !important;
   color: #f87171 !important;
 }
 
-[data-theme='light'] .motion-btn.ant-btn-circle.ant-btn-lg:not(:disabled) {
+[data-theme='light'] .motion-btn.ant-btn-circle:not(:disabled) {
   background: rgba(30, 78, 216, 0.1);
   border-color: rgba(30, 78, 216, 0.4);
   color: #1e4ed8;
 }
 
-[data-theme='light'] .motion-btn.ant-btn-circle.ant-btn-lg:not(:disabled):hover {
+[data-theme='light'] .motion-btn.ant-btn-circle:not(:disabled):hover {
   background: rgba(30, 78, 216, 0.2) !important;
   border-color: rgba(30, 78, 216, 0.6) !important;
   color: #2563eb !important;
 }
 
-[data-theme='light'] .motion-btn-stop.ant-btn-circle.ant-btn-lg:not(:disabled) {
+[data-theme='light'] .motion-btn-stop.ant-btn-circle:not(:disabled) {
   background: rgba(220, 38, 38, 0.1);
   border-color: rgba(220, 38, 38, 0.4);
   color: #dc2626;
 }
 
-[data-theme='light'] .motion-btn-stop.ant-btn-circle.ant-btn-lg:not(:disabled):hover {
+[data-theme='light'] .motion-btn-stop.ant-btn-circle:not(:disabled):hover {
   background: rgba(220, 38, 38, 0.2) !important;
   border-color: rgba(220, 38, 38, 0.6) !important;
   color: #ef4444 !important;
