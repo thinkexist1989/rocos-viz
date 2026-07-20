@@ -13,10 +13,10 @@ import {
 } from '@/core/constants';
 
 /**
- * Null-space jog panel.
+ * Null-space jog panel (SVD 维度速度点动).
  *
  * 零空间维度 = max(0, DOF - 6)。每个维度生成一对 +/- 点动按钮。
- * 发送关节方向向量到后端，由后端投影到零空间执行。
+ * 通过 jogSvd 发送各维度速度标量到后端执行。
  */
 export function NullSpacePanel() {
   const t = useT();
@@ -44,7 +44,7 @@ export function NullSpacePanel() {
             key={dim.label}
             label={dim.label}
             dimIndex={dim.index}
-            jointCount={dof}
+            nullDims={nullDims}
             host={host}
             port={port}
           />
@@ -57,22 +57,21 @@ export function NullSpacePanel() {
 interface NullSpaceJogItemProps {
   label: string;
   dimIndex: number;
-  jointCount: number;
+  nullDims: number;
   host: string;
   port: string;
 }
 
-function NullSpaceJogItem({ label, dimIndex, jointCount, host, port }: NullSpaceJogItemProps) {
-  const speedFactor = useControlStore((s) => s.speedFactor);
+function NullSpaceJogItem({ label, dimIndex, nullDims, host, port }: NullSpaceJogItemProps) {
   const clientRef = useRef<RobotApiClient | null>(null);
   const timerRef = useRef<number | null>(null);
 
-  /** 构建关节方向向量，仅在目标维度处置 1 */
-  const buildJoints = useCallback((sign: number): number[] => {
-    const joints = new Array(jointCount).fill(0);
-    joints[dimIndex] = sign;
-    return joints;
-  }, [dimIndex, jointCount]);
+  /** 构建 SVD 维度速度向量（长度 = nullDims），仅在目标维度处为非零 */
+  const buildDimSpeeds = useCallback((sign: number): number[] => {
+    const dimSpeeds = new Array(nullDims).fill(0);
+    dimSpeeds[dimIndex] = sign * jointMotionParams(useControlStore.getState().speedFactor).speed;
+    return dimSpeeds;
+  }, [dimIndex, nullDims]);
 
   const startJogLoop = useCallback((direction: 'POSITIVE' | 'NEGATIVE') => {
     if (timerRef.current !== null) return;
@@ -80,21 +79,20 @@ function NullSpaceJogItem({ label, dimIndex, jointCount, host, port }: NullSpace
     const client = new RobotApiClient(host, port);
     clientRef.current = client;
 
-    const joints = buildJoints(direction === 'POSITIVE' ? 1 : -1);
-    const speed = jointMotionParams(speedFactor).speed;
-    const feedJog = () => client.jogNullspace(joints, speed, JOG_COMMAND_TIMEOUT_S);
+    const dimSpeeds = buildDimSpeeds(direction === 'POSITIVE' ? 1 : -1);
+    const feedJog = () => client.jogSvd(dimSpeeds, JOG_COMMAND_TIMEOUT_S);
 
     feedJog().catch((error) => {
-      console.error('Nullspace jog start failed:', error);
+      console.error('SVD jog start failed:', error);
     });
 
     timerRef.current = window.setInterval(() => {
       if (!clientRef.current) return;
       feedJog().catch((error) => {
-        console.error('Nullspace jog repeat failed:', error);
+        console.error('SVD jog repeat failed:', error);
       });
     }, JOG_FEED_INTERVAL_MS);
-  }, [buildJoints, host, port, speedFactor]);
+  }, [buildDimSpeeds, host, port]);
 
   const handleStopJog = useCallback(() => {
     if (timerRef.current !== null) {
@@ -104,7 +102,7 @@ function NullSpaceJogItem({ label, dimIndex, jointCount, host, port }: NullSpace
 
     if (clientRef.current) {
       clientRef.current.jogStop().catch((error) => {
-        console.error('Nullspace jog stop failed:', error);
+        console.error('SVD jog stop failed:', error);
       });
       clientRef.current = null;
     }
