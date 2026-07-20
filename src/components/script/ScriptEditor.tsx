@@ -42,7 +42,9 @@ export function ScriptEditor() {
     }
 
     try {
-      await getClient().runScript(script);
+      // 后端要求先上传再执行：upload(filename, source) → run()
+      await getClient().uploadScript('script.lua', script);
+      await getClient().runScript();
       setIsRunning(true);
       setIsPaused(false);
       setOutput((prev) => prev + '\n> 脚本已提交执行');
@@ -75,7 +77,7 @@ export function ScriptEditor() {
 
   const handleContinue = async () => {
     try {
-      await getClient().continueScript();
+      await getClient().resumeScript();
       setIsPaused(false);
       setOutput((prev) => prev + '\n> 脚本已继续');
     } catch (error) {

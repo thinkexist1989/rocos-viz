@@ -19,7 +19,7 @@ export function ModelLoaderPanel() {
   /** Upload a local URDF file to the controller, then parse & render it. */
   const handleUpload = async (file: File) => {
     setLoading(true);
-    setProgress({ total: 1, loaded: 0, currentFile: file.name });
+    setProgress({ total: 2, loaded: 0, currentFile: file.name });
 
     try {
       const client = new RobotApiClient(host, port);
@@ -27,7 +27,7 @@ export function ModelLoaderPanel() {
       // 1. Upload the URDF to the controller
       const { path } = await client.uploadUrdf(file);
       console.log('[ModelLoaderPanel] URDF uploaded to:', path);
-      setProgress({ total: 1, loaded: 0, currentFile: '上传完成，正在获取 URDF...' });
+      setProgress({ total: 2, loaded: 1, currentFile: '正在获取 URDF...' });
 
       // 2. Fetch the URDF content back
       const urdfXml = await client.getUrdf();

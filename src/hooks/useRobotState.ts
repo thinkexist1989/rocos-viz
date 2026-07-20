@@ -12,8 +12,9 @@ export function useRobotState() {
     robotState,
     isConnected,
     jointAngles: robotState?.joint_states.map((js) => js.position) || [],
-    flangePose: robotState?.flange ?? robotState?.flange_pose,
-    toolPose: robotState?.tool ?? robotState?.tool_pose,
-    hardware: robotState?.hw_state ?? robotState?.hardware,
+    flangePose: robotState?.flange,
+    toolPose: robotState?.active_tool_frame,
+    objectPose: robotState?.active_object_frame,
+    hardware: robotState?.hw_state,
   };
 }

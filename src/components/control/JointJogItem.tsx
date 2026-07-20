@@ -6,18 +6,23 @@ import { useConnectionStore } from '@/stores/connectionStore';
 import { PositionBar } from '@/components/common/PositionBar';
 import { useT } from '@/i18n/useT';
 import type { JointState } from '@/core/types';
-import { DIRECTION, jointMotionParams } from '@/core/constants';
-
-const JOG_INTERVAL_MS = 80;
+import {
+  JOG_COMMAND_TIMEOUT_S,
+  JOG_FEED_INTERVAL_MS,
+  jointMotionParams,
+  MAX_JOINTS,
+} from '@/core/constants';
 
 interface JointJogItemProps {
   index: number;
   joint: JointState;
+  jointCount?: number;
 }
 
-export function JointJogItem({ index, joint }: JointJogItemProps) {
+export function JointJogItem({ index, joint, jointCount = MAX_JOINTS }: JointJogItemProps) {
   const t = useT();
   const isDegree = useControlStore((s) => s.isDegree);
+  const speedFactor = useControlStore((s) => s.speedFactor);
   const { host, port } = useConnectionStore.getState();
   const clientRef = useRef<RobotApiClient | null>(null);
   const timerRef = useRef<number | null>(null);
@@ -28,23 +33,34 @@ export function JointJogItem({ index, joint }: JointJogItemProps) {
 
   const unit = isDegree ? 'deg' : 'rad';
 
-  const startJogLoop = useCallback((direction: typeof DIRECTION[keyof typeof DIRECTION]) => {
+  /** 构建关节方向向量，仅在目标关节处置 1 */
+  const buildJoints = useCallback((sign: number): number[] => {
+    const joints = new Array(jointCount).fill(0);
+    joints[index] = sign;
+    return joints;
+  }, [index, jointCount]);
+
+  const startJogLoop = useCallback((direction: 'POSITIVE' | 'NEGATIVE') => {
+    if (timerRef.current !== null) return;
+
     const client = new RobotApiClient(host, port);
     clientRef.current = client;
 
-    const flag = `J${index}`;
-    const { speed, acceleration } = jointMotionParams(useControlStore.getState().speedFactor);
-    client.dragStart(flag, direction, speed, acceleration).catch((error) => {
+    const joints = buildJoints(direction === 'POSITIVE' ? 1 : -1);
+    const speed = jointMotionParams(speedFactor).speed;
+    const feedJog = () => client.jogJoint(joints, speed, JOG_COMMAND_TIMEOUT_S);
+
+    feedJog().catch((error) => {
       console.error('Joint jog start failed:', error);
     });
 
     timerRef.current = window.setInterval(() => {
       if (!clientRef.current) return;
-      clientRef.current.dragStart(flag, direction, speed, acceleration).catch((error) => {
+      feedJog().catch((error) => {
         console.error('Joint jog repeat failed:', error);
       });
-    }, JOG_INTERVAL_MS);
-  }, [index, host, port]);
+    }, JOG_FEED_INTERVAL_MS);
+  }, [buildJoints, host, port, speedFactor]);
 
   const handleStopJog = useCallback(() => {
     if (timerRef.current !== null) {
@@ -53,7 +69,7 @@ export function JointJogItem({ index, joint }: JointJogItemProps) {
     }
 
     if (clientRef.current) {
-      clientRef.current.dragStop().catch((error) => {
+      clientRef.current.jogStop().catch((error) => {
         console.error('Joint jog stop failed:', error);
       });
       clientRef.current = null;

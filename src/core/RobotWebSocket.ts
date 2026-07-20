@@ -9,13 +9,18 @@ const MAX_RECONNECT_ATTEMPTS = 10;
 type StateCallback = (state: RobotState) => void;
 type StatusCallback = (status: 'connecting' | 'connected' | 'disconnected') => void;
 
+/**
+ * 关节状态码映射（与后端 OpenAPI 一致）：
+ *   0 = DISABLED（禁用）
+ *   1 = FAULT（故障）
+ *   2 = ENABLED（启用）
+ */
 function mapJointStatus(status: number | string): string {
   if (typeof status === 'number') {
     switch (status) {
       case 0: return 'DISABLED';
-      case 1: return 'ENABLED';
+      case 1: return 'FAULT';
       case 2: return 'ENABLED';
-      case 3: return 'FAULT';
       default: return 'DISABLED';
     }
   }
@@ -23,13 +28,14 @@ function mapJointStatus(status: number | string): string {
 }
 
 function mapState(raw: any): RobotState {
-  const flange = raw.flange ?? raw.flange_pose ?? { position: { x: 0, y: 0, z: 0 }, orientation: { x: 0, y: 0, z: 0, w: 1 } };
-  const tool = raw.tool ?? raw.tool_pose ?? { position: { x: 0, y: 0, z: 0 }, orientation: { x: 0, y: 0, z: 0, w: 1 } };
-  const objectPose = raw.object ?? raw.object_pose ?? { position: { x: 0, y: 0, z: 0 }, orientation: { x: 0, y: 0, z: 0, w: 1 } };
-  const hw = raw.hw_state ?? raw.hardware ?? {};
+  const flange = raw.flange ?? {
+    position: { x: 0, y: 0, z: 0 },
+    orientation: { x: 0, y: 0, z: 0, w: 1 },
+  };
 
   return {
     joint_states: (raw.joint_states ?? []).map((j: any) => ({
+      id: j.id,
       name: j.name ?? '',
       position: j.position ?? 0,
       velocity: j.velocity ?? 0,
@@ -40,11 +46,17 @@ function mapState(raw: any): RobotState {
       status: mapJointStatus(j.status ?? 0),
     })),
     flange,
-    tool,
-    object: objectPose,
-    hw_state: hw,
-    is_enabled: raw.is_enabled,
+    active_tool_frame: raw.active_tool_frame,
+    active_tool_frame_name: raw.active_tool_frame_name,
+    active_object_frame: raw.active_object_frame,
+    active_object_frame_name: raw.active_object_frame_name,
+    hw_state: raw.hw_state ?? {},
     robot_state: raw.robot_state,
+    is_enabled: raw.is_enabled,
+    is_running: raw.is_running,
+    control_active: raw.control_active,
+    motion_busy: raw.motion_busy,
+    timestamp: raw.timestamp,
   } as RobotState;
 }
 

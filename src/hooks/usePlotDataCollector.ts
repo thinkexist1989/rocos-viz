@@ -16,7 +16,7 @@ export function usePlotDataCollector() {
       appendData(`joint_load_${index}`, joint.load ?? joint.load_torque ?? 0);
     });
 
-    const flange = robotState.flange ?? robotState.flange_pose;
+    const flange = robotState.flange;
     if (flange) {
       appendData('flange_x', flange.position.x);
       appendData('flange_y', flange.position.y);

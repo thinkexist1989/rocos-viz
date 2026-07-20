@@ -85,3 +85,7 @@ export function cartesianMotionParams(speedFactor: number): { speed: number; acc
     acceleration: speedFactor * MAX_CARTESIAN_ACCELERATION,
   };
 }
+
+// ─── 点动参数 ───
+export const JOG_FEED_INTERVAL_MS = 50;
+export const JOG_COMMAND_TIMEOUT_S = 0.3;

@@ -17,6 +17,7 @@ export interface Pose {
 }
 
 export interface JointState {
+  id?: number;
   name: string;
   position: number;
   velocity: number;
@@ -28,28 +29,29 @@ export interface JointState {
 }
 
 export interface HardwareInfo {
-  hw_type?: number;
-  current_cycle_time?: number;
-  min_cycle_time?: number;
-  max_cycle_time?: number;
-  slave_num?: number;
+  joint_num?: number;
+  state?: number;
 }
 
 export interface RobotState {
   joint_states: JointState[];
   flange?: Pose;
-  flange_pose?: Pose;
-  tool?: Pose;
-  tool_pose?: Pose;
-  object?: Pose;
-  object_pose?: Pose;
+  active_tool_frame?: Pose;
+  active_tool_frame_name?: string;
+  active_object_frame?: Pose;
+  active_object_frame_name?: string;
   hw_state?: HardwareInfo;
-  hardware?: HardwareInfo;
-  is_enabled?: boolean;
+  /** 机器人顶层状态字符串，如 "STOPPED", "RUNNING", "IDLE" */
   robot_state?: string;
+  is_enabled?: boolean;
+  is_running?: boolean;
+  control_active?: boolean;
+  motion_busy?: boolean;
+  timestamp?: number;
 }
 
 export interface JointInfo {
+  id?: number;
   name: string;
   cnt_per_unit: number;
   torque_per_unit: number;
@@ -80,6 +82,15 @@ export interface RobotModelConfig {
   links: LinkConfig[];
 }
 
+/** 运动/点动指令的后端响应 */
+export interface MotionResponse {
+  robot_state: string;
+  control_active: boolean;
+  /** WaitMove 专用 */
+  motion_busy?: boolean;
+}
+
+/** @deprecated 旧版 MoveResult，后端已不再返回此结构，请使用 MotionResponse */
 export interface MoveResult {
   task_id?: string;
   status?: string;
@@ -89,12 +100,10 @@ export interface MoveResult {
 
 export interface TaskStatus {
   task_id: string;
-  type: string;
-  status: 'RUNNING' | 'COMPLETED' | 'FAILED' | 'STOPPED';
-  result: any;
-  message: string;
-  create_time: string;
-  finish_time: string;
+  task: any;
+  robot_state: string;
+  is_running: boolean;
+  control_active: boolean;
 }
 
 export interface ApiResponse<T = any> {
@@ -104,6 +113,13 @@ export interface ApiResponse<T = any> {
   data: T;
 }
 
+export interface EnabledResponse {
+  enabled: boolean;
+  disabled: boolean;
+  robot_state: string;
+}
+
+/** @deprecated 后端 /api/calibration/result 端点未实现（返回 1004） */
 export interface CalibrationResult {
   error_state: boolean;
   pose: Pose;

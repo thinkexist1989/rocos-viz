@@ -1,27 +1,39 @@
 import { useCallback, useRef } from 'react';
-import { Button, Tooltip } from 'antd';
+import { Button } from 'antd';
 import { useControlStore } from '@/stores/controlStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { useConnectionStore } from '@/stores/connectionStore';
 import { PositionBar } from '@/components/common/PositionBar';
-import { FREEDOM_NAMES, cartesianMotionParams, jointMotionParams } from '@/core/constants';
-
-const JOG_INTERVAL_MS = 80;
+import {
+  JOG_COMMAND_TIMEOUT_S,
+  JOG_FEED_INTERVAL_MS,
+  cartesianMotionParams,
+  jointMotionParams,
+} from '@/core/constants';
 
 interface CartesianJogItemProps {
   label: string;
   value: number;
-  frame: number;
+  /** 参考坐标系名称: BASE / FLANGE / TOOL / OBJECT */
+  frameName: string;
+  /** twist 向量中的轴索引: 0=vx, 1=vy, 2=vz, 3=wx, 4=wy, 5=wz */
   freedom: number;
   unit: 'mm' | 'deg';
   isPosition: boolean;
-  /** Optional custom flag name; when set, overrides the auto-built `${frame}_${freedom}` flag. */
-  customFlag?: string;
 }
 
-export function CartesianJogItem({ label, value, frame, freedom, unit, isPosition, customFlag }: CartesianJogItemProps) {
+/** 将坐标系名称转为后端接受的 frame 参数 */
+function frameToJogFrame(frameName: string): 'BASE' | 'FLANGE' | 'TOOL' | 'OBJECT' {
+  const map: Record<string, 'BASE' | 'FLANGE' | 'TOOL' | 'OBJECT'> = {
+    BASE: 'BASE', FLANGE: 'FLANGE', TOOL: 'TOOL', OBJECT: 'OBJECT',
+  };
+  return map[frameName] ?? 'BASE';
+}
+
+export function CartesianJogItem({ label, value, frameName, freedom, unit, isPosition }: CartesianJogItemProps) {
   const isMM = useControlStore((s) => s.isMM);
   const isDegree = useControlStore((s) => s.isDegree);
+  const speedFactor = useControlStore((s) => s.speedFactor);
   const { host, port } = useConnectionStore.getState();
   const clientRef = useRef<RobotApiClient | null>(null);
   const timerRef = useRef<number | null>(null);
@@ -32,37 +44,36 @@ export function CartesianJogItem({ label, value, frame, freedom, unit, isPositio
 
   const displayUnit = isPosition ? (isMM ? 'mm' : 'm') : (isDegree ? 'deg' : 'rad');
 
-  const getFlag = useCallback(() => {
-    if (customFlag) return customFlag;
-    const framePrefix = {
-      100: 'TOOL',
-      200: 'FLANGE',
-      300: 'OBJECT',
-      400: 'BASE',
-    }[frame] || 'BASE';
-    return `${framePrefix}_${FREEDOM_NAMES[freedom]}`;
-  }, [frame, freedom, customFlag]);
+  /** 构建 6 维 twist 向量，仅在 freedom 轴处置 1 */
+  const buildTwist = useCallback((sign: number): number[] => {
+    const twist = [0, 0, 0, 0, 0, 0];
+    twist[freedom] = sign;
+    return twist;
+  }, [freedom]);
 
   const startJogLoop = useCallback((direction: 'POSITIVE' | 'NEGATIVE') => {
+    if (timerRef.current !== null) return;
+
     const client = new RobotApiClient(host, port);
     clientRef.current = client;
 
-    const flag = getFlag();
+    const twist = buildTwist(direction === 'POSITIVE' ? 1 : -1);
+    const jogFrame = frameToJogFrame(frameName);
     // 平动按笛卡尔上限 (m/s)，转动按关节上限 (rad/s)
-    const { speed, acceleration } = (isPosition ? cartesianMotionParams : jointMotionParams)(
-      useControlStore.getState().speedFactor,
-    );
-    client.dragStart(flag, direction, speed, acceleration).catch((error) => {
+    const speed = (isPosition ? cartesianMotionParams : jointMotionParams)(speedFactor).speed;
+    const feedJog = () => client.jogCartesian(twist, jogFrame, speed, JOG_COMMAND_TIMEOUT_S);
+
+    feedJog().catch((error) => {
       console.error('Cartesian jog start failed:', error);
     });
 
     timerRef.current = window.setInterval(() => {
       if (!clientRef.current) return;
-      clientRef.current.dragStart(flag, direction, speed, acceleration).catch((error) => {
+      feedJog().catch((error) => {
         console.error('Cartesian jog repeat failed:', error);
       });
-    }, JOG_INTERVAL_MS);
-  }, [getFlag, host, port, isPosition]);
+    }, JOG_FEED_INTERVAL_MS);
+  }, [buildTwist, frameName, host, port, speedFactor, isPosition]);
 
   const handleStopJog = useCallback(() => {
     if (timerRef.current !== null) {
@@ -71,7 +82,7 @@ export function CartesianJogItem({ label, value, frame, freedom, unit, isPositio
     }
 
     if (clientRef.current) {
-      clientRef.current.dragStop().catch((error) => {
+      clientRef.current.jogStop().catch((error) => {
         console.error('Cartesian jog stop failed:', error);
       });
       clientRef.current = null;

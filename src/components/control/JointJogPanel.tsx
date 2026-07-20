@@ -12,7 +12,7 @@ export function JointJogPanel() {
       <div className="panel-section-header">{t('jog.jointSpace')}</div>
       <div>
         {joints.map((joint, i) => (
-          <JointJogItem key={`joint_${i}`} index={i} joint={joint} />
+          <JointJogItem key={`joint_${i}`} index={i} joint={joint} jointCount={joints.length} />
         ))}
         {joints.length === 0 && (
           <div style={{ padding: '8px 0', color: 'var(--color-text-secondary)', fontSize: 13, textAlign: 'center' }}>

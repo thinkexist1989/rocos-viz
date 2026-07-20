@@ -3,12 +3,11 @@ import type {
   RobotInfo,
   RobotState,
   Pose,
-  MoveResult,
+  MotionResponse,
   TaskStatus,
-  CalibrationResult,
+  EnabledResponse,
 } from './types';
 import {
-  DIRECTION,
   DEFAULT_SPEED_FACTOR,
   MAX_JOINT_SPEED,
   MAX_JOINT_ACCELERATION,
@@ -16,13 +15,18 @@ import {
   MAX_CARTESIAN_ACCELERATION,
 } from './constants';
 
+/**
+ * 关节状态码映射（与后端 OpenAPI 一致）：
+ *   0 = DISABLED（禁用）
+ *   1 = FAULT（故障）
+ *   2 = ENABLED（启用）
+ */
 function mapJointStatus(status: number | string): string {
   if (typeof status === 'number') {
     switch (status) {
       case 0: return 'DISABLED';
-      case 1: return 'ENABLED';
+      case 1: return 'FAULT';
       case 2: return 'ENABLED';
-      case 3: return 'FAULT';
       default: return 'DISABLED';
     }
   }
@@ -30,13 +34,14 @@ function mapJointStatus(status: number | string): string {
 }
 
 function mapState(raw: any): RobotState {
-  const flange = raw.flange ?? raw.flange_pose ?? { position: { x: 0, y: 0, z: 0 }, orientation: { x: 0, y: 0, z: 0, w: 1 } };
-  const tool = raw.tool ?? raw.tool_pose ?? { position: { x: 0, y: 0, z: 0 }, orientation: { x: 0, y: 0, z: 0, w: 1 } };
-  const objectPose = raw.object ?? raw.object_pose ?? { position: { x: 0, y: 0, z: 0 }, orientation: { x: 0, y: 0, z: 0, w: 1 } };
-  const hw = raw.hw_state ?? raw.hardware ?? {};
+  const flange = raw.flange ?? {
+    position: { x: 0, y: 0, z: 0 },
+    orientation: { x: 0, y: 0, z: 0, w: 1 },
+  };
 
   return {
     joint_states: (raw.joint_states ?? []).map((j: any) => ({
+      id: j.id,
       name: j.name ?? '',
       position: j.position ?? 0,
       velocity: j.velocity ?? 0,
@@ -47,11 +52,17 @@ function mapState(raw: any): RobotState {
       status: mapJointStatus(j.status ?? 0),
     })),
     flange,
-    tool,
-    object: objectPose,
-    hw_state: hw,
-    is_enabled: raw.is_enabled,
+    active_tool_frame: raw.active_tool_frame,
+    active_tool_frame_name: raw.active_tool_frame_name,
+    active_object_frame: raw.active_object_frame,
+    active_object_frame_name: raw.active_object_frame_name,
+    hw_state: raw.hw_state ?? {},
     robot_state: raw.robot_state,
+    is_enabled: raw.is_enabled,
+    is_running: raw.is_running,
+    control_active: raw.control_active,
+    motion_busy: raw.motion_busy,
+    timestamp: raw.timestamp,
   } as RobotState;
 }
 
@@ -82,11 +93,11 @@ export class RobotApiClient {
       method,
       headers: {
         Accept: 'application/json',
-        ...(body ? { 'Content-Type': 'application/json' } : {}),
+        ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
       },
     };
 
-    if (body) {
+    if (body !== undefined) {
       options.body = JSON.stringify(body);
     }
 
@@ -110,18 +121,19 @@ export class RobotApiClient {
     return json.data;
   }
 
+  // ─── Robot State ──────────────────────────────────────────────
+
   async connect(): Promise<RobotInfo> {
     return this.request('GET', '/api/robot/info');
   }
 
-  async disconnect(): Promise<void> {
-    return this.request('GET', '/api/robot/disconnect');
-  }
-
+  /** GET /api/robot/state — 获取机器人完整状态 */
   async getRobotState(): Promise<RobotState> {
     const raw = await this.request<any>('GET', '/api/robot/state');
     return mapState(raw);
   }
+
+  // ─── Basic Control ────────────────────────────────────────────
 
   async enable(): Promise<void> {
     return this.request('POST', '/api/robot/enable');
@@ -131,83 +143,214 @@ export class RobotApiClient {
     return this.request('POST', '/api/robot/disable');
   }
 
-  async isEnabled(): Promise<boolean> {
-    const result = await this.request<{ enabled: boolean }>('GET', '/api/robot/enabled');
-    return result.enabled;
+  /** GET /api/robot/enabled — 查询使能状态（后端返回 enabled + disabled + robot_state） */
+  async isEnabled(): Promise<EnabledResponse> {
+    return this.request<EnabledResponse>('GET', '/api/robot/enabled');
   }
 
+  /**
+   * POST /api/robot/workmode — 设置工作模式
+   * 注意：当前后端 handler 已被注释（no-op），调用会返回 404。
+   * 保留此方法以便后端重新启用后直接可用。
+   */
   async setWorkMode(mode: string): Promise<void> {
     return this.request('POST', '/api/robot/workmode', { mode });
   }
 
-  async moveJ(joints: number[], speed?: number, acceleration?: number): Promise<MoveResult> {
-    return this.request('POST', '/api/move/joint', {
+  // ─── Motion Control ───────────────────────────────────────────
+
+  /** POST /api/robot/movej — 关节空间运动 */
+  async moveJ(
+    joints: number[],
+    velocity?: number,
+    acceleration?: number,
+    jerk?: number,
+  ): Promise<MotionResponse> {
+    return this.request<MotionResponse>('POST', '/api/robot/movej', {
       joints,
-      speed: speed ?? MAX_JOINT_SPEED * DEFAULT_SPEED_FACTOR,
+      velocity: velocity ?? MAX_JOINT_SPEED * DEFAULT_SPEED_FACTOR,
       acceleration: acceleration ?? MAX_JOINT_ACCELERATION * DEFAULT_SPEED_FACTOR,
-      time: 0,
-      radius: 0,
-      asynchronous: true,
+      jerk: jerk ?? 2.5,
     });
   }
 
-  async moveL(pose: Pose, speed?: number, acceleration?: number): Promise<MoveResult> {
-    return this.request('POST', '/api/move/linear', {
+  /** POST /api/robot/movel — 笛卡尔直线运动 */
+  async moveL(
+    pose: Pose,
+    velocity?: number,
+    acceleration?: number,
+    jerk?: number,
+    toolName?: string,
+  ): Promise<MotionResponse> {
+    const body: any = {
       pose,
-      speed: speed ?? MAX_CARTESIAN_SPEED * DEFAULT_SPEED_FACTOR,
+      velocity: velocity ?? MAX_CARTESIAN_SPEED * DEFAULT_SPEED_FACTOR,
       acceleration: acceleration ?? MAX_CARTESIAN_ACCELERATION * DEFAULT_SPEED_FACTOR,
-      time: 0,
-      radius: 0,
-      asynchronous: true,
-    });
+      jerk: jerk ?? 1.25,
+    };
+    if (toolName) body.tool_name = toolName;
+    return this.request<MotionResponse>('POST', '/api/robot/movel', body);
   }
 
-  async moveJ_IK(pose: Pose, speed?: number, acceleration?: number): Promise<MoveResult> {
-    return this.request('POST', '/api/move/joint_ik', {
+  /** POST /api/robot/movej_ik — 笛卡尔逆运动学 → 关节空间运动 */
+  async moveJ_IK(
+    pose: Pose,
+    velocity?: number,
+    acceleration?: number,
+    jerk?: number,
+  ): Promise<MotionResponse> {
+    return this.request<MotionResponse>('POST', '/api/robot/movej_ik', {
       pose,
-      speed: speed ?? MAX_JOINT_SPEED * DEFAULT_SPEED_FACTOR,
+      velocity: velocity ?? MAX_JOINT_SPEED * DEFAULT_SPEED_FACTOR,
       acceleration: acceleration ?? MAX_JOINT_ACCELERATION * DEFAULT_SPEED_FACTOR,
-      time: 0,
-      radius: 0,
-      asynchronous: true,
+      jerk: jerk ?? 2.5,
     });
   }
 
-  async moveL_FK(joints: number[], speed?: number, acceleration?: number): Promise<MoveResult> {
-    return this.request('POST', '/api/move/linear_fk', {
+  /** POST /api/robot/movel_fk — 关节空间 → 笛卡尔直线运动 */
+  async moveL_FK(
+    joints: number[],
+    velocity?: number,
+    acceleration?: number,
+    jerk?: number,
+    toolName?: string,
+  ): Promise<MotionResponse> {
+    const body: any = {
       joints,
-      speed: speed ?? MAX_CARTESIAN_SPEED * DEFAULT_SPEED_FACTOR,
+      velocity: velocity ?? MAX_CARTESIAN_SPEED * DEFAULT_SPEED_FACTOR,
       acceleration: acceleration ?? MAX_CARTESIAN_ACCELERATION * DEFAULT_SPEED_FACTOR,
-      time: 0,
-      radius: 0,
-      asynchronous: true,
-    });
+      jerk: jerk ?? 1.25,
+    };
+    if (toolName) body.tool_name = toolName;
+    return this.request<MotionResponse>('POST', '/api/robot/movel_fk', body);
   }
 
-  async stopMove(): Promise<void> {
-    return this.request('POST', '/api/move/stop');
+  /** POST /api/robot/movec — 圆弧运动（三点模式：pose_via + pose_to） */
+  async moveC(params: {
+    poseVia: Pose;
+    poseTo: Pose;
+    poseStart?: Pose;
+    velocity?: number;
+    acceleration?: number;
+    jerk?: number;
+  }): Promise<MotionResponse> {
+    const body: any = {
+      pose_via: params.poseVia,
+      pose_to: params.poseTo,
+      velocity: params.velocity ?? 0.25,
+      acceleration: params.acceleration ?? 0.25,
+      jerk: params.jerk ?? 2.5,
+    };
+    if (params.poseStart) body.pose_start = params.poseStart;
+    return this.request<MotionResponse>('POST', '/api/robot/movec', body);
   }
 
-  async getMoveStatus(taskId: string): Promise<TaskStatus> {
-    return this.request('GET', '/api/move/status', undefined, { task_id: taskId });
+  /** POST /api/robot/stop — 停止运动 */
+  async stopMove(): Promise<MotionResponse> {
+    return this.request<MotionResponse>('POST', '/api/robot/stop');
   }
 
-  async dragStart(flag: string, direction: typeof DIRECTION[keyof typeof DIRECTION], maxSpeed?: number, maxAcceleration?: number): Promise<void> {
-    return this.request('POST', '/api/drag/start', {
-      flag,
-      direction,
-      max_speed: maxSpeed,
-      max_acceleration: maxAcceleration,
-    });
+  /** POST /api/robot/pause — 暂停运动 */
+  async pauseMotion(): Promise<MotionResponse> {
+    return this.request<MotionResponse>('POST', '/api/robot/pause');
   }
 
-  async dragStop(): Promise<void> {
-    return this.request('POST', '/api/drag/stop');
+  /** POST /api/robot/resume — 恢复运动 */
+  async resumeMotion(): Promise<MotionResponse> {
+    return this.request<MotionResponse>('POST', '/api/robot/resume');
   }
 
-  // ─── URDF endpoints ───────────────────────────────────────────
+  /** POST /api/robot/wait_move — 等待运动完成 */
+  async waitMove(): Promise<MotionResponse> {
+    return this.request<MotionResponse>('POST', '/api/robot/wait_move');
+  }
 
-  /** Upload a URDF file to the controller. Returns the stored path. */
+  /** GET /api/robot/move_status — 查询运动/任务状态 */
+  async getMoveStatus(taskId?: string): Promise<TaskStatus> {
+    return this.request<TaskStatus>('GET', '/api/robot/move_status', undefined,
+      taskId ? { task_id: taskId } : undefined,
+    );
+  }
+
+  // ─── Jogging（全向量传递，方向编码在向量中）─────────────────
+
+  /**
+   * POST /api/robot/jog/joint — 关节点动
+   * @param joints 关节方向向量（正值=正转，负值=反转），长度等于机器人关节数
+   */
+  async jogJoint(
+    joints: number[],
+    speed?: number,
+    timeout?: number,
+    dirThreshold?: number,
+  ): Promise<MotionResponse> {
+    const body: any = { joints };
+    if (speed !== undefined) body.speed = speed;
+    if (timeout !== undefined) body.timeout = timeout;
+    if (dirThreshold !== undefined) body.dir_threshold = dirThreshold;
+    return this.request<MotionResponse>('POST', '/api/robot/jog/joint', body);
+  }
+
+  /**
+   * POST /api/robot/jog/cartesian — 笛卡尔点动
+   * @param twist 6 维 twist 向量 [vx, vy, vz, wx, wy, wz]（正值=正向，负值=反向）
+   * @param frame 参考坐标系 BASE / FLANGE / TOOL / OBJECT
+   */
+  async jogCartesian(
+    twist: number[],
+    frame?: 'BASE' | 'FLANGE' | 'TOOL' | 'OBJECT',
+    speed?: number,
+    timeout?: number,
+    dirThreshold?: number,
+  ): Promise<MotionResponse> {
+    const body: any = { twist };
+    if (frame) body.frame = frame;
+    if (speed !== undefined) body.speed = speed;
+    if (timeout !== undefined) body.timeout = timeout;
+    if (dirThreshold !== undefined) body.dir_threshold = dirThreshold;
+    return this.request<MotionResponse>('POST', '/api/robot/jog/cartesian', body);
+  }
+
+  /**
+   * POST /api/robot/jog/nullspace — 零空间点动
+   * @param joints 关节方向向量（正值=正转，负值=反转），后端投影到零空间执行
+   */
+  async jogNullspace(
+    joints: number[],
+    speed?: number,
+    timeout?: number,
+    dirThreshold?: number,
+  ): Promise<MotionResponse> {
+    const body: any = { joints };
+    if (speed !== undefined) body.speed = speed;
+    if (timeout !== undefined) body.timeout = timeout;
+    if (dirThreshold !== undefined) body.dir_threshold = dirThreshold;
+    return this.request<MotionResponse>('POST', '/api/robot/jog/nullspace', body);
+  }
+
+  /**
+   * POST /api/robot/jog/svd — SVD 维度速度点动
+   * @param dimSpeeds 各维度速度标量数组（正值=正向，负值=反向）
+   */
+  async jogSvd(
+    dimSpeeds: number[],
+    timeout?: number,
+    dirThreshold?: number,
+  ): Promise<MotionResponse> {
+    const body: any = { dim_speeds: dimSpeeds };
+    if (timeout !== undefined) body.timeout = timeout;
+    if (dirThreshold !== undefined) body.dir_threshold = dirThreshold;
+    return this.request<MotionResponse>('POST', '/api/robot/jog/svd', body);
+  }
+
+  /** POST /api/robot/jog/stop — 停止点动 */
+  async jogStop(): Promise<MotionResponse> {
+    return this.request<MotionResponse>('POST', '/api/robot/jog/stop');
+  }
+
+  // ─── URDF ─────────────────────────────────────────────────────
+
+  /** POST /api/robot/urdf — 上传 URDF 文件到控制器，返回存储路径 */
   async uploadUrdf(file: File): Promise<{ path: string }> {
     const url = new URL('/api/robot/urdf', this.baseUrl);
     const formData = new FormData();
@@ -226,7 +369,7 @@ export class RobotApiClient {
     return json.data;
   }
 
-  /** Fetch the current URDF file content as an XML string. */
+  /** GET /api/robot/urdf — 获取当前 URDF 模型文件（XML 文本） */
   async getUrdf(): Promise<string> {
     const url = new URL('/api/robot/urdf', this.baseUrl);
 
@@ -241,7 +384,7 @@ export class RobotApiClient {
     return response.text();
   }
 
-  /** Download a mesh file referenced by the URDF model. */
+  /** 下载 URDF 引用的 mesh 文件（二进制 STL） */
   async downloadUrdfMesh(path: string): Promise<Blob> {
     const url = new URL('/api/robot/urdf/mesh', this.baseUrl);
     url.searchParams.append('path', path);
@@ -254,35 +397,48 @@ export class RobotApiClient {
     return response.blob();
   }
 
-  async runScript(script: string): Promise<void> {
-    return this.request('POST', '/api/script/run', { script });
+  // ─── Lua Script ───────────────────────────────────────────────
+
+  /** POST /api/script/upload — 上传脚本（上传后需调用 runScript() 执行） */
+  async uploadScript(filename: string, source: string): Promise<void> {
+    return this.request('POST', '/api/script/upload', { filename, source });
   }
 
+  /** POST /api/script/run — 运行已上传的脚本 */
+  async runScript(): Promise<void> {
+    return this.request('POST', '/api/script/run');
+  }
+
+  /** POST /api/script/stop — 停止脚本 */
   async stopScript(): Promise<void> {
     return this.request('POST', '/api/script/stop');
   }
 
+  /** POST /api/script/pause — 暂停脚本 */
   async pauseScript(): Promise<void> {
     return this.request('POST', '/api/script/pause');
   }
 
-  async continueScript(): Promise<void> {
-    return this.request('POST', '/api/script/continue');
+  /** POST /api/script/resume — 恢复脚本 */
+  async resumeScript(): Promise<void> {
+    return this.request('POST', '/api/script/resume');
   }
 
-  async calibratePose(pose: Pose): Promise<void> {
-    return this.request('POST', '/api/calibration/pose', { pose });
+  // ─── Calibration ──────────────────────────────────────────────
+
+  /**
+   * POST /api/calibration/tool — 设置工具坐标系
+   * 注意：已废弃，推荐使用 /api/robot/tool_frame。
+   */
+  async calibrateTool(name: string, frame: Pose): Promise<void> {
+    return this.request('POST', '/api/calibration/tool', { name, frame });
   }
 
-  async calibrateTool(pose: Pose): Promise<void> {
-    return this.request('POST', '/api/calibration/tool', { pose });
-  }
-
-  async calibrateObject(pose: Pose): Promise<void> {
-    return this.request('POST', '/api/calibration/object', { pose });
-  }
-
-  async getCalibrationResult(): Promise<CalibrationResult> {
-    return this.request('GET', '/api/calibration/result');
+  /**
+   * POST /api/calibration/object — 设置物体坐标系
+   * 注意：已废弃，推荐使用 /api/robot/object_frame。
+   */
+  async calibrateObject(name: string, frame: Pose): Promise<void> {
+    return this.request('POST', '/api/calibration/object', { name, frame });
   }
 }

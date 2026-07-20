@@ -89,7 +89,7 @@ function TrajectoryLineWrapper() {
   useEffect(() => {
     if (!showTrajectory || !robotState) return;
 
-    const pose = robotState.tool ?? robotState.tool_pose;
+    const pose = robotState.active_tool_frame ?? robotState.flange;
     if (!pose) return;
     const point = new THREE.Vector3(pose.position.x, pose.position.y, pose.position.z);
     pointsRef.current = [...pointsRef.current.slice(-(MAX_TRAJECTORY_POINTS - 1)), point];

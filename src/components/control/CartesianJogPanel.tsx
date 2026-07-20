@@ -13,6 +13,16 @@ function quaternionToRPY(q: { x: number; y: number; z: number; w: number }) {
   return { roll: euler.x, pitch: euler.y, yaw: euler.z };
 }
 
+/** FRAME 常量 → 后端 jog/cartesian 接受的 frame 字符串 */
+function frameToName(frame: number): string {
+  switch (frame) {
+    case FRAME.TOOL: return 'TOOL';
+    case FRAME.FLANGE: return 'FLANGE';
+    case FRAME.OBJECT: return 'OBJECT';
+    default: return 'BASE';
+  }
+}
+
 export function CartesianJogPanel() {
   const t = useT();
   const robotState = useRobotStateStore((s) => s.robotState);
@@ -23,18 +33,19 @@ export function CartesianJogPanel() {
 
     switch (currentFrame) {
       case FRAME.FLANGE:
-        return robotState.flange ?? robotState.flange_pose;
+        return robotState.flange;
       case FRAME.TOOL:
-        return robotState.tool ?? robotState.tool_pose;
+        return robotState.active_tool_frame ?? robotState.flange;
       case FRAME.OBJECT:
-        return robotState.object ?? robotState.object_pose;
+        return robotState.active_object_frame ?? robotState.flange;
       default:
-        return robotState.flange ?? robotState.flange_pose;
+        return robotState.flange;
     }
   };
 
   const pose = getPoseData();
   const rpy = pose ? quaternionToRPY(pose.orientation) : { roll: 0, pitch: 0, yaw: 0 };
+  const frameName = frameToName(currentFrame);
 
   const getFrameLabel = () => {
     switch (currentFrame) {
@@ -55,7 +66,7 @@ export function CartesianJogPanel() {
         <CartesianJogItem
           label="X"
           value={pose?.position.x || 0}
-          frame={currentFrame}
+          frameName={frameName}
           freedom={0}
           unit="mm"
           isPosition={true}
@@ -63,7 +74,7 @@ export function CartesianJogPanel() {
         <CartesianJogItem
           label="Y"
           value={pose?.position.y || 0}
-          frame={currentFrame}
+          frameName={frameName}
           freedom={1}
           unit="mm"
           isPosition={true}
@@ -71,7 +82,7 @@ export function CartesianJogPanel() {
         <CartesianJogItem
           label="Z"
           value={pose?.position.z || 0}
-          frame={currentFrame}
+          frameName={frameName}
           freedom={2}
           unit="mm"
           isPosition={true}
@@ -79,7 +90,7 @@ export function CartesianJogPanel() {
         <CartesianJogItem
           label="R"
           value={rpy.roll}
-          frame={currentFrame}
+          frameName={frameName}
           freedom={3}
           unit="deg"
           isPosition={false}
@@ -87,7 +98,7 @@ export function CartesianJogPanel() {
         <CartesianJogItem
           label="P"
           value={rpy.pitch}
-          frame={currentFrame}
+          frameName={frameName}
           freedom={4}
           unit="deg"
           isPosition={false}
@@ -95,7 +106,7 @@ export function CartesianJogPanel() {
         <CartesianJogItem
           label="Y"
           value={rpy.yaw}
-          frame={currentFrame}
+          frameName={frameName}
           freedom={5}
           unit="deg"
           isPosition={false}
