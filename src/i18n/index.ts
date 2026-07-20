@@ -99,6 +99,17 @@ const DICT = {
   // ---- Speed ----
   'speed.label': { en: 'Speed Scaling', zh: '速度比例' },
 
+  // ---- Motion Control ----
+  'motion.label': { en: 'Motion Control', zh: '运动控制' },
+  'motion.start': { en: 'Start', zh: '开始' },
+  'motion.pause': { en: 'Pause', zh: '暂停' },
+  'motion.nextStep': { en: 'Next Step', zh: '单步执行' },
+  'motion.stop': { en: 'Stop', zh: '停止' },
+  'motion.started': { en: 'Motion started', zh: '运动已开始' },
+  'motion.paused': { en: 'Motion paused', zh: '运动已暂停' },
+  'motion.stepped': { en: 'Step executed', zh: '已执行单步' },
+  'motion.stopped': { en: 'Motion stopped', zh: '运动已停止' },
+
   // ---- Control panel tabs ----
   'tab.jog': { en: 'Jog', zh: '点动控制' },
   'tab.precise': { en: 'Precise', zh: '精确控制' },

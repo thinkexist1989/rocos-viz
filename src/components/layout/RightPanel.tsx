@@ -4,6 +4,7 @@ import { JointJogPanel } from '@/components/control/JointJogPanel';
 import { CartesianJogPanel } from '@/components/control/CartesianJogPanel';
 import { NullSpacePanel } from '@/components/control/NullSpacePanel';
 import { SpeedSlider } from '@/components/control/SpeedSlider';
+import { MotionControl } from '@/components/control/MotionControl';
 import { FrameSelector } from '@/components/control/FrameSelector';
 import { WorkModeSelector } from '@/components/control/WorkModeSelector';
 import { MotionCommandPanel } from '@/components/control/MotionCommandPanel';
@@ -22,6 +23,10 @@ export function RightPanel() {
 
       <div className="panel-card">
         <SpeedSlider />
+      </div>
+
+      <div className="panel-card">
+        <MotionControl />
       </div>
 
       {/* Jog vs. Precise split into tabs so the panel doesn't grow too long */}

@@ -424,6 +424,11 @@ export class RobotApiClient {
     return this.request('POST', '/api/script/resume');
   }
 
+  /** POST /api/script/step — 单步执行脚本 */
+  async stepScript(): Promise<void> {
+    return this.request('POST', '/api/script/step');
+  }
+
   // ─── Calibration ──────────────────────────────────────────────
 
   /**
