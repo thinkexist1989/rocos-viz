@@ -6,7 +6,7 @@ import { useConnectionStore } from '@/stores/connectionStore';
 import { PositionBar } from '@/components/common/PositionBar';
 import { useT } from '@/i18n/useT';
 import type { JointState } from '@/core/types';
-import { DIRECTION } from '@/core/constants';
+import { DIRECTION, jointMotionParams } from '@/core/constants';
 
 const JOG_INTERVAL_MS = 80;
 
@@ -33,13 +33,14 @@ export function JointJogItem({ index, joint }: JointJogItemProps) {
     clientRef.current = client;
 
     const flag = `J${index}`;
-    client.dragStart(flag, direction).catch((error) => {
+    const { speed, acceleration } = jointMotionParams(useControlStore.getState().speedFactor);
+    client.dragStart(flag, direction, speed, acceleration).catch((error) => {
       console.error('Joint jog start failed:', error);
     });
 
     timerRef.current = window.setInterval(() => {
       if (!clientRef.current) return;
-      clientRef.current.dragStart(flag, direction).catch((error) => {
+      clientRef.current.dragStart(flag, direction, speed, acceleration).catch((error) => {
         console.error('Joint jog repeat failed:', error);
       });
     }, JOG_INTERVAL_MS);

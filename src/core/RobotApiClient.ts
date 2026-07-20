@@ -7,7 +7,14 @@ import type {
   TaskStatus,
   CalibrationResult,
 } from './types';
-import { DIRECTION } from './constants';
+import {
+  DIRECTION,
+  DEFAULT_SPEED_FACTOR,
+  MAX_JOINT_SPEED,
+  MAX_JOINT_ACCELERATION,
+  MAX_CARTESIAN_SPEED,
+  MAX_CARTESIAN_ACCELERATION,
+} from './constants';
 
 function mapJointStatus(status: number | string): string {
   if (typeof status === 'number') {
@@ -136,8 +143,8 @@ export class RobotApiClient {
   async moveJ(joints: number[], speed?: number, acceleration?: number): Promise<MoveResult> {
     return this.request('POST', '/api/move/joint', {
       joints,
-      speed: speed ?? 0.25,
-      acceleration: acceleration ?? 0.25,
+      speed: speed ?? MAX_JOINT_SPEED * DEFAULT_SPEED_FACTOR,
+      acceleration: acceleration ?? MAX_JOINT_ACCELERATION * DEFAULT_SPEED_FACTOR,
       time: 0,
       radius: 0,
       asynchronous: true,
@@ -147,8 +154,8 @@ export class RobotApiClient {
   async moveL(pose: Pose, speed?: number, acceleration?: number): Promise<MoveResult> {
     return this.request('POST', '/api/move/linear', {
       pose,
-      speed: speed ?? 0.125,
-      acceleration: acceleration ?? 0.125,
+      speed: speed ?? MAX_CARTESIAN_SPEED * DEFAULT_SPEED_FACTOR,
+      acceleration: acceleration ?? MAX_CARTESIAN_ACCELERATION * DEFAULT_SPEED_FACTOR,
       time: 0,
       radius: 0,
       asynchronous: true,
@@ -158,8 +165,8 @@ export class RobotApiClient {
   async moveJ_IK(pose: Pose, speed?: number, acceleration?: number): Promise<MoveResult> {
     return this.request('POST', '/api/move/joint_ik', {
       pose,
-      speed: speed ?? 0.25,
-      acceleration: acceleration ?? 0.25,
+      speed: speed ?? MAX_JOINT_SPEED * DEFAULT_SPEED_FACTOR,
+      acceleration: acceleration ?? MAX_JOINT_ACCELERATION * DEFAULT_SPEED_FACTOR,
       time: 0,
       radius: 0,
       asynchronous: true,
@@ -169,8 +176,8 @@ export class RobotApiClient {
   async moveL_FK(joints: number[], speed?: number, acceleration?: number): Promise<MoveResult> {
     return this.request('POST', '/api/move/linear_fk', {
       joints,
-      speed: speed ?? 0.125,
-      acceleration: acceleration ?? 0.125,
+      speed: speed ?? MAX_CARTESIAN_SPEED * DEFAULT_SPEED_FACTOR,
+      acceleration: acceleration ?? MAX_CARTESIAN_ACCELERATION * DEFAULT_SPEED_FACTOR,
       time: 0,
       radius: 0,
       asynchronous: true,

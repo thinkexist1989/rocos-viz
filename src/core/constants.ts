@@ -59,3 +59,29 @@ export const POLLING_INTERVAL_MS = 20;
 export const MAX_STATE_FAILURES = 10;
 export const DEFAULT_SPEED_FACTOR = 0.25;
 export const MAX_TRAJECTORY_POINTS = 500;
+
+// ─── 运动速度/加速度上限（Speed Scaling 以此为 100% 基准，方便统一修改）───
+/** 关节空间最大速度 (rad/s) */
+export const MAX_JOINT_SPEED = 1.0;
+/** 关节空间最大加速度 (rad/s²)，默认取最大速度的 5 倍 */
+export const MAX_JOINT_ACCELERATION = MAX_JOINT_SPEED * 5;
+/** 笛卡尔空间最大速度 (m/s) */
+export const MAX_CARTESIAN_SPEED = 0.5;
+/** 笛卡尔空间最大加速度 (m/s²)，默认取最大速度的 5 倍 */
+export const MAX_CARTESIAN_ACCELERATION = MAX_CARTESIAN_SPEED * 5;
+
+/** 按速度比例 (0~1) 计算关节空间运动的 speed / acceleration */
+export function jointMotionParams(speedFactor: number): { speed: number; acceleration: number } {
+  return {
+    speed: speedFactor * MAX_JOINT_SPEED,
+    acceleration: speedFactor * MAX_JOINT_ACCELERATION,
+  };
+}
+
+/** 按速度比例 (0~1) 计算笛卡尔空间运动的 speed / acceleration */
+export function cartesianMotionParams(speedFactor: number): { speed: number; acceleration: number } {
+  return {
+    speed: speedFactor * MAX_CARTESIAN_SPEED,
+    acceleration: speedFactor * MAX_CARTESIAN_ACCELERATION,
+  };
+}

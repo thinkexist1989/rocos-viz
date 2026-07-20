@@ -4,7 +4,7 @@ import { useControlStore } from '@/stores/controlStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { useConnectionStore } from '@/stores/connectionStore';
 import { PositionBar } from '@/components/common/PositionBar';
-import { FREEDOM_NAMES } from '@/core/constants';
+import { FREEDOM_NAMES, cartesianMotionParams, jointMotionParams } from '@/core/constants';
 
 const JOG_INTERVAL_MS = 80;
 
@@ -48,17 +48,21 @@ export function CartesianJogItem({ label, value, frame, freedom, unit, isPositio
     clientRef.current = client;
 
     const flag = getFlag();
-    client.dragStart(flag, direction).catch((error) => {
+    // 平动按笛卡尔上限 (m/s)，转动按关节上限 (rad/s)
+    const { speed, acceleration } = (isPosition ? cartesianMotionParams : jointMotionParams)(
+      useControlStore.getState().speedFactor,
+    );
+    client.dragStart(flag, direction, speed, acceleration).catch((error) => {
       console.error('Cartesian jog start failed:', error);
     });
 
     timerRef.current = window.setInterval(() => {
       if (!clientRef.current) return;
-      clientRef.current.dragStart(flag, direction).catch((error) => {
+      clientRef.current.dragStart(flag, direction, speed, acceleration).catch((error) => {
         console.error('Cartesian jog repeat failed:', error);
       });
     }, JOG_INTERVAL_MS);
-  }, [getFlag, host, port]);
+  }, [getFlag, host, port, isPosition]);
 
   const handleStopJog = useCallback(() => {
     if (timerRef.current !== null) {

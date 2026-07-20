@@ -3,6 +3,7 @@ import { Button, InputNumber, message } from 'antd';
 import { ThunderboltOutlined } from '@ant-design/icons';
 import { useControlStore } from '@/stores/controlStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
+import { jointMotionParams, cartesianMotionParams } from '@/core/constants';
 import { useConnectionStore } from '@/stores/connectionStore';
 import { useT } from '@/i18n/useT';
 import * as THREE from 'three';
@@ -33,9 +34,11 @@ export function MotionCommandPanel() {
 
     try {
       const client = new RobotApiClient(host, port);
+      const { speed, acceleration } = jointMotionParams(speedFactor);
       await client.moveJ_IK(
         { position: { x, y, z }, orientation: { x: q.x, y: q.y, z: q.z, w: q.w } },
-        speedFactor,
+        speed,
+        acceleration,
       );
       message.success(t('common.sent', { cmd: 'MoveJ_IK' }));
     } catch (error: any) {
@@ -58,9 +61,11 @@ export function MotionCommandPanel() {
 
     try {
       const client = new RobotApiClient(host, port);
+      const { speed, acceleration } = cartesianMotionParams(speedFactor);
       await client.moveL(
         { position: { x, y, z }, orientation: { x: q.x, y: q.y, z: q.z, w: q.w } },
-        speedFactor,
+        speed,
+        acceleration,
       );
       message.success(t('common.sent', { cmd: 'MoveL' }));
     } catch (error: any) {
@@ -75,7 +80,8 @@ export function MotionCommandPanel() {
 
     try {
       const client = new RobotApiClient(host, port);
-      await client.moveJ(rads, speedFactor);
+      const { speed, acceleration } = jointMotionParams(speedFactor);
+      await client.moveJ(rads, speed, acceleration);
       message.success(t('common.sent', { cmd: 'MoveJ' }));
     } catch (error: any) {
       message.error(error.message);
@@ -89,7 +95,8 @@ export function MotionCommandPanel() {
 
     try {
       const client = new RobotApiClient(host, port);
-      await client.moveL_FK(rads, speedFactor);
+      const { speed, acceleration } = cartesianMotionParams(speedFactor);
+      await client.moveL_FK(rads, speed, acceleration);
       message.success(t('common.sent', { cmd: 'MoveL_FK' }));
     } catch (error: any) {
       message.error(error.message);
