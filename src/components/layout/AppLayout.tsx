@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
 import { useConnectionStore } from '@/stores/connectionStore';
 import { useUIStore, RIGHT_PANEL_MIN_WIDTH, RIGHT_PANEL_MAX_WIDTH } from '@/stores/uiStore';
 import { useRobotStateStore } from '@/stores/robotStateStore';
@@ -12,7 +12,6 @@ import { setCameraPreset } from '@/scene/CameraPresets';
 import { ConnectDialog } from '@/components/connection/ConnectDialog';
 import { RightPanel } from '@/components/layout/RightPanel';
 import { StatusBar } from '@/components/layout/StatusBar';
-import { PlotPanel } from '@/components/plot/PlotPanel';
 import { EnableButton } from '@/components/control/EnableButton';
 import { useRobotConnection } from '@/hooks/useRobotConnection';
 import { useT } from '@/i18n/useT';
@@ -24,7 +23,10 @@ import {
   Modal,
   Popconfirm,
   message,
+  Spin,
 } from 'antd';
+
+const PlotPanel = lazy(() => import('@/components/plot/PlotPanel').then((m) => ({ default: m.PlotPanel })));
 import {
   LineChartOutlined,
   SettingOutlined,
@@ -380,7 +382,9 @@ export function AppLayout() {
                   <span className="plot-float-title">{t('plot.realtimeCurves')}</span>
                 </div>
                 <div className="plot-float-body">
-                  <PlotPanel />
+                  <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', minHeight: 300 }}><Spin /></div>}>
+                    <PlotPanel />
+                  </Suspense>
                 </div>
               </div>
             )}

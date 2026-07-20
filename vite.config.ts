@@ -13,6 +13,18 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
+          'vendor-echarts': ['echarts', 'echarts-for-react'],
+          'vendor-antd': ['antd', '@ant-design/icons'],
+        },
+      },
+    },
+  },
   server: {
     host: '0.0.0.0',
     port: VITE_PORT,
