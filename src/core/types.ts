@@ -43,6 +43,8 @@ export interface RobotState {
   hw_state?: HardwareInfo;
   /** 机器人顶层状态字符串，如 "STOPPED", "RUNNING", "IDLE" */
   robot_state?: string;
+  /** 当前工作模式，如 "position", "jnt_imp", "cart_imp", "jnt_admit_teach" 等 */
+  work_mode?: string;
   is_enabled?: boolean;
   is_running?: boolean;
   control_active?: boolean;

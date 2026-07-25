@@ -1,5 +1,6 @@
 import { Select, message } from 'antd';
 import { useConnectionStore } from '@/stores/connectionStore';
+import { useRobotStateStore } from '@/stores/robotStateStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { WORK_MODES } from '@/core/constants';
 import { useT } from '@/i18n/useT';
@@ -9,6 +10,7 @@ export function WorkModeSelector() {
   const t = useT();
   const isConnected = useConnectionStore((s) => s.isConnected);
   const { host, port } = useConnectionStore.getState();
+  const workMode = useRobotStateStore((s) => s.robotState?.work_mode);
 
   const modeLabel = (value: string) => t(`mode.${value}` as TranslationKey);
 
@@ -31,7 +33,7 @@ export function WorkModeSelector() {
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
       <span style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>{t('mode.label')}:</span>
       <Select
-        defaultValue="position"
+        value={workMode || 'position'}
         onChange={handleChange}
         options={WORK_MODES.map((m) => ({ value: m.value, label: modeLabel(m.value) }))}
         size="middle"
