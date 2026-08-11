@@ -6,6 +6,7 @@ import type {
   MotionResponse,
   TaskStatus,
   EnabledResponse,
+  ControlOwnerData,
 } from './types';
 import {
   DEFAULT_SPEED_FACTOR,
@@ -77,6 +78,18 @@ export class RobotApiClient {
     this.baseUrl = host ? `${protocol}//${host}:${port}` : window.location.origin;
   }
 
+  /** 获取当前保存的控制权 token（由外部 connectionStore 注入） */
+  static getStoredToken(): string | null {
+    try {
+      const raw = localStorage.getItem('rocos-connection');
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return parsed?.state?.controlToken ?? null;
+    } catch {
+      return null;
+    }
+  }
+
   private async request<T>(
     method: string,
     path: string,
@@ -90,12 +103,20 @@ export class RobotApiClient {
 
     console.log(`[RobotApiClient] ${method} ${url.toString()}`);
 
+    const headers: Record<string, string> = {
+      Accept: 'application/json',
+    };
+    if (body !== undefined) {
+      headers['Content-Type'] = 'application/json';
+    }
+    if (method !== 'GET') {
+      const token = RobotApiClient.getStoredToken();
+      if (token) headers['X-Rocos-Control-Token'] = token;
+    }
+
     const options: RequestInit = {
       method,
-      headers: {
-        Accept: 'application/json',
-        ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
-      },
+      headers,
     };
 
     if (body !== undefined) {
@@ -446,5 +467,50 @@ export class RobotApiClient {
    */
   async calibrateObject(name: string, frame: Pose): Promise<void> {
     return this.request('POST', '/api/calibration/object', { name, frame });
+  }
+
+  // ─── Control Rights ───────────────────────────────────────────
+
+  /** POST /api/control/acquire — 申请控制权（不抛出，返回原始响应） */
+  async acquireControl(clientName?: string): Promise<ApiResponse<ControlOwnerData>> {
+    const url = new URL('/api/control/acquire', this.baseUrl);
+    const body = clientName ? JSON.stringify({ client_name: clientName }) : '{}';
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    });
+    return response.json() as Promise<ApiResponse<ControlOwnerData>>;
+  }
+
+  /** POST /api/control/takeover — 强制抢占控制权（不抛出，返回原始响应） */
+  async takeoverControl(clientName?: string): Promise<ApiResponse<ControlOwnerData>> {
+    const url = new URL('/api/control/takeover', this.baseUrl);
+    const body = clientName ? JSON.stringify({ client_name: clientName }) : '{}';
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    });
+    return response.json() as Promise<ApiResponse<ControlOwnerData>>;
+  }
+
+  /** POST /api/control/release — 释放控制权 */
+  async releaseControl(token: string): Promise<void> {
+    const url = new URL('/api/control/release', this.baseUrl);
+    await fetch(url.toString(), {
+      method: 'POST',
+      headers: { 'X-Rocos-Control-Token': token },
+    });
+  }
+
+  /** GET /api/control/status — 查询控制权状态；携带 token 时顺便续期（返回原始响应，不抛出） */
+  async getControlStatus(): Promise<ApiResponse<ControlOwnerData>> {
+    const url = new URL('/api/control/status', this.baseUrl);
+    const headers: Record<string, string> = { Accept: 'application/json' };
+    const token = RobotApiClient.getStoredToken();
+    if (token) headers['X-Rocos-Control-Token'] = token;
+    const response = await fetch(url.toString(), { headers });
+    return response.json() as Promise<ApiResponse<ControlOwnerData>>;
   }
 }

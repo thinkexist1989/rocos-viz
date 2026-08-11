@@ -45,6 +45,8 @@ import {
   NodeIndexOutlined,
   ApiOutlined,
   DisconnectOutlined,
+  SafetyCertificateOutlined,
+  WarningOutlined,
 } from '@ant-design/icons';
 
 /** Reactive scene-toggle buttons – uses hooks so state changes are reflected immediately */
@@ -225,6 +227,114 @@ export function AppLayout() {
   // Mount the connection hook so polling / WebSocket starts when isConnected changes
   useRobotConnection();
 
+  const controlToken = useConnectionStore((s) => s.controlToken);
+  const controlOwnerName = useConnectionStore((s) => s.controlOwnerName);
+  const controlOwnerIp = useConnectionStore((s) => s.controlOwnerIp);
+  const setControlToken = useConnectionStore((s) => s.setControlToken);
+  const setControlAcquiredAt = useConnectionStore((s) => s.setControlAcquiredAt);
+  const setControlOwner = useConnectionStore((s) => s.setControlOwner);
+
+  const handleTakeover = useCallback(async () => {
+    try {
+      const client = new RobotApiClient(host, port);
+      const result = await client.takeoverControl(`web-${navigator.platform}`);
+      if (result.success && result.data?.token) {
+        setControlToken(result.data.token);
+        setControlAcquiredAt(Date.now());
+        setControlOwner(result.data.owner_name ?? null, result.data.owner_ip ?? null);
+        message.success(t('control.takeoverSuccess'));
+      } else {
+        message.error(t('control.takeoverFailed', { msg: result.message }));
+      }
+    } catch (err) {
+      message.error(t('control.takeoverFailed', { msg: err instanceof Error ? err.message : String(err) }));
+    }
+  }, [host, port, setControlToken, setControlOwner, t]);
+
+  // Acquire control right after connecting
+  useEffect(() => {
+    if (!isConnected) {
+      setControlToken(null);
+      setControlOwner(null, null);
+      return;
+    }
+
+    let cancelled = false;
+
+    async function acquireControl() {
+      try {
+        const client = new RobotApiClient(host, port);
+        const result = await client.acquireControl(`web-${navigator.platform}`);
+        if (cancelled) return;
+        if (result.success && result.data?.token) {
+          setControlToken(result.data.token);
+          setControlAcquiredAt(Date.now());
+          setControlOwner(result.data.owner_name ?? null, result.data.owner_ip ?? null);
+        } else {
+          // code 3008: held by someone else
+          setControlToken(null);
+          setControlAcquiredAt(null);
+          setControlOwner(result.data?.owner_name ?? null, result.data?.owner_ip ?? null);
+        }
+      } catch {
+        // ignore — control right is a best-effort feature
+      }
+    }
+
+    acquireControl();
+
+    return () => { cancelled = true; };
+  }, [isConnected, host, port, setControlToken, setControlOwner]);
+
+  // Poll control status every 1s: detects expiry, server-side token rejection, and takeover
+  useEffect(() => {
+    if (!isConnected) return;
+
+    const poll = async () => {
+      try {
+        const client = new RobotApiClient(host, port);
+        const resp = await client.getControlStatus();
+        const { controlToken: token, controlAcquiredAt } = useConnectionStore.getState();
+
+        if (token) {
+          // Server rejected the token even on the read endpoint (non-standard but handle it)
+          if (!resp.success && (resp.code === 3007 || resp.code === 3006)) {
+            setControlToken(null);
+            setControlAcquiredAt(null);
+            setControlOwner(null, null);
+            return;
+          }
+          const status = resp.data;
+          if (!status?.has_owner) {
+            // token expired
+            setControlToken(null);
+            setControlAcquiredAt(null);
+            setControlOwner(null, null);
+          } else if (
+            // held_for_seconds should track our elapsed time; if it's significantly less,
+            // another client reset the counter via takeover (works even same-machine same-name)
+            controlAcquiredAt !== null &&
+            status.held_for_seconds !== undefined &&
+            (Date.now() - controlAcquiredAt) / 1000 - status.held_for_seconds > 10
+          ) {
+            setControlToken(null);
+            setControlAcquiredAt(null);
+            setControlOwner(status.owner_name ?? null, status.owner_ip ?? null);
+          }
+        } else {
+          // not holding — keep owner info fresh for the takeover dialog
+          const status = resp.data;
+          if (status) setControlOwner(status.owner_name ?? null, status.owner_ip ?? null);
+        }
+      } catch {
+        // ignore poll failures
+      }
+    };
+
+    const id = window.setInterval(poll, 1_000);
+    return () => clearInterval(id);
+  }, [isConnected, host, port, setControlToken, setControlAcquiredAt, setControlOwner]);
+
   // Fetch URDF model from controller on connect
   useEffect(() => {
     if (!isConnected) {
@@ -312,6 +422,40 @@ export function AppLayout() {
           {/* Enable toggle — sits right beside the connect pill */}
           <EnableButton />
         </div>
+
+        {/* Control right status — right of center, left of toolbar-spacer */}
+        {isConnected && (
+          controlToken ? (
+            <Tooltip title={t('control.acquired')}>
+              <Button
+                size="middle"
+                icon={<SafetyCertificateOutlined />}
+                style={{ color: '#52c41a', borderColor: '#52c41a', background: 'rgba(82,196,26,0.08)' }}
+              >
+                {t('control.acquired')}
+              </Button>
+            </Tooltip>
+          ) : (
+            <Popconfirm
+              title={t('control.takeoverTitle')}
+              description={t('control.takeoverConfirm', {
+                owner: controlOwnerName ?? controlOwnerIp ?? 'unknown',
+              })}
+              okText={t('control.takeoverOk')}
+              cancelText={t('control.takeoverCancel')}
+              okButtonProps={{ danger: true }}
+              onConfirm={handleTakeover}
+            >
+              <Button
+                size="middle"
+                danger
+                icon={<WarningOutlined />}
+              >
+                {t('control.takeover')}
+              </Button>
+            </Popconfirm>
+          )
+        )}
 
         <div className="toolbar-spacer" />
 

@@ -121,6 +121,18 @@ export interface EnabledResponse {
   robot_state: string;
 }
 
+export interface ControlOwnerData {
+  token?: string;
+  has_owner: boolean;
+  owner_ip?: string;
+  owner_name?: string;
+  owner_agent?: string;
+  held_for_seconds?: number;
+  idle_seconds?: number;
+  expires_in_seconds?: number;
+  ttl_seconds?: number;
+}
+
 /** @deprecated 后端 /api/calibration/result 端点未实现（返回 1004） */
 export interface CalibrationResult {
   error_state: boolean;

@@ -6,10 +6,20 @@ interface ConnectionState {
   port: string;
   isConnected: boolean;
   isRobotEnabled: boolean;
+  /** 当前持有的控制权 token，null 表示未持有 */
+  controlToken: string | null;
+  /** Date.now() when we successfully acquired the token */
+  controlAcquiredAt: number | null;
+  /** 当前控制权持有者信息（未持有时为当前持有人信息） */
+  controlOwnerName: string | null;
+  controlOwnerIp: string | null;
 
   setConnection: (host: string, port: string) => void;
   setConnected: (connected: boolean) => void;
   setEnabled: (enabled: boolean) => void;
+  setControlToken: (token: string | null) => void;
+  setControlAcquiredAt: (t: number | null) => void;
+  setControlOwner: (name: string | null, ip: string | null) => void;
   reset: () => void;
 }
 
@@ -20,11 +30,18 @@ export const useConnectionStore = create<ConnectionState>()(
       port: '8080',
       isConnected: false,
       isRobotEnabled: false,
+      controlToken: null,
+      controlAcquiredAt: null,
+      controlOwnerName: null,
+      controlOwnerIp: null,
 
       setConnection: (host, port) => set({ host, port }),
       setConnected: (connected) => set({ isConnected: connected }),
       setEnabled: (enabled) => set({ isRobotEnabled: enabled }),
-      reset: () => set({ isConnected: false, isRobotEnabled: false }),
+      setControlToken: (token) => set({ controlToken: token }),
+      setControlAcquiredAt: (t) => set({ controlAcquiredAt: t }),
+      setControlOwner: (name, ip) => set({ controlOwnerName: name, controlOwnerIp: ip }),
+      reset: () => set({ isConnected: false, isRobotEnabled: false, controlToken: null, controlAcquiredAt: null, controlOwnerName: null, controlOwnerIp: null }),
     }),
     {
       name: 'rocos-connection',

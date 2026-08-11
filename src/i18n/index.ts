@@ -152,6 +152,18 @@ const DICT = {
   'plot.title.jointTorque': { en: 'Joint Torque', zh: '关节力矩' },
   'plot.title.flangeX': { en: 'End Position X', zh: '末端位置 X' },
 
+  // ---- Control Rights ----
+  'control.acquired': { en: 'Control acquired', zh: '已获取控制权' },
+  'control.notHeld': { en: 'No control right', zh: '未获取控制权' },
+  'control.takeover': { en: 'Force takeover', zh: '强制夺权' },
+  'control.takeoverTitle': { en: 'Force Takeover', zh: '强制夺权' },
+  'control.takeoverConfirm': { en: 'The control right is held by {owner}. Force takeover?', zh: '控制权当前由 {owner} 持有，确定强制夺权？' },
+  'control.takeoverOk': { en: 'Takeover', zh: '夺权' },
+  'control.takeoverCancel': { en: 'Cancel', zh: '取消' },
+  'control.takeoverSuccess': { en: 'Control right acquired', zh: '已成功获取控制权' },
+  'control.takeoverFailed': { en: 'Takeover failed: {msg}', zh: '夺权失败: {msg}' },
+  'control.acquireFailed': { en: 'Failed to acquire control: {msg}', zh: '获取控制权失败: {msg}' },
+
   // ---- Panel / misc ----
   'panel.expand': { en: 'Expand control panel', zh: '展开控制面板' },
   'panel.collapse': { en: 'Collapse control panel', zh: '收起控制面板' },
