@@ -164,6 +164,15 @@ const DICT = {
   'control.takeoverFailed': { en: 'Takeover failed: {msg}', zh: '夺权失败: {msg}' },
   'control.acquireFailed': { en: 'Failed to acquire control: {msg}', zh: '获取控制权失败: {msg}' },
 
+  // ---- System Settings ----
+  'settings.title': { en: 'System Settings', zh: '系统设置' },
+  'settings.nav.system-status': { en: 'System Status', zh: '系统状态' },
+  'settings.nav.impedance': { en: 'Impedance', zh: '阻抗参数' },
+  'settings.nav.safety': { en: 'Safety', zh: '系统安全' },
+  'settings.nav.coordinate': { en: 'Coordinate', zh: '坐标系' },
+  'settings.nav.io': { en: 'IO Configuration', zh: 'IO 配置' },
+  'settings.nav.maintenance': { en: 'Maintenance', zh: '系统维护' },
+
   // ---- Panel / misc ----
   'panel.expand': { en: 'Expand control panel', zh: '展开控制面板' },
   'panel.collapse': { en: 'Collapse control panel', zh: '收起控制面板' },

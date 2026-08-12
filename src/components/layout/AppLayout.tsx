@@ -10,6 +10,7 @@ import { RobotModel } from '@/scene/RobotModel';
 import { TrajectoryLine } from '@/scene/TrajectoryLine';
 import { setCameraPreset } from '@/scene/CameraPresets';
 import { ConnectDialog } from '@/components/connection/ConnectDialog';
+import { SystemSettingsModal } from '@/components/settings/SystemSettingsModal';
 import { RightPanel } from '@/components/layout/RightPanel';
 import { StatusBar } from '@/components/layout/StatusBar';
 import { EnableButton } from '@/components/control/EnableButton';
@@ -108,6 +109,7 @@ export function AppLayout() {
   const t = useT();
   const [showConnectDialog, setShowConnectDialog] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [urdfContent, setUrdfContent] = useState<string | null>(null);
 
   const isConnected = useConnectionStore((s) => s.isConnected);
@@ -483,7 +485,7 @@ export function AppLayout() {
           </Button>
         </Tooltip>
         <Tooltip title={t('app.settings')}>
-          <Button size="middle" icon={<SettingOutlined />} />
+          <Button size="middle" icon={<SettingOutlined />} onClick={() => setShowSettings(true)} />
         </Tooltip>
         <Tooltip title={useUIStore.getState().themeMode === 'dark' ? t('app.theme.toLight') : t('app.theme.toDark')}>
           <Button
@@ -584,6 +586,9 @@ export function AppLayout() {
         open={showConnectDialog}
         onClose={() => setShowConnectDialog(false)}
       />
+
+      {/* System Settings Dialog */}
+      <SystemSettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
 
       {/* About Dialog */}
       <Modal
