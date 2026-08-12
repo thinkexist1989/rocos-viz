@@ -3,7 +3,6 @@ import { Button } from 'antd';
 import { useControlStore } from '@/stores/controlStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
 import { useConnectionStore } from '@/stores/connectionStore';
-import { PositionBar } from '@/components/common/PositionBar';
 import {
   JOG_COMMAND_TIMEOUT_S,
   JOG_FEED_INTERVAL_MS,
@@ -104,11 +103,7 @@ export function CartesianJogItem({ label, value, frameName, freedom, unit, isPos
         −
       </Button>
 
-      <div className="position-bar" style={{ flex: 1 }}>
-        <PositionBar value={value} min={-1} max={1} />
-      </div>
-
-      <span className="jog-value">
+      <span className="jog-value" style={{ flex: 1, textAlign: 'right' }}>
         {displayValue} {displayUnit}
       </span>
 

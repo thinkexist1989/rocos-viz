@@ -506,7 +506,10 @@ export function AppLayout() {
               <RobotViewer>
                 {isConnected && (
                   <>
-                    <RobotModel urdfContent={urdfContent} />
+                    <RobotModel
+                      urdfContent={urdfContent}
+                      meshBasePath={new RobotApiClient(host, port).getMeshBaseUrl()}
+                    />
                     <AxesIndicator />
                     <TrajectoryLineWrapper />
                   </>

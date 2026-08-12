@@ -72,19 +72,21 @@ export class RobotApiClient {
   private baseUrl: string;
 
   constructor(host: string, port: number | string) {
-    // In the dev workflow, the Vite proxy is the stable front door for robot traffic.
-    // If the user is targeting the same local robot that the dev server is proxying,
-    // we must not bypass the proxy with direct host:port calls, because the backend
-    // validates control rights by the effective upstream connection and each browser
-    // fetch can create a different local socket.
     const normalizedHost = (host || '').trim();
+    // Only treat explicit loopback addresses as local; user-entered remote IPs
+    // (even if they match window.location.hostname) must connect directly so the
+    // Vite dev-server proxy (fixed at startup) is not used with the wrong target.
     const isLocalHost = !normalizedHost ||
       normalizedHost === 'localhost' ||
       normalizedHost === '127.0.0.1' ||
-      normalizedHost === '::1' ||
-      normalizedHost === window.location.hostname;
+      normalizedHost === '::1';
 
     this.baseUrl = isLocalHost ? window.location.origin : `${window.location.protocol}//${normalizedHost}:${port}`;
+  }
+
+  /** Full URL to the mesh download endpoint for this robot host. */
+  getMeshBaseUrl(): string {
+    return new URL('/api/robot/urdf/mesh', this.baseUrl).toString();
   }
 
   /** 获取当前保存的控制权 token（由外部 connectionStore 注入） */

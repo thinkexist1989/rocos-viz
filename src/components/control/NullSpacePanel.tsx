@@ -4,7 +4,6 @@ import { useRobotStateStore } from '@/stores/robotStateStore';
 import { useConnectionStore } from '@/stores/connectionStore';
 import { useControlStore } from '@/stores/controlStore';
 import { RobotApiClient } from '@/core/RobotApiClient';
-import { PositionBar } from '@/components/common/PositionBar';
 import { useT } from '@/i18n/useT';
 import {
   JOG_COMMAND_TIMEOUT_S,
@@ -123,11 +122,7 @@ function NullSpaceJogItem({ label, dimIndex, nullDims, host, port }: NullSpaceJo
         −
       </Button>
 
-      <div className="position-bar" style={{ flex: 1 }}>
-        <PositionBar value={0} min={-1} max={1} />
-      </div>
-
-      <span className="jog-value">0.00</span>
+      <span className="jog-value" style={{ flex: 1, textAlign: 'right' }}>0.00</span>
 
       <Button
         className="jog-btn"

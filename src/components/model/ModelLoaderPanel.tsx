@@ -37,7 +37,7 @@ export function ModelLoaderPanel() {
 
       // 4. Parse & build the Three.js model
       setProgress({ total: 2, loaded: 1, currentFile: '正在解析模型...' });
-      const { robot } = await parseUrdf(urdfXml, '/api/robot/urdf/mesh');
+      const { robot } = await parseUrdf(urdfXml, client.getMeshBaseUrl());
 
       setModel(robot, { name: path, links: [] });
       setProgress({ total: 2, loaded: 2, currentFile: file.name });
@@ -66,7 +66,7 @@ export function ModelLoaderPanel() {
       await cacheUrdf(host, port, urdfXml);
 
       setProgress({ total: 2, loaded: 1, currentFile: '正在解析模型...' });
-      const { robot } = await parseUrdf(urdfXml, '/api/robot/urdf/mesh');
+      const { robot } = await parseUrdf(urdfXml, client.getMeshBaseUrl());
 
       setModel(robot, { name: 'controller', links: [] });
       setProgress({ total: 2, loaded: 2, currentFile: '完成' });
