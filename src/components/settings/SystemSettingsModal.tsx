@@ -9,6 +9,7 @@ import {
   ToolOutlined,
 } from '@ant-design/icons';
 import { useT } from '@/i18n/useT';
+import { ImpedancePanel } from './ImpedancePanel';
 
 interface SystemSettingsModalProps {
   open: boolean;
@@ -68,7 +69,7 @@ export function SystemSettingsModal({ open, onClose }: SystemSettingsModalProps)
 
         {/* Content area */}
         <div style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
-          {/* Each tab is empty for now */}
+          {activeKey === 'impedance' && <ImpedancePanel />}
         </div>
       </div>
     </Modal>

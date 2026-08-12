@@ -7,6 +7,8 @@ import type {
   TaskStatus,
   EnabledResponse,
   ControlOwnerData,
+  ImpedanceData,
+  SetImpedanceBody,
 } from './types';
 import {
   DEFAULT_SPEED_FACTOR,
@@ -548,5 +550,17 @@ export class RobotApiClient {
     if (token) headers['X-Rocos-Control-Token'] = token;
     const response = await fetch(url.toString(), { headers });
     return response.json() as Promise<ApiResponse<ControlOwnerData>>;
+  }
+
+  // ─── Impedance ──────────────────────────────────────────────────────
+
+  /** GET /api/robot/impedance — 获取当前阻抗控制参数 */
+  async getImpedance(): Promise<ImpedanceData> {
+    return this.request<ImpedanceData>('GET', '/api/robot/impedance');
+  }
+
+  /** POST /api/robot/impedance — 设置阻抗控制参数 */
+  async setImpedance(params: SetImpedanceBody): Promise<void> {
+    return this.request('POST', '/api/robot/impedance', params);
   }
 }

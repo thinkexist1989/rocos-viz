@@ -173,6 +173,26 @@ const DICT = {
   'settings.nav.io': { en: 'IO Configuration', zh: 'IO 配置' },
   'settings.nav.maintenance': { en: 'Maintenance', zh: '系统维护' },
 
+  // ---- Impedance panel ----
+  'imp.jointSpace': { en: 'Joint Space', zh: '关节空间' },
+  'imp.cartesianSpace': { en: 'Cartesian Space', zh: '笛卡尔空间' },
+  'imp.joint': { en: 'Joint {n}', zh: '关节 {n}' },
+  'imp.stiffness': { en: 'Stiffness', zh: '刚度' },
+  'imp.damping': { en: 'Damping', zh: '阻尼比' },
+  'imp.baseFrame': { en: 'Base Frame', zh: '基坐标系' },
+  'imp.toolFrame': { en: 'Tool Frame', zh: '工具坐标系' },
+  'imp.import': { en: 'Import', zh: '导入' },
+  'imp.export': { en: 'Export', zh: '导出' },
+  'imp.refresh': { en: 'Refresh', zh: '刷新' },
+  'imp.apply': { en: 'Apply', zh: '应用' },
+  'imp.connectFirst': { en: 'Please connect to the robot first', zh: '请先连接机器人' },
+  'imp.refreshed': { en: 'Refreshed', zh: '已刷新' },
+  'imp.refreshFailed': { en: 'Refresh failed: {msg}', zh: '刷新失败: {msg}' },
+  'imp.applied': { en: 'Parameters applied', zh: '参数已应用' },
+  'imp.applyFailed': { en: 'Apply failed: {msg}', zh: '应用失败: {msg}' },
+  'imp.imported': { en: 'Imported', zh: '已导入' },
+  'imp.importError': { en: 'Invalid file format', zh: '文件格式错误' },
+
   // ---- Panel / misc ----
   'panel.expand': { en: 'Expand control panel', zh: '展开控制面板' },
   'panel.collapse': { en: 'Collapse control panel', zh: '收起控制面板' },

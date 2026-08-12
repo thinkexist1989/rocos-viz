@@ -139,6 +139,32 @@ export interface ControlOwnerData {
   ttl_seconds?: number;
 }
 
+export interface ImpedanceData {
+  work_mode?: string;
+  joint_space?: {
+    valid?: boolean;
+    stiffness: number[];
+    damping: number[];
+  };
+  cartesian_space?: {
+    valid?: boolean;
+    translational_stiffness: number;
+    rotational_stiffness: number;
+    translational_damping: number;
+    rotational_damping: number;
+  };
+}
+
+export interface SetImpedanceBody {
+  joint_space?: { stiffness: number[]; damping: number[] };
+  cartesian_space?: {
+    translational_stiffness: number;
+    translational_damping: number;
+    rotational_stiffness: number;
+    rotational_damping: number;
+  };
+}
+
 /** @deprecated 后端 /api/calibration/result 端点未实现（返回 1004） */
 export interface CalibrationResult {
   error_state: boolean;
