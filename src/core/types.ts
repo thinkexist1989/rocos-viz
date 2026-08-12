@@ -125,8 +125,14 @@ export interface ControlOwnerData {
   token?: string;
   has_owner: boolean;
   owner_ip?: string;
+  owner_port?: number;
+  owner_connection?: string;
   owner_name?: string;
   owner_agent?: string;
+  client_id?: string;
+  /** 若客户端未提供 client_id，服务端自动生成，此标记为 true */
+  client_id_auto?: boolean;
+  owner_client_id?: string;
   held_for_seconds?: number;
   idle_seconds?: number;
   expires_in_seconds?: number;

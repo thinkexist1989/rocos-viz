@@ -242,6 +242,9 @@ export function AppLayout() {
         setControlToken(result.data.token);
         setControlAcquiredAt(Date.now());
         setControlOwner(result.data.owner_name ?? null, result.data.owner_ip ?? null);
+        if (result.data.client_id_auto && result.data.client_id) {
+          sessionStorage.setItem('rocos_client_id', result.data.client_id);
+        }
         message.success(t('control.takeoverSuccess'));
       } else {
         message.error(t('control.takeoverFailed', { msg: result.message }));
@@ -270,6 +273,9 @@ export function AppLayout() {
           setControlToken(result.data.token);
           setControlAcquiredAt(Date.now());
           setControlOwner(result.data.owner_name ?? null, result.data.owner_ip ?? null);
+          if (result.data.client_id_auto && result.data.client_id) {
+            sessionStorage.setItem('rocos_client_id', result.data.client_id);
+          }
         } else {
           // code 3008: held by someone else
           setControlToken(null);

@@ -72,10 +72,19 @@ export class RobotApiClient {
   private baseUrl: string;
 
   constructor(host: string, port: number | string) {
-    // If a host is provided, dial the controller directly at host:port.
-    // Otherwise fall back to same-origin (dev server proxies /api to the robot).
-    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-    this.baseUrl = host ? `${protocol}//${host}:${port}` : window.location.origin;
+    // In the dev workflow, the Vite proxy is the stable front door for robot traffic.
+    // If the user is targeting the same local robot that the dev server is proxying,
+    // we must not bypass the proxy with direct host:port calls, because the backend
+    // validates control rights by the effective upstream connection and each browser
+    // fetch can create a different local socket.
+    const normalizedHost = (host || '').trim();
+    const isLocalHost = !normalizedHost ||
+      normalizedHost === 'localhost' ||
+      normalizedHost === '127.0.0.1' ||
+      normalizedHost === '::1' ||
+      normalizedHost === window.location.hostname;
+
+    this.baseUrl = isLocalHost ? window.location.origin : `${window.location.protocol}//${normalizedHost}:${port}`;
   }
 
   /** 获取当前保存的控制权 token（由外部 connectionStore 注入） */
@@ -88,6 +97,17 @@ export class RobotApiClient {
     } catch {
       return null;
     }
+  }
+
+  /** 获取或创建当前标签页的 client_id（sessionStorage 隔离，防止跨标签页窃取 token） */
+  static getClientId(): string {
+    const key = 'rocos_client_id';
+    let id = sessionStorage.getItem(key);
+    if (!id) {
+      id = crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      sessionStorage.setItem(key, id);
+    }
+    return id;
   }
 
   private async request<T>(
@@ -112,6 +132,7 @@ export class RobotApiClient {
     if (method !== 'GET') {
       const token = RobotApiClient.getStoredToken();
       if (token) headers['X-Rocos-Control-Token'] = token;
+      headers['X-Rocos-Client-Id'] = RobotApiClient.getClientId();
     }
 
     const options: RequestInit = {
@@ -474,11 +495,16 @@ export class RobotApiClient {
   /** POST /api/control/acquire — 申请控制权（不抛出，返回原始响应） */
   async acquireControl(clientName?: string): Promise<ApiResponse<ControlOwnerData>> {
     const url = new URL('/api/control/acquire', this.baseUrl);
-    const body = clientName ? JSON.stringify({ client_name: clientName }) : '{}';
+    const clientId = RobotApiClient.getClientId();
+    const bodyObj: Record<string, string> = { client_id: clientId };
+    if (clientName) bodyObj.client_name = clientName;
     const response = await fetch(url.toString(), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Rocos-Client-Id': clientId,
+      },
+      body: JSON.stringify(bodyObj),
     });
     return response.json() as Promise<ApiResponse<ControlOwnerData>>;
   }
@@ -486,11 +512,16 @@ export class RobotApiClient {
   /** POST /api/control/takeover — 强制抢占控制权（不抛出，返回原始响应） */
   async takeoverControl(clientName?: string): Promise<ApiResponse<ControlOwnerData>> {
     const url = new URL('/api/control/takeover', this.baseUrl);
-    const body = clientName ? JSON.stringify({ client_name: clientName }) : '{}';
+    const clientId = RobotApiClient.getClientId();
+    const bodyObj: Record<string, string> = { client_id: clientId };
+    if (clientName) bodyObj.client_name = clientName;
     const response = await fetch(url.toString(), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Rocos-Client-Id': clientId,
+      },
+      body: JSON.stringify(bodyObj),
     });
     return response.json() as Promise<ApiResponse<ControlOwnerData>>;
   }
@@ -500,7 +531,10 @@ export class RobotApiClient {
     const url = new URL('/api/control/release', this.baseUrl);
     await fetch(url.toString(), {
       method: 'POST',
-      headers: { 'X-Rocos-Control-Token': token },
+      headers: {
+        'X-Rocos-Control-Token': token,
+        'X-Rocos-Client-Id': RobotApiClient.getClientId(),
+      },
     });
   }
 
