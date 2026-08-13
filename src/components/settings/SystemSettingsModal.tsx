@@ -46,7 +46,7 @@ export function SystemSettingsModal({ open, onClose }: SystemSettingsModalProps)
       style={{ top: 40 }}
       styles={{ body: { padding: 0, height: '75vh', display: 'flex', overflow: 'hidden' } }}
       title={t('settings.title')}
-      destroyOnHide
+      destroyOnHidden
     >
       <div style={{ display: 'flex', height: '100%', width: '100%' }}>
         {/* Left navigation */}
